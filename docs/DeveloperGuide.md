@@ -310,18 +310,18 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `HomeChef Helper` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Delete a person**
+**Use case: UC01 - Delete a customer**
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1. User requests to list customers.
+2. System shows a list of customers.
+3. User requests to delete a specific customer in the list.
+4. System deletes the customer.
 
-    Use case ends.
+   Use case ends.
 
 **Extensions**
 
@@ -331,9 +331,114 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3a. The given index is invalid.
 
-    * 3a1. AddressBook shows an error message.
+    * 3a1. System shows an error message.
 
       Use case resumes at step 2.
+
+**Use case: UC02 - Add an order for an existing customer**
+
+**MSS**
+
+1. User searches for the customer (UC04).
+2. User requests to add an order for a specific customer in the results.
+3. System requests for order details.
+4. User enters the requested details.
+5. System saves the order and displays the updated order list.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The given index is invalid.
+
+    * 2a1. System shows an error message.
+
+      Use case resumes at step 1.
+
+* 4a. System detects an error in the entered data.
+
+    * 4a1. System shows an error message and requests correct data.
+    * 4a2. User enters new data.
+
+      Steps 4a1-4a2 are repeated until the data entered is correct.
+
+      Use case resumes from step 5.
+
+**Use case: UC03 - Mark an order as paid**
+
+**MSS**
+
+1. User requests to list orders.
+2. System shows a list of orders.
+3. User requests to mark a specific order as paid.
+4. System updates the payment status and displays the updated order.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. System shows an error message.
+
+      Use case resumes at step 2.
+
+* 3b. The order is already marked as paid.
+
+    * 3b1. System shows a message indicating the order is already paid.
+
+      Use case ends.
+
+**Use case: UC04 - Search for a customer by name**
+
+**MSS**
+
+1. User requests to search for a customer by name.
+2. System shows a list of customers matching the search term.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. No customers match the search term.
+
+    * 2a1. System shows a message indicating no results found.
+
+      Use case ends.
+
+**Use case: UC05 - Update order completion status**
+
+**MSS**
+
+1. User requests to list orders.
+2. System shows a list of orders.
+3. User requests to update the status of a specific order (e.g., pending → in progress → delivered).
+4. System updates the status and displays the updated order.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. System shows an error message.
+
+      Use case resumes at step 2.
+
+* 3b. The given status value is invalid.
+
+    * 3b1. System shows an error message with valid status options.
+
+      Use case resumes at step 3.
+
 
 *{More to be added}*
 
