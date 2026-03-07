@@ -11,7 +11,7 @@ import seedu.homechef.commons.util.ToStringBuilder;
 import seedu.homechef.model.tag.Tag;
 
 /**
- * Represents a Order in the address book.
+ * Represents a Order in the HomeChef.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Order {

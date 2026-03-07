@@ -41,7 +41,7 @@ class JsonSerializableHomeChef {
     }
 
     /**
-     * Converts this address book into the model's {@code HomeChef} object.
+     * Converts this HomeChef into the model's {@code HomeChef} object.
      *
      * @throws IllegalValueException if there were any data constraints violated.
      */

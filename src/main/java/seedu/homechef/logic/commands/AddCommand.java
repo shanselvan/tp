@@ -14,13 +14,13 @@ import seedu.homechef.model.Model;
 import seedu.homechef.model.order.Order;
 
 /**
- * Adds a order to the address book.
+ * Adds a order to the HomeChef.
  */
 public class AddCommand extends Command {
 
     public static final String COMMAND_WORD = "add";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a order to the address book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a order to the HomeChef. "
             + "Parameters: "
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
@@ -36,7 +36,7 @@ public class AddCommand extends Command {
             + PREFIX_TAG + "owesMoney";
 
     public static final String MESSAGE_SUCCESS = "New order added: %1$s";
-    public static final String MESSAGE_DUPLICATE_ORDER = "This order already exists in the address book";
+    public static final String MESSAGE_DUPLICATE_ORDER = "This order already exists in the HomeChef";
 
     private final Order toAdd;
 

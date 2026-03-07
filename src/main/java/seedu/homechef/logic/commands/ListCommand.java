@@ -6,7 +6,7 @@ import static seedu.homechef.model.Model.PREDICATE_SHOW_ALL_ORDERS;
 import seedu.homechef.model.Model;
 
 /**
- * Lists all orders in the address book to the user.
+ * Lists all orders in the HomeChef to the user.
  */
 public class ListCommand extends Command {
 

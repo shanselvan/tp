@@ -14,7 +14,7 @@ import seedu.homechef.commons.core.LogsCenter;
 import seedu.homechef.model.order.Order;
 
 /**
- * Represents the in-memory model of the address book data.
+ * Represents the in-memory model of the HomeChef data.
  */
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
@@ -29,7 +29,7 @@ public class ModelManager implements Model {
     public ModelManager(ReadOnlyHomeChef homeChef, ReadOnlyUserPrefs userPrefs) {
         requireAllNonNull(homeChef, userPrefs);
 
-        logger.fine("Initializing with address book: " + homeChef + " and user prefs " + userPrefs);
+        logger.fine("Initializing with HomeChef: " + homeChef + " and user prefs " + userPrefs);
 
         this.homeChef = new HomeChef(homeChef);
         this.userPrefs = new UserPrefs(userPrefs);

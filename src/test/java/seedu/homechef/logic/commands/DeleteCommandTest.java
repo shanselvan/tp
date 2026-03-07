@@ -71,7 +71,7 @@ public class DeleteCommandTest {
         showOrderAtIndex(model, INDEX_FIRST_ORDER);
 
         Index outOfBoundIndex = INDEX_SECOND_ORDER;
-        // ensures that outOfBoundIndex is still in bounds of address book list
+        // ensures that outOfBoundIndex is still in bounds of HomeChef list
         assertTrue(outOfBoundIndex.getZeroBased() < model.getHomeChef().getOrderList().size());
 
         DeleteCommand deleteCommand = new DeleteCommand(outOfBoundIndex);

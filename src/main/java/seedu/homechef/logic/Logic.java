@@ -34,7 +34,7 @@ public interface Logic {
     ObservableList<Order> getFilteredOrderList();
 
     /**
-     * Returns the user prefs' address book file path.
+     * Returns the user prefs' HomeChef file path.
      */
     Path getHomeChefFilePath();
 

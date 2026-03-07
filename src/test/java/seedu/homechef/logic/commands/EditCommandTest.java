@@ -112,7 +112,7 @@ public class EditCommandTest {
     public void execute_duplicateOrderFilteredList_failure() {
         showOrderAtIndex(model, INDEX_FIRST_ORDER);
 
-        // edit order in filtered list into a duplicate in address book
+        // edit order in filtered list into a duplicate in HomeChef
         Order orderInList = model.getHomeChef().getOrderList().get(INDEX_SECOND_ORDER.getZeroBased());
         EditCommand editCommand = new EditCommand(INDEX_FIRST_ORDER,
                 new EditOrderDescriptorBuilder(orderInList).build());
@@ -131,13 +131,13 @@ public class EditCommandTest {
 
     /**
      * Edit filtered list where index is larger than size of filtered list,
-     * but smaller than size of address book
+     * but smaller than size of HomeChef
      */
     @Test
     public void execute_invalidOrderIndexFilteredList_failure() {
         showOrderAtIndex(model, INDEX_FIRST_ORDER);
         Index outOfBoundIndex = INDEX_SECOND_ORDER;
-        // ensures that outOfBoundIndex is still in bounds of address book list
+        // ensures that outOfBoundIndex is still in bounds of HomeChef list
         assertTrue(outOfBoundIndex.getZeroBased() < model.getHomeChef().getOrderList().size());
 
         EditCommand editCommand = new EditCommand(outOfBoundIndex,

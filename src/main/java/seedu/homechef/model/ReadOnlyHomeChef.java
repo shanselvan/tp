@@ -4,7 +4,7 @@ import javafx.collections.ObservableList;
 import seedu.homechef.model.order.Order;
 
 /**
- * Unmodifiable view of an address book
+ * Unmodifiable view of an HomeChef
  */
 public interface ReadOnlyHomeChef {
 

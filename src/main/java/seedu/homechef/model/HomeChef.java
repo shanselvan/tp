@@ -10,7 +10,7 @@ import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.UniqueOrderList;
 
 /**
- * Wraps all data at the address-book level
+ * Wraps all data at the homechef level
  * Duplicates are not allowed (by .isSameOrder comparison)
  */
 public class HomeChef implements ReadOnlyHomeChef {
@@ -60,7 +60,7 @@ public class HomeChef implements ReadOnlyHomeChef {
     //// order-level operations
 
     /**
-     * Returns true if a order with the same identity as {@code order} exists in the address book.
+     * Returns true if a order with the same identity as {@code order} exists in the HomeChef.
      */
     public boolean hasOrder(Order order) {
         requireNonNull(order);
@@ -68,8 +68,8 @@ public class HomeChef implements ReadOnlyHomeChef {
     }
 
     /**
-     * Adds a order to the address book.
-     * The order must not already exist in the address book.
+     * Adds a order to the HomeChef.
+     * The order must not already exist in the HomeChef.
      */
     public void addOrder(Order p) {
         orders.add(p);
@@ -77,8 +77,8 @@ public class HomeChef implements ReadOnlyHomeChef {
 
     /**
      * Replaces the given order {@code target} in the list with {@code editedOrder}.
-     * {@code target} must exist in the address book.
-     * The order identity of {@code editedOrder} must not be the same as another existing order in the address book.
+     * {@code target} must exist in the HomeChef.
+     * The order identity of {@code editedOrder} must not be the same as another existing order in the HomeChef.
      */
     public void setOrder(Order target, Order editedOrder) {
         requireNonNull(editedOrder);
@@ -88,7 +88,7 @@ public class HomeChef implements ReadOnlyHomeChef {
 
     /**
      * Removes {@code key} from this {@code HomeChef}.
-     * {@code key} must exist in the address book.
+     * {@code key} must exist in the HomeChef.
      */
     public void removeOrder(Order key) {
         orders.remove(key);

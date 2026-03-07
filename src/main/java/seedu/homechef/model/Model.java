@@ -35,17 +35,17 @@ public interface Model {
     void setGuiSettings(GuiSettings guiSettings);
 
     /**
-     * Returns the user prefs' address book file path.
+     * Returns the user prefs' HomeChef file path.
      */
     Path getHomeChefFilePath();
 
     /**
-     * Sets the user prefs' address book file path.
+     * Sets the user prefs' HomeChef file path.
      */
     void setHomeChefFilePath(Path homeChefFilePath);
 
     /**
-     * Replaces address book data with the data in {@code homeChef}.
+     * Replaces HomeChef data with the data in {@code homeChef}.
      */
     void setHomeChef(ReadOnlyHomeChef homeChef);
 
@@ -53,26 +53,26 @@ public interface Model {
     ReadOnlyHomeChef getHomeChef();
 
     /**
-     * Returns true if a order with the same identity as {@code order} exists in the address book.
+     * Returns true if a order with the same identity as {@code order} exists in the HomeChef.
      */
     boolean hasOrder(Order order);
 
     /**
      * Deletes the given order.
-     * The order must exist in the address book.
+     * The order must exist in the HomeChef.
      */
     void deleteOrder(Order target);
 
     /**
      * Adds the given order.
-     * {@code order} must not already exist in the address book.
+     * {@code order} must not already exist in the HomeChef.
      */
     void addOrder(Order order);
 
     /**
      * Replaces the given order {@code target} with {@code editedOrder}.
-     * {@code target} must exist in the address book.
-     * The order identity of {@code editedOrder} must not be the same as another existing order in the address book.
+     * {@code target} must exist in the HomeChef.
+     * The order identity of {@code editedOrder} must not be the same as another existing order in the HomeChef.
      */
     void setOrder(Order target, Order editedOrder);
 

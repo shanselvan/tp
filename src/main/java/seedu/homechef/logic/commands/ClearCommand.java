@@ -6,7 +6,7 @@ import seedu.homechef.model.HomeChef;
 import seedu.homechef.model.Model;
 
 /**
- * Clears the address book.
+ * Clears the HomeChef.
  */
 public class ClearCommand extends Command {
 

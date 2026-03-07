@@ -8,7 +8,7 @@ import seedu.homechef.model.Model;
 import seedu.homechef.model.order.NameContainsKeywordsPredicate;
 
 /**
- * Finds and lists all orders in address book whose name contains any of the argument keywords.
+ * Finds and lists all orders in HomeChef whose name contains any of the argument keywords.
  * Keyword matching is case insensitive.
  */
 public class FindCommand extends Command {

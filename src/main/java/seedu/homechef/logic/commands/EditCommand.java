@@ -29,7 +29,7 @@ import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.tag.Tag;
 
 /**
- * Edits the details of an existing order in the address book.
+ * Edits the details of an existing order in the HomeChef.
  */
 public class EditCommand extends Command {
 
@@ -50,7 +50,7 @@ public class EditCommand extends Command {
 
     public static final String MESSAGE_EDIT_ORDER_SUCCESS = "Edited Order: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_ORDER = "This order already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_ORDER = "This order already exists in the HomeChef.";
 
     private final Index index;
     private final EditOrderDescriptor editOrderDescriptor;
