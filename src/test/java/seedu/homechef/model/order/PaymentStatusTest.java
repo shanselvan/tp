@@ -27,4 +27,26 @@ public class PaymentStatusTest {
         assertEquals("UNPAID", unpaidStatus.toString());
     }
 
+    @Test
+    public void equals() {
+        PaymentStatus paid1 = new PaymentStatus(true);
+        PaymentStatus paid2 = new PaymentStatus(true);
+        PaymentStatus unpaid = new PaymentStatus(false);
+
+        // same object
+        assertTrue(paid1.equals(paid1));
+
+        // same value
+        assertTrue(paid1.equals(paid2));
+
+        // different value
+        assertFalse(paid1.equals(unpaid));
+
+        // null
+        assertFalse(paid1.equals(null));
+
+        // different type
+        assertFalse(paid1.equals("PAID"));
+    }
+
 }
