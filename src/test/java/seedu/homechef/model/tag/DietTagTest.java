@@ -22,15 +22,11 @@ public class DietTagTest {
 
     @Test
     public void isValidTagName() {
-        // null tag name
         assertThrows(NullPointerException.class, () -> DietTag.isValidTagName(null));
-        // valid tag names
         assertTrue(DietTag.isValidTagName("spicy"));
         assertTrue(DietTag.isValidTagName("dairy-free"));
         assertTrue(DietTag.isValidTagName("no peanuts"));
         assertTrue(DietTag.isValidTagName("a1 b2-c3"));
-
-        // invalid tag names
         assertFalse(DietTag.isValidTagName(""));
         assertFalse(DietTag.isValidTagName("-gluten"));
         assertFalse(DietTag.isValidTagName("gluten-"));
