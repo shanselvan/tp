@@ -1,5 +1,6 @@
 package seedu.homechef.model.order;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.homechef.testutil.Assert.assertThrows;
@@ -57,5 +58,12 @@ public class FoodTest {
 
         // different values -> returns false
         assertFalse(food.equals(new Food("Other Valid Food")));
+    }
+
+    @Test
+    public void hashCode_equalObjectsHaveEqualHashCode() {
+        Food food1 = new Food("Valid Food");
+        Food food2 = new Food("Valid Food");
+        assertEquals(food1.hashCode(), food2.hashCode());
     }
 }

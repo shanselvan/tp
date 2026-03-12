@@ -13,7 +13,9 @@ import org.junit.jupiter.api.Test;
 
 import seedu.homechef.commons.exceptions.IllegalValueException;
 import seedu.homechef.model.order.Address;
+import seedu.homechef.model.order.Date;
 import seedu.homechef.model.order.Email;
+import seedu.homechef.model.order.Food;
 import seedu.homechef.model.order.Name;
 import seedu.homechef.model.order.Phone;
 
@@ -96,7 +98,7 @@ public class JsonAdaptedOrderTest {
     @Test
     public void toModelType_invalidAddress_throwsIllegalValueException() {
         JsonAdaptedOrder order =
-                new JsonAdaptedOrder(VALID_DATE, VALID_NAME, VALID_PHONE, VALID_EMAIL, INVALID_ADDRESS, VALID_DISH,
+                new JsonAdaptedOrder(VALID_DISH, VALID_NAME, VALID_PHONE, VALID_EMAIL, INVALID_ADDRESS, VALID_DATE,
                         VALID_TAGS);
         String expectedMessage = Address.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
@@ -118,6 +120,38 @@ public class JsonAdaptedOrderTest {
                 new JsonAdaptedOrder(VALID_DISH, VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_DATE,
                         invalidTags);
         assertThrows(IllegalValueException.class, order::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidDish_throwsIllegalValueException() {
+        JsonAdaptedOrder order = new JsonAdaptedOrder(INVALID_DISH, VALID_NAME, VALID_PHONE,
+                VALID_EMAIL, VALID_ADDRESS, VALID_DATE, VALID_TAGS);
+        String expectedMessage = Food.MESSAGE_CONSTRAINTS;
+        assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
+    }
+
+    @Test
+    public void toModelType_nullDish_throwsIllegalValueException() {
+        JsonAdaptedOrder order = new JsonAdaptedOrder(null, VALID_NAME, VALID_PHONE,
+                VALID_EMAIL, VALID_ADDRESS, VALID_DATE, VALID_TAGS);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Food.class.getSimpleName());
+        assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidDate_throwsIllegalValueException() {
+        JsonAdaptedOrder order = new JsonAdaptedOrder(VALID_DISH, VALID_NAME, VALID_PHONE,
+                VALID_EMAIL, VALID_ADDRESS, INVALID_DATE, VALID_TAGS);
+        String expectedMessage = Date.MESSAGE_CONSTRAINTS;
+        assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
+    }
+
+    @Test
+    public void toModelType_nullDate_throwsIllegalValueException() {
+        JsonAdaptedOrder order = new JsonAdaptedOrder(VALID_DISH, VALID_NAME, VALID_PHONE,
+                VALID_EMAIL, VALID_ADDRESS, null, VALID_TAGS);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Date.class.getSimpleName());
+        assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
     }
 
 }
