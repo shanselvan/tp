@@ -36,19 +36,12 @@ class JsonAdaptedOrder {
     private final String address;
     private final String date;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
-    @JsonProperty("paymentType")
     private final String paymentType;
-    @JsonProperty("paymentHandle")
     private final String paymentHandle;
-    @JsonProperty("paymentBankName")
     private final String paymentBankName;
-    @JsonProperty("paymentRefNumber")
     private final String paymentReferenceNumber;
-    @JsonProperty("paymentLastFour")
     private final String paymentLastFourDigits;
-    @JsonProperty("paymentWalletProv")
     private final String paymentWalletProvider;
-    @JsonProperty("paymentWalletAcct")
     private final String paymentWalletAccountId;
 
     /**
