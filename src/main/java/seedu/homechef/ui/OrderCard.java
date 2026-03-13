@@ -43,6 +43,8 @@ public class OrderCard extends UiPart<Region> {
     @FXML
     private Label email;
     @FXML
+    private Label paymentInfo;
+    @FXML
     private FlowPane dietTags;
 
     /**
@@ -58,6 +60,11 @@ public class OrderCard extends UiPart<Region> {
         address.setText(order.getAddress().value);
         date.setText(order.getDate().toString());
         email.setText(order.getEmail().value);
+        order.getPaymentInfo().ifPresentOrElse(
+                info -> paymentInfo.setText("Payment: " + info.toString()), () -> {
+                    paymentInfo.setVisible(false);
+                    paymentInfo.setManaged(false);
+                });
         order.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> dietTags.getChildren().add(new Label(tag.tagName)));
