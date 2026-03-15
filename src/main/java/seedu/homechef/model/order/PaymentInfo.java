@@ -24,6 +24,7 @@ public class PaymentInfo {
     public static final String MESSAGE_UNEXPECTED_FIELD =
             "Unexpected payment detail fields provided for payment type: %s";
     public static final String VALIDATION_REGEX_LAST_FOUR = "[0-9]{4}";
+    private static final String PAYNOW_PHONE_REGEX = "\\+\\d{1,3} \\d{3,}";
 
     private final PaymentType type;
     private final String handle; // PAYNOW only
@@ -68,14 +69,15 @@ public class PaymentInfo {
                     String.format(MESSAGE_UNEXPECTED_FIELD, "CASH"));
             break;
         case PAYNOW:
-            checkArgument(handle != null && !handle.isBlank(), MESSAGE_INVALID_PAYNOW);
-            checkArgument(!handle.startsWith("+") || Phone.isValidPhone(handle), MESSAGE_INVALID_PAYNOW_PHONE);
+            checkArgument(hasHandle && !handle.isBlank(), MESSAGE_INVALID_PAYNOW);
+            checkArgument(!handle.startsWith("+") || handle.matches(PAYNOW_PHONE_REGEX),
+                    MESSAGE_INVALID_PAYNOW_PHONE);
             checkArgument(!hasBankName && !hasRef && !hasLastFour && !hasWalletProvider && !hasWalletAccountId,
                     String.format(MESSAGE_UNEXPECTED_FIELD, "PAYNOW"));
             break;
         case BANK:
-            checkArgument(bankName != null && !bankName.isBlank()
-                    && referenceNumber != null && !referenceNumber.isBlank(), MESSAGE_INVALID_BANK);
+            checkArgument(hasBankName && !bankName.isBlank() && hasRef && !referenceNumber.isBlank(),
+                    MESSAGE_INVALID_BANK);
             checkArgument(!hasHandle && !hasLastFour && !hasWalletProvider && !hasWalletAccountId,
                     String.format(MESSAGE_UNEXPECTED_FIELD, "BANK"));
             break;
@@ -85,8 +87,8 @@ public class PaymentInfo {
                     String.format(MESSAGE_UNEXPECTED_FIELD, "CARD"));
             break;
         case EWALLET:
-            checkArgument(walletProvider != null && !walletProvider.isBlank()
-                    && walletAccountId != null && !walletAccountId.isBlank(), MESSAGE_INVALID_EWALLET);
+            checkArgument(hasWalletProvider && !walletProvider.isBlank()
+                    && hasWalletAccountId && !walletAccountId.isBlank(), MESSAGE_INVALID_EWALLET);
             checkArgument(!hasHandle && !hasBankName && !hasRef && !hasLastFour,
                     String.format(MESSAGE_UNEXPECTED_FIELD, "EWALLET"));
             break;
