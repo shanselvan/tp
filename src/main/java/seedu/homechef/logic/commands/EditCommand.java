@@ -29,6 +29,7 @@ import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.Food;
 import seedu.homechef.model.order.Name;
 import seedu.homechef.model.order.Order;
+import seedu.homechef.model.order.PaymentStatus;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.tag.DietTag;
 
@@ -107,10 +108,11 @@ public class EditCommand extends Command {
         Email updatedEmail = editOrderDescriptor.getEmail().orElse(orderToEdit.getEmail());
         Address updatedAddress = editOrderDescriptor.getAddress().orElse(orderToEdit.getAddress());
         Date updatedDate = editOrderDescriptor.getDate().orElse(orderToEdit.getDate());
+        PaymentStatus paymentStatus = orderToEdit.getPaymentStatus();
         Set<DietTag> updatedDietTags = editOrderDescriptor.getTags().orElse(orderToEdit.getTags());
 
         return new Order(updatedFood, updatedName, updatedPhone,
-                updatedEmail, updatedAddress, updatedDate, updatedDietTags);
+                updatedEmail, updatedAddress, updatedDate, paymentStatus, updatedDietTags);
     }
 
     @Override
