@@ -3,12 +3,16 @@ package seedu.homechef.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_BANK_NAME;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYMENT_METHOD;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYMENT_REF;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_WALLET_PROVIDER;
 import static seedu.homechef.testutil.Assert.assertThrows;
 
 import java.util.ArrayList;
@@ -65,6 +69,45 @@ public class CommandTestUtil {
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
     public static final String INVALID_DATE_DESC = " " + PREFIX_DATE + "99-10-2029"; // fake date not allowed in dates
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
+
+    // Payment info test constants
+    public static final String VALID_PAYMENT_METHOD_CASH = "CASH";
+    public static final String VALID_PAYMENT_METHOD_PAYNOW = "PAYNOW";
+    public static final String VALID_PAYMENT_METHOD_BANK = "BANK";
+    public static final String VALID_PAYMENT_METHOD_CARD = "CARD";
+    public static final String VALID_PAYMENT_METHOD_EWALLET = "EWALLET";
+    public static final String VALID_PAYMENT_REF_PAYNOW = "+65 91234567";
+    public static final String VALID_PAYMENT_REF_BANK = "REF20240101";
+    public static final String VALID_BANK_NAME = "DBS";
+    public static final String VALID_PAYMENT_REF_CARD = "4321";
+    public static final String VALID_WALLET_PROVIDER = "GrabPay";
+    public static final String VALID_WALLET_ACCOUNT = "user@grab.com";
+
+    public static final String PAYMENT_METHOD_DESC_CASH =
+            " " + PREFIX_PAYMENT_METHOD + VALID_PAYMENT_METHOD_CASH;
+    public static final String PAYMENT_METHOD_DESC_PAYNOW =
+            " " + PREFIX_PAYMENT_METHOD + VALID_PAYMENT_METHOD_PAYNOW;
+    public static final String PAYMENT_REF_DESC_PAYNOW =
+            " " + PREFIX_PAYMENT_REF + VALID_PAYMENT_REF_PAYNOW;
+    public static final String PAYMENT_METHOD_DESC_BANK =
+            " " + PREFIX_PAYMENT_METHOD + VALID_PAYMENT_METHOD_BANK;
+    public static final String PAYMENT_REF_DESC_BANK =
+            " " + PREFIX_PAYMENT_REF + VALID_PAYMENT_REF_BANK;
+    public static final String BANK_NAME_DESC =
+            " " + PREFIX_BANK_NAME + VALID_BANK_NAME;
+    public static final String PAYMENT_METHOD_DESC_CARD =
+            " " + PREFIX_PAYMENT_METHOD + VALID_PAYMENT_METHOD_CARD;
+    public static final String PAYMENT_REF_DESC_CARD =
+            " " + PREFIX_PAYMENT_REF + VALID_PAYMENT_REF_CARD;
+    public static final String PAYMENT_METHOD_DESC_EWALLET =
+            " " + PREFIX_PAYMENT_METHOD + VALID_PAYMENT_METHOD_EWALLET;
+    public static final String WALLET_PROVIDER_DESC =
+            " " + PREFIX_WALLET_PROVIDER + VALID_WALLET_PROVIDER;
+    public static final String WALLET_ACCOUNT_DESC =
+            " " + PREFIX_PAYMENT_REF + VALID_WALLET_ACCOUNT;
+
+    public static final String INVALID_PAYMENT_METHOD_DESC =
+            " " + PREFIX_PAYMENT_METHOD + "CRYPTO";
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";

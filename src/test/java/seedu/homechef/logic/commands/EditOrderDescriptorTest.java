@@ -17,6 +17,8 @@ import static seedu.homechef.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import org.junit.jupiter.api.Test;
 
 import seedu.homechef.logic.commands.EditCommand.EditOrderDescriptor;
+import seedu.homechef.model.order.PaymentInfo;
+import seedu.homechef.model.order.PaymentType;
 import seedu.homechef.testutil.EditOrderDescriptorBuilder;
 
 public class EditOrderDescriptorTest {
@@ -71,6 +73,19 @@ public class EditOrderDescriptorTest {
         // different date -> returns false
         editedAmy = new EditOrderDescriptorBuilder(DESC_AMY).withDate(VALID_DATE_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
+
+        // different paymentInfo -> returns false
+        EditOrderDescriptor amyWithPayment = new EditOrderDescriptorBuilder(DESC_AMY)
+                .withPaymentInfo(new PaymentInfo(PaymentType.CASH, null, null, null, null, null, null)).build();
+        EditOrderDescriptor amyWithDifferentPayment = new EditOrderDescriptorBuilder(DESC_AMY)
+                .withPaymentInfo(new PaymentInfo(PaymentType.PAYNOW, "+65 91234567", null, null, null, null, null))
+                .build();
+        assertFalse(amyWithPayment.equals(amyWithDifferentPayment));
+
+        // same paymentInfo -> returns true
+        EditOrderDescriptor amyWithPaymentCopy = new EditOrderDescriptorBuilder(DESC_AMY)
+                .withPaymentInfo(new PaymentInfo(PaymentType.CASH, null, null, null, null, null, null)).build();
+        assertTrue(amyWithPayment.equals(amyWithPaymentCopy));
     }
 
     @Test
@@ -83,7 +98,8 @@ public class EditOrderDescriptorTest {
                 + editOrderDescriptor.getEmail().orElse(null) + ", address="
                 + editOrderDescriptor.getAddress().orElse(null) + ", date="
                 + editOrderDescriptor.getDate().orElse(null) + ", dietTags="
-                + editOrderDescriptor.getTags().orElse(null) + "}";
+                + editOrderDescriptor.getTags().orElse(null)
+                + ", paymentInfo=" + editOrderDescriptor.getPaymentInfo().orElse(null) + "}";
         assertEquals(expected, editOrderDescriptor.toString());
     }
 }

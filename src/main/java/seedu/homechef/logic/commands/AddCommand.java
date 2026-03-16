@@ -2,12 +2,16 @@ package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_BANK_NAME;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYMENT_METHOD;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYMENT_REF;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_WALLET_PROVIDER;
 
 import seedu.homechef.commons.util.ToStringBuilder;
 import seedu.homechef.logic.Messages;
@@ -30,7 +34,12 @@ public class AddCommand extends Command {
             + PREFIX_EMAIL + "EMAIL "
             + PREFIX_ADDRESS + "ADDRESS "
             + PREFIX_DATE + "DATE "
-            + "[" + PREFIX_TAG + "TAG]...\n"
+            + "[" + PREFIX_TAG + "TAG]... "
+            + "[" + PREFIX_PAYMENT_METHOD + "PAYMENT_METHOD] "
+            + "[" + PREFIX_PAYMENT_REF + "PAYMENT_REF] "
+            + "[" + PREFIX_BANK_NAME + "BANK_NAME] "
+            + "[" + PREFIX_WALLET_PROVIDER + "WALLET_PROVIDER] "
+            + "\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_FOOD + "Birthday Cake "
             + PREFIX_NAME + "John "

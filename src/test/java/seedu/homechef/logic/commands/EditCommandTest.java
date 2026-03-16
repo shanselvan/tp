@@ -2,6 +2,7 @@ package seedu.homechef.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.homechef.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.homechef.logic.commands.CommandTestUtil.DESC_BOB;
@@ -25,6 +26,8 @@ import seedu.homechef.model.Model;
 import seedu.homechef.model.ModelManager;
 import seedu.homechef.model.UserPrefs;
 import seedu.homechef.model.order.Order;
+import seedu.homechef.model.order.PaymentInfo;
+import seedu.homechef.model.order.PaymentType;
 import seedu.homechef.testutil.EditOrderDescriptorBuilder;
 import seedu.homechef.testutil.OrderBuilder;
 
@@ -179,6 +182,61 @@ public class EditCommandTest {
         String expected = EditCommand.class.getCanonicalName() + "{index=" + index + ", editOrderDescriptor="
                 + editOrderDescriptor + "}";
         assertEquals(expected, editCommand.toString());
+    }
+
+    @Test
+    public void execute_paymentInfoSet_success() {
+        Model model = new ModelManager(getTypicalHomeChef(), new UserPrefs());
+        Order orderToEdit = model.getFilteredOrderList().get(INDEX_FIRST_ORDER.getZeroBased());
+        PaymentInfo payNow = new PaymentInfo(
+                PaymentType.PAYNOW, "+65 91234567", null, null, null, null, null);
+
+        EditCommand.EditOrderDescriptor descriptor = new EditOrderDescriptorBuilder()
+                .withPaymentInfo(payNow).build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_ORDER, descriptor);
+
+        Order expectedOrder = new OrderBuilder(orderToEdit).withPaymentInfo(payNow).build();
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_ORDER_SUCCESS,
+                Messages.format(expectedOrder));
+
+        Model expectedModel = new ModelManager(new HomeChef(model.getHomeChef()), new UserPrefs());
+        expectedModel.setOrder(orderToEdit, expectedOrder);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_paymentInfoTypeSwitch_success() {
+        Model model = new ModelManager(getTypicalHomeChef(), new UserPrefs());
+        Order orderToEdit = model.getFilteredOrderList().get(INDEX_FIRST_ORDER.getZeroBased());
+        PaymentInfo payNow = new PaymentInfo(
+                PaymentType.PAYNOW, "+65 91234567", null, null, null, null, null);
+        Order orderWithPayNow = new OrderBuilder(orderToEdit).withPaymentInfo(payNow).build();
+        model.setOrder(orderToEdit, orderWithPayNow);
+
+        PaymentInfo cash = new PaymentInfo(PaymentType.CASH, null, null, null, null, null, null);
+        EditCommand.EditOrderDescriptor descriptor = new EditOrderDescriptorBuilder()
+                .withPaymentInfo(cash).build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_ORDER, descriptor);
+
+        Order expectedOrder = new OrderBuilder(orderWithPayNow).withPaymentInfo(cash).build();
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_ORDER_SUCCESS,
+                Messages.format(expectedOrder));
+        Model expectedModel = new ModelManager(new HomeChef(model.getHomeChef()), new UserPrefs());
+        expectedModel.setOrder(orderWithPayNow, expectedOrder);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+        Order result = expectedModel.getFilteredOrderList().get(INDEX_FIRST_ORDER.getZeroBased());
+        assertEquals(PaymentType.CASH, result.getPaymentInfo().get().getType());
+        assertNull(result.getPaymentInfo().get().getHandle());
+    }
+
+    @Test
+    public void editDescriptor_paymentInfoOnly_isAnyFieldEdited() {
+        PaymentInfo cash = new PaymentInfo(PaymentType.CASH, null, null, null, null, null, null);
+        EditCommand.EditOrderDescriptor descriptor = new EditOrderDescriptorBuilder()
+                .withPaymentInfo(cash).build();
+        assertTrue(descriptor.isAnyFieldEdited());
     }
 
 }

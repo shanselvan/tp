@@ -14,6 +14,8 @@ import static seedu.homechef.testutil.Assert.assertThrows;
 import static seedu.homechef.testutil.TypicalOrders.ALICE;
 import static seedu.homechef.testutil.TypicalOrders.BOB;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.homechef.testutil.OrderBuilder;
@@ -112,7 +114,30 @@ public class OrderTest {
     public void toStringMethod() {
         String expected = Order.class.getCanonicalName() + "{food=" + ALICE.getFood() + ", name=" + ALICE.getName()
                 + ", phone=" + ALICE.getPhone() + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress()
-                + ", date=" + ALICE.getDate() + ", dietTags=" + ALICE.getTags() + "}";
+                + ", date=" + ALICE.getDate() + ", dietTags=" + ALICE.getTags()
+                + ", paymentInfo=" + ALICE.getPaymentInfo() + "}";
         assertEquals(expected, ALICE.toString());
+    }
+
+    @Test
+    public void getPaymentInfo_noPaymentInfo_returnsEmpty() {
+        Order order = new OrderBuilder().build();
+        assertTrue(order.getPaymentInfo().isEmpty());
+    }
+
+    @Test
+    public void getPaymentInfo_withPaymentInfo_returnsPaymentInfo() {
+        PaymentInfo payNow = new PaymentInfo(PaymentType.PAYNOW, "+65 91234567",
+                null, null, null, null, null);
+        Order order = new OrderBuilder().withPaymentInfo(payNow).build();
+        assertEquals(Optional.of(payNow), order.getPaymentInfo());
+    }
+
+    @Test
+    public void equals_sameFieldsDifferentPaymentInfo_notEqual() {
+        Order orderWithout = new OrderBuilder().build();
+        PaymentInfo cash = new PaymentInfo(PaymentType.CASH, null, null, null, null, null, null);
+        Order orderWith = new OrderBuilder().withPaymentInfo(cash).build();
+        assertFalse(orderWithout.equals(orderWith));
     }
 }

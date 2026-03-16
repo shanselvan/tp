@@ -9,6 +9,7 @@ import static seedu.homechef.testutil.TypicalIndexes.INDEX_FIRST_ORDER;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,8 @@ import seedu.homechef.logic.parser.exceptions.ParseException;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.Name;
+import seedu.homechef.model.order.PaymentInfo;
+import seedu.homechef.model.order.PaymentType;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.tag.DietTag;
 
@@ -194,5 +197,122 @@ public class ParserUtilTest {
         );
 
         assertEquals(expectedDietTagSet, actualDietTagSet);
+    }
+
+    @Test
+    public void parsePaymentInfo_noFields_returnsEmpty() throws Exception {
+        Optional<PaymentInfo> result = ParserUtil.parsePaymentInfo(
+                Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void parsePaymentInfo_cash_success() throws Exception {
+        Optional<PaymentInfo> result = ParserUtil.parsePaymentInfo(
+                Optional.of("CASH"), Optional.empty(), Optional.empty(), Optional.empty());
+        assertTrue(result.isPresent());
+        assertEquals(PaymentType.CASH, result.get().getType());
+    }
+
+    @Test
+    public void parsePaymentInfo_payNow_success() throws Exception {
+        Optional<PaymentInfo> result = ParserUtil.parsePaymentInfo(
+                Optional.of("PAYNOW"), Optional.of("+65 91234567"), Optional.empty(), Optional.empty());
+        assertTrue(result.isPresent());
+        assertEquals(PaymentType.PAYNOW, result.get().getType());
+        assertEquals("+65 91234567", result.get().getHandle());
+    }
+
+    @Test
+    public void parsePaymentInfo_bank_success() throws Exception {
+        Optional<PaymentInfo> result = ParserUtil.parsePaymentInfo(
+                Optional.of("BANK"), Optional.of("REF123"), Optional.of("DBS"), Optional.empty());
+        assertTrue(result.isPresent());
+        assertEquals(PaymentType.BANK, result.get().getType());
+        assertEquals("DBS", result.get().getBankName());
+        assertEquals("REF123", result.get().getReferenceNumber());
+    }
+
+    @Test
+    public void parsePaymentInfo_card_success() throws Exception {
+        Optional<PaymentInfo> result = ParserUtil.parsePaymentInfo(
+                Optional.of("CARD"), Optional.of("4321"), Optional.empty(), Optional.empty());
+        assertTrue(result.isPresent());
+        assertEquals(PaymentType.CARD, result.get().getType());
+        assertEquals("4321", result.get().getLastFourDigits());
+    }
+
+    @Test
+    public void parsePaymentInfo_eWallet_success() throws Exception {
+        Optional<PaymentInfo> result = ParserUtil.parsePaymentInfo(
+                Optional.of("EWALLET"), Optional.of("user@grab.com"), Optional.empty(), Optional.of("GrabPay"));
+        assertTrue(result.isPresent());
+        assertEquals(PaymentType.EWALLET, result.get().getType());
+        assertEquals("GrabPay", result.get().getWalletProvider());
+        assertEquals("user@grab.com", result.get().getWalletAccountId());
+    }
+
+    @Test
+    public void parsePaymentInfo_unknownType_throwsParseException() {
+        assertThrows(ParseException.class, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("CRYPTO"), Optional.empty(), Optional.empty(), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_missingMethodWithRef_throwsParseException() {
+        assertThrows(ParseException.class, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.empty(), Optional.of("+6591234567"), Optional.empty(), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_payNowMissingRef_throwsParseException() {
+        assertThrows(ParseException.class, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("PAYNOW"), Optional.empty(), Optional.empty(), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_payNowInvalidPhoneFormat_throwsParseException() throws Exception {
+        ParseException thrown = org.junit.jupiter.api.Assertions.assertThrows(ParseException.class, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("PAYNOW"), Optional.of("+6591234567"), Optional.empty(), Optional.empty()));
+        assertEquals(PaymentInfo.MESSAGE_INVALID_PAYNOW_PHONE, thrown.getMessage());
+    }
+
+    @Test
+    public void parsePaymentInfo_cashWithRef_throwsParseException() {
+        assertThrows(ParseException.class, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("CASH"), Optional.of("extra"), Optional.empty(), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_payNowWithBankName_throwsParseException() {
+        assertThrows(ParseException.class, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("PAYNOW"), Optional.of("+6591234567"), Optional.of("DBS"), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_bankMissingBankName_throwsParseException() {
+        assertThrows(ParseException.class, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("BANK"), Optional.of("REF123"), Optional.empty(), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_eWalletMissingWalletProvider_throwsParseException() {
+        assertThrows(ParseException.class, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("EWALLET"), Optional.of("user@grab.com"), Optional.empty(), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_cardInvalidRef_throwsParseException() {
+        assertThrows(ParseException.class, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("CARD"), Optional.of("AB12"), Optional.empty(), Optional.empty()));
     }
 }

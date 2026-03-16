@@ -23,6 +23,8 @@ import seedu.homechef.model.Model;
 import seedu.homechef.model.ReadOnlyHomeChef;
 import seedu.homechef.model.ReadOnlyUserPrefs;
 import seedu.homechef.model.order.Order;
+import seedu.homechef.model.order.PaymentInfo;
+import seedu.homechef.model.order.PaymentType;
 import seedu.homechef.testutil.OrderBuilder;
 
 public class AddCommandTest {
@@ -42,6 +44,19 @@ public class AddCommandTest {
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validOrder)),
                 commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validOrder), modelStub.ordersAdded);
+    }
+
+    @Test
+    public void execute_orderWithPaymentInfo_addSuccessful() throws Exception {
+        ModelStubAcceptingOrderAdded modelStub = new ModelStubAcceptingOrderAdded();
+        PaymentInfo cashPayment = new PaymentInfo(PaymentType.CASH, null, null, null, null, null, null);
+        Order orderWithPayment = new OrderBuilder().withPaymentInfo(cashPayment).build();
+
+        CommandResult commandResult = new AddCommand(orderWithPayment).execute(modelStub);
+
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(orderWithPayment)),
+                commandResult.getFeedbackToUser());
+        assertEquals(Arrays.asList(orderWithPayment), modelStub.ordersAdded);
     }
 
     @Test

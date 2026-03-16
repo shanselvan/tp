@@ -2,12 +2,16 @@ package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_BANK_NAME;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYMENT_METHOD;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYMENT_REF;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_WALLET_PROVIDER;
 import static seedu.homechef.model.Model.PREDICATE_SHOW_ALL_ORDERS;
 
 import java.util.Collections;
@@ -29,6 +33,7 @@ import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.Food;
 import seedu.homechef.model.order.Name;
 import seedu.homechef.model.order.Order;
+import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.tag.DietTag;
 
@@ -49,8 +54,12 @@ public class EditCommand extends Command {
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_DATE + "DATE] "
-            + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Example: " + COMMAND_WORD + " 1 "
+            + "[" + PREFIX_TAG + "TAG]..."
+            + "[" + PREFIX_PAYMENT_METHOD + "PAYMENT_METHOD] "
+            + "[" + PREFIX_PAYMENT_REF + "PAYMENT_REF] "
+            + "[" + PREFIX_BANK_NAME + "BANK_NAME] "
+            + "[" + PREFIX_WALLET_PROVIDER + "WALLET_PROVIDER] "
+            + "\nExample: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
 
@@ -108,9 +117,12 @@ public class EditCommand extends Command {
         Address updatedAddress = editOrderDescriptor.getAddress().orElse(orderToEdit.getAddress());
         Date updatedDate = editOrderDescriptor.getDate().orElse(orderToEdit.getDate());
         Set<DietTag> updatedDietTags = editOrderDescriptor.getTags().orElse(orderToEdit.getTags());
+        Optional<PaymentInfo> updatedPaymentInfo = editOrderDescriptor.getPaymentInfo().isPresent()
+                ? editOrderDescriptor.getPaymentInfo()
+                : orderToEdit.getPaymentInfo();
 
         return new Order(updatedFood, updatedName, updatedPhone,
-                updatedEmail, updatedAddress, updatedDate, updatedDietTags);
+                updatedEmail, updatedAddress, updatedDate, updatedDietTags, updatedPaymentInfo);
     }
 
     @Override
@@ -149,6 +161,7 @@ public class EditCommand extends Command {
         private Address address;
         private Date date;
         private Set<DietTag> dietTags;
+        private PaymentInfo paymentInfo;
 
         public EditOrderDescriptor() {
         }
@@ -165,13 +178,14 @@ public class EditCommand extends Command {
             setAddress(toCopy.address);
             setDate(toCopy.date);
             setTags(toCopy.dietTags);
+            setPaymentInfo(toCopy.paymentInfo);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(food, name, phone, email, address, date, dietTags);
+            return CollectionUtil.isAnyNonNull(food, name, phone, email, address, date, dietTags, paymentInfo);
         }
 
         public void setFood(Food food) {
@@ -239,6 +253,20 @@ public class EditCommand extends Command {
             return (dietTags != null) ? Optional.of(Collections.unmodifiableSet(dietTags)) : Optional.empty();
         }
 
+        /**
+         * Sets the payment info to update the order with.
+         */
+        public void setPaymentInfo(PaymentInfo paymentInfo) {
+            this.paymentInfo = paymentInfo;
+        }
+
+        /**
+         * Returns the payment info to update the order with, or empty if not edited.
+         */
+        public Optional<PaymentInfo> getPaymentInfo() {
+            return Optional.ofNullable(paymentInfo);
+        }
+
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -257,7 +285,8 @@ public class EditCommand extends Command {
                     && Objects.equals(email, otherEditOrderDescriptor.email)
                     && Objects.equals(address, otherEditOrderDescriptor.address)
                     && Objects.equals(date, otherEditOrderDescriptor.date)
-                    && Objects.equals(dietTags, otherEditOrderDescriptor.dietTags);
+                    && Objects.equals(dietTags, otherEditOrderDescriptor.dietTags)
+                    && Objects.equals(paymentInfo, otherEditOrderDescriptor.paymentInfo);
         }
 
         @Override
@@ -270,6 +299,7 @@ public class EditCommand extends Command {
                     .add("address", address)
                     .add("date", date)
                     .add("dietTags", dietTags)
+                    .add("paymentInfo", paymentInfo)
                     .toString();
         }
     }

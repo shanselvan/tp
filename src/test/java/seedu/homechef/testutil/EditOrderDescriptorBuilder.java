@@ -11,6 +11,7 @@ import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.Food;
 import seedu.homechef.model.order.Name;
 import seedu.homechef.model.order.Order;
+import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.tag.DietTag;
 
@@ -41,6 +42,7 @@ public class EditOrderDescriptorBuilder {
         descriptor.setAddress(order.getAddress());
         descriptor.setDate(order.getDate());
         descriptor.setTags(order.getTags());
+        order.getPaymentInfo().ifPresent(descriptor::setPaymentInfo);
     }
 
     /**
@@ -98,6 +100,14 @@ public class EditOrderDescriptorBuilder {
     public EditOrderDescriptorBuilder withTags(String... tags) {
         Set<DietTag> dietTagSet = Stream.of(tags).map(DietTag::new).collect(Collectors.toSet());
         descriptor.setTags(dietTagSet);
+        return this;
+    }
+
+    /**
+     * Sets the {@code PaymentInfo} of the {@code EditOrderDescriptor} that we are building.
+     */
+    public EditOrderDescriptorBuilder withPaymentInfo(PaymentInfo paymentInfo) {
+        descriptor.setPaymentInfo(paymentInfo);
         return this;
     }
 

@@ -3,12 +3,16 @@ package seedu.homechef.logic.parser;
 import static java.util.Objects.requireNonNull;
 import static seedu.homechef.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_BANK_NAME;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYMENT_METHOD;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYMENT_REF;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_WALLET_PROVIDER;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -19,6 +23,7 @@ import seedu.homechef.commons.core.index.Index;
 import seedu.homechef.logic.commands.EditCommand;
 import seedu.homechef.logic.commands.EditCommand.EditOrderDescriptor;
 import seedu.homechef.logic.parser.exceptions.ParseException;
+import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.tag.DietTag;
 
 /**
@@ -35,8 +40,9 @@ public class EditCommandParser implements Parser<EditCommand> {
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_FOOD, PREFIX_NAME, PREFIX_PHONE,
-                        PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_DATE, PREFIX_TAG);
+                ArgumentTokenizer.tokenize(args, PREFIX_FOOD, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
+                        PREFIX_ADDRESS, PREFIX_DATE, PREFIX_TAG,
+                        PREFIX_PAYMENT_METHOD, PREFIX_PAYMENT_REF, PREFIX_BANK_NAME, PREFIX_WALLET_PROVIDER);
 
         Index index;
 
@@ -70,6 +76,13 @@ public class EditCommandParser implements Parser<EditCommand> {
             editOrderDescriptor.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get()));
         }
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editOrderDescriptor::setTags);
+
+        Optional<PaymentInfo> paymentInfo = ParserUtil.parsePaymentInfo(
+                argMultimap.getValue(PREFIX_PAYMENT_METHOD),
+                argMultimap.getValue(PREFIX_PAYMENT_REF),
+                argMultimap.getValue(PREFIX_BANK_NAME),
+                argMultimap.getValue(PREFIX_WALLET_PROVIDER));
+        paymentInfo.ifPresent(editOrderDescriptor::setPaymentInfo);
 
         if (!editOrderDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
