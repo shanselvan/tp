@@ -8,6 +8,12 @@ public class PaymentStatus {
 
     public final boolean status;
 
+    public static final String STATUS_PAID = "PAID";
+    public static final String STATUS_UNPAID = "UNPAID";
+
+    public static final String MESSAGE_CONSTRAINTS =
+            "Payment status should either be PAID or UNPAID";
+
     /**
      * Constructs a {@code PaymentStatus}.
      */
@@ -24,7 +30,7 @@ public class PaymentStatus {
 
     @Override
     public String toString() {
-        return status ? "PAID" : "UNPAID";
+        return status ? STATUS_PAID : STATUS_UNPAID;
     }
 
     @Override
@@ -39,6 +45,10 @@ public class PaymentStatus {
 
         PaymentStatus otherStatus = (PaymentStatus) other;
         return status == otherStatus.status;
+    }
+
+    public static boolean isValidStatus(String test) {
+        return STATUS_PAID.equals(test) || STATUS_UNPAID.equals(test);
     }
 
     @Override
