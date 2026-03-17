@@ -125,11 +125,7 @@ public class EditCommand extends Command {
                 : orderToEdit.getPaymentInfo();
 
         return new Order(updatedFood, updatedName, updatedPhone,
-<<<<<<< implement-completion-status
-                updatedEmail, updatedAddress, updatedDate, updatedCompletionStatus, updatedDietTags);
-=======
-                updatedEmail, updatedAddress, updatedDate, updatedDietTags, updatedPaymentInfo);
->>>>>>> master
+                updatedEmail, updatedAddress, updatedDate, updatedCompletionStatus, updatedDietTags, updatedPaymentInfo);
     }
 
     @Override
@@ -302,13 +298,9 @@ public class EditCommand extends Command {
                     && Objects.equals(email, otherEditOrderDescriptor.email)
                     && Objects.equals(address, otherEditOrderDescriptor.address)
                     && Objects.equals(date, otherEditOrderDescriptor.date)
-<<<<<<< implement-completion-status
                     && Objects.equals(completionStatus, otherEditOrderDescriptor.completionStatus)
-                    && Objects.equals(dietTags, otherEditOrderDescriptor.dietTags);
-=======
                     && Objects.equals(dietTags, otherEditOrderDescriptor.dietTags)
                     && Objects.equals(paymentInfo, otherEditOrderDescriptor.paymentInfo);
->>>>>>> master
         }
 
         @Override
