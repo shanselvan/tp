@@ -23,19 +23,17 @@ public class ListCommandParser implements Parser<ListCommand> {
     public ListCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_DATE);
 
-        Optional<String> dateArg = argMultimap.getValue(PREFIX_DATE);
-
-        if (dateArg.isEmpty()) {
-            return new ListCommand();
-        }
-
         if (!argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
         }
-
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_DATE);
 
-        Date date = ParserUtil.parseDate(dateArg);
-        return new ListCommand(date);
+        Optional<String> dateArg = argMultimap.getValue(PREFIX_DATE);
+        if (dateArg.isPresent()) {
+            Date date = ParserUtil.parseDate(dateArg.get());
+            return new ListCommand(date);
+        }
+    
+        return new ListCommand();
     }
 }
