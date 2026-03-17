@@ -4,11 +4,14 @@ import static java.util.Objects.requireNonNull;
 import static seedu.homechef.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import seedu.homechef.commons.core.GuiSettings;
 import seedu.homechef.commons.core.LogsCenter;
 import seedu.homechef.model.order.Order;
@@ -19,9 +22,28 @@ import seedu.homechef.model.order.Order;
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
+    private static final Comparator<Order> DEFAULT_ORDER_COMPARATOR = (a, b) -> {
+        LocalDate da = a.getDate().value;
+        LocalDate db = b.getDate().value;
+
+        int dateCmp = da.compareTo(db) ;
+        if (dateCmp != 0) {
+            return dateCmp;
+        }
+
+        int nameCmp = a.getName().fullName.compareToIgnoreCase(b.getName().fullName);
+        if (nameCmp != 0) {
+            return nameCmp;
+        }
+
+        return a.getFood().foodName.compareToIgnoreCase(b.getFood().foodName);
+    };
+
+
     private final HomeChef homeChef;
     private final UserPrefs userPrefs;
     private final FilteredList<Order> filteredOrders;
+    private final SortedList<Order> sortedOrders;
 
     /**
      * Initializes a ModelManager with the given homeChef and userPrefs.
@@ -34,6 +56,9 @@ public class ModelManager implements Model {
         this.homeChef = new HomeChef(homeChef);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredOrders = new FilteredList<>(this.homeChef.getOrderList());
+
+        sortedOrders = new SortedList<>(filteredOrders);
+        sortedOrders.setComparator(DEFAULT_ORDER_COMPARATOR);
     }
 
     public ModelManager() {
@@ -119,7 +144,7 @@ public class ModelManager implements Model {
      */
     @Override
     public ObservableList<Order> getFilteredOrderList() {
-        return filteredOrders;
+        return sortedOrders;
     }
 
     @Override
