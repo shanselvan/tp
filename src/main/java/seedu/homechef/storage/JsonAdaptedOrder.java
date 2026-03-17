@@ -197,7 +197,7 @@ class JsonAdaptedOrder {
         }
 
         return new Order(modelFood, modelName, modelPhone, modelEmail,
-                modelAddress, modelDate,  modelCompletionStatus, modelDietTags, modelPaymentInfo);
+                modelAddress, modelDate, modelCompletionStatus, modelDietTags, modelPaymentInfo);
     }
 
 }
