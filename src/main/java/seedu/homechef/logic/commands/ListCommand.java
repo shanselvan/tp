@@ -21,7 +21,7 @@ public class ListCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Lists orders, optionally filtered by fulfillment date.\n"
-            + "Format: " + COMMAND_WORD + " [d/DATE] [c/CUSTOMER] [f/FOOD]\n"
+            + "Format: " + COMMAND_WORD + " [f/FOOD] [c/CUSTOMER] [d/DATE]\n"
             + "DATE must be in the format dd-MM-yyyy.\n"
             + "Example: " + COMMAND_WORD + "\n"
             + "Example: " + COMMAND_WORD + " d/16-04-2003\n"
