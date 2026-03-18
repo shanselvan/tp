@@ -35,9 +35,9 @@ public class PaidCommandTest {
 
         PaymentStatus paidStatus = new PaymentStatus(PaymentStatus.IS_PAID);
         Order editedOrder = new Order(
-                orderToEdit.getFood(), orderToEdit.getName(), orderToEdit.getPhone(),
+                orderToEdit.getFood(), orderToEdit.getCustomer(), orderToEdit.getPhone(),
                 orderToEdit.getEmail(), orderToEdit.getAddress(), orderToEdit.getDate(),
-                paidStatus, orderToEdit.getTags());
+                orderToEdit.getCompletionStatus(), paidStatus, orderToEdit.getTags());
 
         String expectedMessage = String.format(PaidCommand.MESSAGE_MARK_PAID_SUCCESS,
                 Messages.format(editedOrder));
