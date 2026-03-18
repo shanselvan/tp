@@ -5,5 +5,6 @@ package seedu.homechef.model.order;
  */
 public enum CompletionStatusEnum {
         IN_PROGRESS,
-        COMPLETED
+        COMPLETED,
+        INVALID_STATUS
 }
