@@ -63,6 +63,7 @@ public class OrderCard extends UiPart<Region> {
         date.setText(order.getDate().toString());
         email.setText(order.getEmail().value);
         paymentStatus.setText(order.getPaymentStatus().toString());
+        paymentStatus.setStyle(order.getPaymentStatus().getStyle());
         order.getPaymentInfo().ifPresentOrElse(
                 info -> paymentInfo.setText("Payment: " + info.toString()), () -> {
                     paymentInfo.setVisible(false);
