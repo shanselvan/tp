@@ -6,22 +6,17 @@ import static seedu.homechef.commons.util.AppUtil.checkArgument;
  * Represents an Order's completion status in the HomeChef.
  */
 public class CompletionStatus {
-    private static final int MIN_STATUS = 0;
-    private static final int MAX_STATUS = 1;
-
     public static final String MESSAGE_CONSTRAINTS = String.format(
-            "Completion status must be represented as an integer between %d and %d",
-            MIN_STATUS,
-            MAX_STATUS);
+            "Completion status must be represented as a valid enum");
 
-    public final int value;
+    public final CompletionStatusEnum value;
 
     /**
      * Constructs a {@code CompletionStatus}.
      *
-     * @param value A valid integer to represent status.
+     * @param value A valid enum to represent status.
      */
-    public CompletionStatus(int value) {
+    public CompletionStatus(CompletionStatusEnum value) {
         checkArgument(isValidCompletionStatus(value), MESSAGE_CONSTRAINTS);
         this.value = value;
     }
@@ -29,8 +24,13 @@ public class CompletionStatus {
     /**
      * Returns true if a given string is a valid completion status.
      */
-    public static boolean isValidCompletionStatus(int test) {
-        return (test >= MIN_STATUS && test <= MAX_STATUS);
+    public static boolean isValidCompletionStatus(CompletionStatusEnum test) {
+        switch (test) {
+        case IN_PROGRESS, COMPLETED:
+            return true;
+        default:
+            return false;
+        }
     }
 
     @Override
@@ -51,9 +51,9 @@ public class CompletionStatus {
     @Override
     public String toString() {
         switch (value) {
-        case 0:
+        case IN_PROGRESS:
             return "In progress";
-        case 1:
+        case COMPLETED:
             return "Completed";
         default:
             return "Invalid completion status";
@@ -62,7 +62,7 @@ public class CompletionStatus {
 
     @Override
     public int hashCode() {
-        return Integer.hashCode(this.value);
+        return this.value.hashCode();
     }
 
 }

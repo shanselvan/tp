@@ -16,6 +16,7 @@ import seedu.homechef.logic.commands.AddCommand;
 import seedu.homechef.logic.parser.exceptions.ParseException;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.CompletionStatus;
+import seedu.homechef.model.order.CompletionStatusEnum;
 import seedu.homechef.model.order.Date;
 import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.Food;
@@ -54,7 +55,7 @@ public class AddCommandParser implements Parser<AddCommand> {
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
         Date date = ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get());
         // Initialise every Order as "In progress"
-        CompletionStatus completionStatus = new CompletionStatus(0);
+        CompletionStatus completionStatus = new CompletionStatus(CompletionStatusEnum.IN_PROGRESS);
         Set<DietTag> dietTagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
         Order order = new Order(food, name, phone, email, address, date, completionStatus, dietTagList);

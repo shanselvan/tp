@@ -4,34 +4,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.homechef.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
 public class CompletionStatusTest {
     @Test
-    public void constructor_invalidCompletionStatus_throwsIllegalArgumentException() {
-        int invalidCompletionStatus = -1;
-        assertThrows(IllegalArgumentException.class, () -> new CompletionStatus(invalidCompletionStatus));
-    }
-
-    @Test
     public void isValidCompletionStatus() {
-        // invalid completion status
-        assertFalse(CompletionStatus.isValidCompletionStatus(-1)); // negative integers
-        assertFalse(CompletionStatus.isValidCompletionStatus(Integer.MAX_VALUE)); // excessively large integer
-
         // valid completion status
-        assertTrue(CompletionStatus.isValidCompletionStatus(0));
-        assertTrue(CompletionStatus.isValidCompletionStatus(1)); // one character
+        assertTrue(CompletionStatus.isValidCompletionStatus(CompletionStatusEnum.IN_PROGRESS));
+        assertTrue(CompletionStatus.isValidCompletionStatus(CompletionStatusEnum.COMPLETED));
     }
 
     @Test
     public void equals() {
-        CompletionStatus completionStatus = new CompletionStatus(1);
+        CompletionStatus completionStatus = new CompletionStatus(CompletionStatusEnum.COMPLETED);
 
         // same values -> returns true
-        assertTrue(completionStatus.equals(new CompletionStatus(1)));
+        assertTrue(completionStatus.equals(new CompletionStatus(CompletionStatusEnum.COMPLETED)));
 
         // same object -> returns true
         assertTrue(completionStatus.equals(completionStatus));
@@ -43,23 +32,23 @@ public class CompletionStatusTest {
         assertFalse(completionStatus.equals(5.0f));
 
         // different values -> returns false
-        assertFalse(completionStatus.equals(new CompletionStatus(0)));
+        assertFalse(completionStatus.equals(new CompletionStatus(CompletionStatusEnum.IN_PROGRESS)));
     }
 
     @Test
     public void hashCodeTest() {
-        CompletionStatus completionStatus1 = new CompletionStatus(0);
-        CompletionStatus completionStatus2 = new CompletionStatus(1);
+        CompletionStatus completionStatus1 = new CompletionStatus(CompletionStatusEnum.IN_PROGRESS);
+        CompletionStatus completionStatus2 = new CompletionStatus(CompletionStatusEnum.COMPLETED);
 
-        assertEquals(completionStatus1.hashCode(), Integer.hashCode(0));
-        assertNotEquals(completionStatus1.hashCode(), Integer.hashCode(1));
+        assertEquals(completionStatus1.hashCode(), CompletionStatusEnum.IN_PROGRESS.hashCode());
+        assertNotEquals(completionStatus1.hashCode(), CompletionStatusEnum.COMPLETED.hashCode());
         assertNotEquals(completionStatus1.hashCode(), completionStatus2.hashCode());
     }
 
     @Test
     public void toStringTest() {
-        CompletionStatus completionStatus1 = new CompletionStatus(0);
-        CompletionStatus completionStatus2 = new CompletionStatus(1);
+        CompletionStatus completionStatus1 = new CompletionStatus(CompletionStatusEnum.IN_PROGRESS);
+        CompletionStatus completionStatus2 = new CompletionStatus(CompletionStatusEnum.COMPLETED);
 
         assertEquals(completionStatus1.toString(), "In progress");
         assertEquals(completionStatus2.toString(), "Completed");

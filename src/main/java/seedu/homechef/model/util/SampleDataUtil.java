@@ -8,6 +8,7 @@ import seedu.homechef.model.HomeChef;
 import seedu.homechef.model.ReadOnlyHomeChef;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.CompletionStatus;
+import seedu.homechef.model.order.CompletionStatusEnum;
 import seedu.homechef.model.order.Date;
 import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.Food;
@@ -21,7 +22,7 @@ import seedu.homechef.model.tag.DietTag;
  */
 public class SampleDataUtil {
 
-    public static final CompletionStatus IN_PROGRESS_STATUS = new CompletionStatus(0);
+    public static final CompletionStatus IN_PROGRESS_STATUS = new CompletionStatus(CompletionStatusEnum.IN_PROGRESS);
 
     public static Order[] getSampleOrders() {
         Order alex = new Order(new Food("Birthday Cake"), new Name("Alex Yeoh"), new Phone("87438807"),
