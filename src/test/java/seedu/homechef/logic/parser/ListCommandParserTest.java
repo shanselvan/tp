@@ -39,4 +39,40 @@ public class ListCommandParserTest {
     public void parse_invalidDateValue_failure() {
         assertParseFailure(parser, " d/99-99-9999", Date.MESSAGE_CONSTRAINTS);
     }
+
+    @Test
+    public void parse_validCustomer_success() {
+        ListCommand.ListFilterDescriptor d = new ListCommand.ListFilterDescriptor();
+        d.setCustomerQuery("alice");
+        assertParseSuccess(parser, " c/alice", new ListCommand(d));
+    }
+
+    @Test
+    public void parse_validFood_success() {
+        ListCommand.ListFilterDescriptor d = new ListCommand.ListFilterDescriptor();
+        d.setFoodQuery("cake");
+        assertParseSuccess(parser, " f/cake", new ListCommand(d));
+    }
+
+    @Test
+    public void parse_validMultipleFilters_success() {
+        ListCommand.ListFilterDescriptor d = new ListCommand.ListFilterDescriptor();
+        d.setDate(new Date("16-04-2003"));
+        d.setCustomerQuery("alice");
+        d.setFoodQuery("cake");
+        assertParseSuccess(parser, " d/16-04-2003 c/alice f/cake", new ListCommand(d));
+    }
+
+    @Test
+    public void parse_emptyCustomer_failure() {
+        assertParseFailure(parser, " c/",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_emptyFood_failure() {
+        assertParseFailure(parser, " f/",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
+    }
+
 }
