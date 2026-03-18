@@ -8,7 +8,6 @@ import seedu.homechef.model.HomeChef;
 import seedu.homechef.model.ReadOnlyHomeChef;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.CompletionStatus;
-import seedu.homechef.model.order.CompletionStatusEnum;
 import seedu.homechef.model.order.Date;
 import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.Food;
@@ -22,7 +21,8 @@ import seedu.homechef.model.tag.DietTag;
  */
 public class SampleDataUtil {
 
-    public static final CompletionStatus IN_PROGRESS_STATUS = new CompletionStatus(CompletionStatusEnum.IN_PROGRESS);
+    public static final CompletionStatus IN_PROGRESS_STATUS = new CompletionStatus("In progress");
+    public static final CompletionStatus COMPLETED_STATUS = new CompletionStatus("Completed");
 
     public static Order[] getSampleOrders() {
         Order alex = new Order(new Food("Birthday Cake"), new Name("Alex Yeoh"), new Phone("87438807"),
@@ -33,7 +33,7 @@ public class SampleDataUtil {
         Order bernice = new Order(new Food("Cupcakes (24pcs)"), new Name("Bernice Yu"), new Phone("99272758"),
                 new Email("berniceyu@example.com"),
                 new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"), new Date("20-03-2026"),
-                IN_PROGRESS_STATUS,
+                COMPLETED_STATUS,
                 getTagSet("colleagues", "friends"));
         Order charlotte = new Order(new Food("Chocolate Chip Cookies (3pcs)"), new Name("Charlotte Oliveiro"),
                 new Phone("93210283"),
@@ -44,12 +44,12 @@ public class SampleDataUtil {
         Order david = new Order(new Food("Cookies Assortment (50pcs"), new Name("David Li"), new Phone("91031282"),
                 new Email("lidavid@example.com"),
                 new Address("Blk 436 Serangoon Gardens Street 26, #16-43"), new Date("26-04-2026"),
-                IN_PROGRESS_STATUS,
+                COMPLETED_STATUS,
                 getTagSet("family"));
         Order irfan = new Order(new Food("Blueberry Pie"), new Name("Irfan Ibrahim"), new Phone("92492021"),
                 new Email("irfan@example.com"),
                 new Address("Blk 47 Tampines Street 20, #17-35"), new Date("30-04-2026"),
-                IN_PROGRESS_STATUS,
+                COMPLETED_STATUS,
                 getTagSet("classmates"));
         Order roy = new Order(new Food("Sourdough Bread (3pcs)"), new Name("Roy Balakrishnan"), new Phone("92624417"),
                 new Email("royb@example.com"),

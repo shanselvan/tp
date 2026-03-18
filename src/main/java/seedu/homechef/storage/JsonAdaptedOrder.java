@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import seedu.homechef.commons.exceptions.IllegalValueException;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.CompletionStatus;
-import seedu.homechef.model.order.CompletionStatusEnum;
 import seedu.homechef.model.order.Date;
 import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.Food;
@@ -37,6 +36,7 @@ class JsonAdaptedOrder {
     private final String email;
     private final String address;
     private final String date;
+    private final String completionStatus;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
     private final String paymentType;
     private final String paymentHandle;
@@ -57,6 +57,7 @@ class JsonAdaptedOrder {
             @JsonProperty("email") String email,
             @JsonProperty("address") String address,
             @JsonProperty("date") String date,
+            @JsonProperty("completionStatus") String completionStatus,
             @JsonProperty("tags") List<JsonAdaptedTag> tags,
             @JsonProperty("paymentType") String paymentType,
             @JsonProperty("paymentHandle") String paymentHandle,
@@ -71,6 +72,7 @@ class JsonAdaptedOrder {
         this.email = email;
         this.address = address;
         this.date = date;
+        this.completionStatus = completionStatus;
         if (tags != null) {
             this.tags.addAll(tags);
         }
@@ -93,6 +95,7 @@ class JsonAdaptedOrder {
         email = source.getEmail().value;
         address = source.getAddress().value;
         date = source.getDate().toString();
+        completionStatus = source.getCompletionStatus().toString();
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -177,7 +180,14 @@ class JsonAdaptedOrder {
         }
         final Date modelDate = new Date(date);
 
-        final CompletionStatus modelCompletionStatus = new CompletionStatus(CompletionStatusEnum.IN_PROGRESS);
+        if (completionStatus == null) {
+            throw new IllegalValueException(
+                    String.format(MISSING_FIELD_MESSAGE_FORMAT, CompletionStatus.class.getSimpleName()));
+        }
+        if (!CompletionStatus.isValidCompletionStatus(completionStatus)) {
+            throw new IllegalValueException(Date.MESSAGE_CONSTRAINTS);
+        }
+        final CompletionStatus modelCompletionStatus = new CompletionStatus(completionStatus);
 
         Optional<PaymentInfo> modelPaymentInfo;
         if (paymentType == null) {
