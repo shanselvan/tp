@@ -34,7 +34,6 @@ import seedu.homechef.model.tag.DietTag;
  * Parses input arguments and creates a new AddCommand object
  */
 public class AddCommandParser implements Parser<AddCommand> {
-
     /**
      * Parses the given {@code String} of arguments in the context of the AddCommand
      * and returns an AddCommand object for execution.
@@ -60,7 +59,7 @@ public class AddCommandParser implements Parser<AddCommand> {
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
         Date date = ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get());
-        PaymentStatus paymentStatus = new PaymentStatus(false);
+        PaymentStatus paymentStatus = new PaymentStatus(PaymentStatus.IS_UNPAID);
         Set<DietTag> dietTagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
         Optional<PaymentInfo> paymentInfo = ParserUtil.parsePaymentInfo(
                 argMultimap.getValue(PREFIX_PAYMENT_METHOD),
