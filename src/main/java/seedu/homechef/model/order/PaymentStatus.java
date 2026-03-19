@@ -12,6 +12,9 @@ public class PaymentStatus {
     public static final boolean IS_PAID = true;
     public static final boolean IS_UNPAID = false;
 
+    public static final String STYLE_PAID = "-fx-text-fill: limegreen;";
+    public static final String STYLE_UNPAID = "-fx-text-fill: orange;";
+
     public static final String MESSAGE_CONSTRAINTS =
             "Payment status should either be $ PAID or $ UNPAID";
 
@@ -64,7 +67,7 @@ public class PaymentStatus {
      * @return a CSS style string for the JavaFX Label
      */
     public String getStyle() {
-        return status ? "-fx-text-fill: limegreen;" : "-fx-text-fill: orange;";
+        return status ? STYLE_PAID : STYLE_UNPAID;
     }
 
     @Override

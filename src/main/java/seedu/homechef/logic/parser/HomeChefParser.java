@@ -20,6 +20,7 @@ import seedu.homechef.logic.commands.ListCommand;
 import seedu.homechef.logic.commands.MarkCompleteCommand;
 import seedu.homechef.logic.commands.MarkInProgressCommand;
 import seedu.homechef.logic.commands.PaidCommand;
+import seedu.homechef.logic.commands.UnpaidCommand;
 import seedu.homechef.logic.parser.exceptions.ParseException;
 
 /**
@@ -88,6 +89,9 @@ public class HomeChefParser {
 
         case PaidCommand.COMMAND_WORD:
             return new PaidCommandParser().parse(arguments);
+
+        case UnpaidCommand.COMMAND_WORD:
+            return new UnpaidCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);

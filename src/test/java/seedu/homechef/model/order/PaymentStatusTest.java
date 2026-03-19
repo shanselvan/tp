@@ -8,6 +8,8 @@ import static seedu.homechef.model.order.PaymentStatus.IS_PAID;
 import static seedu.homechef.model.order.PaymentStatus.IS_UNPAID;
 import static seedu.homechef.model.order.PaymentStatus.STATUS_PAID;
 import static seedu.homechef.model.order.PaymentStatus.STATUS_UNPAID;
+import static seedu.homechef.model.order.PaymentStatus.STYLE_PAID;
+import static seedu.homechef.model.order.PaymentStatus.STYLE_UNPAID;
 
 import org.junit.jupiter.api.Test;
 
@@ -51,6 +53,15 @@ public class PaymentStatusTest {
 
         // different type
         assertFalse(paid1.equals(STATUS_PAID));
+    }
+
+    @Test
+    public void getStyle_paidAndUnpaid_returnsCorrectStyle() {
+        PaymentStatus paidStatus = new PaymentStatus(IS_PAID);
+        PaymentStatus unpaidStatus = new PaymentStatus(IS_UNPAID);
+
+        assertEquals(STYLE_PAID, paidStatus.getStyle());
+        assertEquals(STYLE_UNPAID, unpaidStatus.getStyle());
     }
 
     @Test
