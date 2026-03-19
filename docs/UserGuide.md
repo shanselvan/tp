@@ -114,6 +114,12 @@ Sets the payment status of an order to '$ PAID'.
 
 Format: `paid INDEX`
 
+### Marking an order as unpaid: `unpaid`
+
+Sets the payment status of an order to '$ UNPAID'.
+
+Format: `unpaid INDEX`
+
 ### Editing an order : `edit`
 
 Edits an existing order in the order list.
@@ -143,7 +149,7 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only the name is searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
-* orders matching at least one keyword will be returned (i.e. `OR` search).
+* Orders matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 
 Examples:
@@ -151,7 +157,7 @@ Examples:
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
-### Deleting a order : `delete`
+### Deleting an order : `delete`
 
 Deletes the specified order from the address book.
 
@@ -220,6 +226,7 @@ Action | Format, Examples
 **Mark Complete** | `complete INDEX` <br> e.g., `complete 4`
 **Mark In Progress** | `in_progress INDEX` <br> e.g., `in_progress 2`
 **Paid** | `paid INDEX` <br> e.g., `paid 1`
+**Unpaid** | `unpaid INDEX` <br> e.g., `unpaid 1`
 **Edit** | `edit INDEX [f/FOOD] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​ [m/PAYMENT METHOD] [r/PAYMENT REF] [b/BANK NAME] [w/WALLET PROVIDER]`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
