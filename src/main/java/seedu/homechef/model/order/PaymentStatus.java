@@ -10,9 +10,10 @@ import java.util.Arrays;
  */
 public enum PaymentStatus {
     PAID("Paid"),
+    PARTIAL("Partial"),
     UNPAID("Unpaid");
 
-    public static final String MESSAGE_CONSTRAINTS = "Payment status must be 'Paid' or 'Unpaid'";
+    public static final String MESSAGE_CONSTRAINTS = "Payment status must be 'Paid', 'Partial', or 'Unpaid'";
 
     public final String displayValue;
 

@@ -143,11 +143,19 @@
 }
 
 .completion_status_label_in_progress {
+    -fx-background-color: #FFBF00
+}
+
+.completion_status_label_pending {
     -fx-background-color: #808080
 }
 
 .payment_status_label_paid {
     -fx-background-color: #81d667;
+}
+
+.payment_status_label_partial {
+    -fx-background-color: #FFBF00;
 }
 
 .payment_status_label_unpaid {

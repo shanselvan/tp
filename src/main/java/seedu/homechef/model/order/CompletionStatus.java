@@ -9,10 +9,11 @@ import java.util.Arrays;
  * Represents an Order's completion status in HomeChef.
  */
 public enum CompletionStatus {
+    PENDING("Pending"),
     IN_PROGRESS("In Progress"),
     COMPLETED("Completed");
 
-    public static final String MESSAGE_CONSTRAINTS = "Completion status must be 'In progress' or 'Completed'";
+    public static final String MESSAGE_CONSTRAINTS = "Completion status must be 'Pending', 'In progress' or 'Completed'";
 
     private final String displayValue;
 
