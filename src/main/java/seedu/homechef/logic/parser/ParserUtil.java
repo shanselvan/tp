@@ -271,6 +271,12 @@ public class ParserUtil {
         return Optional.of(paymentInfo);
     }
 
+    /**
+     * Parses a {@code String raw} into a {@code CompletionStatus}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code raw} is invalid.
+     */
     public static CompletionStatus parseCompletionStatus(String raw) throws ParseException {
         requireNonNull(raw);
         String normalized = raw.trim().toLowerCase().replace('-', '_');
@@ -291,6 +297,12 @@ public class ParserUtil {
         }
     }
 
+    /**
+     * Parses a {@code String raw} into a {@code PaymentStatus}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code raw} is invalid.
+     */
     public static PaymentStatus parsePaymentStatus(String raw) throws ParseException {
         requireNonNull(raw);
         String normalized = raw.trim().toLowerCase();

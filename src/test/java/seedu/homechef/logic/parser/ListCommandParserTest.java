@@ -7,7 +7,9 @@ import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseSucce
 import org.junit.jupiter.api.Test;
 
 import seedu.homechef.logic.commands.ListCommand;
+import seedu.homechef.model.order.CompletionStatus;
 import seedu.homechef.model.order.Date;
+import seedu.homechef.model.order.PaymentStatus;
 
 public class ListCommandParserTest {
 
@@ -41,26 +43,18 @@ public class ListCommandParserTest {
     }
 
     @Test
-    public void parse_validCustomer_success() {
-        ListCommand.ListFilterDescriptor d = new ListCommand.ListFilterDescriptor();
-        d.setCustomerQuery("alice");
-        assertParseSuccess(parser, " c/alice", new ListCommand(d));
-    }
-
-    @Test
-    public void parse_validFood_success() {
-        ListCommand.ListFilterDescriptor d = new ListCommand.ListFilterDescriptor();
-        d.setFoodQuery("cake");
-        assertParseSuccess(parser, " f/cake", new ListCommand(d));
-    }
-
-    @Test
     public void parse_validMultipleFilters_success() {
         ListCommand.ListFilterDescriptor d = new ListCommand.ListFilterDescriptor();
         d.setDate(new Date("16-04-2003"));
         d.setCustomerQuery("alice");
         d.setFoodQuery("cake");
-        assertParseSuccess(parser, " d/16-04-2003 c/alice f/cake", new ListCommand(d));
+        d.setPhoneQuery("9435");
+        d.setCompletionStatus(new CompletionStatus("In progress"));
+        d.setPaymentStatus(new PaymentStatus(true));
+
+        assertParseSuccess(parser,
+                " d/16-04-2003 c/alice f/cake p/9435 cs/in_progress ps/paid",
+                new ListCommand(d));
     }
 
     @Test
@@ -76,17 +70,20 @@ public class ListCommandParserTest {
     }
 
     @Test
-    public void parse_validPhone_success() {
-        ListCommand.ListFilterDescriptor d = new ListCommand.ListFilterDescriptor();
-        d.setPhoneQuery("9435");
-        assertParseSuccess(parser, " p/9435", new ListCommand(d));
+    public void parse_invalidCompletionStatus_failure() {
+        assertParseFailure(parser, " cs/zzz", CompletionStatus.MESSAGE_CONSTRAINTS);
     }
 
     @Test
-    public void parse_emptyPhone_failure() {
-        assertParseFailure(parser, " p/",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
+    public void parse_validPaymentStatus_success() {
+        ListCommand.ListFilterDescriptor d = new ListCommand.ListFilterDescriptor();
+        d.setPaymentStatus(new PaymentStatus(true));
+        assertParseSuccess(parser, " ps/paid", new ListCommand(d));
     }
 
+    @Test
+    public void parse_invalidPaymentStatus_failure() {
+        assertParseFailure(parser, " ps/zzz", PaymentStatus.MESSAGE_CONSTRAINTS);
+    }
 
 }

@@ -27,15 +27,15 @@ public class ModelManager implements Model {
 
     private static final Comparator<Order> DEFAULT_ORDER_COMPARATOR = (a, b) -> {
         int statusRankA = switch (a.getCompletionStatus().value) {
-            case IN_PROGRESS-> 0;
-            case COMPLETED -> 1;
-            default -> 2;
+        case IN_PROGRESS -> 0;
+        case COMPLETED -> 1;
+        default -> 2;
         };
 
         int statusRankB = switch (b.getCompletionStatus().value) {
-            case IN_PROGRESS-> 0;
-            case COMPLETED -> 1;
-            default -> 2;
+        case IN_PROGRESS -> 0;
+        case COMPLETED -> 1;
+        default -> 2;
         };
 
         int statusCmp = Integer.compare(statusRankA, statusRankB);

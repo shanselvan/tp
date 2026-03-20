@@ -14,8 +14,10 @@ import org.junit.jupiter.api.Test;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.ModelManager;
 import seedu.homechef.model.UserPrefs;
+import seedu.homechef.model.order.CompletionStatus;
 import seedu.homechef.model.order.Date;
 import seedu.homechef.model.order.Order;
+import seedu.homechef.model.order.PaymentStatus;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for ListCommand.
@@ -54,28 +56,6 @@ public class ListCommandTest {
     }
 
     @Test
-    public void execute_withCustomerFilter_filtersList() {
-        ListCommand.ListFilterDescriptor d = new ListCommand.ListFilterDescriptor();
-        d.setCustomerQuery("Alice");
-
-        expectedModel.updateFilteredOrderList(order ->
-                order.getCustomer().fullName.toLowerCase().contains("alice"));
-
-        assertCommandSuccess(new ListCommand(d), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
-    }
-
-    @Test
-    public void execute_withFoodFilter_filtersList() {
-        ListCommand.ListFilterDescriptor d = new ListCommand.ListFilterDescriptor();
-        d.setFoodQuery("Cake");
-
-        expectedModel.updateFilteredOrderList(order ->
-                order.getFood().foodName.toLowerCase().contains("cake"));
-
-        assertCommandSuccess(new ListCommand(d), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
-    }
-
-    @Test
     public void execute_withMultipleFilters_filtersList() {
         Date target = new Date("26-03-2026");
 
@@ -91,12 +71,23 @@ public class ListCommandTest {
     }
 
     @Test
-    public void execute_withPhoneFilter_filtersList() {
+    public void execute_withCompletionStatusFilter_filtersList() {
         ListCommand.ListFilterDescriptor d = new ListCommand.ListFilterDescriptor();
-        d.setPhoneQuery("9435");
+        d.setCompletionStatus(new CompletionStatus("Completed"));
 
         expectedModel.updateFilteredOrderList(order ->
-                order.getPhone().toString().toLowerCase().contains("9435"));
+                order.getCompletionStatus().equals(new CompletionStatus("Completed")));
+
+        assertCommandSuccess(new ListCommand(d), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
+    }
+
+    @Test
+    public void execute_withPaymentStatusFilter_filtersList() {
+        ListCommand.ListFilterDescriptor d = new ListCommand.ListFilterDescriptor();
+        d.setPaymentStatus(new PaymentStatus(true)); // paid
+
+        expectedModel.updateFilteredOrderList(order ->
+                order.getPaymentStatus().equals(new PaymentStatus(true)));
 
         assertCommandSuccess(new ListCommand(d), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
     }
