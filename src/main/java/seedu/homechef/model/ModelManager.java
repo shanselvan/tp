@@ -2,6 +2,8 @@ package seedu.homechef.model;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.homechef.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.homechef.model.order.CompletionStatusEnum.COMPLETED;
+import static seedu.homechef.model.order.CompletionStatusEnum.IN_PROGRESS;
 
 import java.nio.file.Path;
 import java.time.LocalDate;
@@ -18,11 +20,29 @@ import seedu.homechef.model.order.Order;
 
 /**
  * Represents the in-memory model of the HomeChef data.
+ * List sorts orders in the order of completion status, date, customer name and food name.
  */
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private static final Comparator<Order> DEFAULT_ORDER_COMPARATOR = (a, b) -> {
+        int statusRankA = switch (a.getCompletionStatus().value) {
+            case IN_PROGRESS-> 0;
+            case COMPLETED -> 1;
+            default -> 2;
+        };
+
+        int statusRankB = switch (b.getCompletionStatus().value) {
+            case IN_PROGRESS-> 0;
+            case COMPLETED -> 1;
+            default -> 2;
+        };
+
+        int statusCmp = Integer.compare(statusRankA, statusRankB);
+        if (statusCmp != 0) {
+            return statusCmp;
+        }
+
         LocalDate da = a.getDate().value;
         LocalDate db = b.getDate().value;
 

@@ -96,21 +96,34 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void getFilteredOrderList_sortedByDateAscending() {
-        Order later = new OrderBuilder().withCustomer("Zed").withFood("Cake").withPhone("99999999")
-                .withEmail("z@example.com").withAddress("addr").withDate("20-04-2026").build();
-        Order earlier = new OrderBuilder().withCustomer("Amy").withFood("Bread").withPhone("11111111")
-                .withEmail("a@example.com").withAddress("addr").withDate("01-04-2026").build();
-        Order middle = new OrderBuilder().withCustomer("Bob").withFood("Pie").withPhone("22222222")
-                .withEmail("b@example.com").withAddress("addr").withDate("10-04-2026").build();
+    public void getFilteredOrderList_sortedByCompletionStatusThenDate() {
+        Order completedEarly = new OrderBuilder().withCustomer("Cody").withFood("Cake").withPhone("99999999")
+                .withEmail("c@example.com").withAddress("addr").withDate("01-04-2026")
+                .withCompletionStatus("Completed")
+                .build();
 
-        HomeChef homeChef = new HomeChefBuilder().withOrder(later).withOrder(earlier).withOrder(middle).build();
+        Order inProgressLate = new OrderBuilder().withCustomer("Ivy").withFood("Bread").withPhone("11111111")
+                .withEmail("i@example.com").withAddress("addr").withDate("20-04-2026")
+                .withCompletionStatus("In progress")
+                .build();
+
+        Order inProgressEarly = new OrderBuilder().withCustomer("Amy").withFood("Pie").withPhone("22222222")
+                .withEmail("a@example.com").withAddress("addr").withDate("10-04-2026")
+                .withCompletionStatus("In progress")
+                .build();
+
+        HomeChef homeChef = new HomeChefBuilder()
+                .withOrder(completedEarly)
+                .withOrder(inProgressLate)
+                .withOrder(inProgressEarly)
+                .build();
         modelManager = new ModelManager(homeChef, new UserPrefs());
 
-        assertEquals(earlier, modelManager.getFilteredOrderList().get(0));
-        assertEquals(middle, modelManager.getFilteredOrderList().get(1));
-        assertEquals(later, modelManager.getFilteredOrderList().get(2));
+        assertEquals(inProgressEarly, modelManager.getFilteredOrderList().get(0));
+        assertEquals(inProgressLate, modelManager.getFilteredOrderList().get(1));
+        assertEquals(completedEarly, modelManager.getFilteredOrderList().get(2));
     }
+
 
     @Test
     public void getFilteredOrderList_sameDate_tieBreakByCustomerThenFood() {
