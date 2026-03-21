@@ -9,10 +9,13 @@ import java.util.regex.Pattern;
 
 import seedu.homechef.commons.core.LogsCenter;
 import seedu.homechef.logic.commands.AddCommand;
+import seedu.homechef.logic.commands.AddMenuCommand;
 import seedu.homechef.logic.commands.ClearCommand;
 import seedu.homechef.logic.commands.Command;
 import seedu.homechef.logic.commands.DeleteCommand;
+import seedu.homechef.logic.commands.DeleteMenuCommand;
 import seedu.homechef.logic.commands.EditCommand;
+import seedu.homechef.logic.commands.EditMenuCommand;
 import seedu.homechef.logic.commands.ExitCommand;
 import seedu.homechef.logic.commands.FindCommand;
 import seedu.homechef.logic.commands.HelpCommand;
@@ -92,6 +95,15 @@ public class HomeChefParser {
 
         case UnpaidCommand.COMMAND_WORD:
             return new UnpaidCommandParser().parse(arguments);
+
+        case AddMenuCommand.COMMAND_WORD:
+            return new AddMenuCommandParser().parse(arguments);
+
+        case EditMenuCommand.COMMAND_WORD:
+            return new EditMenuCommandParser().parse(arguments);
+
+        case DeleteMenuCommand.COMMAND_WORD:
+            return new DeleteMenuCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);
