@@ -72,6 +72,9 @@ public class MainWindow extends UiPart<Stage> {
         helpWindow = new HelpWindow();
     }
 
+    /**
+     * Returns the primary stage of this window.
+     */
     public Stage getPrimaryStage() {
         return primaryStage;
     }
@@ -111,7 +114,7 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Fills up all the placeholders of this window.
+     * Fills up all the placeholders of this window with their respective UI parts.
      */
     void fillInnerParts() {
         orderListPanel = new OrderListPanel(logic.getFilteredOrderList());
@@ -154,6 +157,9 @@ public class MainWindow extends UiPart<Stage> {
         }
     }
 
+    /**
+     * Shows the main window.
+     */
     void show() {
         primaryStage.show();
     }
@@ -170,6 +176,9 @@ public class MainWindow extends UiPart<Stage> {
         primaryStage.hide();
     }
 
+    /**
+     * Returns the order list panel.
+     */
     public OrderListPanel getOrderListPanel() {
         return orderListPanel;
     }

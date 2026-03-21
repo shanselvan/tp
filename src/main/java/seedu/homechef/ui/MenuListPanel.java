@@ -33,7 +33,7 @@ public class MenuListPanel extends UiPart<Region> {
     /**
      * Custom {@code ListCell} that displays a {@code MenuItem} using a {@code MenuCard}.
      */
-    class MenuListViewCell extends ListCell<MenuItem> {
+    private class MenuListViewCell extends ListCell<MenuItem> {
         @Override
         protected void updateItem(MenuItem menuItem, boolean empty) {
             super.updateItem(menuItem, empty);

@@ -13,6 +13,7 @@ public class MenuCard extends UiPart<Region> {
 
     private static final String FXML = "MenuListCard.fxml";
 
+    /** The menu item displayed by this card. */
     public final MenuItem menuItem;
 
     @FXML

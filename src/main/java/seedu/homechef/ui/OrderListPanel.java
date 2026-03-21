@@ -32,7 +32,7 @@ public class OrderListPanel extends UiPart<Region> {
     /**
      * Custom {@code ListCell} that displays the graphics of a {@code Order} using a {@code OrderCard}.
      */
-    class OrderListViewCell extends ListCell<Order> {
+    private class OrderListViewCell extends ListCell<Order> {
         @Override
         protected void updateItem(Order order, boolean empty) {
             super.updateItem(order, empty);
