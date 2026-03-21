@@ -77,7 +77,7 @@ public class AddCommand extends Command {
         }
 
         String foodName = toAdd.getFood().foodName;
-        Optional<MenuItem> matchingItem = model.getFilteredMenuItemList().stream()
+        Optional<MenuItem> matchingItem = model.getMenuBook().getMenuItemList().stream()
                 .filter(item -> item.getName().fullName.equalsIgnoreCase(foodName))
                 .findFirst();
 
@@ -88,7 +88,7 @@ public class AddCommand extends Command {
                         foodName));
             }
         } else {
-            List<String> menuNames = model.getFilteredMenuItemList().stream()
+            List<String> menuNames = model.getMenuBook().getMenuItemList().stream()
                     .map(item -> item.getName().fullName)
                     .collect(Collectors.toList());
             Optional<String> suggestion = StringUtil.findClosestMatch(foodName, menuNames, 2);

@@ -47,6 +47,18 @@ public class EditMenuCommandTest {
     }
 
     @Test
+    public void execute_editName_success() throws Exception {
+        ModelStubWithMenuItemList modelStub = new ModelStubWithMenuItemList(CHICKEN);
+
+        EditMenuDescriptor descriptor = new EditMenuDescriptor();
+        descriptor.setName(new MenuItemName("Mee Goreng"));
+        CommandResult result = new EditMenuCommand(Index.fromOneBased(1), descriptor).execute(modelStub);
+
+        assertEquals(String.format(EditMenuCommand.MESSAGE_EDIT_MENU_ITEM_SUCCESS, "Mee Goreng", "5.50", true),
+                result.getFeedbackToUser());
+    }
+
+    @Test
     public void execute_editAvailability_success() throws Exception {
         ModelStubWithMenuItemList modelStub = new ModelStubWithMenuItemList(CHICKEN);
 

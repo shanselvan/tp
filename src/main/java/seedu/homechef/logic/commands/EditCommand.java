@@ -105,7 +105,7 @@ public class EditCommand extends Command {
 
         if (editOrderDescriptor.getFood().isPresent()) {
             String newFoodName = editedOrder.getFood().foodName;
-            Optional<MenuItem> matchingItem = model.getFilteredMenuItemList().stream()
+            Optional<MenuItem> matchingItem = model.getMenuBook().getMenuItemList().stream()
                     .filter(item -> item.getName().fullName.equalsIgnoreCase(newFoodName))
                     .findFirst();
 
@@ -116,7 +116,7 @@ public class EditCommand extends Command {
                             newFoodName));
                 }
             } else {
-                List<String> menuNames = model.getFilteredMenuItemList().stream()
+                List<String> menuNames = model.getMenuBook().getMenuItemList().stream()
                         .map(item -> item.getName().fullName)
                         .collect(Collectors.toList());
                 Optional<String> suggestion = StringUtil.findClosestMatch(newFoodName, menuNames, 2);

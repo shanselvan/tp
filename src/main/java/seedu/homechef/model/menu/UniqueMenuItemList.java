@@ -62,12 +62,22 @@ public class UniqueMenuItemList implements Iterable<MenuItem> {
 
     /**
      * Removes the equivalent menu item from the list.
+     * Uses {@code MenuItem#isSameMenuItem(MenuItem)} for lookup so that removal succeeds
+     * even if the availability field differs from the stored instance.
      */
     public void remove(MenuItem toRemove) {
         requireNonNull(toRemove);
-        if (!internalList.remove(toRemove)) {
+        int index = -1;
+        for (int i = 0; i < internalList.size(); i++) {
+            if (internalList.get(i).isSameMenuItem(toRemove)) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
             throw new MenuItemNotFoundException();
         }
+        internalList.remove(index);
     }
 
     public void setMenuItems(UniqueMenuItemList replacement) {

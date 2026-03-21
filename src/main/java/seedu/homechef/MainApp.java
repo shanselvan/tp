@@ -103,7 +103,7 @@ public class MainApp extends Application {
             if (!menuBookOptional.isPresent()) {
                 logger.info("Creating new menu data file.");
             }
-            initialMenuData = menuBookOptional.orElse(new MenuBook());
+            initialMenuData = menuBookOptional.orElseGet(SampleDataUtil::getSampleMenuBook);
         } catch (DataLoadingException e) {
             logger.warning("Menu data file could not be loaded. Will be starting with an empty MenuBook.");
             initialMenuData = new MenuBook();
