@@ -8,6 +8,7 @@ import seedu.homechef.logic.commands.CommandResult;
 import seedu.homechef.logic.commands.exceptions.CommandException;
 import seedu.homechef.logic.parser.exceptions.ParseException;
 import seedu.homechef.model.ReadOnlyHomeChef;
+import seedu.homechef.model.menu.MenuItem;
 import seedu.homechef.model.order.Order;
 
 /**
@@ -32,6 +33,9 @@ public interface Logic {
 
     /** Returns an unmodifiable view of the filtered list of orders */
     ObservableList<Order> getFilteredOrderList();
+
+    /** Returns an unmodifiable view of the filtered list of menu items */
+    ObservableList<MenuItem> getFilteredMenuItemList();
 
     /**
      * Returns the user prefs' HomeChef file path.

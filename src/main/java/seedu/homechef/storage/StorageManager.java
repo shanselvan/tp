@@ -10,6 +10,7 @@ import seedu.homechef.commons.exceptions.DataLoadingException;
 import seedu.homechef.model.ReadOnlyHomeChef;
 import seedu.homechef.model.ReadOnlyUserPrefs;
 import seedu.homechef.model.UserPrefs;
+import seedu.homechef.model.menu.ReadOnlyMenuBook;
 
 /**
  * Manages storage of HomeChef data in local storage.
@@ -18,13 +19,16 @@ public class StorageManager implements Storage {
 
     private static final Logger logger = LogsCenter.getLogger(StorageManager.class);
     private HomeChefStorage homeChefStorage;
+    private MenuBookStorage menuBookStorage;
     private UserPrefsStorage userPrefsStorage;
 
     /**
-     * Creates a {@code StorageManager} with the given {@code HomeChefStorage} and {@code UserPrefStorage}.
+     * Creates a {@code StorageManager} with the given storages.
      */
-    public StorageManager(HomeChefStorage homeChefStorage, UserPrefsStorage userPrefsStorage) {
+    public StorageManager(HomeChefStorage homeChefStorage, MenuBookStorage menuBookStorage,
+                          UserPrefsStorage userPrefsStorage) {
         this.homeChefStorage = homeChefStorage;
+        this.menuBookStorage = menuBookStorage;
         this.userPrefsStorage = userPrefsStorage;
     }
 
@@ -73,6 +77,35 @@ public class StorageManager implements Storage {
     public void saveHomeChef(ReadOnlyHomeChef homeChef, Path filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
         homeChefStorage.saveHomeChef(homeChef, filePath);
+    }
+
+    // ================ MenuBook methods ==============================
+
+    @Override
+    public Path getMenuBookFilePath() {
+        return menuBookStorage.getMenuBookFilePath();
+    }
+
+    @Override
+    public Optional<ReadOnlyMenuBook> readMenuBook() throws DataLoadingException {
+        return readMenuBook(menuBookStorage.getMenuBookFilePath());
+    }
+
+    @Override
+    public Optional<ReadOnlyMenuBook> readMenuBook(Path filePath) throws DataLoadingException {
+        logger.fine("Attempting to read menu data from file: " + filePath);
+        return menuBookStorage.readMenuBook(filePath);
+    }
+
+    @Override
+    public void saveMenuBook(ReadOnlyMenuBook menuBook) throws IOException {
+        saveMenuBook(menuBook, menuBookStorage.getMenuBookFilePath());
+    }
+
+    @Override
+    public void saveMenuBook(ReadOnlyMenuBook menuBook, Path filePath) throws IOException {
+        logger.fine("Attempting to write menu data to file: " + filePath);
+        menuBookStorage.saveMenuBook(menuBook, filePath);
     }
 
 }

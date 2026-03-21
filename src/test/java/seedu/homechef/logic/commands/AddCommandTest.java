@@ -172,6 +172,43 @@ public class AddCommandTest {
         public void updateFilteredOrderList(Predicate<Order> predicate) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public seedu.homechef.model.menu.ReadOnlyMenuBook getMenuBook() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasMenuItem(seedu.homechef.model.menu.MenuItem menuItem) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addMenuItem(seedu.homechef.model.menu.MenuItem menuItem) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void deleteMenuItem(seedu.homechef.model.menu.MenuItem target) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setMenuItem(seedu.homechef.model.menu.MenuItem target,
+                seedu.homechef.model.menu.MenuItem editedItem) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public javafx.collections.ObservableList<seedu.homechef.model.menu.MenuItem> getFilteredMenuItemList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateFilteredMenuItemList(
+                java.util.function.Predicate<seedu.homechef.model.menu.MenuItem> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**

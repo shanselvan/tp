@@ -14,12 +14,17 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import seedu.homechef.commons.core.GuiSettings;
 import seedu.homechef.commons.core.LogsCenter;
+import seedu.homechef.model.menu.MenuBook;
+import seedu.homechef.model.menu.MenuItem;
+import seedu.homechef.model.menu.ReadOnlyMenuBook;
 import seedu.homechef.model.order.Order;
 
 /**
  * Represents the in-memory model of the HomeChef data.
  */
 public class ModelManager implements Model {
+    public static final Predicate<MenuItem> PREDICATE_SHOW_ALL_MENU_ITEMS = unused -> true;
+
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private static final Comparator<Order> DEFAULT_ORDER_COMPARATOR = (a, b) -> {
@@ -39,30 +44,33 @@ public class ModelManager implements Model {
         return a.getFood().foodName.compareToIgnoreCase(b.getFood().foodName);
     };
 
-
     private final HomeChef homeChef;
+    private final MenuBook menuBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Order> filteredOrders;
     private final SortedList<Order> sortedOrders;
+    private final FilteredList<MenuItem> filteredMenuItems;
 
     /**
-     * Initializes a ModelManager with the given homeChef and userPrefs.
+     * Initializes a ModelManager with the given homeChef, menuBook, and userPrefs.
      */
-    public ModelManager(ReadOnlyHomeChef homeChef, ReadOnlyUserPrefs userPrefs) {
-        requireAllNonNull(homeChef, userPrefs);
+    public ModelManager(ReadOnlyHomeChef homeChef, ReadOnlyMenuBook menuBook, ReadOnlyUserPrefs userPrefs) {
+        requireAllNonNull(homeChef, menuBook, userPrefs);
 
-        logger.fine("Initializing with HomeChef: " + homeChef + " and user prefs " + userPrefs);
+        logger.fine("Initializing with HomeChef: " + homeChef + ", MenuBook: " + menuBook
+                + " and user prefs " + userPrefs);
 
         this.homeChef = new HomeChef(homeChef);
+        this.menuBook = new MenuBook(menuBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredOrders = new FilteredList<>(this.homeChef.getOrderList());
-
         sortedOrders = new SortedList<>(filteredOrders);
         sortedOrders.setComparator(DEFAULT_ORDER_COMPARATOR);
+        filteredMenuItems = new FilteredList<>(this.menuBook.getMenuItemList());
     }
 
     public ModelManager() {
-        this(new HomeChef(), new UserPrefs());
+        this(new HomeChef(), new MenuBook(), new UserPrefs());
     }
 
     //=========== UserPrefs ==================================================================================
@@ -153,6 +161,49 @@ public class ModelManager implements Model {
         filteredOrders.setPredicate(predicate);
     }
 
+    //=========== MenuBook ================================================================================
+
+    @Override
+    public ReadOnlyMenuBook getMenuBook() {
+        return menuBook;
+    }
+
+    @Override
+    public boolean hasMenuItem(MenuItem menuItem) {
+        requireNonNull(menuItem);
+        return menuBook.hasMenuItem(menuItem);
+    }
+
+    @Override
+    public void addMenuItem(MenuItem menuItem) {
+        menuBook.addMenuItem(menuItem);
+        updateFilteredMenuItemList(PREDICATE_SHOW_ALL_MENU_ITEMS);
+    }
+
+    @Override
+    public void deleteMenuItem(MenuItem target) {
+        menuBook.removeMenuItem(target);
+    }
+
+    @Override
+    public void setMenuItem(MenuItem target, MenuItem editedItem) {
+        requireAllNonNull(target, editedItem);
+        menuBook.setMenuItem(target, editedItem);
+    }
+
+    //=========== Filtered Menu Item List Accessors =============================================================
+
+    @Override
+    public ObservableList<MenuItem> getFilteredMenuItemList() {
+        return filteredMenuItems;
+    }
+
+    @Override
+    public void updateFilteredMenuItemList(Predicate<MenuItem> predicate) {
+        requireNonNull(predicate);
+        filteredMenuItems.setPredicate(predicate);
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -166,6 +217,7 @@ public class ModelManager implements Model {
 
         ModelManager otherModelManager = (ModelManager) other;
         return homeChef.equals(otherModelManager.homeChef)
+                && menuBook.equals(otherModelManager.menuBook)
                 && userPrefs.equals(otherModelManager.userPrefs)
                 && filteredOrders.equals(otherModelManager.filteredOrders);
     }

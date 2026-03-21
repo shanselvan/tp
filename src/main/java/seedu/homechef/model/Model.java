@@ -5,6 +5,8 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.homechef.commons.core.GuiSettings;
+import seedu.homechef.model.menu.MenuItem;
+import seedu.homechef.model.menu.ReadOnlyMenuBook;
 import seedu.homechef.model.order.Order;
 
 /**
@@ -84,4 +86,40 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredOrderList(Predicate<Order> predicate);
+
+    // =========== Menu ================================================================================
+
+    /**
+     * Returns the MenuBook.
+     */
+    ReadOnlyMenuBook getMenuBook();
+
+    /**
+     * Returns true if a menu item with the same identity as {@code menuItem} exists in the menu.
+     */
+    boolean hasMenuItem(MenuItem menuItem);
+
+    /**
+     * Adds the given menu item. The menu item must not already exist in the menu.
+     */
+    void addMenuItem(MenuItem menuItem);
+
+    /**
+     * Deletes the given menu item. The menu item must exist in the menu.
+     */
+    void deleteMenuItem(MenuItem target);
+
+    /**
+     * Replaces the given menu item {@code target} with {@code editedItem}.
+     * {@code target} must exist in the menu.
+     */
+    void setMenuItem(MenuItem target, MenuItem editedItem);
+
+    /** Returns an unmodifiable view of the filtered list of menu items */
+    ObservableList<MenuItem> getFilteredMenuItemList();
+
+    /**
+     * Updates the filter of the filtered menu item list to filter by the given {@code predicate}.
+     */
+    void updateFilteredMenuItemList(Predicate<MenuItem> predicate);
 }

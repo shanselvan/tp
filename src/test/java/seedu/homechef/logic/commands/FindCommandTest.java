@@ -18,14 +18,15 @@ import org.junit.jupiter.api.Test;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.ModelManager;
 import seedu.homechef.model.UserPrefs;
+import seedu.homechef.model.menu.MenuBook;
 import seedu.homechef.model.order.CustomerContainsKeywordsPredicate;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
  */
 public class FindCommandTest {
-    private Model model = new ModelManager(getTypicalHomeChef(), new UserPrefs());
-    private Model expectedModel = new ModelManager(getTypicalHomeChef(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalHomeChef(), new MenuBook(), new UserPrefs());
+    private Model expectedModel = new ModelManager(getTypicalHomeChef(), new MenuBook(), new UserPrefs());
 
     @Test
     public void equals() {

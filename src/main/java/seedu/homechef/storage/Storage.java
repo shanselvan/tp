@@ -8,11 +8,12 @@ import seedu.homechef.commons.exceptions.DataLoadingException;
 import seedu.homechef.model.ReadOnlyHomeChef;
 import seedu.homechef.model.ReadOnlyUserPrefs;
 import seedu.homechef.model.UserPrefs;
+import seedu.homechef.model.menu.ReadOnlyMenuBook;
 
 /**
  * API of the Storage component
  */
-public interface Storage extends HomeChefStorage, UserPrefsStorage {
+public interface Storage extends HomeChefStorage, MenuBookStorage, UserPrefsStorage {
 
     @Override
     Optional<UserPrefs> readUserPrefs() throws DataLoadingException;
@@ -28,5 +29,14 @@ public interface Storage extends HomeChefStorage, UserPrefsStorage {
 
     @Override
     void saveHomeChef(ReadOnlyHomeChef homeChef) throws IOException;
+
+    @Override
+    Path getMenuBookFilePath();
+
+    @Override
+    Optional<ReadOnlyMenuBook> readMenuBook() throws DataLoadingException;
+
+    @Override
+    void saveMenuBook(ReadOnlyMenuBook menuBook) throws IOException;
 
 }

@@ -15,6 +15,7 @@ import seedu.homechef.logic.parser.HomeChefParser;
 import seedu.homechef.logic.parser.exceptions.ParseException;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.ReadOnlyHomeChef;
+import seedu.homechef.model.menu.MenuItem;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.storage.Storage;
 
@@ -52,6 +53,7 @@ public class LogicManager implements Logic {
 
         try {
             storage.saveHomeChef(model.getHomeChef());
+            storage.saveMenuBook(model.getMenuBook());
         } catch (AccessDeniedException e) {
             throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
         } catch (IOException ioe) {
@@ -69,6 +71,11 @@ public class LogicManager implements Logic {
     @Override
     public ObservableList<Order> getFilteredOrderList() {
         return model.getFilteredOrderList();
+    }
+
+    @Override
+    public ObservableList<MenuItem> getFilteredMenuItemList() {
+        return model.getFilteredMenuItemList();
     }
 
     @Override

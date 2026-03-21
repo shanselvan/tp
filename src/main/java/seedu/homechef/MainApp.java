@@ -21,10 +21,14 @@ import seedu.homechef.model.ModelManager;
 import seedu.homechef.model.ReadOnlyHomeChef;
 import seedu.homechef.model.ReadOnlyUserPrefs;
 import seedu.homechef.model.UserPrefs;
+import seedu.homechef.model.menu.MenuBook;
+import seedu.homechef.model.menu.ReadOnlyMenuBook;
 import seedu.homechef.model.util.SampleDataUtil;
 import seedu.homechef.storage.HomeChefStorage;
 import seedu.homechef.storage.JsonHomeChefStorage;
+import seedu.homechef.storage.JsonMenuBookStorage;
 import seedu.homechef.storage.JsonUserPrefsStorage;
+import seedu.homechef.storage.MenuBookStorage;
 import seedu.homechef.storage.Storage;
 import seedu.homechef.storage.StorageManager;
 import seedu.homechef.storage.UserPrefsStorage;
@@ -58,7 +62,9 @@ public class MainApp extends Application {
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
         HomeChefStorage homeChefStorage = new JsonHomeChefStorage(userPrefs.getHomeChefFilePath());
-        storage = new StorageManager(homeChefStorage, userPrefsStorage);
+        MenuBookStorage menuBookStorage = new JsonMenuBookStorage(
+                userPrefs.getHomeChefFilePath().resolveSibling("menu.json"));
+        storage = new StorageManager(homeChefStorage, menuBookStorage, userPrefsStorage);
 
         model = initModelManager(storage, userPrefs);
 
@@ -90,7 +96,20 @@ public class MainApp extends Application {
             initialData = new HomeChef();
         }
 
-        return new ModelManager(initialData, userPrefs);
+        Optional<ReadOnlyMenuBook> menuBookOptional;
+        ReadOnlyMenuBook initialMenuData;
+        try {
+            menuBookOptional = storage.readMenuBook();
+            if (!menuBookOptional.isPresent()) {
+                logger.info("Creating new menu data file.");
+            }
+            initialMenuData = menuBookOptional.orElse(new MenuBook());
+        } catch (DataLoadingException e) {
+            logger.warning("Menu data file could not be loaded. Will be starting with an empty MenuBook.");
+            initialMenuData = new MenuBook();
+        }
+
+        return new ModelManager(initialData, initialMenuData, userPrefs);
     }
 
     private void initLogging(Config config) {

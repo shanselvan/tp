@@ -9,6 +9,7 @@ import seedu.homechef.model.HomeChef;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.ModelManager;
 import seedu.homechef.model.UserPrefs;
+import seedu.homechef.model.menu.MenuBook;
 
 public class ClearCommandTest {
 
@@ -22,8 +23,8 @@ public class ClearCommandTest {
 
     @Test
     public void execute_nonEmptyHomeChef_success() {
-        Model model = new ModelManager(getTypicalHomeChef(), new UserPrefs());
-        Model expectedModel = new ModelManager(getTypicalHomeChef(), new UserPrefs());
+        Model model = new ModelManager(getTypicalHomeChef(), new MenuBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(getTypicalHomeChef(), new MenuBook(), new UserPrefs());
         expectedModel.setHomeChef(new HomeChef());
 
         assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);

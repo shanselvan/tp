@@ -25,8 +25,9 @@ public class StorageManagerTest {
     @BeforeEach
     public void setUp() {
         JsonHomeChefStorage homeChefStorage = new JsonHomeChefStorage(getTempFilePath("ab"));
+        JsonMenuBookStorage menuBookStorage = new JsonMenuBookStorage(getTempFilePath("menu"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getTempFilePath("prefs"));
-        storageManager = new StorageManager(homeChefStorage, userPrefsStorage);
+        storageManager = new StorageManager(homeChefStorage, menuBookStorage, userPrefsStorage);
     }
 
     private Path getTempFilePath(String fileName) {

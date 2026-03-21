@@ -17,6 +17,7 @@ import seedu.homechef.logic.Messages;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.ModelManager;
 import seedu.homechef.model.UserPrefs;
+import seedu.homechef.model.menu.MenuBook;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentStatus;
 
@@ -26,7 +27,7 @@ import seedu.homechef.model.order.PaymentStatus;
  */
 public class UnpaidCommandTest {
 
-    private Model model = new ModelManager(getTypicalHomeChef(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalHomeChef(), new MenuBook(), new UserPrefs());
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
@@ -42,7 +43,7 @@ public class UnpaidCommandTest {
         String expectedMessage = String.format(UnpaidCommand.MESSAGE_MARK_UNPAID_SUCCESS,
                 Messages.format(editedOrder));
 
-        ModelManager expectedModel = new ModelManager(model.getHomeChef(), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getHomeChef(), new MenuBook(), new UserPrefs());
         expectedModel.setOrder(orderToEdit, editedOrder);
 
         assertCommandSuccess(unpaidCommand, model, expectedMessage, expectedModel);
@@ -72,7 +73,7 @@ public class UnpaidCommandTest {
         String expectedMessage = String.format(UnpaidCommand.MESSAGE_MARK_UNPAID_SUCCESS,
                 Messages.format(editedOrder));
 
-        Model expectedModel = new ModelManager(model.getHomeChef(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getHomeChef(), new MenuBook(), new UserPrefs());
         expectedModel.setOrder(orderToEdit, editedOrder);
 
         assertCommandSuccess(unpaidCommand, model, expectedMessage, expectedModel);

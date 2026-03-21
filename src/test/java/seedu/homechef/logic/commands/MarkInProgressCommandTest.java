@@ -18,11 +18,12 @@ import seedu.homechef.model.HomeChef;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.ModelManager;
 import seedu.homechef.model.UserPrefs;
+import seedu.homechef.model.menu.MenuBook;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.testutil.OrderBuilder;
 
 public class MarkInProgressCommandTest {
-    private Model model = new ModelManager(getTypicalHomeChef(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalHomeChef(), new MenuBook(), new UserPrefs());
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
@@ -33,7 +34,7 @@ public class MarkInProgressCommandTest {
         String expectedMessage = String.format(MarkInProgressCommand.MESSAGE_IN_PROGRESS_ORDER_SUCCESS,
                 Messages.format(orderToMark));
 
-        Model expectedModel = new ModelManager(new HomeChef(model.getHomeChef()), new UserPrefs());
+        Model expectedModel = new ModelManager(new HomeChef(model.getHomeChef()), new MenuBook(), new UserPrefs());
         expectedModel.setOrder(orderToMark, inProgressOrder);
 
         assertCommandSuccess(markInProgressCommand, model, expectedMessage, expectedModel);
@@ -58,7 +59,7 @@ public class MarkInProgressCommandTest {
         String expectedMessage = String.format(MarkInProgressCommand.MESSAGE_IN_PROGRESS_ORDER_SUCCESS,
                 Messages.format(inProgressOrder));
 
-        Model expectedModel = new ModelManager(new HomeChef(model.getHomeChef()), new UserPrefs());
+        Model expectedModel = new ModelManager(new HomeChef(model.getHomeChef()), new MenuBook(), new UserPrefs());
         expectedModel.setOrder(model.getFilteredOrderList().get(0), inProgressOrder);
 
         assertCommandSuccess(markInProgressCommand, model, expectedMessage, expectedModel);

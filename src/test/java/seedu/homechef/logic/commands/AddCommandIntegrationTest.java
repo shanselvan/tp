@@ -11,6 +11,7 @@ import seedu.homechef.logic.Messages;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.ModelManager;
 import seedu.homechef.model.UserPrefs;
+import seedu.homechef.model.menu.MenuBook;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.testutil.OrderBuilder;
 
@@ -23,14 +24,14 @@ public class AddCommandIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(getTypicalHomeChef(), new UserPrefs());
+        model = new ModelManager(getTypicalHomeChef(), new MenuBook(), new UserPrefs());
     }
 
     @Test
     public void execute_newOrder_success() {
         Order validOrder = new OrderBuilder().build();
 
-        Model expectedModel = new ModelManager(model.getHomeChef(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getHomeChef(), new MenuBook(), new UserPrefs());
         expectedModel.addOrder(validOrder);
 
         assertCommandSuccess(new AddCommand(validOrder), model,

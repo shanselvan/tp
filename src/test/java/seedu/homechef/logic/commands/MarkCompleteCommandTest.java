@@ -18,12 +18,13 @@ import seedu.homechef.model.HomeChef;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.ModelManager;
 import seedu.homechef.model.UserPrefs;
+import seedu.homechef.model.menu.MenuBook;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.testutil.OrderBuilder;
 
 
 public class MarkCompleteCommandTest {
-    private Model model = new ModelManager(getTypicalHomeChef(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalHomeChef(), new MenuBook(), new UserPrefs());
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
@@ -34,7 +35,7 @@ public class MarkCompleteCommandTest {
         String expectedMessage = String.format(MarkCompleteCommand.MESSAGE_COMPLETE_ORDER_SUCCESS,
                 Messages.format(orderToMark));
 
-        Model expectedModel = new ModelManager(new HomeChef(model.getHomeChef()), new UserPrefs());
+        Model expectedModel = new ModelManager(new HomeChef(model.getHomeChef()), new MenuBook(), new UserPrefs());
         expectedModel.setOrder(orderToMark, completedOrder);
 
         assertCommandSuccess(markCompleteCommand, model, expectedMessage, expectedModel);
@@ -59,7 +60,7 @@ public class MarkCompleteCommandTest {
         String expectedMessage = String.format(MarkCompleteCommand.MESSAGE_COMPLETE_ORDER_SUCCESS,
                 Messages.format(completedOrder));
 
-        Model expectedModel = new ModelManager(new HomeChef(model.getHomeChef()), new UserPrefs());
+        Model expectedModel = new ModelManager(new HomeChef(model.getHomeChef()), new MenuBook(), new UserPrefs());
         expectedModel.setOrder(model.getFilteredOrderList().get(0), completedOrder);
 
         assertCommandSuccess(markCompleteCommand, model, expectedMessage, expectedModel);

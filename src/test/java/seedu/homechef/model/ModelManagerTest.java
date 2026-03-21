@@ -15,6 +15,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import seedu.homechef.commons.core.GuiSettings;
+import seedu.homechef.model.menu.MenuBook;
 import seedu.homechef.model.order.CustomerContainsKeywordsPredicate;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.testutil.HomeChefBuilder;
@@ -105,7 +106,7 @@ public class ModelManagerTest {
                 .withEmail("b@example.com").withAddress("addr").withDate("10-04-2026").build();
 
         HomeChef homeChef = new HomeChefBuilder().withOrder(later).withOrder(earlier).withOrder(middle).build();
-        modelManager = new ModelManager(homeChef, new UserPrefs());
+        modelManager = new ModelManager(homeChef, new MenuBook(), new UserPrefs());
 
         assertEquals(earlier, modelManager.getFilteredOrderList().get(0));
         assertEquals(middle, modelManager.getFilteredOrderList().get(1));
@@ -122,7 +123,7 @@ public class ModelManagerTest {
                 .withEmail("b@example.com").withAddress("addr").withDate("10-04-2026").build();
 
         HomeChef homeChef = new HomeChefBuilder().withOrder(b).withOrder(a1).withOrder(a2).build();
-        modelManager = new ModelManager(homeChef, new UserPrefs());
+        modelManager = new ModelManager(homeChef, new MenuBook(), new UserPrefs());
         assertEquals(a2, modelManager.getFilteredOrderList().get(0));
         assertEquals(a1, modelManager.getFilteredOrderList().get(1));
         assertEquals(b, modelManager.getFilteredOrderList().get(2));
@@ -135,8 +136,8 @@ public class ModelManagerTest {
         UserPrefs userPrefs = new UserPrefs();
 
         // same values -> returns true
-        modelManager = new ModelManager(homeChef, userPrefs);
-        ModelManager modelManagerCopy = new ModelManager(homeChef, userPrefs);
+        modelManager = new ModelManager(homeChef, new MenuBook(), userPrefs);
+        ModelManager modelManagerCopy = new ModelManager(homeChef, new MenuBook(), userPrefs);
         assertTrue(modelManager.equals(modelManagerCopy));
 
         // same object -> returns true
@@ -149,12 +150,12 @@ public class ModelManagerTest {
         assertFalse(modelManager.equals(5));
 
         // different homeChef -> returns false
-        assertFalse(modelManager.equals(new ModelManager(differentHomeChef, userPrefs)));
+        assertFalse(modelManager.equals(new ModelManager(differentHomeChef, new MenuBook(), userPrefs)));
 
         // different filteredList -> returns false
         String[] keywords = ALICE.getCustomer().fullName.split("\\s+");
         modelManager.updateFilteredOrderList(new CustomerContainsKeywordsPredicate(Arrays.asList(keywords)));
-        assertFalse(modelManager.equals(new ModelManager(homeChef, userPrefs)));
+        assertFalse(modelManager.equals(new ModelManager(homeChef, new MenuBook(), userPrefs)));
 
         // resets modelManager to initial state for upcoming tests
         modelManager.updateFilteredOrderList(PREDICATE_SHOW_ALL_ORDERS);
@@ -162,6 +163,6 @@ public class ModelManagerTest {
         // different userPrefs -> returns false
         UserPrefs differentUserPrefs = new UserPrefs();
         differentUserPrefs.setHomeChefFilePath(Paths.get("differentFilePath"));
-        assertFalse(modelManager.equals(new ModelManager(homeChef, differentUserPrefs)));
+        assertFalse(modelManager.equals(new ModelManager(homeChef, new MenuBook(), differentUserPrefs)));
     }
 }

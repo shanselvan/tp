@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.ModelManager;
 import seedu.homechef.model.UserPrefs;
+import seedu.homechef.model.menu.MenuBook;
 import seedu.homechef.model.order.Date;
 import seedu.homechef.model.order.Order;
 
@@ -27,8 +28,8 @@ public class ListCommandTest {
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(getTypicalHomeChef(), new UserPrefs());
-        expectedModel = new ModelManager(model.getHomeChef(), new UserPrefs());
+        model = new ModelManager(getTypicalHomeChef(), new MenuBook(), new UserPrefs());
+        expectedModel = new ModelManager(model.getHomeChef(), new MenuBook(), new UserPrefs());
     }
 
     @Test

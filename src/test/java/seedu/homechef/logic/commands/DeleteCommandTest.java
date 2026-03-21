@@ -17,6 +17,7 @@ import seedu.homechef.logic.Messages;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.ModelManager;
 import seedu.homechef.model.UserPrefs;
+import seedu.homechef.model.menu.MenuBook;
 import seedu.homechef.model.order.Order;
 
 /**
@@ -25,7 +26,7 @@ import seedu.homechef.model.order.Order;
  */
 public class DeleteCommandTest {
 
-    private Model model = new ModelManager(getTypicalHomeChef(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalHomeChef(), new MenuBook(), new UserPrefs());
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
@@ -35,7 +36,7 @@ public class DeleteCommandTest {
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_ORDER_SUCCESS,
                 Messages.format(orderToDelete));
 
-        ModelManager expectedModel = new ModelManager(model.getHomeChef(), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getHomeChef(), new MenuBook(), new UserPrefs());
         expectedModel.deleteOrder(orderToDelete);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
@@ -59,7 +60,7 @@ public class DeleteCommandTest {
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_ORDER_SUCCESS,
                 Messages.format(orderToDelete));
 
-        Model expectedModel = new ModelManager(model.getHomeChef(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getHomeChef(), new MenuBook(), new UserPrefs());
         expectedModel.deleteOrder(orderToDelete);
         showNoOrder(expectedModel);
 
