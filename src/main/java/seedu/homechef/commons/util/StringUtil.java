@@ -6,6 +6,8 @@ import static seedu.homechef.commons.util.AppUtil.checkArgument;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Helper functions for handling strings.
@@ -64,5 +66,64 @@ public class StringUtil {
         } catch (NumberFormatException nfe) {
             return false;
         }
+    }
+
+    /**
+     * Returns the closest matching string from {@code candidates} to {@code input}
+     * within the given {@code maxDistance} (Levenshtein distance, case-insensitive).
+     * Returns {@code Optional.empty()} if no candidate is within the distance.
+     *
+     * @param input the string to match against; cannot be null
+     * @param candidates the list of candidates; cannot be null
+     * @param maxDistance the maximum edit distance to consider a match
+     */
+    public static Optional<String> findClosestMatch(String input, List<String> candidates, int maxDistance) {
+        requireNonNull(input);
+        requireNonNull(candidates);
+
+        String lowerInput = input.toLowerCase();
+        String bestMatch = null;
+        int bestDistance = maxDistance + 1;
+
+        for (String candidate : candidates) {
+            int dist = levenshtein(lowerInput, candidate.toLowerCase());
+            if (dist < bestDistance) {
+                bestDistance = dist;
+                bestMatch = candidate;
+            }
+        }
+
+        return bestDistance <= maxDistance ? Optional.of(bestMatch) : Optional.empty();
+    }
+
+    /**
+     * Computes the Levenshtein edit distance between two strings.
+     *
+     * @param a first string; cannot be null
+     * @param b second string; cannot be null
+     * @return the minimum number of single-character edits to transform {@code a} into {@code b}
+     */
+    private static int levenshtein(String a, String b) {
+        int m = a.length();
+        int n = b.length();
+        int[][] dp = new int[m + 1][n + 1];
+
+        for (int i = 0; i <= m; i++) {
+            dp[i][0] = i;
+        }
+        for (int j = 0; j <= n; j++) {
+            dp[0][j] = j;
+        }
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (a.charAt(i - 1) == b.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = 1 + Math.min(dp[i - 1][j - 1],
+                            Math.min(dp[i - 1][j], dp[i][j - 1]));
+                }
+            }
+        }
+        return dp[m][n];
     }
 }

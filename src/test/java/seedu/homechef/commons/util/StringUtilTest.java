@@ -1,10 +1,13 @@
 package seedu.homechef.commons.util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.homechef.testutil.Assert.assertThrows;
 
 import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
@@ -138,6 +141,44 @@ public class StringUtilTest {
     @Test
     public void getDetails_nullGiven_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> StringUtil.getDetails(null));
+    }
+
+    //---------------- Tests for findClosestMatch --------------------------------------
+
+    @Test
+    public void findClosestMatch_exactMatch_returnsMatch() {
+        List<String> candidates = List.of("Chicken Rice", "Nasi Goreng");
+        assertEquals(Optional.of("Chicken Rice"),
+                StringUtil.findClosestMatch("Chicken Rice", candidates, 2));
+    }
+
+    @Test
+    public void findClosestMatch_typo_returnsCandidate() {
+        List<String> candidates = List.of("Chicken Rice", "Nasi Goreng");
+        // "Chiken Rice" is distance 1 from "Chicken Rice"
+        assertEquals(Optional.of("Chicken Rice"),
+                StringUtil.findClosestMatch("Chiken Rice", candidates, 2));
+    }
+
+    @Test
+    public void findClosestMatch_beyondDistance_returnsEmpty() {
+        List<String> candidates = List.of("Chicken Rice");
+        // "Pizza" is far from "Chicken Rice"
+        assertEquals(Optional.empty(),
+                StringUtil.findClosestMatch("Pizza", candidates, 2));
+    }
+
+    @Test
+    public void findClosestMatch_emptyList_returnsEmpty() {
+        assertEquals(Optional.empty(),
+                StringUtil.findClosestMatch("Chicken Rice", List.of(), 2));
+    }
+
+    @Test
+    public void findClosestMatch_caseInsensitive_returnsMatch() {
+        List<String> candidates = List.of("Chicken Rice");
+        assertEquals(Optional.of("Chicken Rice"),
+                StringUtil.findClosestMatch("chicken rice", candidates, 2));
     }
 
 }
