@@ -6,9 +6,16 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import java.lang.Double?>
+
 <HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <fx:define>
+        <Double fx:id="ICON_HEIGHT" fx:value="15.0"/>
+        <Double fx:id="ICON_WIDTH" fx:value="15.0"/>
+    </fx:define>
     <GridPane HBox.hgrow="ALWAYS">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="150"/>
@@ -28,12 +35,27 @@
                 <Label fx:id="completionStatus" styleClass="cell_status_label" text="\$completionStatus"/>
                 <Label fx:id="paymentStatus" styleClass="cell_status_label" text="\$paymentStatus"/>
             </HBox>
+            <HBox spacing="4" alignment="CENTER_LEFT">
+                <ImageView fx:id="dateDisplayIcon" fitHeight="$ICON_HEIGHT" fitWidth="$ICON_WIDTH" pickOnBounds="true" preserveRatio="true" />
+                <Label fx:id="date" styleClass="cell_small_label" text="\$date"/>
+            </HBox>
             <FlowPane fx:id="dietTags"/>
-            <Label fx:id="customer" styleClass="cell_small_label" text="\$customer"/>
-            <Label fx:id="phone" styleClass="cell_small_label" text="\$phone"/>
-            <Label fx:id="address" styleClass="cell_small_label" text="\$address"/>
-            <Label fx:id="date" styleClass="cell_small_label" text="\$date"/>
-            <Label fx:id="email" styleClass="cell_small_label" text="\$email"/>
+            <HBox spacing="4" alignment="CENTER_LEFT">
+                <ImageView fx:id="customerDisplayIcon" fitHeight="$ICON_HEIGHT" fitWidth="$ICON_WIDTH" pickOnBounds="true" preserveRatio="true" />
+                <Label fx:id="customer" styleClass="cell_small_label" text="\$customer"/>
+            </HBox>
+            <HBox spacing="4" alignment="CENTER_LEFT">
+                <ImageView fx:id="phoneDisplayIcon" fitHeight="$ICON_HEIGHT" fitWidth="$ICON_WIDTH" pickOnBounds="true" preserveRatio="true" />
+                <Label fx:id="phone" styleClass="cell_small_label" text="\$phone"/>
+            </HBox>
+            <HBox spacing="4" alignment="CENTER_LEFT">
+                <ImageView fx:id="addressDisplayIcon" fitHeight="$ICON_HEIGHT" fitWidth="$ICON_WIDTH" pickOnBounds="true" preserveRatio="true" />
+                <Label fx:id="address" styleClass="cell_small_label" text="\$address"/>
+            </HBox>
+            <HBox spacing="4" alignment="CENTER_LEFT">
+                <ImageView fx:id="emailDisplayIcon" fitHeight="$ICON_HEIGHT" fitWidth="$ICON_WIDTH" pickOnBounds="true" preserveRatio="true" />
+                <Label fx:id="email" styleClass="cell_small_label" text="\$email"/>
+            </HBox>
             <Label fx:id="paymentInfo" styleClass="cell_small_label"/>
         </VBox>
     </GridPane>

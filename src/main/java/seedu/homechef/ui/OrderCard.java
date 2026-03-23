@@ -4,11 +4,19 @@ import java.util.Comparator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.CompletionStatus;
+import seedu.homechef.model.order.Customer;
+import seedu.homechef.model.order.Date;
+import seedu.homechef.model.order.Email;
+import seedu.homechef.model.order.Food;
 import seedu.homechef.model.order.Order;
+import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.PaymentStatus;
 
 /**
@@ -18,6 +26,11 @@ public class OrderCard extends UiPart<Region> {
 
     private static final String FXML = "OrderListCard.fxml";
 
+    private static final String PENDING_SYMBOL = "◯";
+    private static final String IN_PROGRESS_SYMBOL = "◎";
+    private static final String COMPLETED_SYMBOL = "⬤";
+    private static final String PAYMENT_SYMBOL = "$";
+
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
      * As a consequence, UI elements' variable names cannot be set to such keywords
@@ -25,27 +38,38 @@ public class OrderCard extends UiPart<Region> {
      *
      * @see <a href="https://github.com/se-edu/homechef-level4/issues/336">The issue on HomeChef level 4</a>
      */
-    private static final String PENDING_SYMBOL = "◯";
-    private static final String IN_PROGRESS_SYMBOL = "◎";
-    private static final String COMPLETED_SYMBOL = "⬤";
-    private static final String PAYMENT_SYMBOL = "$";
 
     public final Order order;
+    private final Image customerIcon = new Image(this.getClass().getResourceAsStream("/images/customer.png"));
+    private final Image phoneIcon = new Image(this.getClass().getResourceAsStream("/images/phone.png"));
+    private final Image addressIcon = new Image(this.getClass().getResourceAsStream("/images/address.png"));
+    private final Image dateIcon = new Image(this.getClass().getResourceAsStream("/images/date.png"));
+    private final Image emailIcon = new Image(this.getClass().getResourceAsStream("/images/email.png"));
 
     @FXML
     private HBox cardPane;
     @FXML
     private Label food;
     @FXML
+    private ImageView customerDisplayIcon;
+    @FXML
     private Label customer;
     @FXML
     private Label id;
     @FXML
+    private ImageView phoneDisplayIcon;
+    @FXML
     private Label phone;
+    @FXML
+    private ImageView addressDisplayIcon;
     @FXML
     private Label address;
     @FXML
+    private ImageView dateDisplayIcon;
+    @FXML
     private Label date;
+    @FXML
+    private ImageView emailDisplayIcon;
     @FXML
     private Label email;
     @FXML
@@ -63,15 +87,15 @@ public class OrderCard extends UiPart<Region> {
     public OrderCard(Order order, int displayedIndex) {
         super(FXML);
         this.order = order;
-        id.setText(displayedIndex + ". ");
-        food.setText(order.getFood().foodName);
-        customer.setText(order.getCustomer().fullName);
-        phone.setText(order.getPhone().value);
-        address.setText(order.getAddress().value);
-        date.setText(order.getDate().toString());
-        email.setText(order.getEmail().value);
-        setCompletionStatusLabel(order.getCompletionStatus());
-        setPaymentStatusLabel(order.getPaymentStatus());
+        setIdDisplay(displayedIndex);
+        setFoodDisplay(order.getFood());
+        setCustomerDisplay(order.getCustomer());
+        setPhoneDisplay(order.getPhone());
+        setAddressDisplay(order.getAddress());
+        setDateDisplay(order.getDate());
+        setEmailDisplay(order.getEmail());
+        setCompletionStatusDisplay(order.getCompletionStatus());
+        setPaymentStatusDisplay(order.getPaymentStatus());
         order.getPaymentInfo().ifPresentOrElse(
                 info -> paymentInfo.setText("Payment: " + info.toString()), () -> {
                     paymentInfo.setVisible(false);
@@ -82,7 +106,40 @@ public class OrderCard extends UiPart<Region> {
                 .forEach(tag -> dietTags.getChildren().add(new Label(tag.tagName)));
     }
 
-    private void setCompletionStatusLabel(CompletionStatus status) {
+    private void setIdDisplay(int index) {
+        this.id.setText(index + ". ");
+    }
+
+    private void setFoodDisplay(Food food) {
+        this.food.setText(food.foodName);
+    }
+
+    private void setCustomerDisplay(Customer customer) {
+        customerDisplayIcon.setImage(customerIcon);
+        this.customer.setText(customer.fullName);
+    }
+
+    private void setPhoneDisplay(Phone phone) {
+        phoneDisplayIcon.setImage(phoneIcon);
+        this.phone.setText(phone.value);
+    }
+
+    private void setAddressDisplay(Address address) {
+        addressDisplayIcon.setImage(addressIcon);
+        this.address.setText(address.value);
+    }
+
+    private void setDateDisplay(Date date) {
+        dateDisplayIcon.setImage(dateIcon);
+        this.date.setText(date.toString());
+    }
+
+    private void setEmailDisplay(Email email) {
+        emailDisplayIcon.setImage(emailIcon);
+        this.email.setText(email.value);
+    }
+
+    private void setCompletionStatusDisplay(CompletionStatus status) {
         assert status != null;
 
         switch (status) {
@@ -103,8 +160,9 @@ public class OrderCard extends UiPart<Region> {
         }
     }
 
-    private void setPaymentStatusLabel(PaymentStatus status) {
+    private void setPaymentStatusDisplay(PaymentStatus status) {
         assert status != null;
+
         paymentStatus.setText(PAYMENT_SYMBOL + " " + status);
         switch (status) {
         case PAID:
