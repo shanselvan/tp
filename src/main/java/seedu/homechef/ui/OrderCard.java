@@ -10,6 +10,7 @@ import javafx.scene.layout.Region;
 import seedu.homechef.model.order.CompletionStatus;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentStatus;
+import seedu.homechef.model.order.Price;
 
 /**
  * An UI component that displays information of a {@code Order}.
@@ -30,6 +31,8 @@ public class OrderCard extends UiPart<Region> {
     private static final String COMPLETED_SYMBOL = "⬤";
     private static final String PAYMENT_SYMBOL = "$";
 
+    private static final String PRICE_SYMBOL = "$";
+
     public final Order order;
 
     @FXML
@@ -48,6 +51,8 @@ public class OrderCard extends UiPart<Region> {
     private Label date;
     @FXML
     private Label email;
+    @FXML
+    private Label price;
     @FXML
     private Label paymentInfo;
     @FXML
@@ -70,6 +75,7 @@ public class OrderCard extends UiPart<Region> {
         address.setText(order.getAddress().value);
         date.setText(order.getDate().toString());
         email.setText(order.getEmail().value);
+        setPriceLabel();
         setCompletionStatusLabel(order.getCompletionStatus());
         setPaymentStatusLabel(order.getPaymentStatus());
         order.getPaymentInfo().ifPresentOrElse(
@@ -116,5 +122,11 @@ public class OrderCard extends UiPart<Region> {
         default:
             // Do nothing
         }
+    }
+
+    private void setPriceLabel() {
+        String orderPrice = order.getPrice().value;
+        String priceLabel = "Total: " + PRICE_SYMBOL +  orderPrice;
+        price.setText(priceLabel);
     }
 }
