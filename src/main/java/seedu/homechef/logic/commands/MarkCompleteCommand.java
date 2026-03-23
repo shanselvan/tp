@@ -22,6 +22,7 @@ import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentStatus;
 import seedu.homechef.model.order.Phone;
+import seedu.homechef.model.order.Price;
 import seedu.homechef.model.tag.DietTag;
 
 /**
@@ -77,10 +78,11 @@ public class MarkCompleteCommand extends Command {
         CompletionStatus updatedCompletionStatus = CompletionStatus.COMPLETED;
         PaymentStatus paymentStatus = orderToMarkComplete.getPaymentStatus();
         Set<DietTag> dietTags = orderToMarkComplete.getTags();
+        Price price = orderToMarkComplete.getPrice();
         Optional<PaymentInfo> paymentInfo = orderToMarkComplete.getPaymentInfo();
 
         return new Order(food, customer, phone,
-                email, address, date, updatedCompletionStatus, paymentStatus, dietTags, paymentInfo);
+                email, address, date, updatedCompletionStatus, paymentStatus, dietTags, price, paymentInfo);
     }
 
     @Override

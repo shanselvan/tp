@@ -22,6 +22,7 @@ import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentStatus;
 import seedu.homechef.model.order.Phone;
+import seedu.homechef.model.order.Price;
 import seedu.homechef.model.tag.DietTag;
 
 /**
@@ -78,10 +79,11 @@ public class MarkInProgressCommand extends Command {
         CompletionStatus updatedCompletionStatus = CompletionStatus.IN_PROGRESS;
         PaymentStatus paymentStatus = orderToMarkInProgress.getPaymentStatus();
         Set<DietTag> dietTags = orderToMarkInProgress.getTags();
+        Price price = orderToMarkInProgress.getPrice();
         Optional<PaymentInfo> paymentInfo = orderToMarkInProgress.getPaymentInfo();
 
         return new Order(food, customer, phone,
-                email, address, date, updatedCompletionStatus, paymentStatus, dietTags, paymentInfo);
+                email, address, date, updatedCompletionStatus, paymentStatus, dietTags, price, paymentInfo);
     }
 
     @Override
