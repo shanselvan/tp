@@ -25,11 +25,16 @@ public class Price {
     public Price(String price) {
         requireNonNull(price);
         checkArgument(isValidPrice(price), MESSAGE_CONSTRAINTS);
-        value = price;
+        this.value = formatToTwoDecimalPlaces(price);
     }
 
     public static boolean isValidPrice(String test) {
         return test.matches(VALIDATION_REGEX);
+    }
+
+    private static String formatToTwoDecimalPlaces(String price) {
+        double parsedPrice = Double.parseDouble(price);
+        return String.format("%.2f", parsedPrice);
     }
 
     @Override
