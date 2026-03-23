@@ -13,7 +13,7 @@ public class CliSyntax {
     public static final Prefix PREFIX_ADDRESS = new Prefix("a/");
     public static final Prefix PREFIX_DATE = new Prefix("d/");
     public static final Prefix PREFIX_TAG = new Prefix("t/");
-    public static final Prefix PREFIX_PRICE = new Prefix("pr/");
+    public static final Prefix PREFIX_ORDER_PRICE = new Prefix("pr/");
     public static final Prefix PREFIX_PAYMENT_METHOD = new Prefix("m/");
     public static final Prefix PREFIX_PAYMENT_REF = new Prefix("r/");
     public static final Prefix PREFIX_BANK_NAME = new Prefix("b/");
