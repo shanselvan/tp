@@ -94,6 +94,10 @@ public class Order {
         return paymentStatus;
     }
 
+    public Price getPrice() {
+        return price;
+    }
+
     /**
      * Returns the payment info for this order, or empty if not set.
      */
@@ -149,6 +153,7 @@ public class Order {
                 && completionStatus.equals(otherOrder.completionStatus)
                 && paymentStatus.equals(otherOrder.paymentStatus)
                 && dietTags.equals(otherOrder.dietTags)
+                && price.equals(otherOrder.price)
                 && paymentInfo.equals(otherOrder.paymentInfo);
     }
 
@@ -156,7 +161,7 @@ public class Order {
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(food, customer, phone, email, address, date, completionStatus,
-                paymentStatus, dietTags, paymentInfo);
+                paymentStatus, dietTags, price, paymentInfo);
     }
 
     @Override
@@ -171,6 +176,7 @@ public class Order {
                 .add("completionStatus", completionStatus)
                 .add("paymentStatus", paymentStatus)
                 .add("dietTags", dietTags)
+                .add("price", price)
                 .add("paymentInfo", paymentInfo)
                 .toString();
     }
