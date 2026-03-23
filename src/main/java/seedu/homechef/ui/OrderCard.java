@@ -115,6 +115,7 @@ public class OrderCard extends UiPart<Region> {
             break;
         case PARTIAL:
             paymentStatus.getStyleClass().add("payment_status_label_partial");
+            break;
         default:
             // Do nothing
         }
