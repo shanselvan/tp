@@ -115,7 +115,8 @@ public class OrderTest {
         String expected = Order.class.getCanonicalName() + "{food=" + ALICE.getFood()
                 + ", customer=" + ALICE.getCustomer()
                 + ", phone=" + ALICE.getPhone() + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress()
-                + ", date=" + ALICE.getDate() + ", completionStatus=" + ALICE.getCompletionStatus()
+                + ", date=" + ALICE.getDate() + ", price=" + ALICE.getPrice()
+                + ", completionStatus=" + ALICE.getCompletionStatus()
                 + ", paymentStatus=" + ALICE.getPaymentStatus() + ", dietTags=" + ALICE.getTags()
                 + ", paymentInfo=" + ALICE.getPaymentInfo() + "}";
         assertEquals(expected, ALICE.toString());
