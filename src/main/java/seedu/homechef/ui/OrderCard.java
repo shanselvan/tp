@@ -30,8 +30,6 @@ public class OrderCard extends UiPart<Region> {
     private static final String COMPLETED_SYMBOL = "⬤";
     private static final String PAYMENT_SYMBOL = "$";
 
-    private static final String PRICE_SYMBOL = "$";
-
     public final Order order;
 
     @FXML
@@ -125,7 +123,7 @@ public class OrderCard extends UiPart<Region> {
 
     private void setPriceLabel() {
         String orderPrice = order.getPrice().value;
-        String priceLabel = "Total: " + PRICE_SYMBOL + orderPrice;
+        String priceLabel = "Total: " + PAYMENT_SYMBOL + orderPrice;
         price.setText(priceLabel);
     }
 }
