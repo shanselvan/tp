@@ -18,8 +18,6 @@ import seedu.homechef.model.menu.Price;
  */
 public class AddMenuCommandParser implements Parser<AddMenuCommand> {
 
-    static final String MESSAGE_INVALID_AVAILABILITY = "Availability must be 'true' or 'false'.";
-
     /**
      * Parses the given {@code String} of arguments in the context of the AddMenuCommand
      * and returns an AddMenuCommand object for execution.

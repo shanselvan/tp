@@ -1,6 +1,7 @@
 package seedu.homechef.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.homechef.testutil.Assert.assertThrows;
@@ -314,5 +315,30 @@ public class ParserUtilTest {
         assertThrows(ParseException.class, () ->
                 ParserUtil.parsePaymentInfo(
                         Optional.of("CARD"), Optional.of("AB12"), Optional.empty(), Optional.empty()));
+    }
+
+    //---------------- Tests for parseAvailability ----------------------------------------
+
+    @Test
+    public void parseAvailability_true_returnsTrue() throws Exception {
+        assertTrue(ParserUtil.parseAvailability("true"));
+    }
+
+    @Test
+    public void parseAvailability_false_returnsFalse() throws Exception {
+        assertFalse(ParserUtil.parseAvailability("false"));
+    }
+
+    @Test
+    public void parseAvailability_mixedCaseAndWhitespace_returnsParsedValue() throws Exception {
+        assertTrue(ParserUtil.parseAvailability("  TRUE  "));
+        assertFalse(ParserUtil.parseAvailability("  False  "));
+    }
+
+    @Test
+    public void parseAvailability_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseAvailability("yes"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseAvailability("1"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseAvailability(""));
     }
 }
