@@ -35,7 +35,7 @@ public class DateTest {
 
     @Test
     public void getUrgency_urgentDate() {
-        int dayWithinUrgentPeriod = Date.URGENT_PERIOD - 1;
+        int dayWithinUrgentPeriod = Date.URGENT_PERIOD_DAYS - 1;
 
         LocalDate urgentLocalDate1 = LocalDate.now();
         LocalDate urgentLocalDate2 = LocalDate.now().plusDays(dayWithinUrgentPeriod);
@@ -49,8 +49,8 @@ public class DateTest {
 
     @Test
     public void getUrgency_normalDate() {
-        int dayOutsideUrgentPeriod1 = Date.URGENT_PERIOD + 1;
-        int dayOutsideUrgentPeriod2 = Date.URGENT_PERIOD + 100;
+        int dayOutsideUrgentPeriod1 = Date.URGENT_PERIOD_DAYS + 1;
+        int dayOutsideUrgentPeriod2 = Date.URGENT_PERIOD_DAYS + 100;
 
         LocalDate normalLocalDate1 = LocalDate.now().plusDays(dayOutsideUrgentPeriod1);
         LocalDate normalLocalDate2 = LocalDate.now().plusDays(dayOutsideUrgentPeriod2);

@@ -24,7 +24,7 @@ public class Date {
     public static final String URGENT = "Urgent";
     public static final String OVERDUE = "Overdue";
 
-    public static final int URGENT_PERIOD = 3;
+    public static final int URGENT_PERIOD_DAYS = 3;
 
     public final LocalDate value;
 
@@ -53,13 +53,13 @@ public class Date {
 
     /**
      * Returns a string representation of the urgency status of a Date.
-     * A Date is considered urgent if it is within the specified URGENT_PERIOD.
+     * A Date is considered urgent if it is within the specified URGENT_PERIOD_DAYS.
      */
     public String getUrgency() {
         if (value.isBefore(LocalDate.now())) {
             return OVERDUE;
         }
-        if (value.isBefore(LocalDate.now().plusDays(URGENT_PERIOD))) {
+        if (value.isBefore(LocalDate.now().plusDays(URGENT_PERIOD_DAYS))) {
             return URGENT;
         }
         return NORMAL;

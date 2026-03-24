@@ -92,8 +92,8 @@ An order can have any number of dietTags (including 0)
 </div>
 
 Orders have their dates coloured according to the urgency of the Order.
-> White indicates that the `Order` is not late, it is due ***more than 3*** from today's date.<br>
-> Orange indicates that the `Order` is not late, but it is ***due within 3*** days.<br>
+> White indicates that the `Order` is not late, it is due ***more than 3 days*** from today's date.<br>
+> Orange indicates that the `Order` is not late, but it is ***due within 3 days***.<br>
 > Red indicates that the `Order` is late, it was due ***before*** today's date.
 
 Examples:
