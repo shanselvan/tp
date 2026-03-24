@@ -268,4 +268,18 @@ public class ParserUtil {
 
         return Optional.of(paymentInfo);
     }
+
+    /**
+     * Parses a {@code String availability} and returns the boolean value.
+     *
+     * @throws ParseException if the value is not "true" or "false" (case-insensitive)
+     */
+    public static boolean parseAvailability(String availability) throws ParseException {
+        requireNonNull(availability);
+        String trimmed = availability.trim().toLowerCase();
+        if (!trimmed.equals("true") && !trimmed.equals("false")) {
+            throw new ParseException(AddMenuCommandParser.MESSAGE_INVALID_AVAILABILITY);
+        }
+        return trimmed.equals("true");
+    }
 }

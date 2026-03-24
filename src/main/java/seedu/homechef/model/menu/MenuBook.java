@@ -68,10 +68,10 @@ public class MenuBook implements ReadOnlyMenuBook {
     }
 
     /**
-     * Removes {@code key} from this {@code MenuBook}.
+     * Removes {@code toRemove} from this {@code MenuBook}.
      */
-    public void removeMenuItem(MenuItem key) {
-        menuItems.remove(key);
+    public void removeMenuItem(MenuItem toRemove) {
+        menuItems.remove(toRemove);
     }
 
     @Override

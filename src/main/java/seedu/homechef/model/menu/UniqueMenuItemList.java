@@ -67,17 +67,10 @@ public class UniqueMenuItemList implements Iterable<MenuItem> {
      */
     public void remove(MenuItem toRemove) {
         requireNonNull(toRemove);
-        int index = -1;
-        for (int i = 0; i < internalList.size(); i++) {
-            if (internalList.get(i).isSameMenuItem(toRemove)) {
-                index = i;
-                break;
-            }
-        }
-        if (index == -1) {
+        boolean removed = internalList.removeIf(item -> item.isSameMenuItem(toRemove));
+        if (!removed) {
             throw new MenuItemNotFoundException();
         }
-        internalList.remove(index);
     }
 
     public void setMenuItems(UniqueMenuItemList replacement) {

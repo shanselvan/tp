@@ -19,6 +19,10 @@ public class Messages {
     public static final String MESSAGE_ORDERS_LISTED_OVERVIEW = "%1$d orders listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
             "Multiple values specified for the following single-valued field(s): ";
+    public static final String MESSAGE_MENU_ITEM_NOT_FOUND =
+            "No menu item '%s'. Use 'add-menu' to add it to the menu first.";
+    public static final String MESSAGE_MENU_ITEM_UNAVAILABLE =
+            "'%s' is currently unavailable. Check the menu panel on the right for available items.";
 
     /**
      * Returns an error message indicating the duplicate prefixes.

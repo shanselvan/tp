@@ -15,6 +15,9 @@ import static seedu.homechef.logic.parser.CliSyntax.PREFIX_WALLET_PROVIDER;
 
 import java.util.Optional;
 
+import static seedu.homechef.logic.Messages.MESSAGE_MENU_ITEM_NOT_FOUND;
+import static seedu.homechef.logic.Messages.MESSAGE_MENU_ITEM_UNAVAILABLE;
+
 import seedu.homechef.commons.util.ToStringBuilder;
 import seedu.homechef.logic.Messages;
 import seedu.homechef.logic.commands.exceptions.CommandException;
@@ -77,14 +80,10 @@ public class AddCommand extends Command {
 
         if (matchingItem.isPresent()) {
             if (!matchingItem.get().isAvailable()) {
-                throw new CommandException(String.format(
-                        "'%s' is currently unavailable. Check the menu panel on the right for available items.",
-                        foodName));
+                throw new CommandException(String.format(MESSAGE_MENU_ITEM_UNAVAILABLE, foodName));
             }
         } else {
-            throw new CommandException(String.format(
-                    "No menu item '%s'. Use 'add-menu' to add it to the menu first.",
-                    foodName));
+            throw new CommandException(String.format(MESSAGE_MENU_ITEM_NOT_FOUND, foodName));
         }
 
         String canonicalName = matchingItem.get().getName().fullName;
