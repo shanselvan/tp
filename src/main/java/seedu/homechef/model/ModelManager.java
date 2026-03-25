@@ -18,6 +18,7 @@ import seedu.homechef.model.order.Order;
 
 /**
  * Represents the in-memory model of the HomeChef data.
+ * List sorts orders in the order of completion status, date, customer name and food name.
  */
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);

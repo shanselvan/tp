@@ -60,7 +60,7 @@ public class MarkInProgressCommand extends Command {
         model.setOrder(orderToMarkInProgress, incompleteOrder);
         model.updateFilteredOrderList(PREDICATE_SHOW_ALL_ORDERS);
         return new CommandResult(String.format(
-                MESSAGE_IN_PROGRESS_ORDER_SUCCESS, Messages.format(orderToMarkInProgress)));
+                MESSAGE_IN_PROGRESS_ORDER_SUCCESS, Messages.format(incompleteOrder)));
     }
 
     /**

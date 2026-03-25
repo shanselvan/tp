@@ -34,7 +34,7 @@ public enum CompletionStatus {
         requireNonNull(status);
         checkArgument(isValidCompletionStatus(status), MESSAGE_CONSTRAINTS);
         return Arrays.stream(CompletionStatus.values())
-                .filter(completionStatus -> completionStatus.displayValue.equalsIgnoreCase(status))
+                .filter(cs -> cs.displayValue.equalsIgnoreCase(status))
                 .findFirst()
                 .get();
     }

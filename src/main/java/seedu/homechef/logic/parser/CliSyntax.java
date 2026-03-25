@@ -18,5 +18,6 @@ public class CliSyntax {
     public static final Prefix PREFIX_PAYMENT_REF = new Prefix("r/");
     public static final Prefix PREFIX_BANK_NAME = new Prefix("b/");
     public static final Prefix PREFIX_WALLET_PROVIDER = new Prefix("w/");
-
+    public static final Prefix PREFIX_COMPLETION_STATUS = new Prefix("cs/");
+    public static final Prefix PREFIX_PAYMENT_STATUS = new Prefix("ps/");
 }

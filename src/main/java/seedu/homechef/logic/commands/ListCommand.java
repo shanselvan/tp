@@ -8,8 +8,10 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import seedu.homechef.model.Model;
+import seedu.homechef.model.order.CompletionStatus;
 import seedu.homechef.model.order.Date;
 import seedu.homechef.model.order.Order;
+import seedu.homechef.model.order.PaymentStatus;
 
 /**
  * Lists all orders in Homechef to the user, ordered by fulfillment date.
@@ -20,18 +22,18 @@ public class ListCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Listed all orders";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Lists orders, optionally filtered by fulfillment date.\n"
-            + "Format: " + COMMAND_WORD + " [f/FOOD] [c/CUSTOMER] [d/DATE] [p/PHONE]\n"
+            + ": Lists orders, optionally filtered.\n"
+            + "Format: " + COMMAND_WORD + " [d/DATE] [c/CUSTOMER] [f/FOOD] [p/PHONE] [cs/STATUS] [ps/STATUS]\n"
             + "DATE must be in the format dd-MM-yyyy.\n"
+            + "cs/STATUS: in_progress|completed\n"
+            + "ps/STATUS: paid|unpaid\n"
             + "Example: " + COMMAND_WORD + "\n"
             + "Example: " + COMMAND_WORD + " d/18-10-2026\n"
-            + "Example: " + COMMAND_WORD + " c/alice\n"
-            + "Example: " + COMMAND_WORD + " f/cake\n"
-            + "Example: " + COMMAND_WORD + " p/1234\n"
-            + "Example: " + COMMAND_WORD + " d/16-04-2003 c/alice f/cake p/1234";
+            + "Example: " + COMMAND_WORD + " cs/inprogress\n"
+            + "Example: " + COMMAND_WORD + " ps/unpaid\n"
+            + "Example: " + COMMAND_WORD + " d/16-04-2003 c/alice f/cake p/1234 cs/completed ps/paid";
 
     private final ListFilterDescriptor descriptor;
-
     /**
      * Creates a ListCommand that lists all orders without filtering.
      */
@@ -88,6 +90,16 @@ public class ListCommand extends Command {
                     order.getPhone().toString().toLowerCase().contains(query));
         }
 
+        if (descriptor.getCompletionStatus().isPresent()) {
+            CompletionStatus status = descriptor.getCompletionStatus().get();
+            predicate = predicate.and(order -> order.getCompletionStatus().equals(status));
+        }
+
+        if (descriptor.getPaymentStatus().isPresent()) {
+            PaymentStatus status = descriptor.getPaymentStatus().get();
+            predicate = predicate.and(order -> order.getPaymentStatus().equals(status));
+        }
+
         model.updateFilteredOrderList(predicate);
         return new CommandResult(MESSAGE_SUCCESS);
     }
@@ -115,6 +127,8 @@ public class ListCommand extends Command {
         private String customerQuery;
         private String foodQuery;
         private String phoneQuery;
+        private CompletionStatus completionStatus;
+        private PaymentStatus paymentStatus;
 
         public Optional<Date> getDate() {
             return Optional.ofNullable(date);
@@ -130,6 +144,14 @@ public class ListCommand extends Command {
 
         public Optional<String> getPhoneQuery() {
             return Optional.ofNullable(phoneQuery);
+        }
+
+        public Optional<CompletionStatus> getCompletionStatus() {
+            return Optional.ofNullable(completionStatus);
+        }
+
+        public Optional<PaymentStatus> getPaymentStatus() {
+            return Optional.ofNullable(paymentStatus);
         }
 
         public void setDate(Date date) {
@@ -148,6 +170,14 @@ public class ListCommand extends Command {
             this.phoneQuery = phoneQuery;
         }
 
+        public void setCompletionStatus(CompletionStatus completionStatus) {
+            this.completionStatus = completionStatus;
+        }
+
+        public void setPaymentStatus(PaymentStatus paymentStatus) {
+            this.paymentStatus = paymentStatus;
+        }
+
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -162,7 +192,9 @@ public class ListCommand extends Command {
             return Objects.equals(date, otherDescriptor.date)
                     && Objects.equals(customerQuery, otherDescriptor.customerQuery)
                     && Objects.equals(foodQuery, otherDescriptor.foodQuery)
-                    && Objects.equals(phoneQuery, otherDescriptor.phoneQuery);
+                    && Objects.equals(phoneQuery, otherDescriptor.phoneQuery)
+                    && Objects.equals(completionStatus, otherDescriptor.completionStatus)
+                    && Objects.equals(paymentStatus, otherDescriptor.paymentStatus);
         }
     }
 }
