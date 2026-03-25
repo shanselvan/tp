@@ -92,7 +92,6 @@ public class Date implements Comparable<Date> {
         if (other == this) {
             return true;
         }
-
         // instanceof handles nulls
         if (!(other instanceof Date)) {
             return false;
