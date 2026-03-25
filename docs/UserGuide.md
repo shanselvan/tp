@@ -34,7 +34,7 @@ HomeChef-Helper (HomeChef) is a **desktop app for managing orders, optimized for
 
    * `list` : Lists all orders.
 
-   * `add f/Red Bean Bun c/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 d/30-03-2026` : Adds a order named `John Doe` to HomeChef.
+   * `add f/Red Bean Bun c/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 d/30-03-2026 $/2.50` : Adds an order for `John Doe` to HomeChef.
 
    * `delete 3` : Deletes the 3rd order shown in the current list.
 
@@ -53,16 +53,16 @@ HomeChef-Helper (HomeChef) is a **desktop app for managing orders, optimized for
 **:information_source: Notes about the command format:**<br>
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
+  e.g. in `add c/CUSTOMER`, `CUSTOMER` is a parameter which can be used as `add c/John Doe`.
 
 * Items in square brackets are optional.<br>
-  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
+  e.g `list [d/DATE]` can be used as `list d/18-10-2026` or as `list`.
 
-* Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+* Items with `...` after them can be used multiple times including zero times.<br>
+  e.g. `[t/TAG]...` can be used as `t/friend t/family` or omitted entirely.
 
 * Parameters can be in any order.<br>
-  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+  e.g. if the command specifies `c/CUSTOMER p/PHONE`, `p/PHONE c/CUSTOMER` is also acceptable.
 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
@@ -84,8 +84,7 @@ Format: `help`
 Adds an order to the order list.
 All orders are initially set as 'Pending' and 'Unpaid'.
 
-Format: `edit INDEX f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE [t/TAG]…​ 
-[m/PAYMENT METHOD] [r/PAYMENT REF] [b/BANK NAME] [w/WALLET PROVIDER]`
+Format: `add f/FOOD c/CUSTOMER p/PHONE e/EMAIL a/ADDRESS d/DATE $/PRICE [t/TAG]... [m/PAYMENT METHOD] [r/PAYMENT REF] [b/BANK NAME] [w/WALLET PROVIDER]`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 An order can have any number of dietTags (including 0)
@@ -97,9 +96,9 @@ Orders have their dates coloured according to the urgency of the Order.
 > Red indicates that the `Order` is late, it was due ***before*** today's date.
 
 Examples:
-* `add f/Red Bean Bun c/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 d/30-03-2026`
-* `add f/Hawaiian Pizza c/Betsy Crowe t/Halal e/betsycrowe@example.com a/Newgate Prison p/1234567 d/12-12-2026 t/No peanuts`
-* `add f/Bananas c/Monkey p/80801414 t/An actual monkey e/ooaa@ananab.com a/Monkey Village m/Bank r/123456789 b/Monkey Bank d/18-03-2026`
+* `add f/Red Bean Bun c/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 d/30-03-2026 $/2.50`
+* `add f/Hawaiian Pizza c/Betsy Crowe t/Halal e/betsycrowe@example.com a/Newgate Prison p/1234567 d/12-12-2026 $/18.20 t/No peanuts`
+* `add f/Bananas c/Monkey p/80801414 t/An actual monkey e/ooaa@ananab.com a/Monkey Village m/BANK r/123456789 b/Monkey Bank d/18-03-2026 $/3.00`
 
 ### Listing all orders : `list`
 
@@ -108,6 +107,7 @@ Shows a list of all orders in the order list.
 Format: `list [d/DATE] [c/CUSTOMER] [f/FOOD] [p/PHONE]`
 
 * Lists all orders when no parameters are given.
+* Orders are shown sorted by fulfillment date (earliest first).
 * Filters are case-insensitive for `c/`, `f/` and `p/`.
 * `DATE` must be in the format `dd-MM-yyyy`.
 
@@ -142,14 +142,14 @@ Format: `pending INDEX`
 
 ### Marking an order as paid: `paid`
 
-Sets the payment status of an order to '$ Paid'.
+Sets the payment status of an order to 'Paid'.
 Paid orders have their payment status coloured green.
 
 Format: `paid INDEX`
 
 ### Marking an order as unpaid: `unpaid`
 
-Sets the payment status of an order to '$ Unpaid'.
+Sets the payment status of an order to 'Unpaid'.
 Unpaid orders have their payment status coloured red.
 
 Format: `unpaid INDEX`
@@ -159,14 +159,13 @@ Format: `unpaid INDEX`
 Edits an existing order in the order list.
 
 Format: 
-`edit INDEX [f/FOOD] [c/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/DATE] [t/TAG]…​ 
-[m/PAYMENT METHOD] [r/PAYMENT REF] [b/BANK NAME] [w/WALLET PROVIDER]`
+`edit INDEX [f/FOOD] [c/CUSTOMER] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/DATE] [$/PRICE] [t/TAG]... [m/PAYMENT METHOD] [r/PAYMENT REF] [b/BANK NAME] [w/WALLET PROVIDER]`
 
-* Edits the order at the specified `INDEX`. The index refers to the index number shown in the displayed order list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the order at the specified `INDEX`. The index refers to the index number shown in the displayed order list. The index **must be a positive integer** 1, 2, 3, ...
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing dietTags, the existing dietTags of the order will be removed i.e adding of dietTags is not cumulative.
-* You can remove all the order’s dietTags by typing `t/` without
+* You can remove all the order's dietTags by typing `t/` without
     specifying any dietTags after it.
 
 Examples:
@@ -199,7 +198,7 @@ Format: `delete INDEX`
 
 * Deletes the order at the specified `INDEX`.
 * The index refers to the index number shown in the displayed order list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* The index **must be a positive integer** 1, 2, 3, ...
 
 Examples:
 * `list` followed by `delete 2` deletes the 2nd order in the current list.
@@ -254,14 +253,15 @@ _Details coming soon ..._
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add f/FOOD c/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​ [m/PAYMENT METHOD] [r/PAYMENT REF] [b/BANK NAME] [w/WALLET PROVIDER]` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Add** | `add f/FOOD c/CUSTOMER p/PHONE e/EMAIL a/ADDRESS d/DATE $/PRICE [t/TAG]... [m/PAYMENT METHOD] [r/PAYMENT REF] [b/BANK NAME] [w/WALLET PROVIDER]`<br> e.g., `add f/Birthday Cake c/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 d/20-10-2026 $/18.20 t/dairyfree`
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Mark Complete** | `complete INDEX` <br> e.g., `complete 4`
-**Mark In Progress** | `in_progress INDEX` <br> e.g., `in_progress 2`
+**Mark In Progress** | `inprogress INDEX` <br> e.g., `inprogress 2`
+**Mark Pending** | `pending INDEX` <br> e.g., `pending 3`
 **Paid** | `paid INDEX` <br> e.g., `paid 1`
 **Unpaid** | `unpaid INDEX` <br> e.g., `unpaid 1`
-**Edit** | `edit INDEX [f/FOOD] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​ [m/PAYMENT METHOD] [r/PAYMENT REF] [b/BANK NAME] [w/WALLET PROVIDER]`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Edit** | `edit INDEX [f/FOOD] [c/CUSTOMER] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/DATE] [$/PRICE] [t/TAG]... [m/PAYMENT METHOD] [r/PAYMENT REF] [b/BANK NAME] [w/WALLET PROVIDER]`<br> e.g.,`edit 2 c/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list [d/DATE] [c/CUSTOMER] [f/FOOD] [p/PHONE]`<br> e.g., `list d/18-10-2026`
 **Help** | `help`
