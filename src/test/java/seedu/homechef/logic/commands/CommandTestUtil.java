@@ -190,7 +190,7 @@ public class CommandTestUtil {
         assertTrue(targetIndex.getZeroBased() < model.getFilteredOrderList().size());
 
         Order order = model.getFilteredOrderList().get(targetIndex.getZeroBased());
-        final String[] splitName = order.getCustomer().fullName.split("\\s+");
+        final String[] splitName = order.getCustomer().toString().split("\\s+");
         model.updateFilteredOrderList(new CustomerContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
         assertEquals(1, model.getFilteredOrderList().size());

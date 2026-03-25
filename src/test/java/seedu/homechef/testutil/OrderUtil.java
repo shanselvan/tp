@@ -33,11 +33,11 @@ public class OrderUtil {
      */
     public static String getOrderDetails(Order order) {
         StringBuilder sb = new StringBuilder();
-        sb.append(PREFIX_FOOD + order.getFood().foodName + " ");
-        sb.append(PREFIX_CUSTOMER + order.getCustomer().fullName + " ");
-        sb.append(PREFIX_PHONE + order.getPhone().value + " ");
-        sb.append(PREFIX_EMAIL + order.getEmail().value + " ");
-        sb.append(PREFIX_ADDRESS + order.getAddress().value + " ");
+        sb.append(PREFIX_FOOD + order.getFood().toString() + " ");
+        sb.append(PREFIX_CUSTOMER + order.getCustomer().toString() + " ");
+        sb.append(PREFIX_PHONE + order.getPhone().toString() + " ");
+        sb.append(PREFIX_EMAIL + order.getEmail().toString() + " ");
+        sb.append(PREFIX_ADDRESS + order.getAddress().toString() + " ");
         sb.append(PREFIX_DATE + order.getDate().toString() + " ");
         sb.append(PREFIX_ORDER_PRICE + order.getPrice().toString() + " ");
         order.getTags().stream().forEach(
@@ -51,11 +51,11 @@ public class OrderUtil {
      */
     public static String getEditOrderDescriptorDetails(EditOrderDescriptor descriptor) {
         StringBuilder sb = new StringBuilder();
-        descriptor.getFood().ifPresent(food -> sb.append(PREFIX_FOOD).append(food.foodName).append(" "));
-        descriptor.getCustomer().ifPresent(name -> sb.append(PREFIX_CUSTOMER).append(name.fullName).append(" "));
-        descriptor.getPhone().ifPresent(phone -> sb.append(PREFIX_PHONE).append(phone.value).append(" "));
-        descriptor.getEmail().ifPresent(email -> sb.append(PREFIX_EMAIL).append(email.value).append(" "));
-        descriptor.getAddress().ifPresent(address -> sb.append(PREFIX_ADDRESS).append(address.value).append(" "));
+        descriptor.getFood().ifPresent(food -> sb.append(PREFIX_FOOD).append(food.toString()).append(" "));
+        descriptor.getCustomer().ifPresent(name -> sb.append(PREFIX_CUSTOMER).append(name.toString()).append(" "));
+        descriptor.getPhone().ifPresent(phone -> sb.append(PREFIX_PHONE).append(phone.toString()).append(" "));
+        descriptor.getEmail().ifPresent(email -> sb.append(PREFIX_EMAIL).append(email.toString()).append(" "));
+        descriptor.getAddress().ifPresent(address -> sb.append(PREFIX_ADDRESS).append(address.toString()).append(" "));
         descriptor.getDate().ifPresent(date -> sb.append(PREFIX_DATE).append(date).append(" "));
         descriptor.getPrice().ifPresent(price -> sb.append(PREFIX_ORDER_PRICE).append(price).append(" "));
         if (descriptor.getTags().isPresent()) {

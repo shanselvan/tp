@@ -73,19 +73,19 @@ public class ListCommand extends Command {
         if (descriptor.getCustomerQuery().isPresent()) {
             String query = descriptor.getCustomerQuery().get().toLowerCase();
             predicate = predicate.and(order ->
-                    order.getCustomer().fullName.toLowerCase().contains(query));
+                    order.getCustomer().toString().toLowerCase().contains(query));
         }
 
         if (descriptor.getFoodQuery().isPresent()) {
             String query = descriptor.getFoodQuery().get().toLowerCase();
             predicate = predicate.and(order ->
-                    order.getFood().foodName.toLowerCase().contains(query));
+                    order.getFood().toString().toLowerCase().contains(query));
         }
 
         if (descriptor.getPhoneQuery().isPresent()) {
             String query = descriptor.getPhoneQuery().get().toLowerCase();
             predicate = predicate.and(order ->
-                    order.getPhone().value.toLowerCase().contains(query));
+                    order.getPhone().toString().toLowerCase().contains(query));
         }
 
         model.updateFilteredOrderList(predicate);

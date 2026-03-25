@@ -116,22 +116,22 @@ public class OrderCard extends UiPart<Region> {
     }
 
     private void setFoodDisplay(Food food) {
-        this.food.setText(food.foodName);
+        this.food.setText(food.toString());
     }
 
     private void setCustomerDisplay(Customer customer) {
         customerDisplayIcon.setImage(customerIcon);
-        this.customer.setText(customer.fullName);
+        this.customer.setText(customer.toString());
     }
 
     private void setPhoneDisplay(Phone phone) {
         phoneDisplayIcon.setImage(phoneIcon);
-        this.phone.setText(phone.value);
+        this.phone.setText(phone.toString());
     }
 
     private void setAddressDisplay(Address address) {
         addressDisplayIcon.setImage(addressIcon);
-        this.address.setText(address.value);
+        this.address.setText(address.toString());
     }
 
     private void setDateDisplay(Date date) {
@@ -159,7 +159,7 @@ public class OrderCard extends UiPart<Region> {
 
     private void setEmailDisplay(Email email) {
         emailDisplayIcon.setImage(emailIcon);
-        this.email.setText(email.value);
+        this.email.setText(email.toString());
     }
 
     private void setCompletionStatusDisplay(CompletionStatus status) {
@@ -205,7 +205,7 @@ public class OrderCard extends UiPart<Region> {
     }
 
     private void setPriceDisplay() {
-        String orderPrice = order.getPrice().value;
+        String orderPrice = order.getPrice().toString();
         String priceLabel = "Total: " + PAYMENT_SYMBOL + orderPrice;
         price.setText(priceLabel);
     }

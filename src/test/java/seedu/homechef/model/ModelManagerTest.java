@@ -152,7 +152,7 @@ public class ModelManagerTest {
         assertFalse(modelManager.equals(new ModelManager(differentHomeChef, userPrefs)));
 
         // different filteredList -> returns false
-        String[] keywords = ALICE.getCustomer().fullName.split("\\s+");
+        String[] keywords = ALICE.getCustomer().toString().split("\\s+");
         modelManager.updateFilteredOrderList(new CustomerContainsKeywordsPredicate(Arrays.asList(keywords)));
         assertFalse(modelManager.equals(new ModelManager(homeChef, userPrefs)));
 

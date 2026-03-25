@@ -96,11 +96,11 @@ class JsonAdaptedOrder {
      * Converts a given {@code Order} into this class for Jackson use.
      */
     public JsonAdaptedOrder(Order source) {
-        food = source.getFood().foodName;
-        customer = source.getCustomer().fullName;
-        phone = source.getPhone().value;
-        email = source.getEmail().value;
-        address = source.getAddress().value;
+        food = source.getFood().toString();
+        customer = source.getCustomer().toString();
+        phone = source.getPhone().toString();
+        email = source.getEmail().toString();
+        address = source.getAddress().toString();
         date = source.getDate().toString();
         completionStatus = source.getCompletionStatus().toString();
         paymentStatus = source.getPaymentStatus().toString();

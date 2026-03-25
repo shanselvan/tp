@@ -14,7 +14,7 @@ public class Phone {
             "Phone numbers should be at least 3 digits long, and may include a country code prefix "
             + "separated by a space (e.g. +65 91234567)";
     public static final String VALIDATION_REGEX = "(\\+\\d{1,3} )?\\d{3,}";
-    public final String value;
+    private final String value;
 
     /**
      * Constructs a {@code Phone}.

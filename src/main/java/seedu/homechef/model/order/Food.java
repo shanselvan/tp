@@ -18,7 +18,7 @@ public class Food {
      */
     public static final String VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ()\\[\\]-]*";
 
-    public final String foodName;
+    private final String foodName;
 
     /**
      * Constructs a {@code Food}.
