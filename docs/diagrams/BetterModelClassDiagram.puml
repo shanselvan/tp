@@ -4,18 +4,24 @@ skinparam arrowThickness 1.1
 skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
 
-HomeChef *-right-> "1" UniquePersonList
+HomeChef *-right-> "1" UniqueOrderList
 HomeChef *-right-> "1" UniqueTagList
-UniqueTagList -[hidden]down- UniquePersonList
-UniqueTagList -[hidden]down- UniquePersonList
+UniqueTagList -[hidden]down- UniqueOrderList
+UniqueTagList -[hidden]down- UniqueOrderList
 
 UniqueTagList -right-> "*" Tag
-UniquePersonList -right-> Person
+UniqueOrderList -right-> Order
 
-Person -up-> "*" Tag
+Order -up-> "*" Tag
 
-Person *--> Name
-Person *--> Phone
-Person *--> Email
-Person *--> Address
+Order *--> Food
+Order *--> Customer
+Order *--> Phone
+Order *--> Email
+Order *--> Address
+Order *--> Date
+Order *--> Price
+Order *--> PaymentType
+Order *--> CompletionStatus
+Order *--> PaymentStatus
 @enduml

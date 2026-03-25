@@ -131,7 +131,7 @@ Examples:
 * `list p/1234`
 * `list d/16-04-2003 c/alice f/cake p/1234`
 
-### Marking an order as in progress: `inprogress`
+### Marking an order as in progress: `in progress`
 
 Sets the completion status of an order to 'In progress'.
 In progress orders have their completion status coloured orange.
