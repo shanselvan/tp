@@ -23,6 +23,8 @@ Class Tag
 Class CompletionStatus
 Class PaymentStatus
 Class PaymentInfo
+Class Date
+Class Price
 
 Class I #FFFFFF
 }
@@ -46,6 +48,8 @@ Order *--> Customer
 Order *--> Phone
 Order *--> Email
 Order *--> Address
+Order *--> Date
+Order *--> Price
 Order *--> "*" Tag
 Order *--> CompletionStatus
 Order *--> PaymentStatus
