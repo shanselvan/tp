@@ -181,6 +181,20 @@ Unpaid orders have their payment status coloured red.
 
 Format: `unpaid INDEX`
 
+### Generating a receipt: `receipt`
+
+Generates a plain-text receipt file for the specified order.
+
+Format: `receipt INDEX`
+
+* The index refers to the index number shown in the displayed order list.
+* A receipt file is created in a `receipts` folder beside the HomeChef data file.
+* You can also use the shortcut command `rec`.
+
+Examples:
+* `receipt 1`
+* `rec 2`
+
 ### Editing an order : `edit`
 
 Edits an existing order in the order list.

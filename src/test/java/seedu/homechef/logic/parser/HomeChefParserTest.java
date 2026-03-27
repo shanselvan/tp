@@ -27,6 +27,7 @@ import seedu.homechef.logic.commands.MarkInProgressCommand;
 import seedu.homechef.logic.commands.MarkPendingCommand;
 import seedu.homechef.logic.commands.PaidCommand;
 import seedu.homechef.logic.commands.PartialCommand;
+import seedu.homechef.logic.commands.ReceiptCommand;
 import seedu.homechef.logic.commands.UnpaidCommand;
 import seedu.homechef.logic.parser.exceptions.ParseException;
 import seedu.homechef.model.order.CustomerContainsKeywordsPredicate;
@@ -136,6 +137,20 @@ public class HomeChefParserTest {
         PartialCommand command = (PartialCommand) parser.parseCommand(
                 PartialCommand.COMMAND_WORD + " " + INDEX_FIRST_ORDER.getOneBased());
         assertEquals(new PartialCommand(INDEX_FIRST_ORDER), command);
+    }
+
+    @Test
+    public void parseCommand_receipt() throws Exception {
+        ReceiptCommand command = (ReceiptCommand) parser.parseCommand(
+                ReceiptCommand.COMMAND_WORD + " " + INDEX_FIRST_ORDER.getOneBased());
+        assertEquals(new ReceiptCommand(INDEX_FIRST_ORDER), command);
+    }
+
+    @Test
+    public void parseCommand_receiptAlias() throws Exception {
+        ReceiptCommand command = (ReceiptCommand) parser.parseCommand(
+                ReceiptCommand.COMMAND_ALIAS + " " + INDEX_FIRST_ORDER.getOneBased());
+        assertEquals(new ReceiptCommand(INDEX_FIRST_ORDER), command);
     }
 
     @Test
