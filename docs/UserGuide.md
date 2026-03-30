@@ -112,6 +112,8 @@ All orders are initially set as 'Pending' and 'Unpaid'.
 Format: `add f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE $/PRICE [t/TAG]…​ 
 [m/PAYMENT METHOD] [r/PAYMENT REF] [b/BANK NAME] [w/WALLET PROVIDER]`
 
+* `FOOD` must match an existing food's name in the current menu exactly.
+  * Giving an input that is not in the menu will show an error message telling you to `Use 'add-menu' to add it to the menu first.` 
 * `PRICE` is a non-negative number up to 2 decimal places. Having less than 2 decimals is accepted.
   * Giving an input that is **not a number** or a number with **more than 2 decimals** will cause an error message to appear telling you the correct format you should use.
 
@@ -120,6 +122,8 @@ An order can have any number of dietTags (including 0)
 </div>
 
 * Orders have their price set to dollars `$`. Other currencies are not supported.
+* Orders have their completion status set to `Pending` by default.
+* Orders also have their payment status set to `Unpaid` by default.
 * Orders have their dates coloured according to the urgency of the Order.
 > White indicates that the `Order` is not late, it is due ***more than 3 days*** from today's date.<br>
 > ![normal date](images/normalDate.png)<br>
@@ -138,6 +142,9 @@ Examples:
 
 Shows a list of all orders in the order list when no parameters are given, 
 Otherwise, shows a filtered list of orders that match the keywords given as parameters.
+
+* This can be useful for finding orders specific to a certain customer, a certain address or even of a certain food name.
+* Using `list` with no parameters is a good way to reset the order list view to show every order stored.
 
 Format: `list [d/DATE] [c/CUSTOMER] [f/FOOD] [p/PHONE] [cs/COMPLETION STATUS] [ps/PAYMENT STATUS]`
 
@@ -159,12 +166,18 @@ Examples:
 Sets the completion status of an order to 'In progress'.
 In progress orders have their completion status coloured orange.
 
+* This helps to easily tell at a glance when an order is currently in progress.
+* On an in progress order, the completion status will not be changed.
+
 Format: `inprogress INDEX`
 
 ### Marking an order as complete: `complete`
 
 Sets the completion status of an order to 'Completed'.
 Completed orders have their completion status coloured green.
+
+* This helps to easily tell at a glance when an order is completed.
+* On a completed order, the completion status will not be changed.
 
 Format: `complete INDEX`
 
@@ -173,12 +186,18 @@ Format: `complete INDEX`
 Sets the completion status of an order to 'Pending'.
 Pending orders have their completion status coloured dark grey.
 
+* This helps to easily tell at a glance when an order has yet to be worked on.
+* On a pending order, the completion status will not be changed.
+
 Format: `pending INDEX`
 
 ### Marking an order as paid: `paid`
 
 Sets the payment status of an order to '$ Paid'.
 Paid orders have their payment status coloured green.
+
+* This helps to easily tell at a glance when an order has been totally paid for by a customer.
+* On a paid order, the completion status will not be changed.
 
 Format: `paid INDEX`
 
@@ -187,6 +206,9 @@ Format: `paid INDEX`
 Sets the payment status of an order to '$ Partial'.
 Partially paid orders have their payment status coloured yellow.
 
+* This helps to easily tell at a glance when an order has been partially paid for by a customer.
+* On a partially paid order, the completion status will not be changed.
+
 Format: `partial INDEX`
 
 ### Marking an order as unpaid: `unpaid`
@@ -194,11 +216,17 @@ Format: `partial INDEX`
 Sets the payment status of an order to '$ Unpaid'.
 Unpaid orders have their payment status coloured red.
 
+* This helps to easily tell at a glance when an order has yet to be paid by a customer.
+* On an unpaid order, the completion status will not be changed.
+
 Format: `unpaid INDEX`
 
 ### Editing an order : `edit`
 
 Edits an existing order in the order list.
+
+* This helps with updating orders when information changes, without having to delete and re-add the order to the list.
+* Completion status and payment status they cannot be modified using the `edit` command and **must** be modified using the above commands. 
 
 Format: 
 `edit INDEX [f/FOOD] [c/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/DATE] [$/PRICE] [t/TAG]…​
@@ -268,6 +296,16 @@ The menu is the list on the right, indicating the food items you have for sale.
 
 The following are the commands that interact with this menu.
 
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Notes about the menu:**<br>
+
+* Any modifications to the menu will not affect existing orders.
+  * For example: There is an order with a food name `Birthday Cake`. Deleting `Birthday Cake` from the **menu** will not affect this existing order.<br>
+    But **future orders** will not be able to add food called `Birthday Cake` as it now does not exist in the menu.
+  * This is so that you can freely change the menu without affecting past orders. After all, if someone ordered bread but one year later you switched to cooking noodles, that old order should still be retained for recording purposes!
+</div>
+
 ### Adding a food item : `add-menu`
 
 Adds a food item of the given name, price and availability to the menu.
@@ -280,8 +318,8 @@ Format: `add-menu n/NAME x/PRICE [v/AVAILABILITY]`
 * If not specified, `AVAILABILITY` will be set as `Available`.
 
 Examples:
-* `add-menu n/Bee Hoon x/5` will add a food item called `Bee Hoon` into the menu with a price of `$5` and is specified as `Available`.
-* `add-menu n/Mee Goreng x/6.00 v/false` will add a food item called `Mee Goreng` into the menu with a price of `$6.00` and is specified is `Unavailable`.
+* `add-menu n/Bee Hoon x/5` Adds a food item called `Bee Hoon` into the menu with a price of `$5` and is specified as `Available`.
+* `add-menu n/Mee Goreng x/6.00 v/false` Adds a food item called `Mee Goreng` into the menu with a price of `$6.00` and is specified is `Unavailable`.
 
 ### Deleting a food item : `delete-menu`
 
@@ -301,8 +339,8 @@ Format: `edit-menu INDEX [n/NAME] [x/PRICE] [v/AVAILABILITY]`
   
 
 Example:
-* `edit-menu 1 n/Raisin Cookies x/2.00` edits the food in the first position of the displayed menu to have the name `Raisin Cookies` and a price of `$2.00`.
-* `edit-menu 2 n/Pain au Chocolat x/3.50 v/false` edits the food in the second position of the displayed menu to have the name `Pain au Chocolat` and a price of `$3.50`. 
+* `edit-menu 1 n/Raisin Cookies x/2.00` Edits the food in the first position of the displayed menu to have the name `Raisin Cookies` and a price of `$2.00`.
+* `edit-menu 2 n/Pain au Chocolat x/3.50 v/false` Edits the food in the second position of the displayed menu to have the name `Pain au Chocolat` and a price of `$3.50`. 
 
 ## Other commands:
 
