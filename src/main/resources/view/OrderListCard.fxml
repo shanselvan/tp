@@ -2,62 +2,66 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import java.lang.Double?>
 
 <HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-    <fx:define>
-        <Double fx:id="ICON_HEIGHT" fx:value="15.0"/>
-        <Double fx:id="ICON_WIDTH" fx:value="15.0"/>
-    </fx:define>
-    <GridPane HBox.hgrow="ALWAYS">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="150"/>
-        </columnConstraints>
-        <VBox alignment="CENTER_LEFT" minHeight="105" GridPane.columnIndex="0">
-            <padding>
-                <Insets top="5" right="5" bottom="5" left="15"/>
-            </padding>
-            <HBox spacing="4" alignment="CENTER_LEFT">
-                <Label fx:id="id" styleClass="cell_big_label">
-                    <minWidth>
-                        <!-- Ensures that the label text is never truncated -->
-                        <Region fx:constant="USE_PREF_SIZE"/>
-                    </minWidth>
-                </Label>
-                <Label fx:id="food" text="\$first" styleClass="cell_big_label"/>
-                <Label fx:id="completionStatus" styleClass="cell_status_label" text="\$completionStatus"/>
-                <Label fx:id="paymentStatus" styleClass="cell_status_label" text="\$paymentStatus"/>
-            </HBox>
-            <HBox spacing="4" alignment="CENTER_LEFT">
-                <ImageView fx:id="dateDisplayIcon" fitHeight="$ICON_HEIGHT" fitWidth="$ICON_WIDTH" pickOnBounds="true" preserveRatio="true" />
-                <Label fx:id="date" styleClass="cell_date_label" text="\$date"/>
-            </HBox>
+    <VBox HBox.hgrow="ALWAYS" spacing="3">
+        <padding>
+            <Insets top="8" right="12" bottom="8" left="12"/>
+        </padding>
+
+        <!-- Row 1: index + food name + diet tags -->
+        <HBox spacing="5" alignment="CENTER_LEFT">
+            <Label fx:id="id" styleClass="cell_id_label"/>
+            <Label fx:id="food" styleClass="cell_big_label" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
             <FlowPane fx:id="dietTags"/>
-            <HBox spacing="4" alignment="CENTER_LEFT">
-                <ImageView fx:id="customerDisplayIcon" fitHeight="$ICON_HEIGHT" fitWidth="$ICON_WIDTH" pickOnBounds="true" preserveRatio="true" />
-                <Label fx:id="customer" styleClass="cell_small_label" text="\$customer"/>
+        </HBox>
+
+        <!-- Row 2: customer — extra top gap to anchor the food name as a headline -->
+        <HBox spacing="5" alignment="CENTER_LEFT">
+            <VBox.margin><Insets top="3"/></VBox.margin>
+            <ImageView fx:id="customerDisplayIcon" fitHeight="13" fitWidth="13" preserveRatio="true" pickOnBounds="true"/>
+            <Label fx:id="customer" styleClass="cell_customer_label"/>
+        </HBox>
+
+        <!-- Row 3: phone + date side by side -->
+        <HBox spacing="16" alignment="CENTER_LEFT">
+            <HBox spacing="5" alignment="CENTER_LEFT">
+                <ImageView fx:id="phoneDisplayIcon" fitHeight="13" fitWidth="13" preserveRatio="true" pickOnBounds="true"/>
+                <Label fx:id="phone" styleClass="cell_small_label"/>
             </HBox>
-            <HBox spacing="4" alignment="CENTER_LEFT">
-                <ImageView fx:id="phoneDisplayIcon" fitHeight="$ICON_HEIGHT" fitWidth="$ICON_WIDTH" pickOnBounds="true" preserveRatio="true" />
-                <Label fx:id="phone" styleClass="cell_small_label" text="\$phone"/>
+            <HBox spacing="5" alignment="CENTER_LEFT">
+                <ImageView fx:id="dateDisplayIcon" fitHeight="13" fitWidth="13" preserveRatio="true" pickOnBounds="true"/>
+                <Label fx:id="date" styleClass="cell_date_label"/>
             </HBox>
-            <HBox spacing="4" alignment="CENTER_LEFT">
-                <ImageView fx:id="addressDisplayIcon" fitHeight="$ICON_HEIGHT" fitWidth="$ICON_WIDTH" pickOnBounds="true" preserveRatio="true" />
-                <Label fx:id="address" styleClass="cell_small_label" text="\$address"/>
+        </HBox>
+
+        <!-- Row 4: address -->
+        <HBox spacing="5" alignment="CENTER_LEFT">
+            <ImageView fx:id="addressDisplayIcon" fitHeight="13" fitWidth="13" preserveRatio="true" pickOnBounds="true"/>
+            <Label fx:id="address" styleClass="cell_small_label"/>
+        </HBox>
+
+        <!-- Row 5: email + price pushed right -->
+        <HBox alignment="CENTER_LEFT">
+            <HBox spacing="5" alignment="CENTER_LEFT">
+                <ImageView fx:id="emailDisplayIcon" fitHeight="13" fitWidth="13" preserveRatio="true" pickOnBounds="true"/>
+                <Label fx:id="email" styleClass="cell_small_label"/>
             </HBox>
-            <HBox spacing="4" alignment="CENTER_LEFT">
-                <ImageView fx:id="emailDisplayIcon" fitHeight="$ICON_HEIGHT" fitWidth="$ICON_WIDTH" pickOnBounds="true" preserveRatio="true" />
-                <Label fx:id="email" styleClass="cell_small_label" text="\$email"/>
-            </HBox>
-            <Label fx:id="price" styleClass="cell_small_label" text="\$price"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="price" styleClass="cell_price_label"/>
+        </HBox>
+
+        <!-- Row 6: payment info + status badges pushed right -->
+        <HBox spacing="5" alignment="CENTER_LEFT">
             <Label fx:id="paymentInfo" styleClass="cell_small_label"/>
-        </VBox>
-    </GridPane>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="completionStatus" styleClass="cell_status_label"/>
+            <Label fx:id="paymentStatus" styleClass="cell_status_label"/>
+        </HBox>
+    </VBox>
 </HBox>

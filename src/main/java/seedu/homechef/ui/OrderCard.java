@@ -169,14 +169,17 @@ public class OrderCard extends UiPart<Region> {
         case PENDING:
             completionStatus.setText(PENDING_SYMBOL + " " + status);
             completionStatus.getStyleClass().add("completion_status_label_pending");
+            cardPane.getStyleClass().add("card_status_pending");
             break;
         case IN_PROGRESS:
             completionStatus.setText(IN_PROGRESS_SYMBOL + " " + status);
             completionStatus.getStyleClass().add("completion_status_label_in_progress");
+            cardPane.getStyleClass().add("card_status_in_progress");
             break;
         case COMPLETED:
             completionStatus.setText(COMPLETED_SYMBOL + " " + status);
             completionStatus.getStyleClass().add("completion_status_label_complete");
+            cardPane.getStyleClass().add("card_status_complete");
             break;
         default:
             checkArgument(CompletionStatus.isValidCompletionStatus(status.toString()),

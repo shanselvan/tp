@@ -40,6 +40,12 @@ public class MenuCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         name.setText(menuItem.getName().fullName);
         price.setText("$" + menuItem.getPrice().value);
-        availability.setText(menuItem.isAvailable() ? "Available" : "Unavailable");
+        if (menuItem.isAvailable()) {
+            availability.setText("Available");
+            availability.getStyleClass().add("availability_available");
+        } else {
+            availability.setText("Unavailable");
+            availability.getStyleClass().add("availability_unavailable");
+        }
     }
 }

@@ -2,26 +2,25 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <HBox id="menuCardPane" fx:id="menuCardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-  <GridPane HBox.hgrow="ALWAYS">
-    <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="150"/>
-    </columnConstraints>
-    <VBox alignment="CENTER_LEFT" minHeight="50" GridPane.columnIndex="0">
-      <padding>
-        <Insets top="5" right="5" bottom="5" left="15"/>
-      </padding>
-      <HBox spacing="5" alignment="CENTER_LEFT">
-        <Label fx:id="id" styleClass="cell_small_label"/>
-        <Label fx:id="name" styleClass="cell_big_label"/>
-      </HBox>
-      <Label fx:id="price" styleClass="cell_small_label"/>
-      <Label fx:id="availability" styleClass="cell_small_label"/>
+    <VBox HBox.hgrow="ALWAYS" spacing="5">
+        <padding>
+            <Insets top="8" right="10" bottom="8" left="12"/>
+        </padding>
+        <!-- Row 1: index + name -->
+        <HBox spacing="5" alignment="CENTER_LEFT">
+            <Label fx:id="id" styleClass="cell_id_label"/>
+            <Label fx:id="name" styleClass="cell_big_label" HBox.hgrow="ALWAYS"/>
+        </HBox>
+        <!-- Row 2: price left, availability right -->
+        <HBox alignment="CENTER_LEFT">
+            <Label fx:id="price" styleClass="cell_price_label"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="availability" styleClass="cell_status_label"/>
+        </HBox>
     </VBox>
-  </GridPane>
 </HBox>
