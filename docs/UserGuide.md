@@ -226,7 +226,7 @@ Format: `unpaid INDEX`
 Edits an existing order in the order list.
 
 * This helps with updating orders when information changes, without having to delete and re-add the order to the list.
-* Completion status and payment status they cannot be modified using the `edit` command and **must** be modified using the above commands. 
+* Completion status and payment status cannot be modified using the `edit` command and **must** be modified using the above commands. 
 
 Format: 
 `edit INDEX [f/FOOD] [c/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/DATE] [$/PRICE] [t/TAG]…​
