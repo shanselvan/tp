@@ -301,7 +301,7 @@ The following are the commands that interact with this menu.
 **:information_source: Notes about the menu:**<br>
 
 * Any modifications to the menu will not affect existing orders.
-  * For example: There is an order with a food name `Birthday Cake`. Deleting `Birthday Cake` from the **menu** will not affect this existing order.<br>
+  * For example: There is an order with a food name `Birthday Cake`. Deleting or editing `Birthday Cake` in the **menu** will not affect this existing order.<br>
     But **future orders** will not be able to add food called `Birthday Cake` as it now does not exist in the menu.
   * This is so that you can freely change the menu without affecting past orders. After all, if someone ordered bread but one year later you switched to cooking noodles, that old order should still be retained for recording purposes!
 </div>
