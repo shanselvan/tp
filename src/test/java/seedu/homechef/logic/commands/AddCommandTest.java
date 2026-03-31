@@ -25,6 +25,7 @@ import seedu.homechef.model.ReadOnlyUserPrefs;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentType;
+import seedu.homechef.model.order.Quantity;
 import seedu.homechef.testutil.OrderBuilder;
 
 public class AddCommandTest {
@@ -55,6 +56,34 @@ public class AddCommandTest {
         Order inputOrder = new OrderBuilder().withPaymentInfo(cashPayment).build();
         // price is always derived from the menu item ("Birthday Cake" costs "25.00" in the stub)
         Order expectedOrder = new OrderBuilder().withPrice("25.00").withPaymentInfo(cashPayment).build();
+
+        CommandResult commandResult = new AddCommand(inputOrder).execute(modelStub);
+
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(expectedOrder)),
+                commandResult.getFeedbackToUser());
+        assertEquals(Arrays.asList(expectedOrder), modelStub.ordersAdded);
+    }
+
+    @Test
+    public void execute_orderWithQuantityThree_priceMulipliedByThree() throws Exception {
+        ModelStubAcceptingOrderAdded modelStub = new ModelStubAcceptingOrderAdded();
+        // Stub menu has "Birthday Cake" at $25.00; quantity 3 -> expected total $75.00
+        Order inputOrder = new OrderBuilder().withQuantity(3).build();
+        Order expectedOrder = new OrderBuilder().withQuantity(3).withPrice("75.00").build();
+
+        CommandResult commandResult = new AddCommand(inputOrder).execute(modelStub);
+
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(expectedOrder)),
+                commandResult.getFeedbackToUser());
+        assertEquals(Arrays.asList(expectedOrder), modelStub.ordersAdded);
+    }
+
+    @Test
+    public void execute_orderWithDefaultQuantity_priceNotMultiplied() throws Exception {
+        ModelStubAcceptingOrderAdded modelStub = new ModelStubAcceptingOrderAdded();
+        // quantity defaults to 1; price stays $25.00
+        Order inputOrder = new OrderBuilder().build();
+        Order expectedOrder = new OrderBuilder().withPrice("25.00").build();
 
         CommandResult commandResult = new AddCommand(inputOrder).execute(modelStub);
 
