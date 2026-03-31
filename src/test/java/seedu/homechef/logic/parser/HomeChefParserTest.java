@@ -41,7 +41,8 @@ public class HomeChefParserTest {
 
     @Test
     public void parseCommand_add() throws Exception {
-        Order order = new OrderBuilder().build();
+        // Parser inserts a placeholder price; real price is resolved at execution from the menu.
+        Order order = new OrderBuilder().withPrice("0.01").build();
         AddCommand command = (AddCommand) parser.parseCommand(OrderUtil.getAddCommand(order));
         assertEquals(new AddCommand(order), command);
     }

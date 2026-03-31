@@ -8,7 +8,6 @@ import static seedu.homechef.logic.parser.CliSyntax.PREFIX_CUSTOMER;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
-import static seedu.homechef.logic.parser.CliSyntax.PREFIX_ORDER_PRICE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYMENT_METHOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYMENT_REF;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PHONE;
@@ -69,8 +68,6 @@ public class CommandTestUtil {
     public static final String ADDRESS_DESC_BOB = " " + PREFIX_ADDRESS + VALID_ADDRESS_BOB;
     public static final String DATE_DESC_AMY = " " + PREFIX_DATE + VALID_DATE_AMY;
     public static final String DATE_DESC_BOB = " " + PREFIX_DATE + VALID_DATE_BOB;
-    public static final String PRICE_DESC_AMY = " " + PREFIX_ORDER_PRICE + VALID_PRICE_AMY;
-    public static final String PRICE_DESC_BOB = " " + PREFIX_ORDER_PRICE + VALID_PRICE_BOB;
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
 
@@ -80,7 +77,6 @@ public class CommandTestUtil {
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
     public static final String INVALID_DATE_DESC = " " + PREFIX_DATE + "99-10-2029"; // fake date not allowed in dates
-    public static final String INVALID_PRICE_DESC = " " + PREFIX_ORDER_PRICE + "03.20"; // leading '0' not allowed
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
     public static final String INVALID_COMPLETION_STATUS = "Invalid status";
     public static final String INVALID_PAYMENT_STATUS = "Invalid status";
@@ -133,10 +129,10 @@ public class CommandTestUtil {
     static {
         DESC_AMY = new EditOrderDescriptorBuilder().withCustomer(VALID_CUSTOMER_AMY)
                 .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
-                .withTags(VALID_TAG_FRIEND).withPrice(VALID_PRICE_AMY).build();
+                .withTags(VALID_TAG_FRIEND).build();
         DESC_BOB = new EditOrderDescriptorBuilder().withCustomer(VALID_CUSTOMER_BOB)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
-                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).withPrice(VALID_PRICE_BOB).build();
+                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
     }
 
     /**

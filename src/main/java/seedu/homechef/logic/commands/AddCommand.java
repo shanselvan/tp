@@ -9,7 +9,6 @@ import static seedu.homechef.logic.parser.CliSyntax.PREFIX_CUSTOMER;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
-import static seedu.homechef.logic.parser.CliSyntax.PREFIX_ORDER_PRICE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYMENT_METHOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYMENT_REF;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PHONE;
@@ -25,6 +24,7 @@ import seedu.homechef.model.Model;
 import seedu.homechef.model.menu.MenuItem;
 import seedu.homechef.model.order.Food;
 import seedu.homechef.model.order.Order;
+import seedu.homechef.model.order.Price;
 
 /**
  * Adds a order to the HomeChef.
@@ -41,7 +41,6 @@ public class AddCommand extends Command {
             + PREFIX_EMAIL + "EMAIL "
             + PREFIX_ADDRESS + "ADDRESS "
             + PREFIX_DATE + "DATE "
-            + PREFIX_ORDER_PRICE + "PRICE "
             + "[" + PREFIX_TAG + "TAG]... "
             + "[" + PREFIX_PAYMENT_METHOD + "PAYMENT_METHOD] "
             + "[" + PREFIX_PAYMENT_REF + "PAYMENT_REF] "
@@ -55,7 +54,6 @@ public class AddCommand extends Command {
             + PREFIX_EMAIL + "johnd@example.com "
             + PREFIX_ADDRESS + "NUS "
             + PREFIX_DATE + "20-10-2026 "
-            + PREFIX_ORDER_PRICE + "18.20 "
             + PREFIX_TAG + "dairyfree ";
 
     public static final String MESSAGE_SUCCESS = "New order added: %1$s";
@@ -89,12 +87,11 @@ public class AddCommand extends Command {
         }
 
         String canonicalName = matchingItem.get().getName().fullName;
-        Order orderToAdd = canonicalName.equals(foodName)
-                ? toAdd
-                : new Order(new Food(canonicalName), toAdd.getCustomer(), toAdd.getPhone(),
-                        toAdd.getEmail(), toAdd.getAddress(), toAdd.getDate(),
-                        toAdd.getCompletionStatus(), toAdd.getPaymentStatus(),
-                        toAdd.getTags(), toAdd.getPrice(), toAdd.getPaymentInfo());
+        Price menuPrice = new Price(matchingItem.get().getPrice().value);
+        Order orderToAdd = new Order(new Food(canonicalName), toAdd.getCustomer(), toAdd.getPhone(),
+                toAdd.getEmail(), toAdd.getAddress(), toAdd.getDate(),
+                toAdd.getCompletionStatus(), toAdd.getPaymentStatus(),
+                toAdd.getTags(), menuPrice, toAdd.getPaymentInfo());
 
         if (model.hasOrder(orderToAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_ORDER);

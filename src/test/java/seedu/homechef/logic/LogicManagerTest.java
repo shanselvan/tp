@@ -9,7 +9,6 @@ import static seedu.homechef.logic.commands.CommandTestUtil.DATE_DESC_AMY;
 import static seedu.homechef.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.homechef.logic.commands.CommandTestUtil.FOOD_DESC_AMY;
 import static seedu.homechef.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
-import static seedu.homechef.logic.commands.CommandTestUtil.PRICE_DESC_AMY;
 import static seedu.homechef.testutil.Assert.assertThrows;
 import static seedu.homechef.testutil.TypicalOrders.AMY;
 
@@ -186,8 +185,9 @@ public class LogicManagerTest {
 
         // Triggers the saveHomeChef method by executing an add command
         String addCommand = AddCommand.COMMAND_WORD + FOOD_DESC_AMY + CUSTOMER_DESC_AMY + PHONE_DESC_AMY
-                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + DATE_DESC_AMY + PRICE_DESC_AMY;
-        Order expectedOrder = new OrderBuilder(AMY).withTags().build();
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + DATE_DESC_AMY;
+        // price is derived from the menu item ("Birthday Cake" costs "25.00")
+        Order expectedOrder = new OrderBuilder(AMY).withTags().withPrice("25.00").build();
         ModelManager expectedModel = new ModelManager();
         expectedModel.addMenuItem(new MenuItem(new MenuItemName("Birthday Cake"), new Price("25.00"), true));
         expectedModel.addOrder(expectedOrder);

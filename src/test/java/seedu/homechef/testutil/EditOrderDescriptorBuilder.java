@@ -13,7 +13,6 @@ import seedu.homechef.model.order.Food;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.Phone;
-import seedu.homechef.model.order.Price;
 import seedu.homechef.model.tag.DietTag;
 
 /**
@@ -43,7 +42,6 @@ public class EditOrderDescriptorBuilder {
         descriptor.setAddress(order.getAddress());
         descriptor.setDate(order.getDate());
         descriptor.setTags(order.getTags());
-        descriptor.setPrice(order.getPrice());
         order.getPaymentInfo().ifPresent(descriptor::setPaymentInfo);
     }
 
@@ -92,14 +90,6 @@ public class EditOrderDescriptorBuilder {
      */
     public EditOrderDescriptorBuilder withDate(String date) {
         descriptor.setDate(new Date(date));
-        return this;
-    }
-
-    /**
-     * Sets the {@code Price} of the {@code EditOrderDescriptor} that we are building.
-     */
-    public EditOrderDescriptorBuilder withPrice(String price) {
-        descriptor.setPrice(new Price(price));
         return this;
     }
 

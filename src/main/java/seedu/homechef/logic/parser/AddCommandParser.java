@@ -7,7 +7,6 @@ import static seedu.homechef.logic.parser.CliSyntax.PREFIX_CUSTOMER;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
-import static seedu.homechef.logic.parser.CliSyntax.PREFIX_ORDER_PRICE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYMENT_METHOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYMENT_REF;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PHONE;
@@ -30,7 +29,6 @@ import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentStatus;
 import seedu.homechef.model.order.Phone;
-import seedu.homechef.model.order.Price;
 import seedu.homechef.model.tag.DietTag;
 
 /**
@@ -47,24 +45,23 @@ public class AddCommandParser implements Parser<AddCommand> {
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_FOOD, PREFIX_CUSTOMER, PREFIX_PHONE, PREFIX_EMAIL,
-                        PREFIX_ADDRESS, PREFIX_DATE, PREFIX_ORDER_PRICE, PREFIX_TAG,
+                        PREFIX_ADDRESS, PREFIX_DATE, PREFIX_TAG,
                         PREFIX_PAYMENT_METHOD, PREFIX_PAYMENT_REF, PREFIX_BANK_NAME, PREFIX_WALLET_PROVIDER);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_FOOD, PREFIX_CUSTOMER, PREFIX_ADDRESS,
-                PREFIX_PHONE, PREFIX_EMAIL, PREFIX_DATE, PREFIX_ORDER_PRICE)
+                PREFIX_PHONE, PREFIX_EMAIL, PREFIX_DATE)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_FOOD, PREFIX_CUSTOMER, PREFIX_PHONE, PREFIX_EMAIL,
-                PREFIX_ADDRESS, PREFIX_DATE, PREFIX_ORDER_PRICE);
+                PREFIX_ADDRESS, PREFIX_DATE);
         Food food = ParserUtil.parseFood(argMultimap.getValue(PREFIX_FOOD).get());
         Customer customer = ParserUtil.parseCustomer(argMultimap.getValue(PREFIX_CUSTOMER).get());
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
         Date date = ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get());
-        Price price = ParserUtil.parsePrice(argMultimap.getValue(PREFIX_ORDER_PRICE).get());
         // Initialise every Order as "Pending"
         CompletionStatus completionStatus = CompletionStatus.PENDING;
         // Initialise every Order as unpaid
@@ -75,8 +72,10 @@ public class AddCommandParser implements Parser<AddCommand> {
                 argMultimap.getValue(PREFIX_PAYMENT_REF),
                 argMultimap.getValue(PREFIX_BANK_NAME),
                 argMultimap.getValue(PREFIX_WALLET_PROVIDER));
+        // Price is resolved from the menu item at command execution time; use a placeholder here.
+        seedu.homechef.model.order.Price placeholderPrice = new seedu.homechef.model.order.Price("0.01");
         Order order = new Order(food, customer, phone, email, address, date,
-                completionStatus, paymentStatus, dietTagList, price, paymentInfo);
+                completionStatus, paymentStatus, dietTagList, placeholderPrice, paymentInfo);
 
         return new AddCommand(order);
     }

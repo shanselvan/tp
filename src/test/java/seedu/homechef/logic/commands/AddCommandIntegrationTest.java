@@ -38,14 +38,16 @@ public class AddCommandIntegrationTest {
 
     @Test
     public void execute_newOrder_success() {
-        Order validOrder = new OrderBuilder().build();
+        Order inputOrder = new OrderBuilder().build();
+        // price is derived from the menu; "Birthday Cake" costs "25.00"
+        Order expectedOrder = new OrderBuilder().withPrice("25.00").build();
 
         Model expectedModel = new ModelManager(
                 model.getHomeChef(), TypicalMenuItems.getTypicalMenuBook(), new UserPrefs());
-        expectedModel.addOrder(validOrder);
+        expectedModel.addOrder(expectedOrder);
 
-        assertCommandSuccess(new AddCommand(validOrder), model,
-                String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validOrder)),
+        assertCommandSuccess(new AddCommand(inputOrder), model,
+                String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(expectedOrder)),
                 expectedModel);
     }
 
@@ -58,9 +60,11 @@ public class AddCommandIntegrationTest {
 
     @Test
     public void execute_foodMatchesAvailableMenuItem_success() throws Exception {
-        Order newOrder = new OrderBuilder().withFood("Chicken Rice").build();
-        new AddCommand(newOrder).execute(model);
-        assertTrue(model.getFilteredOrderList().contains(newOrder));
+        Order inputOrder = new OrderBuilder().withFood("Chicken Rice").build();
+        new AddCommand(inputOrder).execute(model);
+        // price is derived from menu; "Chicken Rice" costs "5.50"
+        Order expectedOrder = new OrderBuilder().withFood("Chicken Rice").withPrice("5.50").build();
+        assertTrue(model.getFilteredOrderList().contains(expectedOrder));
     }
 
     @Test

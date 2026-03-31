@@ -5,7 +5,6 @@ import static seedu.homechef.logic.parser.CliSyntax.PREFIX_CUSTOMER;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
-import static seedu.homechef.logic.parser.CliSyntax.PREFIX_ORDER_PRICE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_TAG;
 
@@ -39,7 +38,6 @@ public class OrderUtil {
         sb.append(PREFIX_EMAIL + order.getEmail().toString() + " ");
         sb.append(PREFIX_ADDRESS + order.getAddress().toString() + " ");
         sb.append(PREFIX_DATE + order.getDate().toString() + " ");
-        sb.append(PREFIX_ORDER_PRICE + order.getPrice().toString() + " ");
         order.getTags().stream().forEach(
                 s -> sb.append(PREFIX_TAG + s.tagName + " ")
         );
@@ -57,7 +55,6 @@ public class OrderUtil {
         descriptor.getEmail().ifPresent(email -> sb.append(PREFIX_EMAIL).append(email.toString()).append(" "));
         descriptor.getAddress().ifPresent(address -> sb.append(PREFIX_ADDRESS).append(address.toString()).append(" "));
         descriptor.getDate().ifPresent(date -> sb.append(PREFIX_DATE).append(date).append(" "));
-        descriptor.getPrice().ifPresent(price -> sb.append(PREFIX_ORDER_PRICE).append(price).append(" "));
         if (descriptor.getTags().isPresent()) {
             Set<DietTag> dietTags = descriptor.getTags().get();
             if (dietTags.isEmpty()) {

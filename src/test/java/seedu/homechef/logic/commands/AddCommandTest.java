@@ -37,26 +37,30 @@ public class AddCommandTest {
     @Test
     public void execute_orderAcceptedByModel_addSuccessful() throws Exception {
         ModelStubAcceptingOrderAdded modelStub = new ModelStubAcceptingOrderAdded();
-        Order validOrder = new OrderBuilder().build();
+        Order inputOrder = new OrderBuilder().build();
+        // price is always derived from the menu item ("Birthday Cake" costs "25.00" in the stub)
+        Order expectedOrder = new OrderBuilder().withPrice("25.00").build();
 
-        CommandResult commandResult = new AddCommand(validOrder).execute(modelStub);
+        CommandResult commandResult = new AddCommand(inputOrder).execute(modelStub);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validOrder)),
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(expectedOrder)),
                 commandResult.getFeedbackToUser());
-        assertEquals(Arrays.asList(validOrder), modelStub.ordersAdded);
+        assertEquals(Arrays.asList(expectedOrder), modelStub.ordersAdded);
     }
 
     @Test
     public void execute_orderWithPaymentInfo_addSuccessful() throws Exception {
         ModelStubAcceptingOrderAdded modelStub = new ModelStubAcceptingOrderAdded();
         PaymentInfo cashPayment = new PaymentInfo(PaymentType.CASH, null, null, null, null, null, null);
-        Order orderWithPayment = new OrderBuilder().withPaymentInfo(cashPayment).build();
+        Order inputOrder = new OrderBuilder().withPaymentInfo(cashPayment).build();
+        // price is always derived from the menu item ("Birthday Cake" costs "25.00" in the stub)
+        Order expectedOrder = new OrderBuilder().withPrice("25.00").withPaymentInfo(cashPayment).build();
 
-        CommandResult commandResult = new AddCommand(orderWithPayment).execute(modelStub);
+        CommandResult commandResult = new AddCommand(inputOrder).execute(modelStub);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(orderWithPayment)),
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(expectedOrder)),
                 commandResult.getFeedbackToUser());
-        assertEquals(Arrays.asList(orderWithPayment), modelStub.ordersAdded);
+        assertEquals(Arrays.asList(expectedOrder), modelStub.ordersAdded);
     }
 
     @Test
