@@ -1,5 +1,6 @@
 package seedu.homechef.logic.parser;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.homechef.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.homechef.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static seedu.homechef.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
@@ -59,6 +60,7 @@ import static seedu.homechef.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_QUANTITY;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.homechef.testutil.TypicalOrders.AMY;
@@ -68,6 +70,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.homechef.logic.Messages;
 import seedu.homechef.logic.commands.AddCommand;
+import seedu.homechef.logic.parser.exceptions.ParseException;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.Date;
@@ -77,6 +80,7 @@ import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentType;
 import seedu.homechef.model.order.Phone;
+import seedu.homechef.model.order.Quantity;
 import seedu.homechef.model.tag.DietTag;
 import seedu.homechef.testutil.OrderBuilder;
 
@@ -407,5 +411,58 @@ public class AddCommandParserTest {
                 + PAYMENT_METHOD_DESC_CASH + PAYMENT_REF_DESC_PAYNOW;
         assertParseFailure(parser, userInput,
                 "No additional payment details (r/, b/, w/) are expected for CASH.");
+    }
+
+    @Test
+    public void parse_withQuantity_parsedQuantityIsThree() throws ParseException {
+        String userInput = FOOD_DESC_AMY + CUSTOMER_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
+                + ADDRESS_DESC_AMY + DATE_DESC_AMY + " " + PREFIX_QUANTITY + "3";
+        AddCommand command = parser.parse(userInput);
+        Order parsed = extractOrder(command);
+        assertEquals(new Quantity(3), parsed.getQuantity());
+    }
+
+    @Test
+    public void parse_withoutQuantity_parsedQuantityDefaultsToOne() throws ParseException {
+        String userInput = FOOD_DESC_AMY + CUSTOMER_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
+                + ADDRESS_DESC_AMY + DATE_DESC_AMY;
+        AddCommand command = parser.parse(userInput);
+        Order parsed = extractOrder(command);
+        assertEquals(new Quantity(1), parsed.getQuantity());
+    }
+
+    @Test
+    public void parse_quantityZero_throwsParseException() {
+        String userInput = FOOD_DESC_AMY + CUSTOMER_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
+                + ADDRESS_DESC_AMY + DATE_DESC_AMY + " " + PREFIX_QUANTITY + "0";
+        assertParseFailure(parser, userInput, Quantity.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_quantityNonNumeric_throwsParseException() {
+        String userInput = FOOD_DESC_AMY + CUSTOMER_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
+                + ADDRESS_DESC_AMY + DATE_DESC_AMY + " " + PREFIX_QUANTITY + "abc";
+        assertParseFailure(parser, userInput, Quantity.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_quantityAboveMax_throwsParseException() {
+        String userInput = FOOD_DESC_AMY + CUSTOMER_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
+                + ADDRESS_DESC_AMY + DATE_DESC_AMY + " " + PREFIX_QUANTITY + "1000";
+        assertParseFailure(parser, userInput, Quantity.MESSAGE_CONSTRAINTS);
+    }
+
+    /**
+     * Extracts the {@code Order} held inside an {@code AddCommand} using reflection.
+     * This avoids exposing a test-only getter in production code.
+     */
+    private static Order extractOrder(AddCommand command) {
+        try {
+            java.lang.reflect.Field field = AddCommand.class.getDeclaredField("toAdd");
+            field.setAccessible(true);
+            return (Order) field.get(command);
+        } catch (ReflectiveOperationException e) {
+            throw new AssertionError("Could not access AddCommand.toAdd via reflection", e);
+        }
     }
 }

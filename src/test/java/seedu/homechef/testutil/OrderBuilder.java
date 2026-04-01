@@ -15,6 +15,7 @@ import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentStatus;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Price;
+import seedu.homechef.model.order.Quantity;
 import seedu.homechef.model.tag.DietTag;
 import seedu.homechef.model.util.SampleDataUtil;
 
@@ -42,6 +43,7 @@ public class OrderBuilder {
     private CompletionStatus completionStatus;
     private PaymentStatus paymentStatus;
     private Set<DietTag> dietTags;
+    private Quantity quantity;
     private Price price;
     private Optional<PaymentInfo> paymentInfo = Optional.empty();
 
@@ -57,6 +59,7 @@ public class OrderBuilder {
         date = new Date(DEFAULT_DATE);
         completionStatus = CompletionStatus.fromString(DEFAULT_COMPLETION_STATUS);
         paymentStatus = PaymentStatus.fromString(DEFAULT_PAYMENT_STATUS);
+        quantity = new Quantity(1);
         price = new Price(DEFAULT_PRICE);
         dietTags = new HashSet<>();
     }
@@ -73,6 +76,7 @@ public class OrderBuilder {
         date = orderToCopy.getDate();
         completionStatus = orderToCopy.getCompletionStatus();
         paymentStatus = orderToCopy.getPaymentStatus();
+        quantity = orderToCopy.getQuantity();
         price = orderToCopy.getPrice();
         dietTags = new HashSet<>(orderToCopy.getTags());
         paymentInfo = orderToCopy.getPaymentInfo();
@@ -151,6 +155,14 @@ public class OrderBuilder {
     }
 
     /**
+     * Sets the {@code Quantity} of the {@code Order} that we are building.
+     */
+    public OrderBuilder withQuantity(int quantity) {
+        this.quantity = new Quantity(quantity);
+        return this;
+    }
+
+    /**
      * Sets the {@code Price} of the {@code Order} that we are building.
      */
     public OrderBuilder withPrice(String price) {
@@ -171,7 +183,7 @@ public class OrderBuilder {
      */
     public Order build() {
         return new Order(food, customer, phone, email, address, date,
-                completionStatus, paymentStatus, dietTags, price, paymentInfo);
+                completionStatus, paymentStatus, dietTags, quantity, price, paymentInfo);
     }
 
 }

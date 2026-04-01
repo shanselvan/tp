@@ -23,6 +23,7 @@ import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentType;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Price;
+import seedu.homechef.model.order.Quantity;
 import seedu.homechef.model.tag.DietTag;
 
 public class ParserUtilTest {
@@ -380,5 +381,57 @@ public class ParserUtilTest {
         assertThrows(ParseException.class, () -> ParserUtil.parseAvailability("yes"));
         assertThrows(ParseException.class, () -> ParserUtil.parseAvailability("1"));
         assertThrows(ParseException.class, () -> ParserUtil.parseAvailability(""));
+    }
+
+    //---------------- Tests for parseQuantity ----------------------------------------
+
+    @Test
+    public void parseQuantity_validValueOne_returnsQuantity() throws Exception {
+        assertEquals(new Quantity(1), ParserUtil.parseQuantity("1"));
+    }
+
+    @Test
+    public void parseQuantity_validValueMid_returnsQuantity() throws Exception {
+        assertEquals(new Quantity(3), ParserUtil.parseQuantity("3"));
+    }
+
+    @Test
+    public void parseQuantity_validValueMax_returnsQuantity() throws Exception {
+        assertEquals(new Quantity(999), ParserUtil.parseQuantity("999"));
+    }
+
+    @Test
+    public void parseQuantity_validValueWithWhitespace_returnsTrimmedQuantity() throws Exception {
+        assertEquals(new Quantity(3), ParserUtil.parseQuantity(" 3 "));
+    }
+
+    @Test
+    public void parseQuantity_zero_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseQuantity("0"));
+    }
+
+    @Test
+    public void parseQuantity_negative_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseQuantity("-1"));
+    }
+
+    @Test
+    public void parseQuantity_exceedsMax_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseQuantity("1000"));
+    }
+
+    @Test
+    public void parseQuantity_nonNumeric_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseQuantity("abc"));
+    }
+
+    @Test
+    public void parseQuantity_empty_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseQuantity(""));
+    }
+
+    @Test
+    public void parseQuantity_decimal_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseQuantity("1.5"));
     }
 }

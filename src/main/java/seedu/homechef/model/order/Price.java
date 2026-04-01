@@ -3,6 +3,8 @@ package seedu.homechef.model.order;
 import static java.util.Objects.requireNonNull;
 import static seedu.homechef.commons.util.AppUtil.checkArgument;
 
+import java.util.Locale;
+
 /**
  * Represents an Order's price in the HomeChef.
  * Guarantees: immutable; is valid as declared in {@link #isValidPrice(String)}
@@ -38,9 +40,23 @@ public class Price {
         return test.matches(VALIDATION_REGEX);
     }
 
+    /**
+     * Returns a new {@code Price} whose value is {@code unitPrice} multiplied by {@code qty}.
+     *
+     * @param unitPrice the per-item price.
+     * @param qty       the number of items.
+     * @return a {@code Price} representing the total cost.
+     */
+    public static Price multiply(Price unitPrice, Quantity qty) {
+        requireNonNull(unitPrice);
+        requireNonNull(qty);
+        double total = Double.parseDouble(unitPrice.value) * qty.value;
+        return new Price(String.format(Locale.US, "%.2f", total));
+    }
+
     private static String formatToTwoDecimalPlaces(String price) {
         double parsedPrice = Double.parseDouble(price);
-        return String.format("%.2f", parsedPrice);
+        return String.format(Locale.US, "%.2f", parsedPrice);
     }
 
     @Override

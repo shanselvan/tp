@@ -109,12 +109,16 @@ The following are the commands that interact with this order list.
 Adds an order to the order list.
 All orders are initially set as 'Pending' and 'Unpaid'.
 
-Format: `add f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE [t/TAG]…​ 
+Format: `add f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE [q/QUANTITY] [t/TAG]…​ 
 [m/PAYMENT METHOD] [r/PAYMENT REF] [b/BANK NAME] [w/WALLET PROVIDER]`
 
 * `FOOD` must match an existing food's name in the current menu exactly.
   * Giving an input that is not in the menu will show an error message telling you to `Use 'add-menu' to add it to the menu first.`
 * The order's price is automatically taken from the matching menu item. Use `add-menu` or `edit-menu` to update a food's price.
+* `QUANTITY` specifies how many units of the food item are ordered.
+  * If omitted, `QUANTITY` defaults to `1`.
+  * The total order price is calculated as `menu price x quantity`.
+  * `QUANTITY` must be a positive integer between `1` and `999` (inclusive). Any other value will show an error message.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 An order can have any number of dietTags (including 0)
@@ -135,6 +139,7 @@ Examples:
 * `add f/Red Bean Bun c/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 d/30-03-2026`
 * `add f/Hawaiian Pizza c/Betsy Crowe t/Halal e/betsycrowe@example.com a/Newgate Prison p/1234567 d/12-12-2026 t/No peanuts`
 * `add f/Bananas c/Monkey p/80801414 t/An actual monkey e/ooaa@ananab.com a/Monkey Village m/Bank r/123456789 b/Monkey Bank d/18-03-2026`
+* `add f/Nasi Lemak q/3 c/John p/91234567 e/john@example.com a/123 Street d/01-12-2024` Adds an order of `3` units of `Nasi Lemak`. The total price shown will be the menu price multiplied by `3`.
 
 ### Listing all orders : `list`
 
@@ -414,7 +419,7 @@ If the copies exist, copy them over to the `data` folder located in the folder t
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add f/FOOD c/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS d/DATE [t/TAG]…​ [m/PAYMENT METHOD] [r/PAYMENT REF] [b/BANK NAME] [w/WALLET PROVIDER]` <br> e.g., `add f/Chicken Rice c/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd d/30-03-2026`
+**Add** | `add f/FOOD c/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS d/DATE [q/QUANTITY] [t/TAG]…​ [m/PAYMENT METHOD] [r/PAYMENT REF] [b/BANK NAME] [w/WALLET PROVIDER]` <br> e.g., `add f/Chicken Rice c/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd d/30-03-2026`
 **List** | `list [d/DATE] [c/CUSTOMER] [f/FOOD] [p/PHONE] [cs/COMPLETION_STATUS] [ps/PAYMENT_STATUS]`<br> e.g., `list d/18-10-2026 cs/completed ps/Paid`
 **Mark In Progress** | `inprogress INDEX` <br> e.g., `inprogress 2`
 **Mark Complete** | `complete INDEX` <br> e.g., `complete 4`

@@ -29,26 +29,48 @@ public class Order {
     private final CompletionStatus completionStatus;
     private final PaymentStatus paymentStatus;
     private final Set<DietTag> dietTags = new HashSet<>();
+    private final Quantity quantity;
     private final Price price;
     private final Optional<PaymentInfo> paymentInfo;
 
     /**
-     * Every field must be present and not null.
+     * Every field must be present and not null. Quantity defaults to 1.
      */
     public Order(Food food, Customer customer, Phone phone, Email email, Address address, Date date,
                  CompletionStatus completionStatus, PaymentStatus paymentStatus, Set<DietTag> dietTags, Price price) {
         this(food, customer, phone, email, address, date,
-                completionStatus, paymentStatus, dietTags, price, Optional.empty());
+                completionStatus, paymentStatus, dietTags, new Quantity(1), price, Optional.empty());
     }
 
     /**
-     * Every field must be present and not null. {@code paymentInfo} may be empty.
+     * Every field must be present and not null. {@code paymentInfo} may be empty. Quantity defaults to 1.
      */
     public Order(Food food, Customer customer, Phone phone, Email email, Address address, Date date,
                  CompletionStatus completionStatus, PaymentStatus paymentStatus, Set<DietTag> dietTags,
                  Price price, Optional<PaymentInfo> paymentInfo) {
+        this(food, customer, phone, email, address, date,
+                completionStatus, paymentStatus, dietTags, new Quantity(1), price, paymentInfo);
+    }
+
+    /**
+     * Every field must be present and not null. {@code quantity} specifies the number of items ordered.
+     */
+    public Order(Food food, Customer customer, Phone phone, Email email, Address address, Date date,
+                 CompletionStatus completionStatus, PaymentStatus paymentStatus, Set<DietTag> dietTags,
+                 Quantity quantity, Price price) {
+        this(food, customer, phone, email, address, date,
+                completionStatus, paymentStatus, dietTags, quantity, price, Optional.empty());
+    }
+
+    /**
+     * Every field must be present and not null. {@code paymentInfo} may be empty.
+     * {@code quantity} specifies the number of items ordered.
+     */
+    public Order(Food food, Customer customer, Phone phone, Email email, Address address, Date date,
+                 CompletionStatus completionStatus, PaymentStatus paymentStatus, Set<DietTag> dietTags,
+                 Quantity quantity, Price price, Optional<PaymentInfo> paymentInfo) {
         requireAllNonNull(food, customer, phone, email, address, date,
-                completionStatus, paymentStatus, dietTags, price, paymentInfo);
+                completionStatus, paymentStatus, dietTags, quantity, price, paymentInfo);
         this.food = food;
         this.customer = customer;
         this.phone = phone;
@@ -58,6 +80,7 @@ public class Order {
         this.completionStatus = completionStatus;
         this.paymentStatus = paymentStatus;
         this.dietTags.addAll(dietTags);
+        this.quantity = quantity;
         this.price = price;
         this.paymentInfo = paymentInfo;
     }
@@ -114,6 +137,13 @@ public class Order {
      */
     public Set<DietTag> getTags() {
         return Collections.unmodifiableSet(dietTags);
+    }
+
+    /**
+     * Returns the {@code Quantity} for this order.
+     */
+    public Quantity getQuantity() {
+        return quantity;
     }
 
     /**

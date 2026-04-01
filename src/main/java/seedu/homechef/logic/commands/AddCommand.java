@@ -12,6 +12,7 @@ import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYMENT_METHOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYMENT_REF;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_QUANTITY;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_WALLET_PROVIDER;
 
@@ -25,6 +26,7 @@ import seedu.homechef.model.menu.MenuItem;
 import seedu.homechef.model.order.Food;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.Price;
+import seedu.homechef.model.order.Quantity;
 
 /**
  * Adds a order to the HomeChef.
@@ -41,6 +43,7 @@ public class AddCommand extends Command {
             + PREFIX_EMAIL + "EMAIL "
             + PREFIX_ADDRESS + "ADDRESS "
             + PREFIX_DATE + "DATE "
+            + "[" + PREFIX_QUANTITY + "QUANTITY] "
             + "[" + PREFIX_TAG + "TAG]... "
             + "[" + PREFIX_PAYMENT_METHOD + "PAYMENT_METHOD] "
             + "[" + PREFIX_PAYMENT_REF + "PAYMENT_REF] "
@@ -87,11 +90,13 @@ public class AddCommand extends Command {
         }
 
         String canonicalName = matchingItem.get().getName().fullName;
-        Price menuPrice = new Price(matchingItem.get().getPrice().value);
+        Price unitPrice = new Price(matchingItem.get().getPrice().value);
+        Quantity quantity = toAdd.getQuantity();
+        Price totalPrice = Price.multiply(unitPrice, quantity);
         Order orderToAdd = new Order(new Food(canonicalName), toAdd.getCustomer(), toAdd.getPhone(),
                 toAdd.getEmail(), toAdd.getAddress(), toAdd.getDate(),
                 toAdd.getCompletionStatus(), toAdd.getPaymentStatus(),
-                toAdd.getTags(), menuPrice, toAdd.getPaymentInfo());
+                toAdd.getTags(), quantity, totalPrice, toAdd.getPaymentInfo());
 
         if (model.hasOrder(orderToAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_ORDER);

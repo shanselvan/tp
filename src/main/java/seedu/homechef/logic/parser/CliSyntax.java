@@ -22,4 +22,5 @@ public class CliSyntax {
     public static final Prefix PREFIX_AVAILABILITY = new Prefix("v/");
     public static final Prefix PREFIX_COMPLETION_STATUS = new Prefix("cs/");
     public static final Prefix PREFIX_PAYMENT_STATUS = new Prefix("ps/");
+    public static final Prefix PREFIX_QUANTITY = new Prefix("q/");
 }

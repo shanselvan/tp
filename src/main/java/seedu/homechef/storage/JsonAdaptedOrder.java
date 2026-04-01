@@ -22,6 +22,7 @@ import seedu.homechef.model.order.PaymentStatus;
 import seedu.homechef.model.order.PaymentType;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Price;
+import seedu.homechef.model.order.Quantity;
 import seedu.homechef.model.tag.DietTag;
 
 /**
@@ -49,6 +50,9 @@ class JsonAdaptedOrder {
     private final String paymentWalletProvider;
     private final String paymentWalletAccountId;
 
+    @JsonProperty("quantity")
+    private final Integer quantity;
+
     /**
      * Constructs a {@code JsonAdaptedOrder} with the given order details.
      */
@@ -70,7 +74,8 @@ class JsonAdaptedOrder {
             @JsonProperty("paymentReferenceNumber") String paymentReferenceNumber,
             @JsonProperty("paymentLastFourDigits") String paymentLastFourDigits,
             @JsonProperty("paymentWalletProvider") String paymentWalletProvider,
-            @JsonProperty("paymentWalletAccountId") String paymentWalletAccountId) {
+            @JsonProperty("paymentWalletAccountId") String paymentWalletAccountId,
+            @JsonProperty("quantity") Integer quantity) {
         this.food = food;
         this.customer = customer;
         this.phone = phone;
@@ -90,6 +95,7 @@ class JsonAdaptedOrder {
         this.paymentLastFourDigits = paymentLastFourDigits;
         this.paymentWalletProvider = paymentWalletProvider;
         this.paymentWalletAccountId = paymentWalletAccountId;
+        this.quantity = quantity;
     }
 
     /**
@@ -104,6 +110,7 @@ class JsonAdaptedOrder {
         date = source.getDate().toString();
         completionStatus = source.getCompletionStatus().toString();
         paymentStatus = source.getPaymentStatus().toString();
+        quantity = source.getQuantity().value;
         price = source.getPrice().toString();
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
@@ -237,8 +244,11 @@ class JsonAdaptedOrder {
             }
         }
 
+        int qty = (quantity != null) ? quantity : 1;
+        final Quantity modelQuantity = new Quantity(qty);
+
         return new Order(modelFood, modelCustomer, modelPhone, modelEmail, modelAddress, modelDate,
-                modelCompletionStatus, modelPaymentStatus, modelDietTags, modelPrice, modelPaymentInfo);
+                modelCompletionStatus, modelPaymentStatus, modelDietTags, modelQuantity, modelPrice, modelPaymentInfo);
     }
 
 }

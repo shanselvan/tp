@@ -21,6 +21,7 @@ import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentType;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Price;
+import seedu.homechef.model.order.Quantity;
 import seedu.homechef.model.tag.DietTag;
 
 /**
@@ -179,6 +180,21 @@ public class ParserUtil {
             throw new ParseException(Price.MESSAGE_CONSTRAINTS);
         }
         return new Price(trimmedPrice);
+    }
+
+    /**
+     * Parses a {@code String value} into a {@code Quantity}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code value} is not a valid quantity.
+     */
+    public static Quantity parseQuantity(String value) throws ParseException {
+        requireNonNull(value);
+        String trimmed = value.trim();
+        if (!Quantity.isValidQuantity(trimmed)) {
+            throw new ParseException(Quantity.MESSAGE_CONSTRAINTS);
+        }
+        return new Quantity(Integer.parseInt(trimmed));
     }
 
     /**

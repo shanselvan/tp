@@ -20,6 +20,7 @@ import seedu.homechef.model.order.Food;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentStatus;
 import seedu.homechef.model.order.Phone;
+import seedu.homechef.model.order.Quantity;
 
 /**
  * An UI component that displays information of a {@code Order}.
@@ -83,6 +84,8 @@ public class OrderCard extends UiPart<Region> {
     @FXML
     private Label paymentStatus;
     @FXML
+    private Label quantity;
+    @FXML
     private FlowPane dietTags;
 
     /**
@@ -93,6 +96,7 @@ public class OrderCard extends UiPart<Region> {
         this.order = order;
         setIdDisplay(displayedIndex);
         setFoodDisplay(order.getFood());
+        setQuantityDisplay(order.getQuantity());
         setCustomerDisplay(order.getCustomer());
         setPhoneDisplay(order.getPhone());
         setAddressDisplay(order.getAddress());
@@ -117,6 +121,10 @@ public class OrderCard extends UiPart<Region> {
 
     private void setFoodDisplay(Food food) {
         this.food.setText(food.toString());
+    }
+
+    private void setQuantityDisplay(Quantity qty) {
+        this.quantity.setText("Qty: " + qty.value);
     }
 
     private void setCustomerDisplay(Customer customer) {
