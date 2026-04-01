@@ -37,6 +37,9 @@ public class MenuCard extends UiPart<Region> {
     public MenuCard(MenuItem menuItem, int displayedIndex) {
         super(FXML);
         this.menuItem = menuItem;
+        id.setMinWidth(Region.USE_PREF_SIZE);
+        name.setWrapText(true);
+        name.setMinWidth(0);
         id.setText(displayedIndex + ". ");
         name.setText(menuItem.getName().fullName);
         price.setText("$" + menuItem.getPrice().value);

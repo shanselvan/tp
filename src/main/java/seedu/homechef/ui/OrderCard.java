@@ -94,6 +94,9 @@ public class OrderCard extends UiPart<Region> {
     public OrderCard(Order order, int displayedIndex) {
         super(FXML);
         this.order = order;
+        id.setMinWidth(Region.USE_PREF_SIZE);
+        food.setWrapText(true);
+        food.setMinWidth(0);
         setIdDisplay(displayedIndex);
         setFoodDisplay(order.getFood());
         setQuantityDisplay(order.getQuantity());

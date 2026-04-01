@@ -17,7 +17,8 @@
         <!-- Row 1: index + food name + quantity + diet tags -->
         <HBox spacing="5" alignment="CENTER_LEFT">
             <Label fx:id="id" styleClass="cell_id_label"/>
-            <Label fx:id="food" styleClass="cell_big_label" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+            <Label fx:id="food" styleClass="cell_big_label" wrapText="true"
+                   HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308"/>
             <Label fx:id="quantity" styleClass="cell_small_label"/>
             <FlowPane fx:id="dietTags"/>
         </HBox>

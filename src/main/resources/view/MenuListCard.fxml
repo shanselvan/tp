@@ -14,7 +14,8 @@
         <!-- Row 1: index + name -->
         <HBox spacing="5" alignment="CENTER_LEFT">
             <Label fx:id="id" styleClass="cell_id_label"/>
-            <Label fx:id="name" styleClass="cell_big_label" HBox.hgrow="ALWAYS"/>
+            <Label fx:id="name" styleClass="cell_big_label" wrapText="true" maxWidth="1.7976931348623157E308"
+                   HBox.hgrow="ALWAYS"/>
         </HBox>
         <!-- Row 2: price left, availability right -->
         <HBox alignment="CENTER_LEFT">
