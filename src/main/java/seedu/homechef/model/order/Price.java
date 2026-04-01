@@ -3,7 +3,8 @@ package seedu.homechef.model.order;
 import static java.util.Objects.requireNonNull;
 import static seedu.homechef.commons.util.AppUtil.checkArgument;
 
-import java.util.Locale;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * Represents an Order's price in the HomeChef.
@@ -50,13 +51,12 @@ public class Price {
     public static Price multiply(Price unitPrice, Quantity qty) {
         requireNonNull(unitPrice);
         requireNonNull(qty);
-        double total = Double.parseDouble(unitPrice.value) * qty.value;
-        return new Price(String.format(Locale.US, "%.2f", total));
+        BigDecimal total = new BigDecimal(unitPrice.value).multiply(BigDecimal.valueOf(qty.value));
+        return new Price(total.setScale(2, RoundingMode.UNNECESSARY).toPlainString());
     }
 
     private static String formatToTwoDecimalPlaces(String price) {
-        double parsedPrice = Double.parseDouble(price);
-        return String.format(Locale.US, "%.2f", parsedPrice);
+        return new BigDecimal(price).setScale(2, RoundingMode.UNNECESSARY).toPlainString();
     }
 
     @Override

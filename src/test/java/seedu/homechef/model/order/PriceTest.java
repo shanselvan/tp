@@ -1,5 +1,6 @@
 package seedu.homechef.model.order;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.homechef.testutil.Assert.assertThrows;
@@ -72,5 +73,11 @@ public class PriceTest {
 
         // different values -> returns false
         assertFalse(price.equals(new Price("6.00")));
+    }
+
+    @Test
+    public void constructor_longWholeNumber_preservesExactValue() {
+        Price price = new Price("33333333333333333");
+        assertEquals("33333333333333333.00", price.toString());
     }
 }
