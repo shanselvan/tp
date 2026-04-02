@@ -16,6 +16,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import seedu.homechef.logic.parser.exceptions.ParseException;
+import seedu.homechef.model.menu.MenuItemName;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.Email;
@@ -239,6 +240,25 @@ public class ParserUtilTest {
         String priceWithWhitespace = WHITESPACE + VALID_PRICE_NO_DECIMAL + WHITESPACE;
         Price expectedPrice = new Price(VALID_PRICE_NO_DECIMAL);
         assertEquals(expectedPrice, ParserUtil.parsePrice(priceWithWhitespace));
+    }
+
+    @Test
+    public void parseMenuItemName_validValueWithWhitespace_returnsTrimmedMenuItemName() throws Exception {
+        String menuItemNameWithWhitespace = WHITESPACE + "Chicken Rice" + WHITESPACE;
+        MenuItemName expectedName = new MenuItemName("Chicken Rice");
+        assertEquals(expectedName, ParserUtil.parseMenuItemName(menuItemNameWithWhitespace));
+    }
+
+    @Test
+    public void parseMenuPrice_validValueWithOneDecimal_normalizesToTwoDecimalPlaces() throws Exception {
+        // EP: valid one-decimal menu price should be normalized for display consistency.
+        assertEquals("5.50", ParserUtil.parseMenuPrice("5.5").value);
+    }
+
+    @Test
+    public void parseMenuPrice_validIntegerValue_normalizesToTwoDecimalPlaces() throws Exception {
+        // EP: valid integer menu price should be normalized for display consistency.
+        assertEquals("12.00", ParserUtil.parseMenuPrice("12").value);
     }
 
     @Test

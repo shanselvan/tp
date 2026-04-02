@@ -3,6 +3,8 @@ package seedu.homechef.model.menu;
 import static java.util.Objects.requireNonNull;
 import static seedu.homechef.commons.util.AppUtil.checkArgument;
 
+import java.util.Locale;
+
 /**
  * Represents a MenuItem's price in the menu.
  * Guarantees: immutable; is valid as declared in {@link #isValidPrice(String)}
@@ -25,7 +27,7 @@ public class Price {
     public Price(String price) {
         requireNonNull(price);
         checkArgument(isValidPrice(price), MESSAGE_CONSTRAINTS);
-        value = price;
+        value = formatToTwoDecimalPlaces(price);
     }
 
     /**
@@ -33,6 +35,11 @@ public class Price {
      */
     public static boolean isValidPrice(String test) {
         return test.matches(VALIDATION_REGEX);
+    }
+
+    private static String formatToTwoDecimalPlaces(String price) {
+        double parsedPrice = Double.parseDouble(price);
+        return String.format(Locale.US, "%.2f", parsedPrice);
     }
 
     @Override
