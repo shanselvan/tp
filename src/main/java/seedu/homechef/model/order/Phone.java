@@ -12,7 +12,7 @@ public class Phone {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Phone numbers should be at least 3 digits long, and may include a country code prefix "
-            + "separated by a space (e.g. +65 91234567)";
+                    + "separated by a space (e.g. +65 91234567)";
     public static final String VALIDATION_REGEX = "(\\+\\d{1,3} )?\\d{3,}";
     private final String value;
 
@@ -51,7 +51,7 @@ public class Phone {
         }
 
         Phone otherPhone = (Phone) other;
-        return value.equals(otherPhone.value);
+        return value.equalsIgnoreCase(otherPhone.value);
     }
 
     @Override

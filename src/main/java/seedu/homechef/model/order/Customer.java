@@ -56,7 +56,7 @@ public class Customer {
         }
 
         Customer otherCustomer = (Customer) other;
-        return fullName.equals(otherCustomer.fullName);
+        return fullName.equalsIgnoreCase(otherCustomer.fullName);
     }
 
     @Override
