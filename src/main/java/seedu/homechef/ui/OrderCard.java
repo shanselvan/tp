@@ -3,6 +3,7 @@ package seedu.homechef.ui;
 import static seedu.homechef.commons.util.AppUtil.checkArgument;
 
 import java.util.Comparator;
+import java.util.Set;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -21,6 +22,7 @@ import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentStatus;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Quantity;
+import seedu.homechef.model.tag.DietTag;
 
 /**
  * An UI component that displays information of a {@code Order}.
@@ -95,8 +97,6 @@ public class OrderCard extends UiPart<Region> {
         super(FXML);
         this.order = order;
         id.setMinWidth(Region.USE_PREF_SIZE);
-        food.setWrapText(true);
-        food.setMinWidth(0);
         setIdDisplay(displayedIndex);
         setFoodDisplay(order.getFood());
         setQuantityDisplay(order.getQuantity());
@@ -113,9 +113,11 @@ public class OrderCard extends UiPart<Region> {
                     paymentInfo.setVisible(false);
                     paymentInfo.setManaged(false);
                 });
-        order.getTags().stream()
-                .sorted(Comparator.comparing(tag -> tag.tagName))
-                .forEach(tag -> dietTags.getChildren().add(new Label(tag.tagName)));
+        setDietTagsDisplay(order.getTags());
+        if (order.getTags().isEmpty()) {
+            dietTags.setVisible(false);
+            dietTags.setManaged(false);   // removes it from layout entirely
+        }
     }
 
     private void setIdDisplay(int index) {
@@ -128,6 +130,7 @@ public class OrderCard extends UiPart<Region> {
 
     private void setQuantityDisplay(Quantity qty) {
         this.quantity.setText("Qty: " + qty.value);
+        this.quantity.setMinWidth(Region.USE_PREF_SIZE);
     }
 
     private void setCustomerDisplay(Customer customer) {
@@ -216,6 +219,15 @@ public class OrderCard extends UiPart<Region> {
             checkArgument(PaymentStatus.isValidPaymentStatus(status.toString()),
                     PaymentStatus.MESSAGE_CONSTRAINTS);
         }
+    }
+
+    private void setDietTagsDisplay(Set<DietTag> tags) {
+        dietTags.setMinWidth(Region.USE_PREF_SIZE);
+        dietTags.setMaxWidth(Region.USE_PREF_SIZE);
+        dietTags.setPrefWidth(Region.USE_PREF_SIZE);
+        tags.stream()
+                .sorted(Comparator.comparing(tag -> tag.tagName))
+                .forEach(tag -> dietTags.getChildren().add(new Label(tag.tagName)));
     }
 
     private void setPriceDisplay() {
