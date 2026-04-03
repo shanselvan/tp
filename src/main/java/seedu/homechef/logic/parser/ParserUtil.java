@@ -38,13 +38,26 @@ public class ParserUtil {
             .collect(Collectors.joining(", "));
 
     /**
-     * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
-     * trimmed.
+     * Trims leading and trailing whitespaces in {@code String input} and
+     * replaces sequences of multiple whitespaces with a single space.
      *
+     * @param input String to normalize
+     * @return Normalized string
+     */
+    public static String normalizeWhitespace(String input) {
+        return input.trim().replaceAll("\\s+", " ");
+    }
+
+    /**
+     * Parses {@code oneBasedIndex} into an {@code Index} and returns it.
+     * String will be normalized by trimming and replacing whitespace with a single space.
+     *
+     * @param oneBasedIndex One-based index to parse
+     * @return Index object representing the parsed index
      * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
-        String trimmedIndex = oneBasedIndex.trim();
+        String trimmedIndex = normalizeWhitespace(oneBasedIndex);
         if (!StringUtil.isNonZeroUnsignedInteger(trimmedIndex)) {
             throw new ParseException(MESSAGE_INVALID_INDEX);
         }
@@ -53,13 +66,15 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String foodName} into a {@code Food}.
-     * Leading and trailing whitespaces will be trimmed.
+     * String will be normalized by trimming and replacing whitespace with a single space.
      *
+     * @param foodName The food name string to parse.
+     * @return A Food object representing the parsed food name.
      * @throws ParseException if the given {@code foodName} is invalid.
      */
     public static Food parseFood(String foodName) throws ParseException {
         requireNonNull(foodName);
-        String trimmedName = foodName.trim();
+        String trimmedName = normalizeWhitespace(foodName);
         if (!Food.isValidFood(trimmedName)) {
             throw new ParseException(Food.MESSAGE_CONSTRAINTS);
         }
@@ -68,13 +83,15 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String menuItemName} into a {@code MenuItemName}.
-     * Leading and trailing whitespaces will be trimmed.
+     * String will be normalized by trimming and replacing whitespace with a single space.
      *
+     * @param menuItemName The menu item name string to parse.
+     * @return A MenuItemName object representing the parsed menu item name.
      * @throws ParseException if the given {@code menuItemName} is invalid.
      */
     public static MenuItemName parseMenuItemName(String menuItemName) throws ParseException {
         requireNonNull(menuItemName);
-        String trimmedName = menuItemName.trim();
+        String trimmedName = normalizeWhitespace(menuItemName);
         if (!MenuItemName.isValidMenuItemName(trimmedName)) {
             throw new ParseException(MenuItemName.MESSAGE_CONSTRAINTS);
         }
@@ -83,13 +100,15 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String customerName} into a {@code Customer}.
-     * Leading and trailing whitespaces will be trimmed.
+     * String will be normalized by trimming and replacing whitespace with a single space.
      *
+     * @param customerName The customer name string to parse.
+     * @return A Customer object representing the parsed customer name.
      * @throws ParseException if the given {@code customerName} is invalid.
      */
     public static Customer parseCustomer(String customerName) throws ParseException {
         requireNonNull(customerName);
-        String trimmedName = customerName.trim();
+        String trimmedName = normalizeWhitespace(customerName);
         if (!Customer.isValidCustomer(trimmedName)) {
             throw new ParseException(Customer.MESSAGE_CONSTRAINTS);
         }
@@ -98,13 +117,15 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String phone} into a {@code Phone}.
-     * Leading and trailing whitespaces will be trimmed.
+     * String will be normalized by trimming and replacing whitespace with a single space.
      *
+     * @param phone Phone number string to parse
+     * @return A Phone object representing the parsed phone number.
      * @throws ParseException if the given {@code phone} is invalid.
      */
     public static Phone parsePhone(String phone) throws ParseException {
         requireNonNull(phone);
-        String trimmedPhone = phone.trim();
+        String trimmedPhone = normalizeWhitespace(phone);
         if (!Phone.isValidPhone(trimmedPhone)) {
             throw new ParseException(Phone.MESSAGE_CONSTRAINTS);
         }
@@ -113,13 +134,15 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String address} into an {@code Address}.
-     * Leading and trailing whitespaces will be trimmed.
+     * String will be normalized by trimming and replacing whitespace with a single space.
      *
+     * @param address Address string to parse
+     * @return An Address object representing the parsed address.
      * @throws ParseException if the given {@code address} is invalid.
      */
     public static Address parseAddress(String address) throws ParseException {
         requireNonNull(address);
-        String trimmedAddress = address.trim();
+        String trimmedAddress = normalizeWhitespace(address);
         if (!Address.isValidAddress(trimmedAddress)) {
             throw new ParseException(Address.MESSAGE_CONSTRAINTS);
         }
@@ -128,13 +151,15 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String date} into a {@code Date}.
-     * Leading and trailing whitespaces will be trimmed.
+     * String will be normalized by trimming and replacing whitespace with a single space.
      *
+     * @param date Date string to parse
+     * @return A Date object representing the parsed date.
      * @throws ParseException if the given {@code date} is invalid.
      */
     public static Date parseDate(String date) throws ParseException {
         requireNonNull(date);
-        String trimmedName = date.trim();
+        String trimmedName = normalizeWhitespace(date);
         if (!Date.isValidDate(trimmedName)) {
             throw new ParseException(Date.MESSAGE_CONSTRAINTS);
         }
@@ -143,13 +168,15 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String email} into an {@code Email}.
-     * Leading and trailing whitespaces will be trimmed.
+     * String will be normalized by trimming and replacing whitespace with a single space.
      *
+     * @param email Email string to parse
+     * @return An Email object representing the parsed email.
      * @throws ParseException if the given {@code email} is invalid.
      */
     public static Email parseEmail(String email) throws ParseException {
         requireNonNull(email);
-        String trimmedEmail = email.trim();
+        String trimmedEmail = normalizeWhitespace(email);
         if (!Email.isValidEmail(trimmedEmail)) {
             throw new ParseException(Email.MESSAGE_CONSTRAINTS);
         }
@@ -158,13 +185,15 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String tag} into a {@code DietTag}.
-     * Leading and trailing whitespaces will be trimmed.
+     * String will be normalized by trimming and replacing whitespace with a single space.
      *
+     * @param tag Tag string to parse
+     * @return A DietTag object representing the parsed tag.
      * @throws ParseException if the given {@code tag} is invalid.
      */
     public static DietTag parseTag(String tag) throws ParseException {
         requireNonNull(tag);
-        String trimmedTag = tag.trim();
+        String trimmedTag = normalizeWhitespace(tag);
         if (!DietTag.isValidTagName(trimmedTag)) {
             throw new ParseException(DietTag.MESSAGE_CONSTRAINTS);
         }
@@ -173,6 +202,10 @@ public class ParserUtil {
 
     /**
      * Parses {@code Collection<String> tags} into a {@code Set<DietTag>}.
+     *
+     * @param tags Collection of tag strings to parse
+     * @return A set of DietTag objects parsed from the collection.
+     * @throws ParseException if any of the given tags are invalid.
      */
     public static Set<DietTag> parseTags(Collection<String> tags) throws ParseException {
         requireNonNull(tags);
@@ -185,13 +218,15 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String price} into a {@code Price}.
-     * Leading and trailing whitespaces will be trimmed.
+     * String will be normalized by trimming and replacing whitespace with a single space.
      *
+     * @param price Price string to parse
+     * @return A Price object representing the parsed order price.
      * @throws ParseException if the given {@code price} is invalid.
      */
     public static Price parsePrice(String price) throws ParseException {
         requireNonNull(price);
-        String trimmedPrice = price.trim();
+        String trimmedPrice = normalizeWhitespace(price);
         if (!Price.isValidPrice(trimmedPrice)) {
             throw new ParseException(Price.MESSAGE_CONSTRAINTS);
         }
@@ -200,13 +235,15 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String price} into a menu {@code Price}.
-     * Leading and trailing whitespaces will be trimmed.
+     * String will be normalized by trimming and replacing whitespace with a single space.
      *
+     * @param price Menu price string to parse
+     * @return A menu Price object representing the parsed menu price.
      * @throws ParseException if the given {@code price} is invalid.
      */
     public static seedu.homechef.model.menu.Price parseMenuPrice(String price) throws ParseException {
         requireNonNull(price);
-        String trimmedPrice = price.trim();
+        String trimmedPrice = normalizeWhitespace(price);
         if (!seedu.homechef.model.menu.Price.isValidPrice(trimmedPrice)) {
             throw new ParseException(seedu.homechef.model.menu.Price.MESSAGE_CONSTRAINTS);
         }
@@ -215,13 +252,15 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String value} into a {@code Quantity}.
-     * Leading and trailing whitespaces will be trimmed.
+     * String will be normalized by trimming and replacing whitespace with a single space.
      *
+     * @param value Quantity string to parse
+     * @return A Quantity object representing the parsed quantity.
      * @throws ParseException if the given {@code value} is not a valid quantity.
      */
     public static Quantity parseQuantity(String value) throws ParseException {
         requireNonNull(value);
-        String trimmed = value.trim();
+        String trimmed = normalizeWhitespace(value);
         if (!Quantity.isValidQuantity(trimmed)) {
             throw new ParseException(Quantity.MESSAGE_CONSTRAINTS);
         }
@@ -234,6 +273,11 @@ public class ParserUtil {
      * The {@code ref} parameter maps to different semantic fields depending on the type:
      * PayNow handle, bank reference number, card last-4 digits, or wallet account ID.
      *
+     * @param method Optional payment method value (m/)
+     * @param ref Optional payment reference value (r/)
+     * @param bankName Optional bank name value (b/)
+     * @param walletProvider Optional wallet provider value (w/)
+     * @return An optional PaymentInfo when payment fields are provided, or empty when none are provided.
      * @throws ParseException if the combination of provided values is invalid for any payment type.
      */
     public static Optional<PaymentInfo> parsePaymentInfo(
@@ -256,7 +300,7 @@ public class ParserUtil {
 
         PaymentType type;
         try {
-            type = PaymentType.valueOf(method.get().trim().toUpperCase());
+            type = PaymentType.valueOf(normalizeWhitespace(method.get()).toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new ParseException(
                     "Invalid payment method: " + method.get() + ". Valid types: " + VALID_PAYMENT_TYPE_NAMES + ".");
@@ -336,11 +380,13 @@ public class ParserUtil {
     /**
      * Parses a {@code String availability} and returns the boolean value.
      *
+     * @param availability Availability string to parse
+     * @return The parsed availability value.
      * @throws ParseException if the value is not "true" or "false" (case-insensitive)
      */
     public static boolean parseAvailability(String availability) throws ParseException {
         requireNonNull(availability);
-        String trimmed = availability.trim().toLowerCase();
+        String trimmed = normalizeWhitespace(availability).toLowerCase();
         if (!trimmed.equals("true") && !trimmed.equals("false")) {
             throw new ParseException(MESSAGE_INVALID_AVAILABILITY);
         }
