@@ -125,7 +125,7 @@ Format: `add f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE [q/QUANTITY] [t/TAG]
 > ![overdue date](images/overdueDate.png)
 
 <div markdown="span" class="alert alert-primary">:bulb:
-**Notes about the add command:**
+**Notes about the add command:**<br>
 * `FOOD` must match an **existing food's name** in the current menu exactly.
   * Giving an input that is not in the menu will show an error message telling you to `Use 'add-menu' to add it to the menu first.`
 * The order's price is automatically taken from the matching menu item. Use `add-menu` or `edit-menu` to update a food's price.
