@@ -37,6 +37,25 @@ public class ParserUtil {
             .map(Enum::name)
             .collect(Collectors.joining(", "));
 
+    public static final String MESSAGE_METHOD_REQUIRED_FOR_DETAILS =
+            "m/ required when payment details (r/, b/, w/) are provided.";
+    public static final String MESSAGE_INVALID_PAYMENT_METHOD =
+            "Invalid payment method: '%s'. Valid types: " + VALID_PAYMENT_TYPE_NAMES + ".";
+    public static final String MESSAGE_UNEXPECTED_FIELDS_FOR_CASH =
+            "r/, b/, w/ are not accepted for CASH.";
+    public static final String MESSAGE_REF_REQUIRED_FOR =
+            "r/ required for %s.";
+    public static final String MESSAGE_BANK_NAME_REQUIRED =
+            "b/ required for BANK.";
+    public static final String MESSAGE_BANK_NAME_NOT_VALID =
+            "b/ is only valid for BANK payment type.";
+    public static final String MESSAGE_WALLET_PROVIDER_REQUIRED =
+            "w/ required for EWALLET.";
+    public static final String MESSAGE_WALLET_PROVIDER_NOT_VALID =
+            "w/ is only valid for EWALLET payment type.";
+    public static final String MESSAGE_CARD_REF_INVALID =
+            "r/ for CARD must be exactly 4 numeric digits (e.g. r/4321).";
+
     /**
      * Trims leading and trailing whitespaces in {@code String input} and
      * replaces sequences of multiple whitespaces with a single space.

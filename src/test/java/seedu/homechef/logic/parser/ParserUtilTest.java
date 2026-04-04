@@ -4,6 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_METHOD_REQUIRED_FOR_DETAILS;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_INVALID_PAYMENT_METHOD;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_UNEXPECTED_FIELDS_FOR_CASH;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_REF_REQUIRED_FOR;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_BANK_NAME_REQUIRED;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_BANK_NAME_NOT_VALID;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_WALLET_PROVIDER_REQUIRED;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_WALLET_PROVIDER_NOT_VALID;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_CARD_REF_INVALID;
 import static seedu.homechef.testutil.Assert.assertThrows;
 import static seedu.homechef.testutil.TypicalIndexes.INDEX_FIRST_ORDER;
 
@@ -376,6 +385,152 @@ public class ParserUtilTest {
         assertThrows(ParseException.class, () ->
                 ParserUtil.parsePaymentInfo(
                         Optional.of("CARD"), Optional.of("AB12"), Optional.empty(), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_missingMethodWithRef_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, MESSAGE_METHOD_REQUIRED_FOR_DETAILS, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.empty(), Optional.of("+6591234567"), Optional.empty(), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_missingMethodWithBankName_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, MESSAGE_METHOD_REQUIRED_FOR_DETAILS, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.empty(), Optional.empty(), Optional.of("DBS"), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_missingMethodWithWalletProvider_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, MESSAGE_METHOD_REQUIRED_FOR_DETAILS, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.empty(), Optional.empty(), Optional.empty(), Optional.of("GrabPay")));
+    }
+
+    @Test
+    public void parsePaymentInfo_unknownType_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_INVALID_PAYMENT_METHOD, "CRYPTO"), () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("CRYPTO"), Optional.empty(), Optional.empty(), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_cashWithRef_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, MESSAGE_UNEXPECTED_FIELDS_FOR_CASH, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("CASH"), Optional.of("extra"), Optional.empty(), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_cashWithBankName_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, MESSAGE_UNEXPECTED_FIELDS_FOR_CASH, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("CASH"), Optional.empty(), Optional.of("DBS"), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_cashWithWalletProvider_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, MESSAGE_UNEXPECTED_FIELDS_FOR_CASH, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("CASH"), Optional.empty(), Optional.empty(), Optional.of("GrabPay")));
+    }
+
+    @Test
+    public void parsePaymentInfo_payNowMissingRef_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_REF_REQUIRED_FOR, "PAYNOW"), () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("PAYNOW"), Optional.empty(), Optional.empty(), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_payNowWithBankName_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, MESSAGE_BANK_NAME_NOT_VALID, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("PAYNOW"), Optional.of("91234567"), Optional.of("DBS"), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_payNowWithWalletProvider_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, MESSAGE_WALLET_PROVIDER_NOT_VALID, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("PAYNOW"), Optional.of("91234567"), Optional.empty(), Optional.of("GrabPay")));
+    }
+
+    @Test
+    public void parsePaymentInfo_bankMissingRef_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_REF_REQUIRED_FOR, "BANK"), () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("BANK"), Optional.empty(), Optional.of("DBS"), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_bankMissingBankName_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, MESSAGE_BANK_NAME_REQUIRED, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("BANK"), Optional.of("REF123"), Optional.empty(), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_bankWithWalletProvider_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, MESSAGE_WALLET_PROVIDER_NOT_VALID, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("BANK"), Optional.of("REF123"), Optional.of("DBS"), Optional.of("GrabPay")));
+    }
+
+    @Test
+    public void parsePaymentInfo_cardMissingRef_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_REF_REQUIRED_FOR, "CARD"), () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("CARD"), Optional.empty(), Optional.empty(), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_cardInvalidRef_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, MESSAGE_CARD_REF_INVALID, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("CARD"), Optional.of("AB12"), Optional.empty(), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_cardWithBankName_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, MESSAGE_BANK_NAME_NOT_VALID, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("CARD"), Optional.of("1234"), Optional.of("DBS"), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_cardWithWalletProvider_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, MESSAGE_WALLET_PROVIDER_NOT_VALID, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("CARD"), Optional.of("1234"), Optional.empty(), Optional.of("GrabPay")));
+    }
+
+    @Test
+    public void parsePaymentInfo_eWalletMissingRef_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_REF_REQUIRED_FOR, "EWALLET"), () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("EWALLET"), Optional.empty(), Optional.empty(), Optional.of("GrabPay")));
+    }
+
+    @Test
+    public void parsePaymentInfo_eWalletMissingWalletProvider_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, MESSAGE_WALLET_PROVIDER_REQUIRED, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("EWALLET"), Optional.of("user@grab.com"), Optional.empty(), Optional.empty()));
+    }
+
+    @Test
+    public void parsePaymentInfo_eWalletWithBankName_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, MESSAGE_BANK_NAME_NOT_VALID, () ->
+                ParserUtil.parsePaymentInfo(
+                        Optional.of("EWALLET"), Optional.of("user@grab.com"), Optional.of("DBS"),
+                        Optional.of("GrabPay")));
     }
 
     //---------------- Tests for parseAvailability ----------------------------------------
