@@ -13,7 +13,9 @@ public class MenuCard extends UiPart<Region> {
 
     private static final String FXML = "MenuListCard.fxml";
 
-    /** The menu item displayed by this card. */
+    /**
+     * The menu item displayed by this card.
+     */
     public final MenuItem menuItem;
 
     @FXML
@@ -41,7 +43,7 @@ public class MenuCard extends UiPart<Region> {
         name.setWrapText(true);
         name.setMinWidth(0);
         id.setText(displayedIndex + ". ");
-        name.setText(menuItem.getName().fullName);
+        name.setText(menuItem.getFood().toString());
         price.setText("$" + menuItem.getPrice().value);
         if (menuItem.isAvailable()) {
             availability.setText("Available");

@@ -5,6 +5,7 @@ import static seedu.homechef.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.Objects;
 
 import seedu.homechef.commons.util.ToStringBuilder;
+import seedu.homechef.model.common.Food;
 
 /**
  * Represents a MenuItem in the menu.
@@ -12,22 +13,22 @@ import seedu.homechef.commons.util.ToStringBuilder;
  */
 public class MenuItem {
 
-    private final MenuItemName name;
+    private final Food food;
     private final Price price;
     private final boolean available;
 
     /**
      * All fields must be present and not null.
      */
-    public MenuItem(MenuItemName name, Price price, boolean available) {
-        requireAllNonNull(name, price);
-        this.name = name;
+    public MenuItem(Food food, Price price, boolean available) {
+        requireAllNonNull(food, price);
+        this.food = food;
         this.price = price;
         this.available = available;
     }
 
-    public MenuItemName getName() {
-        return name;
+    public Food getFood() {
+        return food;
     }
 
     public Price getPrice() {
@@ -47,7 +48,7 @@ public class MenuItem {
             return true;
         }
         return other != null
-                && other.getName().fullName.equalsIgnoreCase(name.fullName);
+                && other.getFood().toString().equalsIgnoreCase(food.toString());
     }
 
     /**
@@ -62,20 +63,20 @@ public class MenuItem {
             return false;
         }
         MenuItem otherItem = (MenuItem) other;
-        return name.equals(otherItem.name)
+        return food.equals(otherItem.food)
                 && price.equals(otherItem.price)
                 && available == otherItem.available;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, price, available);
+        return Objects.hash(food, price, available);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("name", name)
+                .add("name", food)
                 .add("price", price)
                 .add("available", available)
                 .toString();

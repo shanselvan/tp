@@ -2,7 +2,7 @@ package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_AVAILABILITY;
-import static seedu.homechef.logic.parser.CliSyntax.PREFIX_MENU_NAME;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PRICE;
 
 import java.util.List;
@@ -15,8 +15,8 @@ import seedu.homechef.commons.util.ToStringBuilder;
 import seedu.homechef.logic.Messages;
 import seedu.homechef.logic.commands.exceptions.CommandException;
 import seedu.homechef.model.Model;
+import seedu.homechef.model.common.Food;
 import seedu.homechef.model.menu.MenuItem;
-import seedu.homechef.model.menu.MenuItemName;
 import seedu.homechef.model.menu.Price;
 
 /**
@@ -30,7 +30,7 @@ public class EditMenuCommand extends Command {
             + "by the index number used in the displayed menu list. "
             + "At least one field must be provided.\n"
             + "Parameters: INDEX (must be a non-zero positive integer) "
-            + "[" + PREFIX_MENU_NAME + "NAME] "
+            + "[" + PREFIX_FOOD + "NAME] "
             + "[" + PREFIX_PRICE + "PRICE] "
             + "[" + PREFIX_AVAILABILITY + "AVAILABILITY]\n"
             + "Example: " + COMMAND_WORD + " 1 " + PREFIX_PRICE + "6.00 " + PREFIX_AVAILABILITY + "false";
@@ -44,7 +44,7 @@ public class EditMenuCommand extends Command {
     private final EditMenuDescriptor editMenuDescriptor;
 
     /**
-     * @param index of the menu item in the filtered menu list to edit
+     * @param index              of the menu item in the filtered menu list to edit
      * @param editMenuDescriptor details to edit the menu item with
      */
     public EditMenuCommand(Index index, EditMenuDescriptor editMenuDescriptor) {
@@ -72,7 +72,7 @@ public class EditMenuCommand extends Command {
 
         model.setMenuItem(menuItemToEdit, editedMenuItem);
         return new CommandResult(String.format(MESSAGE_EDIT_MENU_ITEM_SUCCESS,
-                editedMenuItem.getName().fullName,
+                editedMenuItem.getFood(),
                 editedMenuItem.getPrice().value,
                 editedMenuItem.isAvailable()));
     }
@@ -82,10 +82,10 @@ public class EditMenuCommand extends Command {
      * edited with {@code editMenuDescriptor}.
      */
     private static MenuItem createEditedMenuItem(MenuItem menuItemToEdit,
-                                                  EditMenuDescriptor editMenuDescriptor) {
+                                                 EditMenuDescriptor editMenuDescriptor) {
         assert menuItemToEdit != null;
 
-        MenuItemName updatedName = editMenuDescriptor.getName().orElse(menuItemToEdit.getName());
+        Food updatedName = editMenuDescriptor.getName().orElse(menuItemToEdit.getFood());
         Price updatedPrice = editMenuDescriptor.getPrice().orElse(menuItemToEdit.getPrice());
         boolean updatedAvailable = editMenuDescriptor.getAvailable().orElse(menuItemToEdit.isAvailable());
         return new MenuItem(updatedName, updatedPrice, updatedAvailable);
@@ -120,14 +120,15 @@ public class EditMenuCommand extends Command {
      * Each non-empty field value will replace the corresponding field value of the menu item.
      */
     public static class EditMenuDescriptor {
-        private MenuItemName name;
+        private Food name;
         private Price price;
         private Boolean available;
 
         /**
          * Creates an empty {@code EditMenuDescriptor}.
          */
-        public EditMenuDescriptor() {}
+        public EditMenuDescriptor() {
+        }
 
         /**
          * Copy constructor.
@@ -148,14 +149,14 @@ public class EditMenuCommand extends Command {
         /**
          * Sets the name to edit.
          */
-        public void setName(MenuItemName name) {
+        public void setName(Food name) {
             this.name = name;
         }
 
         /**
          * Returns the name to edit, if any.
          */
-        public Optional<MenuItemName> getName() {
+        public Optional<Food> getName() {
             return Optional.ofNullable(name);
         }
 

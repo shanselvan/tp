@@ -6,8 +6,8 @@ import static seedu.homechef.testutil.Assert.assertThrows;
 import org.junit.jupiter.api.Test;
 
 import seedu.homechef.commons.exceptions.IllegalValueException;
+import seedu.homechef.model.common.Food;
 import seedu.homechef.model.menu.MenuItem;
-import seedu.homechef.model.menu.MenuItemName;
 import seedu.homechef.model.menu.Price;
 
 public class JsonAdaptedMenuItemTest {
@@ -15,7 +15,7 @@ public class JsonAdaptedMenuItemTest {
     @Test
     public void toModelType_validFields_success() throws Exception {
         JsonAdaptedMenuItem adapted = new JsonAdaptedMenuItem("Chicken Rice", "5.50", true);
-        MenuItem expected = new MenuItem(new MenuItemName("Chicken Rice"), new Price("5.50"), true);
+        MenuItem expected = new MenuItem(new Food("Chicken Rice"), new Price("5.50"), true);
         assertEquals(expected, adapted.toModelType());
     }
 

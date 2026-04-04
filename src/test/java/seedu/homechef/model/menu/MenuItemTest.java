@@ -6,10 +6,12 @@ import static seedu.homechef.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.homechef.model.common.Food;
+
 public class MenuItemTest {
 
-    private static final MenuItemName NAME_CHICKEN = new MenuItemName("Chicken Rice");
-    private static final MenuItemName NAME_NASI = new MenuItemName("Nasi Goreng");
+    private static final Food NAME_CHICKEN = new Food("Chicken Rice");
+    private static final Food NAME_NASI = new Food("Nasi Goreng");
     private static final Price PRICE_5 = new Price("5.50");
     private static final Price PRICE_8 = new Price("8.00");
 
@@ -35,8 +37,8 @@ public class MenuItemTest {
 
     @Test
     public void isSameMenuItem_caseInsensitive_returnsTrue() {
-        MenuItem lower = new MenuItem(new MenuItemName("chicken rice"), PRICE_5, true);
-        MenuItem upper = new MenuItem(new MenuItemName("Chicken Rice"), PRICE_8, false);
+        MenuItem lower = new MenuItem(new Food("chicken rice"), PRICE_5, true);
+        MenuItem upper = new MenuItem(new Food("Chicken Rice"), PRICE_8, false);
         assertTrue(lower.isSameMenuItem(upper));
     }
 
@@ -59,13 +61,5 @@ public class MenuItemTest {
         MenuItem a = new MenuItem(NAME_CHICKEN, PRICE_5, true);
         MenuItem b = new MenuItem(NAME_CHICKEN, PRICE_8, true);
         assertFalse(a.equals(b));
-    }
-
-    @Test
-    public void equals_differentNameCase_returnsFalse() {
-        // equals() is case-sensitive; isSameMenuItem() is case-insensitive (separate contract)
-        MenuItem lower = new MenuItem(new MenuItemName("chicken rice"), PRICE_5, true);
-        MenuItem upper = new MenuItem(new MenuItemName("Chicken Rice"), PRICE_5, true);
-        assertFalse(lower.equals(upper));
     }
 }

@@ -2,7 +2,7 @@ package seedu.homechef.logic.parser;
 
 import static seedu.homechef.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_AVAILABILITY;
-import static seedu.homechef.logic.parser.CliSyntax.PREFIX_MENU_NAME;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PRICE;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import seedu.homechef.logic.Messages;
 import seedu.homechef.logic.commands.EditMenuCommand;
 import seedu.homechef.logic.commands.EditMenuCommand.EditMenuDescriptor;
-import seedu.homechef.model.menu.MenuItemName;
+import seedu.homechef.model.common.Food;
 import seedu.homechef.model.menu.Price;
 
 public class EditMenuCommandParserTest {
@@ -26,10 +26,10 @@ public class EditMenuCommandParserTest {
     private static final String INVALID_AVAILABILITY = "yes";
 
     private static final String INDEX_FIRST = "1";
-    private static final String NAME_DESC = " " + PREFIX_MENU_NAME + VALID_NAME;
+    private static final String NAME_DESC = " " + PREFIX_FOOD + VALID_NAME;
     private static final String PRICE_DESC = " " + PREFIX_PRICE + VALID_PRICE;
     private static final String AVAILABILITY_DESC = " " + PREFIX_AVAILABILITY + VALID_AVAILABILITY;
-    private static final String INVALID_NAME_DESC = " " + PREFIX_MENU_NAME + INVALID_NAME;
+    private static final String INVALID_NAME_DESC = " " + PREFIX_FOOD + INVALID_NAME;
     private static final String INVALID_PRICE_DESC = " " + PREFIX_PRICE + INVALID_PRICE;
     private static final String INVALID_AVAILABILITY_DESC = " " + PREFIX_AVAILABILITY + INVALID_AVAILABILITY;
 
@@ -39,7 +39,7 @@ public class EditMenuCommandParserTest {
     public void parse_validName_success() {
         // EP: valid index with a valid menu name edit.
         EditMenuDescriptor descriptor = new EditMenuDescriptor();
-        descriptor.setName(new MenuItemName(VALID_NAME));
+        descriptor.setName(new Food(VALID_NAME));
         assertParseSuccess(parser, INDEX_FIRST + NAME_DESC, new EditMenuCommand(INDEX_FIRST_ORDER, descriptor));
     }
 
@@ -69,7 +69,7 @@ public class EditMenuCommandParserTest {
     @Test
     public void parse_invalidMenuName_failureShowsFieldSpecificMessage() {
         // EP: invalid menu name containing a disallowed character.
-        assertParseFailure(parser, INDEX_FIRST + INVALID_NAME_DESC, MenuItemName.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, INDEX_FIRST + INVALID_NAME_DESC, Food.MESSAGE_CONSTRAINTS);
     }
 
     @Test
@@ -89,6 +89,6 @@ public class EditMenuCommandParserTest {
     public void parse_duplicatePrefixes_failure() {
         // EP: repeated non-repeatable field should be rejected before value parsing.
         assertParseFailure(parser, INDEX_FIRST + NAME_DESC + NAME_DESC,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_MENU_NAME));
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_FOOD));
     }
 }

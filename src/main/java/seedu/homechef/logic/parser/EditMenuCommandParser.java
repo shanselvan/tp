@@ -2,13 +2,14 @@ package seedu.homechef.logic.parser;
 
 import static seedu.homechef.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_AVAILABILITY;
-import static seedu.homechef.logic.parser.CliSyntax.PREFIX_MENU_NAME;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PRICE;
 
 import seedu.homechef.commons.core.index.Index;
 import seedu.homechef.logic.commands.EditMenuCommand;
 import seedu.homechef.logic.commands.EditMenuCommand.EditMenuDescriptor;
 import seedu.homechef.logic.parser.exceptions.ParseException;
+
 /**
  * Parses input arguments and creates a new EditMenuCommand object.
  */
@@ -21,7 +22,7 @@ public class EditMenuCommandParser implements Parser<EditMenuCommand> {
      */
     public EditMenuCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_MENU_NAME, PREFIX_PRICE, PREFIX_AVAILABILITY);
+                ArgumentTokenizer.tokenize(args, PREFIX_FOOD, PREFIX_PRICE, PREFIX_AVAILABILITY);
 
         Index index;
         try {
@@ -31,12 +32,12 @@ public class EditMenuCommandParser implements Parser<EditMenuCommand> {
                     EditMenuCommand.MESSAGE_USAGE), pe);
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_MENU_NAME, PREFIX_PRICE, PREFIX_AVAILABILITY);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_FOOD, PREFIX_PRICE, PREFIX_AVAILABILITY);
 
         EditMenuDescriptor editMenuDescriptor = new EditMenuDescriptor();
 
-        if (argMultimap.getValue(PREFIX_MENU_NAME).isPresent()) {
-            editMenuDescriptor.setName(ParserUtil.parseMenuItemName(argMultimap.getValue(PREFIX_MENU_NAME).get()));
+        if (argMultimap.getValue(PREFIX_FOOD).isPresent()) {
+            editMenuDescriptor.setName(ParserUtil.parseFood(argMultimap.getValue(PREFIX_FOOD).get()));
         }
         if (argMultimap.getValue(PREFIX_PRICE).isPresent()) {
             editMenuDescriptor.setPrice(ParserUtil.parseMenuPrice(argMultimap.getValue(PREFIX_PRICE).get()));

@@ -22,8 +22,8 @@ import seedu.homechef.commons.util.ToStringBuilder;
 import seedu.homechef.logic.Messages;
 import seedu.homechef.logic.commands.exceptions.CommandException;
 import seedu.homechef.model.Model;
+import seedu.homechef.model.common.Food;
 import seedu.homechef.model.menu.MenuItem;
-import seedu.homechef.model.order.Food;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.Price;
 import seedu.homechef.model.order.Quantity;
@@ -76,20 +76,20 @@ public class AddCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        String foodName = toAdd.getFood().toString();
+        String targetFoodName = toAdd.getFood().toString();
         Optional<MenuItem> matchingItem = model.getMenuBook().getMenuItemList().stream()
-                .filter(item -> item.getName().fullName.equalsIgnoreCase(foodName))
+                .filter(item -> item.getFood().nameContains(targetFoodName))
                 .findFirst();
 
         if (matchingItem.isPresent()) {
             if (!matchingItem.get().isAvailable()) {
-                throw new CommandException(String.format(MESSAGE_MENU_ITEM_UNAVAILABLE, foodName));
+                throw new CommandException(String.format(MESSAGE_MENU_ITEM_UNAVAILABLE, targetFoodName));
             }
         } else {
-            throw new CommandException(String.format(MESSAGE_MENU_ITEM_NOT_FOUND, foodName));
+            throw new CommandException(String.format(MESSAGE_MENU_ITEM_NOT_FOUND, targetFoodName));
         }
 
-        String canonicalName = matchingItem.get().getName().fullName;
+        String canonicalName = matchingItem.get().getFood().toString();
         Price unitPrice = new Price(matchingItem.get().getPrice().value);
         Quantity quantity = toAdd.getQuantity();
         Price totalPrice = Price.multiply(unitPrice, quantity);

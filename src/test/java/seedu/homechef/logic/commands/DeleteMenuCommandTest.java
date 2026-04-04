@@ -20,8 +20,8 @@ import seedu.homechef.logic.commands.exceptions.CommandException;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.ReadOnlyHomeChef;
 import seedu.homechef.model.ReadOnlyUserPrefs;
+import seedu.homechef.model.common.Food;
 import seedu.homechef.model.menu.MenuItem;
-import seedu.homechef.model.menu.MenuItemName;
 import seedu.homechef.model.menu.Price;
 import seedu.homechef.model.menu.ReadOnlyMenuBook;
 import seedu.homechef.model.order.Order;
@@ -30,7 +30,7 @@ public class DeleteMenuCommandTest {
 
     @Test
     public void execute_validIndex_success() throws Exception {
-        MenuItem chicken = new MenuItem(new MenuItemName("Chicken Rice"), new Price("5.50"), true);
+        MenuItem chicken = new MenuItem(new Food("Chicken Rice"), new Price("5.50"), true);
         ModelStubWithMenuItemList modelStub = new ModelStubWithMenuItemList(chicken);
 
         CommandResult result = new DeleteMenuCommand(Index.fromOneBased(1)).execute(modelStub);

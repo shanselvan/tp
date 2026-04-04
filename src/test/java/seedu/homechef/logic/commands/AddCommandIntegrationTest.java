@@ -15,9 +15,9 @@ import seedu.homechef.logic.commands.exceptions.CommandException;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.ModelManager;
 import seedu.homechef.model.UserPrefs;
+import seedu.homechef.model.common.Food;
 import seedu.homechef.model.menu.MenuBook;
 import seedu.homechef.model.menu.MenuItem;
-import seedu.homechef.model.menu.MenuItemName;
 import seedu.homechef.model.menu.Price;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.testutil.OrderBuilder;
@@ -70,12 +70,12 @@ public class AddCommandIntegrationTest {
     @Test
     public void execute_foodMatchesUnavailableMenuItem_throwsCommandException() {
         MenuItem unavailableChicken = new MenuItem(
-                new MenuItemName("Chicken Rice"),
+                new Food("Chicken Rice"),
                 new Price("5.50"), false);
         MenuBook mb = new MenuBook();
         mb.addMenuItem(unavailableChicken);
         for (MenuItem item : TypicalMenuItems.getTypicalMenuItems()) {
-            if (!item.getName().fullName.equalsIgnoreCase("Chicken Rice")) {
+            if (!item.getFood().nameContains("Chicken Rice")) {
                 mb.addMenuItem(item);
             }
         }

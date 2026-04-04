@@ -2,7 +2,7 @@ package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_AVAILABILITY;
-import static seedu.homechef.logic.parser.CliSyntax.PREFIX_MENU_NAME;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PRICE;
 
 import seedu.homechef.commons.util.ToStringBuilder;
@@ -17,19 +17,19 @@ public class AddMenuCommand extends Command {
 
     public static final String COMMAND_WORD = "add-menu";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a menu item to the menu. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an item to the menu. "
             + "Parameters: "
-            + PREFIX_MENU_NAME + "NAME "
+            + PREFIX_FOOD + "NAME "
             + PREFIX_PRICE + "PRICE "
             + "[" + PREFIX_AVAILABILITY + "AVAILABILITY] "
             + "\nExample: " + COMMAND_WORD + " "
-            + PREFIX_MENU_NAME + "Chicken Rice "
+            + PREFIX_FOOD + "Chicken Rice "
             + PREFIX_PRICE + "5.50 "
             + PREFIX_AVAILABILITY + "true";
 
     public static final String MESSAGE_SUCCESS = "New menu item added: %1$s $%2$s";
     public static final String MESSAGE_DUPLICATE_MENU_ITEM =
-            "A menu item with this name already exists in the menu";
+            "A item with this name already exists in the menu";
 
     private final MenuItem toAdd;
 
@@ -51,7 +51,7 @@ public class AddMenuCommand extends Command {
 
         model.addMenuItem(toAdd);
         return new CommandResult(String.format(MESSAGE_SUCCESS,
-                toAdd.getName().fullName, toAdd.getPrice().value));
+                toAdd.getFood(), toAdd.getPrice().value));
     }
 
     @Override

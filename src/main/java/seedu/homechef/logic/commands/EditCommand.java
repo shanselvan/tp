@@ -29,13 +29,13 @@ import seedu.homechef.commons.util.ToStringBuilder;
 import seedu.homechef.logic.Messages;
 import seedu.homechef.logic.commands.exceptions.CommandException;
 import seedu.homechef.model.Model;
+import seedu.homechef.model.common.Food;
 import seedu.homechef.model.menu.MenuItem;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.CompletionStatus;
 import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.Date;
 import seedu.homechef.model.order.Email;
-import seedu.homechef.model.order.Food;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentStatus;
@@ -101,16 +101,16 @@ public class EditCommand extends Command {
         Order editedOrder = createEditedOrder(orderToEdit, descriptor);
 
         if (descriptor.getFood().isPresent()) {
-            String newFoodName = editedOrder.getFood().toString();
+            String targetFoodName = descriptor.getFood().get().toString();
             Optional<MenuItem> matchingItem = model.getMenuBook().getMenuItemList().stream()
-                    .filter(item -> item.getName().fullName.equalsIgnoreCase(newFoodName))
+                    .filter(item -> item.getFood().nameContains(targetFoodName))
                     .findFirst();
 
             if (matchingItem.isPresent()) {
                 if (!matchingItem.get().isAvailable()) {
-                    throw new CommandException(String.format(MESSAGE_MENU_ITEM_UNAVAILABLE, newFoodName));
+                    throw new CommandException(String.format(MESSAGE_MENU_ITEM_UNAVAILABLE, targetFoodName));
                 }
-                String canonicalName = matchingItem.get().getName().fullName;
+                String canonicalName = matchingItem.get().getFood().toString();
                 Price menuPrice = new Price(matchingItem.get().getPrice().value);
                 editedOrder = new Order(new Food(canonicalName), editedOrder.getCustomer(),
                         editedOrder.getPhone(), editedOrder.getEmail(), editedOrder.getAddress(),
@@ -118,7 +118,7 @@ public class EditCommand extends Command {
                         editedOrder.getPaymentStatus(), editedOrder.getTags(),
                         menuPrice, editedOrder.getPaymentInfo());
             } else {
-                throw new CommandException(String.format(MESSAGE_MENU_ITEM_NOT_FOUND, newFoodName));
+                throw new CommandException(String.format(MESSAGE_MENU_ITEM_NOT_FOUND, targetFoodName));
             }
         }
 

@@ -19,7 +19,7 @@ public class DeleteMenuCommand extends Command {
     public static final String COMMAND_WORD = "delete-menu";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the menu item identified by the index number used in the displayed menu list.\n"
+            + ": Deletes the item identified by the index number used in the displayed menu list.\n"
             + "Parameters: INDEX (must be a non-zero positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
@@ -49,7 +49,7 @@ public class DeleteMenuCommand extends Command {
         MenuItem menuItemToDelete = lastShownList.get(targetIndex.getZeroBased());
         model.deleteMenuItem(menuItemToDelete);
         return new CommandResult(String.format(MESSAGE_DELETE_MENU_ITEM_SUCCESS,
-                menuItemToDelete.getName().fullName));
+                menuItemToDelete.getFood()));
     }
 
     @Override

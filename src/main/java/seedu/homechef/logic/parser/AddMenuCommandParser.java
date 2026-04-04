@@ -2,14 +2,17 @@ package seedu.homechef.logic.parser;
 
 import static seedu.homechef.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_AVAILABILITY;
-import static seedu.homechef.logic.parser.CliSyntax.PREFIX_MENU_NAME;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PRICE;
 
 import java.util.stream.Stream;
 
 import seedu.homechef.logic.commands.AddMenuCommand;
 import seedu.homechef.logic.parser.exceptions.ParseException;
+import seedu.homechef.model.common.Food;
 import seedu.homechef.model.menu.MenuItem;
+import seedu.homechef.model.menu.Price;
+
 /**
  * Parses input arguments and creates a new AddMenuCommand object.
  */
@@ -23,19 +26,17 @@ public class AddMenuCommandParser implements Parser<AddMenuCommand> {
      */
     public AddMenuCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_MENU_NAME, PREFIX_PRICE, PREFIX_AVAILABILITY);
+                ArgumentTokenizer.tokenize(args, PREFIX_FOOD, PREFIX_PRICE, PREFIX_AVAILABILITY);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_MENU_NAME, PREFIX_PRICE)
+        if (!arePrefixesPresent(argMultimap, PREFIX_FOOD, PREFIX_PRICE)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMenuCommand.MESSAGE_USAGE));
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_MENU_NAME, PREFIX_PRICE, PREFIX_AVAILABILITY);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_FOOD, PREFIX_PRICE, PREFIX_AVAILABILITY);
 
-        seedu.homechef.model.menu.MenuItemName name =
-                ParserUtil.parseMenuItemName(argMultimap.getValue(PREFIX_MENU_NAME).get());
-        seedu.homechef.model.menu.Price price =
-                ParserUtil.parseMenuPrice(argMultimap.getValue(PREFIX_PRICE).get());
+        Food name = ParserUtil.parseFood(argMultimap.getValue(PREFIX_FOOD).get());
+        Price price = ParserUtil.parseMenuPrice(argMultimap.getValue(PREFIX_PRICE).get());
         boolean available = true;
         if (argMultimap.getValue(PREFIX_AVAILABILITY).isPresent()) {
             available = ParserUtil.parseAvailability(argMultimap.getValue(PREFIX_AVAILABILITY).get());

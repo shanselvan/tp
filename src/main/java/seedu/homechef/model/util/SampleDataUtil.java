@@ -7,16 +7,15 @@ import java.util.stream.Collectors;
 
 import seedu.homechef.model.HomeChef;
 import seedu.homechef.model.ReadOnlyHomeChef;
+import seedu.homechef.model.common.Food;
 import seedu.homechef.model.menu.MenuBook;
 import seedu.homechef.model.menu.MenuItem;
-import seedu.homechef.model.menu.MenuItemName;
 import seedu.homechef.model.menu.ReadOnlyMenuBook;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.CompletionStatus;
 import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.Date;
 import seedu.homechef.model.order.Email;
-import seedu.homechef.model.order.Food;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentStatus;
@@ -98,7 +97,7 @@ public class SampleDataUtil {
         };
         for (String foodName : sampleFoodNames) {
             seedu.homechef.model.menu.Price menuPrice = new seedu.homechef.model.menu.Price("10.50");
-            menuBook.addMenuItem(new MenuItem(new MenuItemName(foodName), menuPrice, true));
+            menuBook.addMenuItem(new MenuItem(new Food(foodName), menuPrice, true));
         }
         return menuBook;
     }

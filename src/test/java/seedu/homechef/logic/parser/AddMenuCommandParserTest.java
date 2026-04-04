@@ -2,7 +2,7 @@ package seedu.homechef.logic.parser;
 
 import static seedu.homechef.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_AVAILABILITY;
-import static seedu.homechef.logic.parser.CliSyntax.PREFIX_MENU_NAME;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PRICE;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Test;
 
 import seedu.homechef.logic.Messages;
 import seedu.homechef.logic.commands.AddMenuCommand;
+import seedu.homechef.model.common.Food;
 import seedu.homechef.model.menu.MenuItem;
-import seedu.homechef.model.menu.MenuItemName;
 import seedu.homechef.model.menu.Price;
 
 public class AddMenuCommandParserTest {
@@ -25,11 +25,11 @@ public class AddMenuCommandParserTest {
     private static final String INVALID_PRICE = "05.50";
     private static final String INVALID_AVAILABILITY = "yes";
 
-    private static final String NAME_DESC = " " + PREFIX_MENU_NAME + VALID_NAME;
+    private static final String NAME_DESC = " " + PREFIX_FOOD + VALID_NAME;
     private static final String PRICE_DESC = " " + PREFIX_PRICE + VALID_PRICE;
     private static final String AVAILABILITY_DESC = " " + PREFIX_AVAILABILITY + VALID_AVAILABILITY;
     private static final String UNAVAILABLE_DESC = " " + PREFIX_AVAILABILITY + VALID_UNAVAILABLE;
-    private static final String INVALID_NAME_DESC = " " + PREFIX_MENU_NAME + INVALID_NAME;
+    private static final String INVALID_NAME_DESC = " " + PREFIX_FOOD + INVALID_NAME;
     private static final String INVALID_PRICE_DESC = " " + PREFIX_PRICE + INVALID_PRICE;
     private static final String INVALID_AVAILABILITY_DESC = " " + PREFIX_AVAILABILITY + INVALID_AVAILABILITY;
     private static final String PREAMBLE_NON_EMPTY = "preamble";
@@ -39,21 +39,21 @@ public class AddMenuCommandParserTest {
     @Test
     public void parse_allFieldsPresent_success() {
         // EP: all required fields present with a valid explicit availability value.
-        MenuItem expectedMenuItem = new MenuItem(new MenuItemName(VALID_NAME), new Price(VALID_PRICE), true);
+        MenuItem expectedMenuItem = new MenuItem(new Food(VALID_NAME), new Price(VALID_PRICE), true);
         assertParseSuccess(parser, NAME_DESC + PRICE_DESC + AVAILABILITY_DESC, new AddMenuCommand(expectedMenuItem));
     }
 
     @Test
     public void parse_optionalAvailabilityMissing_defaultsToTrue() {
         // EP: optional availability omitted, so parser should fall back to the default available state.
-        MenuItem expectedMenuItem = new MenuItem(new MenuItemName(VALID_NAME), new Price(VALID_PRICE), true);
+        MenuItem expectedMenuItem = new MenuItem(new Food(VALID_NAME), new Price(VALID_PRICE), true);
         assertParseSuccess(parser, NAME_DESC + PRICE_DESC, new AddMenuCommand(expectedMenuItem));
     }
 
     @Test
     public void parse_validFalseAvailability_success() {
         // EP: valid explicit unavailable state.
-        MenuItem expectedMenuItem = new MenuItem(new MenuItemName(VALID_NAME), new Price(VALID_PRICE), false);
+        MenuItem expectedMenuItem = new MenuItem(new Food(VALID_NAME), new Price(VALID_PRICE), false);
         assertParseSuccess(parser, NAME_DESC + PRICE_DESC + UNAVAILABLE_DESC, new AddMenuCommand(expectedMenuItem));
     }
 
@@ -70,7 +70,7 @@ public class AddMenuCommandParserTest {
     @Test
     public void parse_invalidMenuName_failureShowsFieldSpecificMessage() {
         // EP: invalid menu name containing a disallowed character.
-        assertParseFailure(parser, INVALID_NAME_DESC + PRICE_DESC, MenuItemName.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, INVALID_NAME_DESC + PRICE_DESC, Food.MESSAGE_CONSTRAINTS);
     }
 
     @Test
@@ -90,7 +90,7 @@ public class AddMenuCommandParserTest {
     public void parse_duplicatePrefixes_failure() {
         // EP: repeated non-repeatable field should be rejected before value parsing.
         assertParseFailure(parser, NAME_DESC + PRICE_DESC + NAME_DESC,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_MENU_NAME));
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_FOOD));
     }
 
     @Test

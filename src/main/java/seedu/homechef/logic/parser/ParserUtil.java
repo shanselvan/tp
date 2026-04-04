@@ -12,12 +12,11 @@ import java.util.stream.Collectors;
 import seedu.homechef.commons.core.index.Index;
 import seedu.homechef.commons.util.StringUtil;
 import seedu.homechef.logic.parser.exceptions.ParseException;
-import seedu.homechef.model.menu.MenuItemName;
+import seedu.homechef.model.common.Food;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.Date;
 import seedu.homechef.model.order.Email;
-import seedu.homechef.model.order.Food;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentType;
 import seedu.homechef.model.order.Phone;
@@ -79,23 +78,6 @@ public class ParserUtil {
             throw new ParseException(Food.MESSAGE_CONSTRAINTS);
         }
         return new Food(trimmedName);
-    }
-
-    /**
-     * Parses a {@code String menuItemName} into a {@code MenuItemName}.
-     * String will be normalized by trimming and replacing whitespace with a single space.
-     *
-     * @param menuItemName The menu item name string to parse.
-     * @return A MenuItemName object representing the parsed menu item name.
-     * @throws ParseException if the given {@code menuItemName} is invalid.
-     */
-    public static MenuItemName parseMenuItemName(String menuItemName) throws ParseException {
-        requireNonNull(menuItemName);
-        String trimmedName = normalizeWhitespace(menuItemName);
-        if (!MenuItemName.isValidMenuItemName(trimmedName)) {
-            throw new ParseException(MenuItemName.MESSAGE_CONSTRAINTS);
-        }
-        return new MenuItemName(trimmedName);
     }
 
     /**
@@ -273,9 +255,9 @@ public class ParserUtil {
      * The {@code ref} parameter maps to different semantic fields depending on the type:
      * PayNow handle, bank reference number, card last-4 digits, or wallet account ID.
      *
-     * @param method Optional payment method value (m/)
-     * @param ref Optional payment reference value (r/)
-     * @param bankName Optional bank name value (b/)
+     * @param method         Optional payment method value (m/)
+     * @param ref            Optional payment reference value (r/)
+     * @param bankName       Optional bank name value (b/)
      * @param walletProvider Optional wallet provider value (w/)
      * @return An optional PaymentInfo when payment fields are provided, or empty when none are provided.
      * @throws ParseException if the combination of provided values is invalid for any payment type.

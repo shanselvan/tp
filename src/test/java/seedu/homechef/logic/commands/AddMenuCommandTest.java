@@ -18,9 +18,9 @@ import seedu.homechef.logic.commands.exceptions.CommandException;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.ReadOnlyHomeChef;
 import seedu.homechef.model.ReadOnlyUserPrefs;
+import seedu.homechef.model.common.Food;
 import seedu.homechef.model.menu.MenuBook;
 import seedu.homechef.model.menu.MenuItem;
-import seedu.homechef.model.menu.MenuItemName;
 import seedu.homechef.model.menu.Price;
 import seedu.homechef.model.menu.ReadOnlyMenuBook;
 import seedu.homechef.model.order.Order;
@@ -35,7 +35,7 @@ public class AddMenuCommandTest {
     @Test
     public void execute_menuItemAcceptedByModel_addSuccessful() throws Exception {
         ModelStubAcceptingMenuItemAdded modelStub = new ModelStubAcceptingMenuItemAdded();
-        MenuItem validItem = new MenuItem(new MenuItemName("Chicken Rice"), new Price("5.50"), true);
+        MenuItem validItem = new MenuItem(new Food("Chicken Rice"), new Price("5.50"), true);
 
         CommandResult commandResult = new AddMenuCommand(validItem).execute(modelStub);
 
@@ -46,7 +46,7 @@ public class AddMenuCommandTest {
 
     @Test
     public void execute_duplicateMenuItem_throwsCommandException() {
-        MenuItem validItem = new MenuItem(new MenuItemName("Chicken Rice"), new Price("5.50"), true);
+        MenuItem validItem = new MenuItem(new Food("Chicken Rice"), new Price("5.50"), true);
         AddMenuCommand addCommand = new AddMenuCommand(validItem);
         ModelStubWithMenuItem modelStub = new ModelStubWithMenuItem(validItem);
 
@@ -56,8 +56,8 @@ public class AddMenuCommandTest {
 
     @Test
     public void equals() {
-        MenuItem chicken = new MenuItem(new MenuItemName("Chicken Rice"), new Price("5.50"), true);
-        MenuItem nasi = new MenuItem(new MenuItemName("Nasi Goreng"), new Price("6.00"), true);
+        MenuItem chicken = new MenuItem(new Food("Chicken Rice"), new Price("5.50"), true);
+        MenuItem nasi = new MenuItem(new Food("Nasi Goreng"), new Price("6.00"), true);
         AddMenuCommand addChicken = new AddMenuCommand(chicken);
         AddMenuCommand addNasi = new AddMenuCommand(nasi);
 

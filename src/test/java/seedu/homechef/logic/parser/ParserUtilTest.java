@@ -16,7 +16,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import seedu.homechef.logic.parser.exceptions.ParseException;
-import seedu.homechef.model.menu.MenuItemName;
+import seedu.homechef.model.common.Food;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.Email;
@@ -245,8 +245,8 @@ public class ParserUtilTest {
     @Test
     public void parseMenuItemName_validValueWithWhitespace_returnsTrimmedMenuItemName() throws Exception {
         String menuItemNameWithWhitespace = WHITESPACE + "Chicken Rice" + WHITESPACE;
-        MenuItemName expectedName = new MenuItemName("Chicken Rice");
-        assertEquals(expectedName, ParserUtil.parseMenuItemName(menuItemNameWithWhitespace));
+        Food expectedName = new Food("Chicken Rice");
+        assertEquals(expectedName, ParserUtil.parseFood(menuItemNameWithWhitespace));
     }
 
     @Test
