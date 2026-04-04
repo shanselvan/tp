@@ -296,6 +296,7 @@ public class ParserUtil {
      * @param ref the payment reference (r/ prefix value), or empty if not provided
      * @param bankName the bank name (b/ prefix value), or empty if not provided
      * @param walletProvider the wallet provider (w/ prefix value), or empty if not provided
+     * @return an {@code Optional} containing the parsed {@code PaymentInfo}, or empty if no payment fields were provided
      * @throws ParseException if the combination of provided values is invalid for any payment type.
      */
     public static Optional<PaymentInfo> parsePaymentInfo(
@@ -317,7 +318,7 @@ public class ParserUtil {
 
         PaymentType type = parsePaymentType(method.get());
 
-        PaymentInfo paymentInfo = null;
+        PaymentInfo paymentInfo;
         switch (type) {
         case CASH:
             paymentInfo = parseCashPayment(hasRef, hasBankName, hasWalletProvider);
@@ -334,6 +335,8 @@ public class ParserUtil {
         case EWALLET:
             paymentInfo = parseEWalletPayment(ref, walletProvider, hasBankName);
             break;
+        default:
+            throw new ParseException(String.format(MESSAGE_INVALID_PAYMENT_METHOD, method.get().trim()));
         }
 
         return Optional.of(paymentInfo);
