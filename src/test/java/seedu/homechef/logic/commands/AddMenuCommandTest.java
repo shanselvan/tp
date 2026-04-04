@@ -61,10 +61,19 @@ public class AddMenuCommandTest {
         AddMenuCommand addChicken = new AddMenuCommand(chicken);
         AddMenuCommand addNasi = new AddMenuCommand(nasi);
 
+        // EP: same command -> returns true
         assertTrue(addChicken.equals(addChicken));
+
+        // EP: same food -> returns true
         assertTrue(addChicken.equals(new AddMenuCommand(chicken)));
+
+        // EP: different food -> returns false
         assertFalse(addChicken.equals(addNasi));
+
+        // EP: null -> returns false
         assertFalse(addChicken.equals(null));
+
+        // EP: different types -> returns false
         assertFalse(addChicken.equals(1));
     }
 

@@ -94,12 +94,12 @@ public class AddCommandParserTest {
     public void parse_allFieldsPresent_success() {
         Order expectedOrder = new OrderBuilder(BOB).withTags(VALID_TAG_FRIEND).withPrice(PLACEHOLDER_PRICE).build();
 
-        // whitespace only preamble
+        // EP: whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + FOOD_DESC_BOB + CUSTOMER_DESC_BOB + PHONE_DESC_BOB
                 + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + DATE_DESC_BOB + TAG_DESC_FRIEND,
                 new AddCommand(expectedOrder));
 
-        // multiple tags - all accepted
+        // EP: multiple tags - all accepted
         Order expectedOrderMultipleTags = new OrderBuilder(BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
                 .withPrice(PLACEHOLDER_PRICE).build();
         assertParseSuccess(parser,
@@ -113,23 +113,23 @@ public class AddCommandParserTest {
         String validExpectedOrderString = FOOD_DESC_BOB + CUSTOMER_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + DATE_DESC_BOB + TAG_DESC_FRIEND;
 
-        // multiple customers
+        // EP: multiple customers
         assertParseFailure(parser, CUSTOMER_DESC_AMY + validExpectedOrderString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_CUSTOMER));
 
-        // multiple phones
+        // EP: multiple phones
         assertParseFailure(parser, PHONE_DESC_AMY + validExpectedOrderString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
 
-        // multiple emails
+        // EP: multiple emails
         assertParseFailure(parser, EMAIL_DESC_AMY + validExpectedOrderString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_EMAIL));
 
-        // multiple addresses
+        // EP: multiple addresses
         assertParseFailure(parser, ADDRESS_DESC_AMY + validExpectedOrderString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ADDRESS));
 
-        // multiple fields repeated
+        // EP: multiple fields repeated
         assertParseFailure(parser,
                 validExpectedOrderString + PHONE_DESC_AMY + EMAIL_DESC_AMY + CUSTOMER_DESC_AMY
                         + ADDRESS_DESC_AMY
@@ -139,37 +139,37 @@ public class AddCommandParserTest {
 
         // invalid value followed by valid value
 
-        // invalid customer
+        // EP: invalid customer
         assertParseFailure(parser, INVALID_CUSTOMER_DESC + validExpectedOrderString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_CUSTOMER));
 
-        // invalid email
+        // EP: invalid email
         assertParseFailure(parser, INVALID_EMAIL_DESC + validExpectedOrderString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_EMAIL));
 
-        // invalid phone
+        // EP: invalid phone
         assertParseFailure(parser, INVALID_PHONE_DESC + validExpectedOrderString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
 
-        // invalid address
+        // EP: invalid address
         assertParseFailure(parser, INVALID_ADDRESS_DESC + validExpectedOrderString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ADDRESS));
 
         // valid value followed by invalid value
 
-        // invalid customer
+        // EP: invalid customer
         assertParseFailure(parser, validExpectedOrderString + INVALID_CUSTOMER_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_CUSTOMER));
 
-        // invalid email
+        // EP: invalid email
         assertParseFailure(parser, validExpectedOrderString + INVALID_EMAIL_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_EMAIL));
 
-        // invalid phone
+        // EP: invalid phone
         assertParseFailure(parser, validExpectedOrderString + INVALID_PHONE_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
 
-        // invalid address
+        // EP: invalid address
         assertParseFailure(parser, validExpectedOrderString + INVALID_ADDRESS_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ADDRESS));
     }
@@ -188,86 +188,86 @@ public class AddCommandParserTest {
     public void parse_compulsoryFieldMissing_failure() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
 
-        // missing customer prefix
+        // EP: missing customer prefix
         assertParseFailure(parser, VALID_CUSTOMER_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
                 expectedMessage);
 
-        // missing phone prefix
+        // EP: missing phone prefix
         assertParseFailure(parser, CUSTOMER_DESC_BOB + VALID_PHONE_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
                 expectedMessage);
 
-        // missing email prefix
+        // EP: missing email prefix
         assertParseFailure(parser, CUSTOMER_DESC_BOB + PHONE_DESC_BOB + VALID_EMAIL_BOB + ADDRESS_DESC_BOB,
                 expectedMessage);
 
-        // missing address prefix
+        // EP: missing address prefix
         assertParseFailure(parser, CUSTOMER_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + VALID_ADDRESS_AMY,
                 expectedMessage);
 
-        // missing food prefix
+        // EP: missing food prefix
         assertParseFailure(parser, VALID_FOOD_AMY + CUSTOMER_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + DATE_DESC_BOB, expectedMessage);
 
-        // missing date prefix
+        // EP: missing date prefix
         assertParseFailure(parser, FOOD_DESC_BOB + CUSTOMER_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + VALID_DATE_AMY, expectedMessage);
 
-        // all prefixes missing
+        // EP: all prefixes missing
         assertParseFailure(parser, VALID_CUSTOMER_BOB + VALID_PHONE_BOB + VALID_EMAIL_BOB + VALID_ADDRESS_AMY,
                 expectedMessage);
     }
 
     @Test
     public void parse_invalidValue_failure() {
-        // invalid food
+        // EP: invalid food
         assertParseFailure(parser,
                 INVALID_FOOD_DESC + CUSTOMER_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
                         + DATE_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 Food.MESSAGE_CONSTRAINTS);
 
-        // invalid customer
+        // EP: invalid customer
         assertParseFailure(parser,
                 FOOD_DESC_BOB + INVALID_CUSTOMER_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
                         + DATE_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 Customer.MESSAGE_CONSTRAINTS);
 
-        // invalid phone
+        // EP: invalid phone
         assertParseFailure(parser,
                 FOOD_DESC_BOB + CUSTOMER_DESC_BOB + INVALID_PHONE_DESC + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
                         + DATE_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 Phone.MESSAGE_CONSTRAINTS);
 
-        // invalid email
+        // EP: invalid email
         assertParseFailure(parser,
                 FOOD_DESC_BOB + CUSTOMER_DESC_BOB + PHONE_DESC_BOB + INVALID_EMAIL_DESC + ADDRESS_DESC_BOB
                         + DATE_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 Email.MESSAGE_CONSTRAINTS);
 
-        // invalid address
+        // EP: invalid address
         assertParseFailure(parser,
                 FOOD_DESC_BOB + CUSTOMER_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_ADDRESS_DESC
                         + DATE_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 Address.MESSAGE_CONSTRAINTS);
 
-        // invalid date
+        // EP: invalid date
         assertParseFailure(parser,
                 FOOD_DESC_BOB + CUSTOMER_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
                         + INVALID_DATE_DESC + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 Date.MESSAGE_CONSTRAINTS);
 
-        // invalid tag
+        // EP: invalid tag
         assertParseFailure(parser,
                 FOOD_DESC_BOB + CUSTOMER_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
                         + DATE_DESC_BOB + INVALID_TAG_DESC + VALID_TAG_FRIEND,
                 DietTag.MESSAGE_CONSTRAINTS);
 
-        // two invalid values, only first invalid value reported
+        // EP: two invalid values, only first invalid value reported
         assertParseFailure(parser,
                 FOOD_DESC_BOB + INVALID_CUSTOMER_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB
                         + INVALID_ADDRESS_DESC + DATE_DESC_BOB,
                 Customer.MESSAGE_CONSTRAINTS);
 
-        // non-empty preamble
+        // EP: non-empty preamble
         assertParseFailure(parser,
                 PREAMBLE_NON_EMPTY + FOOD_DESC_BOB + CUSTOMER_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                         + ADDRESS_DESC_BOB + DATE_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,

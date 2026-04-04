@@ -21,11 +21,11 @@ public class PhoneTest {
 
     @Test
     public void isValidPhone() {
-        // null phone number
+        // EP: null phone number
         assertThrows(NullPointerException.class, () -> Phone.isValidPhone(null));
 
-        // invalid phone numbers
-        assertFalse(Phone.isValidPhone("")); // empty string
+        // EP: invalid phone numbers
+        assertFalse(Phone.isValidPhone("")); // empty string, boundary value
         assertFalse(Phone.isValidPhone(" ")); // spaces only
         assertFalse(Phone.isValidPhone("91")); // less than 3 digits
         assertFalse(Phone.isValidPhone("phone")); // non-numeric
@@ -34,7 +34,7 @@ public class PhoneTest {
         assertFalse(Phone.isValidPhone("+651234")); // country code missing space separator
         assertFalse(Phone.isValidPhone("+65 12")); // local part too short after country code
 
-        // valid phone numbers
+        // EP: valid phone numbers
         assertTrue(Phone.isValidPhone("911")); // exactly 3 digits
         assertTrue(Phone.isValidPhone("93121534"));
         assertTrue(Phone.isValidPhone("124293842033123")); // long phone numbers
@@ -47,19 +47,19 @@ public class PhoneTest {
     public void equals() {
         Phone phone = new Phone("999");
 
-        // same values -> returns true
+        // EP: same values -> returns true
         assertTrue(phone.equals(new Phone("999")));
 
-        // same object -> returns true
+        // EP: same object -> returns true
         assertTrue(phone.equals(phone));
 
-        // null -> returns false
+        // EP: null -> returns false
         assertFalse(phone.equals(null));
 
-        // different types -> returns false
+        // EP: different types -> returns false
         assertFalse(phone.equals(5.0f));
 
-        // different values -> returns false
+        // EP: different values -> returns false
         assertFalse(phone.equals(new Phone("995")));
     }
 }

@@ -142,6 +142,7 @@ public class PaymentInfoTest {
 
     @Test
     public void isValidLastFourDigits_validInputs() {
+        // EP: valid input
         assertTrue(PaymentInfo.isValidLastFourDigits("0000"));
         assertTrue(PaymentInfo.isValidLastFourDigits("1234"));
         assertTrue(PaymentInfo.isValidLastFourDigits("9999"));
@@ -149,7 +150,10 @@ public class PaymentInfoTest {
 
     @Test
     public void isValidLastFourDigits_invalidInputs() {
+        // EP: null input
         assertFalse(PaymentInfo.isValidLastFourDigits(null));
+
+        // EP: invalid input
         assertFalse(PaymentInfo.isValidLastFourDigits("123"));
         assertFalse(PaymentInfo.isValidLastFourDigits("12345"));
         assertFalse(PaymentInfo.isValidLastFourDigits("abcd"));
@@ -163,11 +167,20 @@ public class PaymentInfoTest {
         PaymentInfo cash2 = new PaymentInfo(PaymentType.CASH, null, null, null, null, null, null);
         PaymentInfo payNow = new PaymentInfo(PaymentType.PAYNOW, "+65 91234567", null, null, null, null, null);
 
+        // EP: same object
         assertTrue(cash1.equals(cash1));
+
+        // EP: same info
         assertTrue(cash1.equals(cash2));
         assertEquals(cash1.hashCode(), cash2.hashCode());
+
+        // EP: different payment info
         assertFalse(cash1.equals(payNow));
+
+        // EP: null payment info
         assertFalse(cash1.equals(null));
+
+        // EP: different objects
         assertFalse(cash1.equals("CASH"));
     }
 }

@@ -30,16 +30,18 @@ public class OrderTest {
 
     @Test
     public void isSameOrder() {
+        // EP: same customers
         // same object -> returns true
         assertTrue(ALICE.isSameOrder(ALICE));
-
-        // null -> returns false
-        assertFalse(ALICE.isSameOrder(null));
 
         // same Customer, food and date; other attributes different -> returns true
         Order editedAlice = new OrderBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
                 .withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
         assertTrue(ALICE.isSameOrder(editedAlice));
+
+        // EP: different customers
+        // null -> returns false
+        assertFalse(ALICE.isSameOrder(null));
 
         // different Customer, all other attributes same -> returns false
         editedAlice = new OrderBuilder(ALICE).withCustomer(VALID_CUSTOMER_BOB).build();
@@ -65,47 +67,47 @@ public class OrderTest {
 
     @Test
     public void equals() {
-        // same values -> returns true
+        // EP: same values -> returns true
         Order aliceCopy = new OrderBuilder(ALICE).build();
         assertTrue(ALICE.equals(aliceCopy));
 
-        // same object -> returns true
+        // EP: same object -> returns true
         assertTrue(ALICE.equals(ALICE));
 
-        // null -> returns false
+        // EP: null -> returns false
         assertFalse(ALICE.equals(null));
 
-        // different type -> returns false
+        // EP: different type -> returns false
         assertFalse(ALICE.equals(5));
 
-        // different order -> returns false
+        // EP: different order -> returns false
         assertFalse(ALICE.equals(BOB));
 
-        // different food -> returns false
+        // EP: different food -> returns false
         Order editedAlice = new OrderBuilder(ALICE).withFood(VALID_CUSTOMER_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
-        // different name -> returns false
+        // EP: different name -> returns false
         editedAlice = new OrderBuilder(ALICE).withCustomer(VALID_CUSTOMER_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
-        // different phone -> returns false
+        // EP: different phone -> returns false
         editedAlice = new OrderBuilder(ALICE).withPhone(VALID_PHONE_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
-        // different email -> returns false
+        // EP: different email -> returns false
         editedAlice = new OrderBuilder(ALICE).withEmail(VALID_EMAIL_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
-        // different address -> returns false
+        // EP: different address -> returns false
         editedAlice = new OrderBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
-        // different date -> returns false
+        // EP: different date -> returns false
         editedAlice = new OrderBuilder(ALICE).withDate(VALID_DATE_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
-        // different tags -> returns false
+        // EP: different tags -> returns false
         editedAlice = new OrderBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
         assertFalse(ALICE.equals(editedAlice));
     }

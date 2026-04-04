@@ -22,16 +22,16 @@ public class FoodTest {
 
     @Test
     public void isValidFood() {
-        // null name
+        // EP: null name
         assertThrows(NullPointerException.class, () -> Food.isValidFood(null));
 
-        // invalid name
+        // EP: invalid name
         assertFalse(Food.isValidFood("")); // empty string
         assertFalse(Food.isValidFood(" ")); // spaces only
         assertFalse(Food.isValidFood("^")); // only non-alphanumeric characters
         assertFalse(Food.isValidFood("cookie*")); // contains non-alphanumeric characters
 
-        // valid name
+        // EP: valid name
         assertTrue(Food.isValidFood("cookies")); // alphabets only
         assertTrue(Food.isValidFood("12345")); // numbers only
         assertTrue(Food.isValidFood("5 cookies")); // alphanumeric characters
@@ -44,19 +44,19 @@ public class FoodTest {
     public void equals() {
         Food food = new Food("Valid Food");
 
-        // same values -> returns true
+        // EP: same values -> returns true
         assertTrue(food.equals(new Food("Valid Food")));
 
-        // same object -> returns true
+        // EP: same object -> returns true
         assertTrue(food.equals(food));
 
-        // null -> returns false
+        // EP: null -> returns false
         assertFalse(food.equals(null));
 
-        // different types -> returns false
+        // EP: different types -> returns false
         assertFalse(food.equals(5.0f));
 
-        // different values -> returns false
+        // EP: different values -> returns false
         assertFalse(food.equals(new Food("Other Valid Food")));
     }
 

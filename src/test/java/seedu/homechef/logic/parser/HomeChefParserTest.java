@@ -78,7 +78,9 @@ public class HomeChefParserTest {
 
     @Test
     public void parseCommand_list() throws Exception {
+        // EP: valid commands
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD) instanceof ListCommand);
+        // only command word, boundary value
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD + " d/01-01-2021") instanceof ListCommand);
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD + " cs/in progress") instanceof ListCommand);
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD + " ps/unpaid") instanceof ListCommand);

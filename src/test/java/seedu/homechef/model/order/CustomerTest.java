@@ -10,28 +10,31 @@ public class CustomerTest {
 
     @Test
     public void constructor_null_throwsNullPointerException() {
+        // EP: null Customer name
         assertThrows(NullPointerException.class, () -> new Customer(null));
     }
 
     @Test
     public void constructor_invalidCustomer_throwsIllegalArgumentException() {
         String invalidCustomer = "";
+
+        // EP: invalid Customer name
         assertThrows(IllegalArgumentException.class, () -> new Customer(invalidCustomer));
     }
 
     @Test
     public void isValidCustomer() {
-        // null Customer
+        // EP: null Customer
         assertThrows(NullPointerException.class, () -> Customer.isValidCustomer(null));
 
-        // invalid Customer
-        assertFalse(Customer.isValidCustomer("")); // empty string
+        // EP: invalid Customer
+        assertFalse(Customer.isValidCustomer("")); // empty string, boundary value
         assertFalse(Customer.isValidCustomer(" ")); // spaces only
         assertFalse(Customer.isValidCustomer("^")); // only non-alphanumeric characters
         assertFalse(Customer.isValidCustomer("peter*")); // contains non-alphanumeric characters
 
-        // valid Customer
-        assertTrue(Customer.isValidCustomer("peter jack")); // alphabets only
+        // EP: valid Customer
+        assertTrue(Customer.isValidCustomer("peter jack")); // alphabets only, boundary value
         assertTrue(Customer.isValidCustomer("12345")); // numbers only
         assertTrue(Customer.isValidCustomer("peter the 2nd")); // alphanumeric characters
         assertTrue(Customer.isValidCustomer("Capital Tan")); // with capital letters
@@ -42,19 +45,19 @@ public class CustomerTest {
     public void equals() {
         Customer customer = new Customer("Valid Customer");
 
-        // same values -> returns true
+        // EP: same values -> returns true
         assertTrue(customer.equals(new Customer("Valid Customer")));
 
-        // same object -> returns true
+        // EP: same object -> returns true
         assertTrue(customer.equals(customer));
 
-        // null -> returns false
+        // EP: null -> returns false
         assertFalse(customer.equals(null));
 
-        // different types -> returns false
+        // EP: different types -> returns false
         assertFalse(customer.equals(5.0f));
 
-        // different values -> returns false
+        // EP: different values -> returns false
         assertFalse(customer.equals(new Customer("Other Valid Customer")));
     }
 }

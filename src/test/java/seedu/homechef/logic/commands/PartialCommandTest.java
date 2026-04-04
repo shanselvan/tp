@@ -99,20 +99,20 @@ public class PartialCommandTest {
         PartialCommand partialFirstCommand = new PartialCommand(INDEX_FIRST_ORDER);
         PartialCommand partialSecondCommand = new PartialCommand(INDEX_SECOND_ORDER);
 
-        // same object -> true
+        // EP: same object -> true
         assertTrue(partialFirstCommand.equals(partialFirstCommand));
 
-        // same values -> true
+        // EP: same values -> true
         PartialCommand partialFirstCommandCopy = new PartialCommand(INDEX_FIRST_ORDER);
         assertTrue(partialFirstCommand.equals(partialFirstCommandCopy));
 
-        // different types -> false
+        // EP: different types -> false
         assertFalse(partialFirstCommand.equals(1));
 
-        // null -> false
+        // EP: null -> false
         assertFalse(partialFirstCommand.equals(null));
 
-        // different index -> false
+        // EP: different index -> false
         assertFalse(partialFirstCommand.equals(partialSecondCommand));
     }
 

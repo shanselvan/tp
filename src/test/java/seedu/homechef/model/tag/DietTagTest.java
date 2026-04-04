@@ -14,7 +14,7 @@ public class DietTagTest {
     @Test
     public void constructor_invalidTagName_throwsIllegalArgumentException() {
         String invalidTagName = "";
-        assertThrows(IllegalArgumentException.class, () -> new DietTag(invalidTagName));
+        assertThrows(IllegalArgumentException.class, () -> new DietTag(invalidTagName)); // empty string, boundary value
     }
 
 

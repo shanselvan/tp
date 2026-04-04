@@ -16,7 +16,7 @@ public class PriceTest {
 
     @Test
     public void constructor_invalidPrice_throwsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> new Price(""));
+        assertThrows(IllegalArgumentException.class, () -> new Price("")); // empty string, boundary value
         assertThrows(IllegalArgumentException.class, () -> new Price("0"));
         assertThrows(IllegalArgumentException.class, () -> new Price("0.00"));
         assertThrows(IllegalArgumentException.class, () -> new Price("-1"));
@@ -28,8 +28,10 @@ public class PriceTest {
 
     @Test
     public void isValidPrice() {
+        // EP: null price
         assertThrows(NullPointerException.class, () -> Price.isValidPrice(null));
 
+        // EP: invalid price
         assertFalse(Price.isValidPrice(""));
         assertFalse(Price.isValidPrice("0"));
         assertFalse(Price.isValidPrice("0.00"));
@@ -37,6 +39,7 @@ public class PriceTest {
         assertFalse(Price.isValidPrice("abc"));
         assertFalse(Price.isValidPrice("1.999"));
 
+        // EP: valid price
         assertTrue(Price.isValidPrice("0.01"));
         assertTrue(Price.isValidPrice("1"));
         assertTrue(Price.isValidPrice("5.50"));
@@ -48,10 +51,19 @@ public class PriceTest {
     @Test
     public void equals() {
         Price price = new Price("5.50");
+
+        // EP: same values -> returns true
         assertTrue(price.equals(new Price("5.50")));
+        // equals() is not sensitive to decimals
         assertTrue(price.equals(new Price("5.5")));
+
+        // EP: same object -> returns true
         assertTrue(price.equals(price));
+
+        // EP: null -> returns false
         assertFalse(price.equals(null));
+
+        // EP: different values -> returns false
         assertFalse(price.equals(new Price("3.00")));
     }
 

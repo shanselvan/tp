@@ -50,19 +50,19 @@ public class AppParametersTest {
     public void equals() {
         AppParameters appParameters = new AppParameters();
 
-        // same values -> returns true
+        // EP: same values -> returns true
         assertTrue(appParameters.equals(new AppParameters()));
 
-        // same object -> returns true
+        // EP: same object -> returns true
         assertTrue(appParameters.equals(appParameters));
 
-        // null -> returns false
+        // EP: null -> returns false
         assertFalse(appParameters.equals(null));
 
-        // different types -> returns false
+        // EP: different types -> returns false
         assertFalse(appParameters.equals(5.0f));
 
-        // different config path -> returns false
+        // EP: different config path -> returns false
         AppParameters otherAppParameters = new AppParameters();
         otherAppParameters.setConfigPath(Paths.get("configPath"));
         assertFalse(appParameters.equals(otherAppParameters));

@@ -53,10 +53,19 @@ public class DeleteMenuCommandTest {
         DeleteMenuCommand deleteFirst = new DeleteMenuCommand(Index.fromOneBased(1));
         DeleteMenuCommand deleteSecond = new DeleteMenuCommand(Index.fromOneBased(2));
 
+        // EP: same object -> returns true
         assertTrue(deleteFirst.equals(deleteFirst));
+
+        // EP: same index -> returns true
         assertTrue(deleteFirst.equals(new DeleteMenuCommand(Index.fromOneBased(1))));
+
+        // EP: different index -> returns false
         assertFalse(deleteFirst.equals(deleteSecond));
+
+        // EP: null -> returns false
         assertFalse(deleteFirst.equals(null));
+
+        // EP: different types -> returns false
         assertFalse(deleteFirst.equals(1));
     }
 

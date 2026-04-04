@@ -25,57 +25,57 @@ public class EditOrderDescriptorTest {
 
     @Test
     public void equals() {
-        // same values -> returns true
+        // EP: same values -> returns true
         EditOrderDescriptor descriptorWithSameValues = new EditOrderDescriptor(DESC_AMY);
         assertTrue(DESC_AMY.equals(descriptorWithSameValues));
 
-        // same object -> returns true
+        // EP: same object -> returns true
         assertTrue(DESC_AMY.equals(DESC_AMY));
 
-        // null -> returns false
+        // EP: null -> returns false
         assertFalse(DESC_AMY.equals(null));
 
-        // different types -> returns false
+        // EP: different types -> returns false
         assertFalse(DESC_AMY.equals(5));
 
-        // different values -> returns false
+        // EP: different values -> returns false
         assertFalse(DESC_AMY.equals(DESC_BOB));
 
-        // different name -> returns false
+        // EP: different name -> returns false
         EditOrderDescriptor editedAmy = new EditOrderDescriptorBuilder(DESC_AMY).withCustomer(
                 VALID_CUSTOMER_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
-        // different phone -> returns false
+        // EP: different phone -> returns false
         editedAmy = new EditOrderDescriptorBuilder(DESC_AMY).withPhone(VALID_PHONE_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
-        // different email -> returns false
+        // EP: different email -> returns false
         editedAmy = new EditOrderDescriptorBuilder(DESC_AMY).withEmail(VALID_EMAIL_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
-        // different address -> returns false
+        // EP: different address -> returns false
         editedAmy = new EditOrderDescriptorBuilder(DESC_AMY).withAddress(VALID_ADDRESS_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
-        // different tags -> returns false
+        // EP: different tags -> returns false
         editedAmy = new EditOrderDescriptorBuilder(DESC_AMY).withTags(VALID_TAG_HUSBAND).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
-        // different food (both non-null) -> returns false
+        // EP: different food (both non-null) -> returns false
         EditOrderDescriptor amyWithFood = new EditOrderDescriptorBuilder(DESC_AMY).withFood(VALID_FOOD_AMY).build();
         editedAmy = new EditOrderDescriptorBuilder(DESC_AMY).withFood(VALID_FOOD_BOB).build();
         assertFalse(amyWithFood.equals(editedAmy));
 
-        // same food (both non-null) -> returns true
+        // EP: same food (both non-null) -> returns true
         EditOrderDescriptor amyWithFoodCopy = new EditOrderDescriptorBuilder(DESC_AMY).withFood(VALID_FOOD_AMY).build();
         assertTrue(amyWithFood.equals(amyWithFoodCopy));
 
-        // different date -> returns false
+        // EP: different date -> returns false
         editedAmy = new EditOrderDescriptorBuilder(DESC_AMY).withDate(VALID_DATE_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
-        // different paymentInfo -> returns false
+        // EP: different paymentInfo -> returns false
         EditOrderDescriptor amyWithPayment = new EditOrderDescriptorBuilder(DESC_AMY)
                 .withPaymentInfo(new PaymentInfo(PaymentType.CASH, null, null, null, null, null, null)).build();
         EditOrderDescriptor amyWithDifferentPayment = new EditOrderDescriptorBuilder(DESC_AMY)
@@ -83,7 +83,7 @@ public class EditOrderDescriptorTest {
                 .build();
         assertFalse(amyWithPayment.equals(amyWithDifferentPayment));
 
-        // same paymentInfo -> returns true
+        // EP: same paymentInfo -> returns true
         EditOrderDescriptor amyWithPaymentCopy = new EditOrderDescriptorBuilder(DESC_AMY)
                 .withPaymentInfo(new PaymentInfo(PaymentType.CASH, null, null, null, null, null, null)).build();
         assertTrue(amyWithPayment.equals(amyWithPaymentCopy));

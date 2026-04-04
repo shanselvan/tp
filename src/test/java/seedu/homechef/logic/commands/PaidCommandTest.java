@@ -96,20 +96,20 @@ public class PaidCommandTest {
         PaidCommand paidFirstCommand = new PaidCommand(INDEX_FIRST_ORDER);
         PaidCommand paidSecondCommand = new PaidCommand(INDEX_SECOND_ORDER);
 
-        // same object -> true
+        // EP: same object -> true
         assertTrue(paidFirstCommand.equals(paidFirstCommand));
 
-        // same values -> true
+        // EP: same values -> true
         PaidCommand paidFirstCommandCopy = new PaidCommand(INDEX_FIRST_ORDER);
         assertTrue(paidFirstCommand.equals(paidFirstCommandCopy));
 
-        // different types -> false
+        // EP: different types -> false
         assertFalse(paidFirstCommand.equals(1));
 
-        // null -> false
+        // EP: null -> false
         assertFalse(paidFirstCommand.equals(null));
 
-        // different index -> false
+        // EP: different index -> false
         assertFalse(paidFirstCommand.equals(paidSecondCommand));
     }
 

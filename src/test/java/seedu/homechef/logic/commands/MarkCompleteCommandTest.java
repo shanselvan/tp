@@ -71,20 +71,20 @@ public class MarkCompleteCommandTest {
         MarkCompleteCommand markCompleteFirstCommand = new MarkCompleteCommand(INDEX_FIRST_ORDER);
         MarkCompleteCommand markCompleteSecondCommand = new MarkCompleteCommand(INDEX_SECOND_ORDER);
 
-        // same object -> returns true
+        // EP: same object -> returns true
         assertTrue(markCompleteFirstCommand.equals(markCompleteFirstCommand));
 
-        // same values -> returns true
+        // EP: same values -> returns true
         MarkCompleteCommand markCompleteFirstCommandCopy = new MarkCompleteCommand(INDEX_FIRST_ORDER);
         assertTrue(markCompleteFirstCommand.equals(markCompleteFirstCommandCopy));
 
-        // different types -> returns false
+        // EP: different types -> returns false
         assertFalse(markCompleteFirstCommand.equals(1));
 
-        // null -> returns false
+        // EP: null -> returns false
         assertFalse(markCompleteFirstCommand.equals(null));
 
-        // different order -> returns false
+        // EP: different order -> returns false
         assertFalse(markCompleteFirstCommand.equals(markCompleteSecondCommand));
     }
 

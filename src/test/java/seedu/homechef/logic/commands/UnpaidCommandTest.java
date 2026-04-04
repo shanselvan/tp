@@ -96,20 +96,20 @@ public class UnpaidCommandTest {
         UnpaidCommand unpaidFirstCommand = new UnpaidCommand(INDEX_FIRST_ORDER);
         UnpaidCommand unpaidSecondCommand = new UnpaidCommand(INDEX_SECOND_ORDER);
 
-        // same object -> true
+        // EP: same object -> true
         assertTrue(unpaidFirstCommand.equals(unpaidFirstCommand));
 
-        // same values -> true
+        // EP: same values -> true
         UnpaidCommand unpaidFirstCommandCopy = new UnpaidCommand(INDEX_FIRST_ORDER);
         assertTrue(unpaidFirstCommand.equals(unpaidFirstCommandCopy));
 
-        // different types -> false
+        // EP: different types -> false
         assertFalse(unpaidFirstCommand.equals(1));
 
-        // null -> false
+        // EP: null -> false
         assertFalse(unpaidFirstCommand.equals(null));
 
-        // different index -> false
+        // EP: different index -> false
         assertFalse(unpaidFirstCommand.equals(unpaidSecondCommand));
     }
 

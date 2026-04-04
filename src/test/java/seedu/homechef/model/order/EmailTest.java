@@ -10,30 +10,33 @@ public class EmailTest {
 
     @Test
     public void constructor_null_throwsNullPointerException() {
+        // EP: null string
         assertThrows(NullPointerException.class, () -> new Email(null));
     }
 
     @Test
     public void constructor_invalidEmail_throwsIllegalArgumentException() {
         String invalidEmail = "";
+
+        // EP: invalid string
         assertThrows(IllegalArgumentException.class, () -> new Email(invalidEmail));
     }
 
     @Test
     public void isValidEmail() {
-        // null email
+        // EP: null email
         assertThrows(NullPointerException.class, () -> Email.isValidEmail(null));
 
-        // blank email
-        assertFalse(Email.isValidEmail("")); // empty string
+        // EP: blank email
+        assertFalse(Email.isValidEmail("")); // empty string, boundary value
         assertFalse(Email.isValidEmail(" ")); // spaces only
 
-        // missing parts
+        // EP: missing parts
         assertFalse(Email.isValidEmail("@example.com")); // missing local part
         assertFalse(Email.isValidEmail("peterjackexample.com")); // missing '@' symbol
         assertFalse(Email.isValidEmail("peterjack@")); // missing domain name
 
-        // invalid parts
+        // EP: invalid parts
         assertFalse(Email.isValidEmail("peterjack@-")); // invalid domain name
         assertFalse(Email.isValidEmail("peterjack@exam_ple.com")); // underscore in domain name
         assertFalse(Email.isValidEmail("peter jack@example.com")); // spaces in local part
@@ -52,7 +55,7 @@ public class EmailTest {
         assertFalse(Email.isValidEmail("peterjack@example.com-")); // domain name ends with a hyphen
         assertFalse(Email.isValidEmail("peterjack@example.c")); // top level domain has less than two chars
 
-        // valid email
+        // EP: valid email
         assertTrue(Email.isValidEmail("PeterJack_1190@example.com")); // underscore in local part
         assertTrue(Email.isValidEmail("PeterJack.1190@example.com")); // period in local part
         assertTrue(Email.isValidEmail("PeterJack+1190@example.com")); // '+' symbol in local part
@@ -70,19 +73,19 @@ public class EmailTest {
     public void equals() {
         Email email = new Email("valid@email");
 
-        // same values -> returns true
+        // EP: same values -> returns true
         assertTrue(email.equals(new Email("valid@email")));
 
-        // same object -> returns true
+        // EP: same object -> returns true
         assertTrue(email.equals(email));
 
-        // null -> returns false
+        // EP: null -> returns false
         assertFalse(email.equals(null));
 
-        // different types -> returns false
+        // EP: different types -> returns false
         assertFalse(email.equals(5.0f));
 
-        // different values -> returns false
+        // EP: different values -> returns false
         assertFalse(email.equals(new Email("other.valid@email")));
     }
 }

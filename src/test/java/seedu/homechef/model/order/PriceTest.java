@@ -16,10 +16,10 @@ public class PriceTest {
 
     @Test
     public void constructor_invalidPrice_throwsIllegalArgumentException() {
-        // empty string
-        assertThrows(IllegalArgumentException.class, () -> new Price(""));
+        // EP: empty string
+        assertThrows(IllegalArgumentException.class, () -> new Price("")); // boundary value
 
-        // invalid formats
+        // EP: invalid formats
         assertThrows(IllegalArgumentException.class, () -> new Price(" "));
         assertThrows(IllegalArgumentException.class, () -> new Price("abc"));
         assertThrows(IllegalArgumentException.class, () -> new Price("-5"));
@@ -30,11 +30,11 @@ public class PriceTest {
 
     @Test
     public void isValidPrice() {
-        // null price
+        // EP: null price
         assertThrows(NullPointerException.class, () -> Price.isValidPrice(null));
 
-        // invalid prices
-        assertFalse(Price.isValidPrice("")); // empty
+        // EP: invalid prices
+        assertFalse(Price.isValidPrice("")); // empty, boundary value
         assertFalse(Price.isValidPrice(" ")); // spaces
         assertFalse(Price.isValidPrice("abc")); // non-numeric
         assertFalse(Price.isValidPrice("-5")); // negative
@@ -43,7 +43,7 @@ public class PriceTest {
         assertFalse(Price.isValidPrice("0")); // zero not allowed
         assertFalse(Price.isValidPrice("0.00")); // zero not allowed
 
-        // valid prices
+        // EP: valid prices
         assertTrue(Price.isValidPrice("5"));
         assertTrue(Price.isValidPrice("5.5"));
         assertTrue(Price.isValidPrice("5.50"));
@@ -56,22 +56,22 @@ public class PriceTest {
     public void equals() {
         Price price = new Price("5.50");
 
-        // same values -> returns true
+        // EP: same values -> returns true
         assertTrue(price.equals(new Price("5.50")));
 
-        // normalization check
+        // EP: normalization check
         assertTrue(price.equals(new Price("5.5")));
 
-        // same object -> returns true
+        // EP: same object -> returns true
         assertTrue(price.equals(price));
 
-        // null -> returns false
+        // EP: null -> returns false
         assertFalse(price.equals(null));
 
-        // different types -> returns false
+        // EP: different types -> returns false
         assertFalse(price.equals(5.0f));
 
-        // different values -> returns false
+        // EP: different values -> returns false
         assertFalse(price.equals(new Price("6.00")));
     }
 

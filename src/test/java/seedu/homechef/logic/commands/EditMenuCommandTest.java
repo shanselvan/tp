@@ -104,11 +104,22 @@ public class EditMenuCommandTest {
         EditMenuCommand editSecond = new EditMenuCommand(Index.fromOneBased(2), desc1);
         EditMenuCommand editFirstDiffDesc = new EditMenuCommand(Index.fromOneBased(1), desc2);
 
+        // EP: same object -> returns true
         assertTrue(editFirst.equals(editFirst));
+
+        // EP: same values -> returns true
         assertTrue(editFirst.equals(new EditMenuCommand(Index.fromOneBased(1), desc1)));
+
+        // EP: different index -> returns false
         assertFalse(editFirst.equals(editSecond));
+
+        // EP: different desc -> returns false
         assertFalse(editFirst.equals(editFirstDiffDesc));
+
+        // EP: null -> returns false
         assertFalse(editFirst.equals(null));
+
+        // EP: different types -> returns false
         assertFalse(editFirst.equals(1));
     }
 

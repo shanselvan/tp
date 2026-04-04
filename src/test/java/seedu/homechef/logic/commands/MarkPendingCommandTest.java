@@ -73,20 +73,20 @@ public class MarkPendingCommandTest {
         MarkPendingCommand markPendingFirstCommand = new MarkPendingCommand(INDEX_FIRST_ORDER);
         MarkPendingCommand markPendingSecondCommand = new MarkPendingCommand(INDEX_SECOND_ORDER);
 
-        // same object -> returns true
+        // EP: same object -> returns true
         assertTrue(markPendingFirstCommand.equals(markPendingFirstCommand));
 
-        // same values -> returns true
+        // EP: same values -> returns true
         MarkPendingCommand markPendingFirstCommandCopy = new MarkPendingCommand(INDEX_FIRST_ORDER);
         assertTrue(markPendingFirstCommand.equals(markPendingFirstCommandCopy));
 
-        // different types -> returns false
+        // EP: different types -> returns false
         assertFalse(markPendingFirstCommand.equals(1));
 
-        // null -> returns false
+        // EP: null -> returns false
         assertFalse(markPendingFirstCommand.equals(null));
 
-        // different order -> returns false
+        // EP: different order -> returns false
         assertFalse(markPendingFirstCommand.equals(markPendingSecondCommand));
     }
 

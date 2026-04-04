@@ -25,6 +25,7 @@ public class ModelManagerTest {
 
     @Test
     public void constructor() {
+        // EP: valid preferences
         assertEquals(new UserPrefs(), modelManager.getUserPrefs());
         assertEquals(new GuiSettings(), modelManager.getGuiSettings());
         assertEquals(new HomeChef(), new HomeChef(modelManager.getHomeChef()));
@@ -124,6 +125,7 @@ public class ModelManagerTest {
                 .build();
         modelManager = new ModelManager(homeChef, new MenuBook(), new UserPrefs());
 
+        // EP: valid orders
         assertEquals(completedEarly, modelManager.getFilteredOrderList().get(0));
         assertEquals(inProgressEarly, modelManager.getFilteredOrderList().get(1));
         assertEquals(inProgressLate, modelManager.getFilteredOrderList().get(2));
@@ -152,33 +154,33 @@ public class ModelManagerTest {
         HomeChef differentHomeChef = new HomeChef();
         UserPrefs userPrefs = new UserPrefs();
 
-        // same values -> returns true
+        // EP: same values -> returns true
         modelManager = new ModelManager(homeChef, new MenuBook(), userPrefs);
         ModelManager modelManagerCopy = new ModelManager(homeChef, new MenuBook(), userPrefs);
         assertTrue(modelManager.equals(modelManagerCopy));
 
-        // same object -> returns true
+        // EP: same object -> returns true
         assertTrue(modelManager.equals(modelManager));
 
-        // null -> returns false
+        // EP: null -> returns false
         assertFalse(modelManager.equals(null));
 
-        // different types -> returns false
+        // EP: different types -> returns false
         assertFalse(modelManager.equals(5));
 
-        // different homeChef -> returns false
+        // EP: different homeChef -> returns false
         assertFalse(modelManager.equals(new ModelManager(differentHomeChef, new MenuBook(), userPrefs)));
 
-        // different filteredList -> returns false
+        // EP: different filteredList -> returns false
         String customerName = ALICE.getCustomer().toString().toLowerCase();
         modelManager.updateFilteredOrderList(order ->
                 order.getCustomer().toString().toLowerCase().contains(customerName));
         assertFalse(modelManager.equals(new ModelManager(homeChef, new MenuBook(), userPrefs)));
 
-        // resets modelManager to initial state for upcoming tests
+        // EP: resets modelManager to initial state for upcoming tests
         modelManager.updateFilteredOrderList(PREDICATE_SHOW_ALL_ORDERS);
 
-        // different userPrefs -> returns false
+        // EP: different userPrefs -> returns false
         UserPrefs differentUserPrefs = new UserPrefs();
         differentUserPrefs.setHomeChefFilePath(Paths.get("differentFilePath"));
         assertFalse(modelManager.equals(new ModelManager(homeChef, new MenuBook(), differentUserPrefs)));

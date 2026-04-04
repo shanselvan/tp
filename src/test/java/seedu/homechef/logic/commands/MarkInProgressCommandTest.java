@@ -70,20 +70,20 @@ public class MarkInProgressCommandTest {
         MarkInProgressCommand markInProgressFirstCommand = new MarkInProgressCommand(INDEX_FIRST_ORDER);
         MarkInProgressCommand markInProgressSecondCommand = new MarkInProgressCommand(INDEX_SECOND_ORDER);
 
-        // same object -> returns true
+        // EP: same object -> returns true
         assertTrue(markInProgressFirstCommand.equals(markInProgressFirstCommand));
 
-        // same values -> returns true
+        // EP: same values -> returns true
         MarkInProgressCommand markInProgressFirstCommandCopy = new MarkInProgressCommand(INDEX_FIRST_ORDER);
         assertTrue(markInProgressFirstCommand.equals(markInProgressFirstCommandCopy));
 
-        // different types -> returns false
+        // EP: different types -> returns false
         assertFalse(markInProgressFirstCommand.equals(1));
 
-        // null -> returns false
+        // EP: null -> returns false
         assertFalse(markInProgressFirstCommand.equals(null));
 
-        // different order -> returns false
+        // EP: different order -> returns false
         assertFalse(markInProgressFirstCommand.equals(markInProgressSecondCommand));
     }
 

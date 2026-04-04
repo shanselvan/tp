@@ -21,14 +21,14 @@ public class AddressTest {
 
     @Test
     public void isValidAddress() {
-        // null address
+        // EP: null address
         assertThrows(NullPointerException.class, () -> Address.isValidAddress(null));
 
-        // invalid addresses
-        assertFalse(Address.isValidAddress("")); // empty string
+        // EP: invalid addresses
+        assertFalse(Address.isValidAddress("")); // empty string, boundary value
         assertFalse(Address.isValidAddress(" ")); // spaces only
 
-        // valid addresses
+        // EP: valid addresses
         assertTrue(Address.isValidAddress("Blk 456, Den Road, #01-355"));
         assertTrue(Address.isValidAddress("-")); // one character
         assertTrue(Address.isValidAddress("Leng Inc; 1234 Market St; San Francisco CA 2349879; USA")); // long address
@@ -38,19 +38,20 @@ public class AddressTest {
     public void equals() {
         Address address = new Address("Valid Address");
 
-        // same values -> returns true
+        // EP: same values -> returns true
         assertTrue(address.equals(new Address("Valid Address")));
 
-        // same object -> returns true
+        // EP: same object -> returns true
         assertTrue(address.equals(address));
 
-        // null -> returns false
-        assertFalse(address.equals(null));
+        // EP: null -> returns false
+        assertFalse(address.equals(null)); // boundary value
 
-        // different types -> returns false
+        // EP: different types -> returns false
         assertFalse(address.equals(5.0f));
 
-        // different values -> returns false
+        // EP: different values -> returns false
         assertFalse(address.equals(new Address("Other Valid Address")));
+        // No need to check for empty string as that is invalid.
     }
 }

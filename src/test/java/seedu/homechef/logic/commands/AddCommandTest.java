@@ -107,20 +107,20 @@ public class AddCommandTest {
         AddCommand addAliceCommand = new AddCommand(alice);
         AddCommand addBobCommand = new AddCommand(bob);
 
-        // same object -> returns true
+        // EP: same object -> returns true
         assertTrue(addAliceCommand.equals(addAliceCommand));
 
-        // same values -> returns true
+        // EP: same values -> returns true
         AddCommand addAliceCommandCopy = new AddCommand(alice);
         assertTrue(addAliceCommand.equals(addAliceCommandCopy));
 
-        // different types -> returns false
+        // EP: different types -> returns false
         assertFalse(addAliceCommand.equals(1));
 
-        // null -> returns false
+        // EP: null -> returns false
         assertFalse(addAliceCommand.equals(null));
 
-        // different order -> returns false
+        // EP: different order -> returns false
         assertFalse(addAliceCommand.equals(addBobCommand));
     }
 

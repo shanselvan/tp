@@ -14,7 +14,10 @@ public class PaymentStatusTest {
         PaymentStatus paidStatus = PaymentStatus.PAID;
         PaymentStatus unpaidStatus = PaymentStatus.UNPAID;
 
+        // EP: paid status
         assertTrue(paidStatus.isPaid());
+
+        // EP: unpaid status
         assertFalse(unpaidStatus.isPaid());
     }
 
@@ -23,8 +26,13 @@ public class PaymentStatusTest {
         PaymentStatus paidStatus = PaymentStatus.PAID;
         PaymentStatus unpaidStatus = PaymentStatus.UNPAID;
 
+        // EP: matching string
         assertEquals("Paid", paidStatus.toString());
         assertEquals("Unpaid", unpaidStatus.toString());
+
+        // EP: non-matching string
+        assertNotEquals("Unpaid", paidStatus.toString());
+        assertNotEquals("Paid", unpaidStatus.toString());
     }
 
     @Test
@@ -33,19 +41,19 @@ public class PaymentStatusTest {
         PaymentStatus paidStatus2 = PaymentStatus.PAID;
         PaymentStatus unpaidStatus = PaymentStatus.UNPAID;
 
-        // same object
+        // EP: same object
         assertTrue(paidStatus1.equals(paidStatus1));
 
-        // same value
+        // EP: same value
         assertTrue(paidStatus1.equals(paidStatus2));
 
-        // different value
+        // EP: different value
         assertFalse(paidStatus1.equals(unpaidStatus));
 
-        // null
+        // EP: null
         assertFalse(paidStatus1.equals(null));
 
-        // different type
+        // EP: different type
         assertFalse(paidStatus1.equals("Paid"));
     }
 
@@ -54,7 +62,10 @@ public class PaymentStatusTest {
         PaymentStatus paidStatus = PaymentStatus.PAID;
         PaymentStatus unpaidStatus = PaymentStatus.UNPAID;
 
+        // EP: same hashcode
         assertEquals(paidStatus.hashCode(), PaymentStatus.PAID.hashCode());
+
+        // EP: different hashcode
         assertNotEquals(paidStatus.hashCode(), PaymentStatus.UNPAID.hashCode());
         assertNotEquals(paidStatus.hashCode(), unpaidStatus.hashCode());
     }
