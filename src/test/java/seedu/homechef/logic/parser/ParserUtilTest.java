@@ -19,13 +19,13 @@ import seedu.homechef.logic.parser.exceptions.ParseException;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.Customer;
+import seedu.homechef.model.order.DietTag;
 import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentType;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Price;
 import seedu.homechef.model.order.Quantity;
-import seedu.homechef.model.tag.DietTag;
 
 public class ParserUtilTest {
     private static final String INVALID_CUSTOMER = "R@chel";

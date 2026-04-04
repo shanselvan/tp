@@ -58,11 +58,11 @@ import seedu.homechef.logic.commands.EditCommand;
 import seedu.homechef.logic.commands.EditCommand.EditOrderDescriptor;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.Customer;
+import seedu.homechef.model.order.DietTag;
 import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentType;
 import seedu.homechef.model.order.Phone;
-import seedu.homechef.model.tag.DietTag;
 import seedu.homechef.testutil.EditOrderDescriptorBuilder;
 
 public class EditCommandParserTest {

@@ -1,4 +1,4 @@
-package seedu.homechef.model.tag;
+package seedu.homechef.model.order;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.homechef.commons.util.AppUtil.checkArgument;

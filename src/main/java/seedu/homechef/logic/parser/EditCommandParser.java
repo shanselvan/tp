@@ -23,8 +23,8 @@ import seedu.homechef.commons.core.index.Index;
 import seedu.homechef.logic.commands.EditCommand;
 import seedu.homechef.logic.commands.EditCommand.EditOrderDescriptor;
 import seedu.homechef.logic.parser.exceptions.ParseException;
+import seedu.homechef.model.order.DietTag;
 import seedu.homechef.model.order.PaymentInfo;
-import seedu.homechef.model.tag.DietTag;
 
 /**
  * Parses input arguments and creates a new EditCommand object

@@ -9,6 +9,7 @@ import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.CompletionStatus;
 import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.Date;
+import seedu.homechef.model.order.DietTag;
 import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentInfo;
@@ -16,7 +17,6 @@ import seedu.homechef.model.order.PaymentStatus;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Price;
 import seedu.homechef.model.order.Quantity;
-import seedu.homechef.model.tag.DietTag;
 import seedu.homechef.model.util.SampleDataUtil;
 
 /**

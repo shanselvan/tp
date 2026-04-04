@@ -75,13 +75,13 @@ import seedu.homechef.model.common.Food;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.Date;
+import seedu.homechef.model.order.DietTag;
 import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentType;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Quantity;
-import seedu.homechef.model.tag.DietTag;
 import seedu.homechef.testutil.OrderBuilder;
 
 public class AddCommandParserTest {
@@ -96,7 +96,7 @@ public class AddCommandParserTest {
 
         // EP: whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + FOOD_DESC_BOB + CUSTOMER_DESC_BOB + PHONE_DESC_BOB
-                + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + DATE_DESC_BOB + TAG_DESC_FRIEND,
+                        + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + DATE_DESC_BOB + TAG_DESC_FRIEND,
                 new AddCommand(expectedOrder));
 
         // EP: multiple tags - all accepted

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import seedu.homechef.commons.exceptions.IllegalValueException;
-import seedu.homechef.model.tag.DietTag;
+import seedu.homechef.model.order.DietTag;
 
 /**
  * Jackson-friendly version of {@link DietTag}.

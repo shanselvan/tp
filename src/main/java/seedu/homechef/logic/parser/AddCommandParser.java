@@ -25,6 +25,7 @@ import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.CompletionStatus;
 import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.Date;
+import seedu.homechef.model.order.DietTag;
 import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentInfo;
@@ -32,7 +33,6 @@ import seedu.homechef.model.order.PaymentStatus;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Price;
 import seedu.homechef.model.order.Quantity;
-import seedu.homechef.model.tag.DietTag;
 
 /**
  * Parses input arguments and creates a new AddCommand object
@@ -78,8 +78,8 @@ public class AddCommandParser implements Parser<AddCommand> {
                 argMultimap.getValue(PREFIX_BANK_NAME),
                 argMultimap.getValue(PREFIX_WALLET_PROVIDER));
         Quantity quantity = argMultimap.getValue(PREFIX_QUANTITY).isPresent()
-                ? ParserUtil.parseQuantity(argMultimap.getValue(PREFIX_QUANTITY).get())
-                : new Quantity(1);
+                            ? ParserUtil.parseQuantity(argMultimap.getValue(PREFIX_QUANTITY).get())
+                            : new Quantity(1);
         // Price is resolved from the menu item at command execution time; use a placeholder here.
         Price placeholderPrice = new Price(PLACEHOLDER_PRICE);
         Order order = new Order(food, customer, phone, email, address, date,

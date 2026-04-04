@@ -12,8 +12,8 @@ import java.util.Set;
 
 import seedu.homechef.logic.commands.AddCommand;
 import seedu.homechef.logic.commands.EditCommand.EditOrderDescriptor;
+import seedu.homechef.model.order.DietTag;
 import seedu.homechef.model.order.Order;
-import seedu.homechef.model.tag.DietTag;
 
 /**
  * A utility class for Order.
