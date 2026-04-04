@@ -76,7 +76,7 @@ public class Price {
         }
 
         Price otherPrice = (Price) other;
-        return value.equals(otherPrice.value);
+        return value.equalsIgnoreCase(otherPrice.value);
     }
 
     @Override

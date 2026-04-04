@@ -82,6 +82,7 @@ public class MainWindow extends UiPart<Stage> {
 
     /**
      * Sets the accelerator of a MenuItem.
+     *
      * @param keyCombination the KeyCombination value of the accelerator
      */
     private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
@@ -147,6 +148,7 @@ public class MainWindow extends UiPart<Stage> {
         if (!helpWindow.isShowing()) {
             helpWindow.show();
         } else {
+            helpWindow.getRoot().setIconified(false);
             helpWindow.focus();
         }
     }

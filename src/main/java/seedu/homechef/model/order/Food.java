@@ -56,7 +56,7 @@ public class Food {
         }
 
         Food otherFood = (Food) other;
-        return foodName.equals(otherFood.foodName);
+        return foodName.equalsIgnoreCase(otherFood.foodName);
     }
 
     @Override

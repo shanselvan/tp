@@ -45,9 +45,9 @@ public class OrderTest {
         editedAlice = new OrderBuilder(ALICE).withCustomer(VALID_CUSTOMER_BOB).build();
         assertFalse(ALICE.isSameOrder(editedAlice));
 
-        // Customer differs in case, all other attributes same -> returns false
+        // Customer differs in case, all other attributes same -> returns true
         Order editedBob = new OrderBuilder(BOB).withCustomer(VALID_CUSTOMER_BOB.toLowerCase()).build();
-        assertFalse(BOB.isSameOrder(editedBob));
+        assertTrue(BOB.isSameOrder(editedBob));
 
         // Customer has trailing spaces, all other attributes same -> returns false
         String customerWithTrailingSpaces = VALID_CUSTOMER_BOB + " ";

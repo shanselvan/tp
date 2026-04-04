@@ -21,6 +21,7 @@ import seedu.homechef.model.order.Food;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentStatus;
 import seedu.homechef.model.order.Phone;
+import seedu.homechef.model.order.Price;
 import seedu.homechef.model.order.Quantity;
 import seedu.homechef.model.tag.DietTag;
 
@@ -105,7 +106,7 @@ public class OrderCard extends UiPart<Region> {
         setAddressDisplay(order.getAddress());
         setDateDisplay(order.getDate());
         setEmailDisplay(order.getEmail());
-        setPriceDisplay();
+        setPriceDisplay(order.getPrice());
         setCompletionStatusDisplay(order.getCompletionStatus());
         setPaymentStatusDisplay(order.getPaymentStatus());
         order.getPaymentInfo().ifPresentOrElse(
