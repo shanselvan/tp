@@ -39,7 +39,7 @@ public class OrderUtil {
         sb.append(PREFIX_ADDRESS + order.getAddress().toString() + " ");
         sb.append(PREFIX_DATE + order.getDate().toString() + " ");
         order.getTags().stream().forEach(
-                s -> sb.append(PREFIX_TAG + s.tagName + " ")
+                s -> sb.append(PREFIX_TAG + s.toString() + " ")
         );
         return sb.toString();
     }
@@ -49,18 +49,18 @@ public class OrderUtil {
      */
     public static String getEditOrderDescriptorDetails(EditOrderDescriptor descriptor) {
         StringBuilder sb = new StringBuilder();
-        descriptor.getFood().ifPresent(food -> sb.append(PREFIX_FOOD).append(food.toString()).append(" "));
-        descriptor.getCustomer().ifPresent(name -> sb.append(PREFIX_CUSTOMER).append(name.toString()).append(" "));
-        descriptor.getPhone().ifPresent(phone -> sb.append(PREFIX_PHONE).append(phone.toString()).append(" "));
-        descriptor.getEmail().ifPresent(email -> sb.append(PREFIX_EMAIL).append(email.toString()).append(" "));
-        descriptor.getAddress().ifPresent(address -> sb.append(PREFIX_ADDRESS).append(address.toString()).append(" "));
+        descriptor.getFood().ifPresent(food -> sb.append(PREFIX_FOOD).append(food).append(" "));
+        descriptor.getCustomer().ifPresent(name -> sb.append(PREFIX_CUSTOMER).append(name).append(" "));
+        descriptor.getPhone().ifPresent(phone -> sb.append(PREFIX_PHONE).append(phone).append(" "));
+        descriptor.getEmail().ifPresent(email -> sb.append(PREFIX_EMAIL).append(email).append(" "));
+        descriptor.getAddress().ifPresent(address -> sb.append(PREFIX_ADDRESS).append(address).append(" "));
         descriptor.getDate().ifPresent(date -> sb.append(PREFIX_DATE).append(date).append(" "));
         if (descriptor.getTags().isPresent()) {
             Set<DietTag> dietTags = descriptor.getTags().get();
             if (dietTags.isEmpty()) {
                 sb.append(PREFIX_TAG);
             } else {
-                dietTags.forEach(s -> sb.append(PREFIX_TAG).append(s.tagName).append(" "));
+                dietTags.forEach(s -> sb.append(PREFIX_TAG).append(s.toString()).append(" "));
             }
         }
         return sb.toString();

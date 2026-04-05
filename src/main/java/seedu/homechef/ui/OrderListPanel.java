@@ -42,6 +42,8 @@ public class OrderListPanel extends UiPart<Region> {
                 setText(null);
             } else {
                 setGraphic(new OrderCard(order, getIndex() + 1).getRoot());
+                setPrefWidth(0);
+                setMaxWidth(Double.MAX_VALUE);
             }
         }
     }

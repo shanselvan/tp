@@ -12,7 +12,7 @@ public class DietTag {
     public static final String MESSAGE_CONSTRAINTS = "Tags names should be alphanumeric";
     public static final String VALIDATION_REGEX = "\\p{Alnum}+(?:[ -]\\p{Alnum}+)*";
 
-    public final String tagName;
+    private final String tagName;
 
     /**
      * Constructs a {@code DietTag}.
@@ -56,7 +56,7 @@ public class DietTag {
      * Format state as text for viewing.
      */
     public String toString() {
-        return '[' + tagName + ']';
+        return tagName;
     }
 
 }
