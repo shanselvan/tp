@@ -138,7 +138,7 @@ public class EditMenuCommandTest {
         EditMenuCommand command = new EditMenuCommand(Index.fromOneBased(1), descriptor);
 
         String expected = EditMenuCommand.class.getCanonicalName()
-                + "{index=1, editMenuDescriptor="
+                + "{index=" + Index.class.getCanonicalName() + "{zeroBasedIndex=0}, editMenuDescriptor="
                 + EditMenuDescriptor.class.getCanonicalName()
                 + "{name=Chicken Rice, price=5.50, available=true}}";
 

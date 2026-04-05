@@ -21,6 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import seedu.homechef.commons.core.GuiSettings;
 import seedu.homechef.logic.commands.AddCommand;
 import seedu.homechef.logic.commands.CommandResult;
 import seedu.homechef.logic.commands.ListCommand;
