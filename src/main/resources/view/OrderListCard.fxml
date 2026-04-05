@@ -16,12 +16,13 @@
         <!-- Row 1: index + food name + quantity + diet tags -->
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Label fx:id="id" styleClass="cell_id_label"/>
-            <Label fx:id="food" styleClass="cell_big_label" HBox.hgrow="ALWAYS"/>
+            <Label fx:id="food" styleClass="cell_big_label"/>
+            <Region HBox.hgrow="ALWAYS"/>
             <Label fx:id="quantity" styleClass="cell_small_label"/>
             <FlowPane fx:id="dietTags"/>
         </HBox>
 
-        <!-- Row 2: customer — extra top gap to anchor the food name as a headline -->
+        <!-- Row 2: customer -->
         <HBox spacing="5" alignment="CENTER_LEFT">
             <VBox.margin>
                 <Insets top="3"/>

@@ -223,9 +223,6 @@ public class OrderCard extends UiPart<Region> {
     }
 
     private void setDietTagsDisplay(Set<DietTag> tags) {
-        dietTags.setMinWidth(Region.USE_PREF_SIZE);
-        dietTags.setMaxWidth(Region.USE_PREF_SIZE);
-        dietTags.setPrefWidth(Region.USE_PREF_SIZE);
         tags.stream()
                 .sorted(Comparator.comparing(DietTag::toString))
                 .forEach(tag -> dietTags.getChildren().add(new Label(tag.toString())));
