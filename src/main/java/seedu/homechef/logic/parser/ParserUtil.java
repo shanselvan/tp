@@ -31,6 +31,25 @@ public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
     public static final String MESSAGE_INVALID_AVAILABILITY = "Availability must be 'true' or 'false'.";
+    public static final String MESSAGE_METHOD_REQUIRED_FOR_DETAILS =
+            "m/ required when payment details (r/, b/, w/) are provided.";
+    public static final String MESSAGE_INVALID_PAYMENT_METHOD =
+            "Invalid payment method: '%s'. Valid types: "
+            + Arrays.stream(PaymentType.values()).map(Enum::name).collect(Collectors.joining(", ")) + ".";
+    public static final String MESSAGE_UNEXPECTED_FIELDS_FOR_CASH =
+            "r/, b/, w/ are not accepted for CASH.";
+    public static final String MESSAGE_REF_REQUIRED_FOR =
+            "r/ required for %s.";
+    public static final String MESSAGE_BANK_NAME_REQUIRED =
+            "b/ required for BANK.";
+    public static final String MESSAGE_BANK_NAME_NOT_VALID =
+            "b/ is only valid for BANK payment type.";
+    public static final String MESSAGE_WALLET_PROVIDER_REQUIRED =
+            "w/ required for EWALLET.";
+    public static final String MESSAGE_WALLET_PROVIDER_NOT_VALID =
+            "w/ is only valid for EWALLET payment type.";
+    public static final String MESSAGE_CARD_REF_INVALID =
+            "r/ for CARD must be exactly 4 numeric digits (e.g. r/4321).";
 
     private static final String VALID_PAYMENT_TYPE_NAMES = Arrays.stream(PaymentType.values())
             .map(Enum::name)
@@ -255,11 +274,12 @@ public class ParserUtil {
      * The {@code ref} parameter maps to different semantic fields depending on the type:
      * PayNow handle, bank reference number, card last-4 digits, or wallet account ID.
      *
-     * @param method         Optional payment method value (m/)
-     * @param ref            Optional payment reference value (r/)
-     * @param bankName       Optional bank name value (b/)
-     * @param walletProvider Optional wallet provider value (w/)
-     * @return An optional PaymentInfo when payment fields are provided, or empty when none are provided.
+     * @param method the payment method type (m/ prefix value), or empty if not provided
+     * @param ref the payment reference (r/ prefix value), or empty if not provided
+     * @param bankName the bank name (b/ prefix value), or empty if not provided
+     * @param walletProvider the wallet provider (w/ prefix value), or empty if not provided
+     * @return an {@code Optional} containing the parsed {@code PaymentInfo},
+     *         or empty if no payment fields were provided
      * @throws ParseException if the combination of provided values is invalid for any payment type.
      */
     public static Optional<PaymentInfo> parsePaymentInfo(
@@ -274,89 +294,115 @@ public class ParserUtil {
 
         if (method.isEmpty()) {
             if (hasRef || hasBankName || hasWalletProvider) {
-                throw new ParseException(
-                        "Payment method (m/) required when payment details are provided.");
+                throw new ParseException(MESSAGE_METHOD_REQUIRED_FOR_DETAILS);
             }
             return Optional.empty();
         }
 
-        PaymentType type;
-        try {
-            type = PaymentType.valueOf(normalizeWhitespace(method.get()).toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new ParseException(
-                    "Invalid payment method: " + method.get() + ". Valid types: " + VALID_PAYMENT_TYPE_NAMES + ".");
-        }
+        PaymentType type = parsePaymentType(method.get());
 
         PaymentInfo paymentInfo;
         switch (type) {
         case CASH:
-            if (hasRef || hasBankName || hasWalletProvider) {
-                throw new ParseException(
-                        "No additional payment details (r/, b/, w/) are expected for CASH.");
-            }
-            paymentInfo = new PaymentInfo(PaymentType.CASH, null, null, null, null, null, null);
+            paymentInfo = parseCashPayment(hasRef, hasBankName, hasWalletProvider);
             break;
         case PAYNOW:
-            if (!hasRef) {
-                throw new ParseException("r/ required for PAYNOW (provide phone number or UEN).");
-            }
-            if (hasBankName) {
-                throw new ParseException("b/ only valid for BANK payment type.");
-            }
-            if (hasWalletProvider) {
-                throw new ParseException("w/ only valid for EWALLET payment type.");
-            }
-            if (ref.get().startsWith("+") && !ref.get().matches(PaymentInfo.PAYNOW_PHONE_REGEX)) {
-                throw new ParseException(PaymentInfo.MESSAGE_INVALID_PAYNOW_PHONE);
-            }
-            paymentInfo = new PaymentInfo(PaymentType.PAYNOW, ref.get(), null, null, null, null, null);
+            paymentInfo = parsePayNowPayment(ref, hasBankName, hasWalletProvider);
             break;
         case BANK:
-            if (!hasRef) {
-                throw new ParseException("r/ required for BANK (provide reference number).");
-            }
-            if (!hasBankName) {
-                throw new ParseException("b/ required for BANK (provide bank name).");
-            }
-            if (hasWalletProvider) {
-                throw new ParseException("w/ only valid for EWALLET payment type.");
-            }
-            paymentInfo = new PaymentInfo(PaymentType.BANK, null, bankName.get(), ref.get(), null, null, null);
+            paymentInfo = parseBankPayment(ref, bankName, hasWalletProvider);
             break;
         case CARD:
-            if (!hasRef) {
-                throw new ParseException("r/ required for CARD (provide last 4 digits).");
-            }
-            if (hasBankName) {
-                throw new ParseException("b/ only valid for BANK payment type.");
-            }
-            if (hasWalletProvider) {
-                throw new ParseException("w/ only valid for EWALLET payment type.");
-            }
-            if (!PaymentInfo.isValidLastFourDigits(ref.get())) {
-                throw new ParseException("Card last 4 digits must be exactly 4 numeric digits (e.g. r/4321).");
-            }
-            paymentInfo = new PaymentInfo(PaymentType.CARD, null, null, null, ref.get(), null, null);
+            paymentInfo = parseCardPayment(ref, hasBankName, hasWalletProvider);
             break;
         case EWALLET:
-            if (!hasRef) {
-                throw new ParseException("r/ required for EWALLET (provide account ID).");
-            }
-            if (!hasWalletProvider) {
-                throw new ParseException("w/ required for EWALLET (provide wallet provider).");
-            }
-            if (hasBankName) {
-                throw new ParseException("b/ only valid for BANK payment type.");
-            }
-            paymentInfo = new PaymentInfo(
-                    PaymentType.EWALLET, null, null, null, null, walletProvider.get(), ref.get());
+            paymentInfo = parseEWalletPayment(ref, walletProvider, hasBankName);
             break;
         default:
-            throw new ParseException("Unknown payment type: " + type);
+            throw new ParseException(String.format(MESSAGE_INVALID_PAYMENT_METHOD, method.get().trim()));
         }
 
         return Optional.of(paymentInfo);
+    }
+
+    private static PaymentType parsePaymentType(String method) throws ParseException {
+        try {
+            return PaymentType.valueOf(method.trim().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_PAYMENT_METHOD, method.trim()));
+        }
+    }
+
+    private static PaymentInfo parseCashPayment(
+            boolean hasRef, boolean hasBankName, boolean hasWalletProvider) throws ParseException {
+        if (hasRef || hasBankName || hasWalletProvider) {
+            throw new ParseException(MESSAGE_UNEXPECTED_FIELDS_FOR_CASH);
+        }
+        return new PaymentInfo(PaymentType.CASH, null, null, null, null, null, null);
+    }
+
+    private static PaymentInfo parsePayNowPayment(
+            Optional<String> ref, boolean hasBankName, boolean hasWalletProvider) throws ParseException {
+        if (ref.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_REF_REQUIRED_FOR, "PAYNOW"));
+        }
+        if (hasBankName) {
+            throw new ParseException(MESSAGE_BANK_NAME_NOT_VALID);
+        }
+        if (hasWalletProvider) {
+            throw new ParseException(MESSAGE_WALLET_PROVIDER_NOT_VALID);
+        }
+        if (ref.get().startsWith("+") && !ref.get().matches(PaymentInfo.PAYNOW_PHONE_REGEX)) {
+            throw new ParseException(PaymentInfo.MESSAGE_INVALID_PAYNOW_PHONE);
+        }
+        return new PaymentInfo(PaymentType.PAYNOW, ref.get(), null, null, null, null, null);
+    }
+
+    private static PaymentInfo parseBankPayment(
+            Optional<String> ref, Optional<String> bankName, boolean hasWalletProvider) throws ParseException {
+        if (ref.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_REF_REQUIRED_FOR, "BANK"));
+        }
+        if (bankName.isEmpty()) {
+            throw new ParseException(MESSAGE_BANK_NAME_REQUIRED);
+        }
+        if (hasWalletProvider) {
+            throw new ParseException(MESSAGE_WALLET_PROVIDER_NOT_VALID);
+        }
+        return new PaymentInfo(PaymentType.BANK, null, bankName.get(), ref.get(), null, null, null);
+    }
+
+    private static PaymentInfo parseCardPayment(
+            Optional<String> ref, boolean hasBankName, boolean hasWalletProvider) throws ParseException {
+        if (ref.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_REF_REQUIRED_FOR, "CARD"));
+        }
+        if (hasBankName) {
+            throw new ParseException(MESSAGE_BANK_NAME_NOT_VALID);
+        }
+        if (hasWalletProvider) {
+            throw new ParseException(MESSAGE_WALLET_PROVIDER_NOT_VALID);
+        }
+        if (!PaymentInfo.isValidLastFourDigits(ref.get())) {
+            throw new ParseException(MESSAGE_CARD_REF_INVALID);
+        }
+        return new PaymentInfo(PaymentType.CARD, null, null, null, ref.get(), null, null);
+    }
+
+    private static PaymentInfo parseEWalletPayment(
+            Optional<String> ref, Optional<String> walletProvider, boolean hasBankName) throws ParseException {
+        if (ref.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_REF_REQUIRED_FOR, "EWALLET"));
+        }
+        if (walletProvider.isEmpty()) {
+            throw new ParseException(MESSAGE_WALLET_PROVIDER_REQUIRED);
+        }
+        if (hasBankName) {
+            throw new ParseException(MESSAGE_BANK_NAME_NOT_VALID);
+        }
+        return new PaymentInfo(
+                PaymentType.EWALLET, null, null, null, null, walletProvider.get(), ref.get());
     }
 
     /**

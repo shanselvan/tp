@@ -1,14 +1,17 @@
 package seedu.homechef.ui;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import seedu.homechef.commons.core.GuiSettings;
 import seedu.homechef.commons.core.LogsCenter;
@@ -24,6 +27,9 @@ import seedu.homechef.logic.parser.exceptions.ParseException;
 public class MainWindow extends UiPart<Stage> {
 
     private static final String FXML = "MainWindow.fxml";
+    // Require a minimally visible overlap so disconnected-monitor coordinates are treated as invalid.
+    private static final double MIN_VISIBLE_WIDTH = 50;
+    private static final double MIN_VISIBLE_HEIGHT = 50;
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 
@@ -132,12 +138,59 @@ public class MainWindow extends UiPart<Stage> {
      * Sets the default size based on {@code guiSettings}.
      */
     private void setWindowDefaultSize(GuiSettings guiSettings) {
-        primaryStage.setHeight(guiSettings.getWindowHeight());
-        primaryStage.setWidth(guiSettings.getWindowWidth());
-        if (guiSettings.getWindowCoordinates() != null) {
-            primaryStage.setX(guiSettings.getWindowCoordinates().getX());
-            primaryStage.setY(guiSettings.getWindowCoordinates().getY());
+        applyWindowSize(guiSettings);
+
+        java.awt.Point coordinates = guiSettings.getWindowCoordinates();
+        if (coordinates != null
+                && isVisibleOnAnyScreen(coordinates.getX(), coordinates.getY(),
+                primaryStage.getWidth(), primaryStage.getHeight())) {
+            primaryStage.setX(coordinates.getX());
+            primaryStage.setY(coordinates.getY());
+            return;
         }
+
+        centerOnPrimaryScreen();
+    }
+
+    private void applyWindowSize(GuiSettings guiSettings) {
+        Rectangle2D largestVisualBounds = getLargestVisualBounds();
+        primaryStage.setWidth(Math.min(guiSettings.getWindowWidth(), largestVisualBounds.getWidth()));
+        primaryStage.setHeight(Math.min(guiSettings.getWindowHeight(), largestVisualBounds.getHeight()));
+    }
+
+    private Rectangle2D getLargestVisualBounds() {
+        List<Screen> screens = Screen.getScreens();
+        Rectangle2D largest = Screen.getPrimary().getVisualBounds();
+        for (Screen screen : screens) {
+            Rectangle2D bounds = screen.getVisualBounds();
+            if (bounds.getWidth() * bounds.getHeight() > largest.getWidth() * largest.getHeight()) {
+                largest = bounds;
+            }
+        }
+        return largest;
+    }
+
+    private boolean isVisibleOnAnyScreen(double x, double y, double width, double height) {
+        double windowMaxX = x + width;
+        double windowMaxY = y + height;
+
+        for (Screen screen : Screen.getScreens()) {
+            Rectangle2D bounds = screen.getVisualBounds();
+            double overlapWidth = Math.min(windowMaxX, bounds.getMaxX()) - Math.max(x, bounds.getMinX());
+            double overlapHeight = Math.min(windowMaxY, bounds.getMaxY()) - Math.max(y, bounds.getMinY());
+            if (overlapWidth >= MIN_VISIBLE_WIDTH && overlapHeight >= MIN_VISIBLE_HEIGHT) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void centerOnPrimaryScreen() {
+        Rectangle2D primaryBounds = Screen.getPrimary().getVisualBounds();
+        double x = primaryBounds.getMinX() + Math.max(0, (primaryBounds.getWidth() - primaryStage.getWidth()) / 2);
+        double y = primaryBounds.getMinY() + Math.max(0, (primaryBounds.getHeight() - primaryStage.getHeight()) / 2);
+        primaryStage.setX(x);
+        primaryStage.setY(y);
     }
 
     /**

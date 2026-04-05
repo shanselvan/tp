@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-
 <HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <VBox HBox.hgrow="ALWAYS" spacing="3">
         <padding>
@@ -15,43 +14,50 @@
         </padding>
 
         <!-- Row 1: index + food name + quantity + diet tags -->
-        <HBox spacing="5" alignment="CENTER_LEFT">
+        <HBox spacing="10" alignment="CENTER_LEFT">
             <Label fx:id="id" styleClass="cell_id_label"/>
-            <Label fx:id="food" styleClass="cell_big_label" wrapText="true"
-                   HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308"/>
+            <Label fx:id="food" styleClass="cell_big_label"/>
+            <Region HBox.hgrow="ALWAYS"/>
             <Label fx:id="quantity" styleClass="cell_small_label"/>
             <FlowPane fx:id="dietTags"/>
         </HBox>
 
-        <!-- Row 2: customer — extra top gap to anchor the food name as a headline -->
+        <!-- Row 2: customer -->
         <HBox spacing="5" alignment="CENTER_LEFT">
-            <VBox.margin><Insets top="3"/></VBox.margin>
-            <ImageView fx:id="customerDisplayIcon" fitHeight="13" fitWidth="13" preserveRatio="true" pickOnBounds="true"/>
+            <VBox.margin>
+                <Insets top="3"/>
+            </VBox.margin>
+            <ImageView fx:id="customerDisplayIcon" fitHeight="13" fitWidth="13" preserveRatio="true"
+                       pickOnBounds="true"/>
             <Label fx:id="customer" styleClass="cell_customer_label"/>
         </HBox>
 
         <!-- Row 3: phone + date side by side -->
         <HBox spacing="16" alignment="CENTER_LEFT">
             <HBox spacing="5" alignment="CENTER_LEFT">
-                <ImageView fx:id="phoneDisplayIcon" fitHeight="13" fitWidth="13" preserveRatio="true" pickOnBounds="true"/>
+                <ImageView fx:id="phoneDisplayIcon" fitHeight="13" fitWidth="13" preserveRatio="true"
+                           pickOnBounds="true"/>
                 <Label fx:id="phone" styleClass="cell_small_label"/>
             </HBox>
             <HBox spacing="5" alignment="CENTER_LEFT">
-                <ImageView fx:id="dateDisplayIcon" fitHeight="13" fitWidth="13" preserveRatio="true" pickOnBounds="true"/>
+                <ImageView fx:id="dateDisplayIcon" fitHeight="13" fitWidth="13" preserveRatio="true"
+                           pickOnBounds="true"/>
                 <Label fx:id="date" styleClass="cell_date_label"/>
             </HBox>
         </HBox>
 
         <!-- Row 4: address -->
         <HBox spacing="5" alignment="CENTER_LEFT">
-            <ImageView fx:id="addressDisplayIcon" fitHeight="13" fitWidth="13" preserveRatio="true" pickOnBounds="true"/>
+            <ImageView fx:id="addressDisplayIcon" fitHeight="13" fitWidth="13" preserveRatio="true"
+                       pickOnBounds="true"/>
             <Label fx:id="address" styleClass="cell_small_label"/>
         </HBox>
 
         <!-- Row 5: email + price pushed right -->
         <HBox alignment="CENTER_LEFT">
             <HBox spacing="5" alignment="CENTER_LEFT">
-                <ImageView fx:id="emailDisplayIcon" fitHeight="13" fitWidth="13" preserveRatio="true" pickOnBounds="true"/>
+                <ImageView fx:id="emailDisplayIcon" fitHeight="13" fitWidth="13" preserveRatio="true"
+                           pickOnBounds="true"/>
                 <Label fx:id="email" styleClass="cell_small_label"/>
             </HBox>
             <Region HBox.hgrow="ALWAYS"/>

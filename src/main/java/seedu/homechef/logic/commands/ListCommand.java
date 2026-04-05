@@ -23,13 +23,14 @@ public class ListCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Lists orders, optionally filtered.\n"
-            + "Format: " + COMMAND_WORD + " [d/DATE] [c/CUSTOMER] [f/FOOD] [p/PHONE] [cs/STATUS] [ps/STATUS]\n"
+            + "Format: " + COMMAND_WORD
+            + " [d/DATE] [c/CUSTOMER] [f/FOOD] [p/PHONE] [cs/COMPLETION STATUS] [ps/PAYMENT STATUS]\n"
             + "DATE must be in the format dd-MM-yyyy.\n"
-            + "cs/STATUS: in_progress|completed\n"
-            + "ps/STATUS: paid|unpaid\n"
+            + "cs/COMPLETION STATUS: pending | in progress | completed\n"
+            + "ps/PAYMENT STATUS: paid | unpaid | partial\n"
             + "Example: " + COMMAND_WORD + "\n"
             + "Example: " + COMMAND_WORD + " d/18-10-2026\n"
-            + "Example: " + COMMAND_WORD + " cs/inprogress\n"
+            + "Example: " + COMMAND_WORD + " cs/in progress\n"
             + "Example: " + COMMAND_WORD + " ps/unpaid\n"
             + "Example: " + COMMAND_WORD + " d/16-04-2003 c/alice f/cake p/1234 cs/completed ps/paid";
 
