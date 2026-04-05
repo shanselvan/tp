@@ -63,6 +63,12 @@ import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_QUANTITY;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_BANK_NAME_NOT_VALID;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_INVALID_PAYMENT_METHOD;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_METHOD_REQUIRED_FOR_DETAILS;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_REF_REQUIRED_FOR;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_UNEXPECTED_FIELDS_FOR_CASH;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_WALLET_PROVIDER_NOT_VALID;
 import static seedu.homechef.testutil.TypicalOrders.AMY;
 import static seedu.homechef.testutil.TypicalOrders.BOB;
 
@@ -369,7 +375,7 @@ public class AddCommandParserTest {
         String userInput = FOOD_DESC_AMY + CUSTOMER_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
                 + ADDRESS_DESC_AMY + DATE_DESC_AMY + INVALID_PAYMENT_METHOD_DESC;
         assertParseFailure(parser, userInput,
-                "Invalid payment method: CRYPTO. Valid types: CASH, PAYNOW, BANK, CARD, EWALLET.");
+                String.format(MESSAGE_INVALID_PAYMENT_METHOD, "CRYPTO"));
     }
 
     @Test
@@ -377,7 +383,7 @@ public class AddCommandParserTest {
         String userInput = FOOD_DESC_AMY + CUSTOMER_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
                 + ADDRESS_DESC_AMY + DATE_DESC_AMY + PAYMENT_METHOD_DESC_PAYNOW;
         assertParseFailure(parser, userInput,
-                "r/ required for PAYNOW (provide phone number or UEN).");
+                String.format(MESSAGE_REF_REQUIRED_FOR, "PAYNOW"));
     }
 
     @Test
@@ -385,7 +391,7 @@ public class AddCommandParserTest {
         String userInput = FOOD_DESC_AMY + CUSTOMER_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
                 + ADDRESS_DESC_AMY + DATE_DESC_AMY + PAYMENT_REF_DESC_PAYNOW;
         assertParseFailure(parser, userInput,
-                "Payment method (m/) required when payment details are provided.");
+                MESSAGE_METHOD_REQUIRED_FOR_DETAILS);
     }
 
     @Test
@@ -393,7 +399,7 @@ public class AddCommandParserTest {
         String userInput = FOOD_DESC_AMY + CUSTOMER_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
                 + ADDRESS_DESC_AMY + DATE_DESC_AMY
                 + PAYMENT_METHOD_DESC_PAYNOW + PAYMENT_REF_DESC_PAYNOW + BANK_NAME_DESC;
-        assertParseFailure(parser, userInput, "b/ only valid for BANK payment type.");
+        assertParseFailure(parser, userInput, MESSAGE_BANK_NAME_NOT_VALID);
     }
 
     @Test
@@ -401,7 +407,7 @@ public class AddCommandParserTest {
         String userInput = FOOD_DESC_AMY + CUSTOMER_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
                 + ADDRESS_DESC_AMY + DATE_DESC_AMY
                 + PAYMENT_METHOD_DESC_BANK + PAYMENT_REF_DESC_BANK + BANK_NAME_DESC + WALLET_PROVIDER_DESC;
-        assertParseFailure(parser, userInput, "w/ only valid for EWALLET payment type.");
+        assertParseFailure(parser, userInput, MESSAGE_WALLET_PROVIDER_NOT_VALID);
     }
 
     @Test
@@ -410,7 +416,7 @@ public class AddCommandParserTest {
                 + ADDRESS_DESC_AMY + DATE_DESC_AMY
                 + PAYMENT_METHOD_DESC_CASH + PAYMENT_REF_DESC_PAYNOW;
         assertParseFailure(parser, userInput,
-                "No additional payment details (r/, b/, w/) are expected for CASH.");
+                MESSAGE_UNEXPECTED_FIELDS_FOR_CASH);
     }
 
     @Test

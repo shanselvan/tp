@@ -46,6 +46,9 @@ import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_BANK_NAME_NOT_VALID;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_INVALID_PAYMENT_METHOD;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_WALLET_PROVIDER_NOT_VALID;
 import static seedu.homechef.testutil.TypicalIndexes.INDEX_FIRST_ORDER;
 import static seedu.homechef.testutil.TypicalIndexes.INDEX_SECOND_ORDER;
 import static seedu.homechef.testutil.TypicalIndexes.INDEX_THIRD_ORDER;
@@ -301,19 +304,19 @@ public class EditCommandParserTest {
     public void parse_invalidPaymentMethod_failure() {
         String userInput = "1" + INVALID_PAYMENT_METHOD_DESC;
         assertParseFailure(parser, userInput,
-                "Invalid payment method: CRYPTO. Valid types: CASH, PAYNOW, BANK, CARD, EWALLET.");
+                String.format(MESSAGE_INVALID_PAYMENT_METHOD, "CRYPTO"));
     }
 
     @Test
     public void parse_bankNameWithPayNow_failure() {
         String userInput = "1" + PAYMENT_METHOD_DESC_PAYNOW + PAYMENT_REF_DESC_PAYNOW + BANK_NAME_DESC;
-        assertParseFailure(parser, userInput, "b/ only valid for BANK payment type.");
+        assertParseFailure(parser, userInput, MESSAGE_BANK_NAME_NOT_VALID);
     }
 
     @Test
     public void parse_walletProviderWithBank_failure() {
         String userInput = "1" + PAYMENT_METHOD_DESC_BANK + PAYMENT_REF_DESC_BANK + BANK_NAME_DESC
                 + WALLET_PROVIDER_DESC;
-        assertParseFailure(parser, userInput, "w/ only valid for EWALLET payment type.");
+        assertParseFailure(parser, userInput, MESSAGE_WALLET_PROVIDER_NOT_VALID);
     }
 }
