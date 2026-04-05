@@ -1,6 +1,7 @@
 package seedu.homechef.logic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static seedu.homechef.logic.Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX;
 import static seedu.homechef.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.homechef.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
@@ -94,6 +95,43 @@ public class LogicManagerTest {
     @Test
     public void getFilteredOrderList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredOrderList().remove(0));
+    }
+
+    @Test
+    public void getHomeChef_returnsModelHomeChef() {
+        // EP: getter delegates directly to model
+        assertSame(model.getHomeChef(), logic.getHomeChef());
+    }
+
+    @Test
+    public void getFilteredMenuItemList_modifyList_throwsUnsupportedOperationException() {
+        model.addMenuItem(new MenuItem(new MenuItemName("Chicken Rice"), new Price("5.50"), true));
+
+        // EP: returned filtered menu list is unmodifiable
+        assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredMenuItemList().remove(0));
+    }
+
+    @Test
+    public void getHomeChefFilePath_returnsModelHomeChefFilePath() {
+        // EP: file path getter delegates directly to model
+        assertEquals(model.getHomeChefFilePath(), logic.getHomeChefFilePath());
+    }
+
+    @Test
+    public void getGuiSettings_returnsModelGuiSettings() {
+        // EP: gui settings getter delegates directly to model
+        assertEquals(model.getGuiSettings(), logic.getGuiSettings());
+    }
+
+    @Test
+    public void setGuiSettings_updatesModelGuiSettings() {
+        GuiSettings newGuiSettings = new GuiSettings(640, 480, 10, 20);
+
+        logic.setGuiSettings(newGuiSettings);
+
+        // EP: gui settings setter delegates update to model
+        assertEquals(newGuiSettings, model.getGuiSettings());
+        assertEquals(newGuiSettings, logic.getGuiSettings());
     }
 
     /**
