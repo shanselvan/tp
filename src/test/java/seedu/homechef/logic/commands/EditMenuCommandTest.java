@@ -131,7 +131,7 @@ public class EditMenuCommandTest {
     @Test
     public void toStringMethod() {
         EditMenuDescriptor descriptor = new EditMenuDescriptor();
-        descriptor.setName(new MenuItemName("Chicken Rice"));
+        descriptor.setName(new Food("Chicken Rice"));
         descriptor.setPrice(new Price("5.50"));
         descriptor.setAvailable(true);
 
@@ -153,7 +153,7 @@ public class EditMenuCommandTest {
         assertFalse(emptyDescriptor.isAnyFieldEdited());
 
         EditMenuDescriptor descriptorWithName = new EditMenuDescriptor();
-        descriptorWithName.setName(new MenuItemName("Chicken Rice"));
+        descriptorWithName.setName(new Food("Chicken Rice"));
         // EP: descriptor with at least one non-null field
         assertTrue(descriptorWithName.isAnyFieldEdited());
     }
@@ -161,7 +161,7 @@ public class EditMenuCommandTest {
     @Test
     public void editMenuDescriptor_copyConstructorAndAccessors() {
         EditMenuDescriptor descriptor = new EditMenuDescriptor();
-        descriptor.setName(new MenuItemName("Chicken Rice"));
+        descriptor.setName(new Food("Chicken Rice"));
         descriptor.setPrice(new Price("5.50"));
         descriptor.setAvailable(false);
 
@@ -177,7 +177,7 @@ public class EditMenuCommandTest {
     @Test
     public void editMenuDescriptor_equals() {
         EditMenuDescriptor descriptor = new EditMenuDescriptor();
-        descriptor.setName(new MenuItemName("Chicken Rice"));
+        descriptor.setName(new Food("Chicken Rice"));
         descriptor.setPrice(new Price("5.50"));
         descriptor.setAvailable(true);
 
@@ -200,7 +200,7 @@ public class EditMenuCommandTest {
     @Test
     public void editMenuDescriptor_toStringMethod() {
         EditMenuDescriptor descriptor = new EditMenuDescriptor();
-        descriptor.setName(new MenuItemName("Chicken Rice"));
+        descriptor.setName(new Food("Chicken Rice"));
         descriptor.setPrice(new Price("5.50"));
         descriptor.setAvailable(true);
 

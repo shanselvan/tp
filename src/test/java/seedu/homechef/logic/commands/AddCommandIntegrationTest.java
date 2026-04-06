@@ -96,6 +96,16 @@ public class AddCommandIntegrationTest {
     }
 
     @Test
+    public void execute_foodMatchesMultipleMenuItems_throwsCommandException() {
+        // "Wedding Cake" is a substring of both "Wedding Cake - 3 Tier" and "Wedding Cake" in the typical menu
+        Order ambiguousOrder = new OrderBuilder().withFood("Wedding Cake").build();
+        CommandException thrown = assertThrows(CommandException.class, ()
+                -> new AddCommand(ambiguousOrder).execute(model));
+        assertTrue(thrown.getMessage().contains("Wedding Cake - 3 Tier"),
+                "Error message should list matching menu items");
+    }
+
+    @Test
     public void execute_foodNameCaseInsensitive_normalizesToCanonicalName() throws Exception {
         Order orderWithLowercaseFood = new OrderBuilder().withFood("chicken rice").build();
         new AddCommand(orderWithLowercaseFood).execute(model);

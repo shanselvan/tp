@@ -106,7 +106,7 @@ public class LogicManagerTest {
 
     @Test
     public void getFilteredMenuItemList_modifyList_throwsUnsupportedOperationException() {
-        model.addMenuItem(new MenuItem(new MenuItemName("Chicken Rice"), new Price("5.50"), true));
+        model.addMenuItem(new MenuItem(new Food("Chicken Rice"), new Price("5.50"), true));
 
         // EP: returned filtered menu list is unmodifiable
         assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredMenuItemList().remove(0));

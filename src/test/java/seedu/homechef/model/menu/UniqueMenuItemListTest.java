@@ -59,7 +59,7 @@ public class UniqueMenuItemListTest {
     @Test
     public void remove_sameIdentityDifferentFields_success() {
         list.add(CHICKEN);
-        MenuItem sameIdentity = new MenuItem(new MenuItemName("Chicken Rice"), new Price("9.00"), false);
+        MenuItem sameIdentity = new MenuItem(new Food("Chicken Rice"), new Price("9.00"), false);
 
         list.remove(sameIdentity);
 
@@ -120,7 +120,7 @@ public class UniqueMenuItemListTest {
 
     @Test
     public void setMenuItems_listWithDuplicates_throwsDuplicateMenuItemException() {
-        MenuItem duplicate = new MenuItem(new MenuItemName("chicken rice"), new Price("9.00"), false);
+        MenuItem duplicate = new MenuItem(new Food("chicken rice"), new Price("9.00"), false);
 
         // EP: replacement list contains duplicate identities
         assertThrows(DuplicateMenuItemException.class, () -> list.setMenuItems(Arrays.asList(CHICKEN, duplicate)));

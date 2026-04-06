@@ -92,6 +92,19 @@ public class AddCommandTest {
     }
 
     @Test
+    public void execute_foodMatchesMultipleMenuItems_throwsCommandException() {
+        // "Cake" is a substring of both "Birthday Cake" and "Wedding Cake"
+        Order orderWithAmbiguousFood = new OrderBuilder().withFood("Cake").build();
+        AddCommand addCommand = new AddCommand(orderWithAmbiguousFood);
+        ModelStubWithAmbiguousMenu modelStub = new ModelStubWithAmbiguousMenu();
+
+        assertThrows(CommandException.class,
+                String.format(seedu.homechef.logic.Messages.MESSAGE_MENU_ITEM_AMBIGUOUS,
+                        "Cake", "Birthday Cake, Wedding Cake"),
+                () -> addCommand.execute(modelStub));
+    }
+
+    @Test
     public void execute_duplicateOrder_throwsCommandException() {
         Order validOrder = new OrderBuilder().build();
         AddCommand addCommand = new AddCommand(validOrder);
@@ -266,6 +279,23 @@ public class AddCommandTest {
             menuBook.addMenuItem(new seedu.homechef.model.menu.MenuItem(
                     new seedu.homechef.model.common.Food("Birthday Cake"),
                     new seedu.homechef.model.common.Price("25.00"), true));
+            return menuBook;
+        }
+    }
+
+    /**
+     * A Model stub whose menu contains two items whose names both contain "Cake".
+     */
+    private class ModelStubWithAmbiguousMenu extends ModelStub {
+        @Override
+        public seedu.homechef.model.menu.ReadOnlyMenuBook getMenuBook() {
+            seedu.homechef.model.menu.MenuBook menuBook = new seedu.homechef.model.menu.MenuBook();
+            menuBook.addMenuItem(new seedu.homechef.model.menu.MenuItem(
+                    new seedu.homechef.model.common.Food("Birthday Cake"),
+                    new seedu.homechef.model.common.Price("25.00"), true));
+            menuBook.addMenuItem(new seedu.homechef.model.menu.MenuItem(
+                    new seedu.homechef.model.common.Food("Wedding Cake"),
+                    new seedu.homechef.model.common.Price("80.00"), true));
             return menuBook;
         }
     }

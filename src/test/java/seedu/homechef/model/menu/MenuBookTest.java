@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.homechef.testutil.Assert.assertThrows;
-import static seedu.homechef.testutil.TypicalMenuItems.BIRTHDAY_CAKE;
+import static seedu.homechef.testutil.TypicalMenuItems.BIRTHDAY;
 import static seedu.homechef.testutil.TypicalMenuItems.CUPCAKES;
 import static seedu.homechef.testutil.TypicalMenuItems.getTypicalMenuBook;
 
@@ -34,7 +34,7 @@ public class MenuBookTest {
         MenuBook menuBook = new MenuBook();
         MenuBook replacement = getTypicalMenuBook();
 
-        menuBook.addMenuItem(BIRTHDAY_CAKE);
+        menuBook.addMenuItem(BIRTHDAY);
         menuBook.resetData(replacement);
 
         // EP: non-empty replacement data overwrites existing contents
@@ -44,16 +44,16 @@ public class MenuBookTest {
     @Test
     public void hasMenuItem_existingItem_returnsTrue() {
         MenuBook menuBook = new MenuBook();
-        menuBook.addMenuItem(BIRTHDAY_CAKE);
+        menuBook.addMenuItem(BIRTHDAY);
 
         // EP: existing menu item
-        assertTrue(menuBook.hasMenuItem(BIRTHDAY_CAKE));
+        assertTrue(menuBook.hasMenuItem(BIRTHDAY));
     }
 
     @Test
     public void hasMenuItem_missingItem_returnsFalse() {
         MenuBook menuBook = new MenuBook();
-        menuBook.addMenuItem(BIRTHDAY_CAKE);
+        menuBook.addMenuItem(BIRTHDAY);
 
         // EP: missing menu item
         assertFalse(menuBook.hasMenuItem(CUPCAKES));
@@ -70,12 +70,12 @@ public class MenuBookTest {
     @Test
     public void removeMenuItem_existingItem_success() {
         MenuBook menuBook = new MenuBook();
-        menuBook.addMenuItem(BIRTHDAY_CAKE);
+        menuBook.addMenuItem(BIRTHDAY);
 
-        menuBook.removeMenuItem(BIRTHDAY_CAKE);
+        menuBook.removeMenuItem(BIRTHDAY);
 
         // EP: remove existing menu item
-        assertFalse(menuBook.hasMenuItem(BIRTHDAY_CAKE));
+        assertFalse(menuBook.hasMenuItem(BIRTHDAY));
     }
 
     @Test
@@ -83,7 +83,7 @@ public class MenuBookTest {
         MenuBook menuBook = getTypicalMenuBook();
         MenuBook sameMenuBook = new MenuBook(menuBook);
         MenuBook differentMenuBook = new MenuBook();
-        differentMenuBook.addMenuItem(BIRTHDAY_CAKE);
+        differentMenuBook.addMenuItem(BIRTHDAY);
 
         // EP: same object -> returns true
         assertTrue(menuBook.equals(menuBook));
@@ -100,10 +100,10 @@ public class MenuBookTest {
     @Test
     public void toStringMethod() {
         MenuBook menuBook = new MenuBook();
-        menuBook.addMenuItem(BIRTHDAY_CAKE);
+        menuBook.addMenuItem(BIRTHDAY);
 
         String expected = MenuBook.class.getCanonicalName()
-                + "{menuItems=[" + BIRTHDAY_CAKE + "]}";
+                + "{menuItems=[" + BIRTHDAY + "]}";
 
         // EP: string representation with populated menu items
         assertEquals(expected, menuBook.toString());

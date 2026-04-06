@@ -23,6 +23,8 @@ public class Messages {
             "No menu item '%s'. Use 'add-menu' to add it to the menu first.";
     public static final String MESSAGE_MENU_ITEM_UNAVAILABLE =
             "'%s' is currently unavailable. Check the menu panel on the right for available items.";
+    public static final String MESSAGE_MENU_ITEM_AMBIGUOUS =
+            "'%s' matches multiple menu items: %s. Please use the exact menu item name.";
 
     /**
      * Returns an error message indicating the duplicate prefixes.
