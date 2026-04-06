@@ -1,6 +1,7 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.logic.Messages.MESSAGE_MENU_ITEM_AMBIGUOUS;
 import static seedu.homechef.logic.Messages.MESSAGE_MENU_ITEM_NOT_FOUND;
 import static seedu.homechef.logic.Messages.MESSAGE_MENU_ITEM_UNAVAILABLE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_ADDRESS;
@@ -16,7 +17,8 @@ import static seedu.homechef.logic.parser.CliSyntax.PREFIX_QUANTITY;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_WALLET_PROVIDER;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import seedu.homechef.commons.util.ToStringBuilder;
 import seedu.homechef.logic.Messages;
@@ -77,20 +79,28 @@ public class AddCommand extends Command {
         requireNonNull(model);
 
         String targetFoodName = toAdd.getFood().toString();
-        Optional<MenuItem> matchingItem = model.getMenuBook().getMenuItemList().stream()
+        List<MenuItem> matchingItems = model.getMenuBook().getMenuItemList().stream()
                 .filter(item -> item.getFood().nameContains(targetFoodName))
-                .findFirst();
+                .collect(Collectors.toList());
 
-        if (matchingItem.isPresent()) {
-            if (!matchingItem.get().isAvailable()) {
-                throw new CommandException(String.format(MESSAGE_MENU_ITEM_UNAVAILABLE, targetFoodName));
-            }
-        } else {
+        if (matchingItems.isEmpty()) {
             throw new CommandException(String.format(MESSAGE_MENU_ITEM_NOT_FOUND, targetFoodName));
         }
 
-        String canonicalName = matchingItem.get().getFood().toString();
-        Price unitPrice = new Price(matchingItem.get().getPrice().toString());
+        if (matchingItems.size() > 1) {
+            String matchingNames = matchingItems.stream()
+                    .map(item -> item.getFood().toString())
+                    .collect(Collectors.joining(", "));
+            throw new CommandException(String.format(MESSAGE_MENU_ITEM_AMBIGUOUS, targetFoodName, matchingNames));
+        }
+
+        MenuItem matchingItem = matchingItems.get(0);
+        if (!matchingItem.isAvailable()) {
+            throw new CommandException(String.format(MESSAGE_MENU_ITEM_UNAVAILABLE, targetFoodName));
+        }
+
+        String canonicalName = matchingItem.getFood().toString();
+        Price unitPrice = new Price(matchingItem.getPrice().toString());
         Quantity quantity = toAdd.getQuantity();
         Price totalPrice = unitPrice.multiply(quantity);
         Order orderToAdd = new Order(new Food(canonicalName), toAdd.getCustomer(), toAdd.getPhone(),

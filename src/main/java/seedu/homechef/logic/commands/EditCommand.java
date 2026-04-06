@@ -1,6 +1,7 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.logic.Messages.MESSAGE_MENU_ITEM_AMBIGUOUS;
 import static seedu.homechef.logic.Messages.MESSAGE_MENU_ITEM_NOT_FOUND;
 import static seedu.homechef.logic.Messages.MESSAGE_MENU_ITEM_UNAVAILABLE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_ADDRESS;
@@ -21,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.Set;
 
 import seedu.homechef.commons.core.index.Index;
@@ -102,24 +104,32 @@ public class EditCommand extends Command {
 
         if (descriptor.getFood().isPresent()) {
             String targetFoodName = descriptor.getFood().get().toString();
-            Optional<MenuItem> matchingItem = model.getMenuBook().getMenuItemList().stream()
+            List<MenuItem> matchingItems = model.getMenuBook().getMenuItemList().stream()
                     .filter(item -> item.getFood().nameContains(targetFoodName))
-                    .findFirst();
+                    .collect(Collectors.toList());
 
-            if (matchingItem.isPresent()) {
-                if (!matchingItem.get().isAvailable()) {
-                    throw new CommandException(String.format(MESSAGE_MENU_ITEM_UNAVAILABLE, targetFoodName));
-                }
-                String canonicalName = matchingItem.get().getFood().toString();
-                Price menuPrice = new Price(matchingItem.get().getPrice().toString());
-                editedOrder = new Order(new Food(canonicalName), editedOrder.getCustomer(),
-                        editedOrder.getPhone(), editedOrder.getEmail(), editedOrder.getAddress(),
-                        editedOrder.getDate(), editedOrder.getCompletionStatus(),
-                        editedOrder.getPaymentStatus(), editedOrder.getTags(),
-                        menuPrice, editedOrder.getPaymentInfo());
-            } else {
+            if (matchingItems.isEmpty()) {
                 throw new CommandException(String.format(MESSAGE_MENU_ITEM_NOT_FOUND, targetFoodName));
             }
+
+            if (matchingItems.size() > 1) {
+                String matchingNames = matchingItems.stream()
+                        .map(item -> item.getFood().toString())
+                        .collect(Collectors.joining(", "));
+                throw new CommandException(String.format(MESSAGE_MENU_ITEM_AMBIGUOUS, targetFoodName, matchingNames));
+            }
+
+            MenuItem matchingItem = matchingItems.get(0);
+            if (!matchingItem.isAvailable()) {
+                throw new CommandException(String.format(MESSAGE_MENU_ITEM_UNAVAILABLE, targetFoodName));
+            }
+            String canonicalName = matchingItem.getFood().toString();
+            Price menuPrice = new Price(matchingItem.getPrice().toString());
+            editedOrder = new Order(new Food(canonicalName), editedOrder.getCustomer(),
+                    editedOrder.getPhone(), editedOrder.getEmail(), editedOrder.getAddress(),
+                    editedOrder.getDate(), editedOrder.getCompletionStatus(),
+                    editedOrder.getPaymentStatus(), editedOrder.getTags(),
+                    menuPrice, editedOrder.getPaymentInfo());
         }
 
         if (!orderToEdit.isSameOrder(editedOrder) && model.hasOrder(editedOrder)) {
