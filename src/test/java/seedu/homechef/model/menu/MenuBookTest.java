@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.homechef.testutil.Assert.assertThrows;
 import static seedu.homechef.testutil.TypicalMenuItems.BIRTHDAY;
 import static seedu.homechef.testutil.TypicalMenuItems.CUPCAKES;
+import static seedu.homechef.testutil.TypicalMenuItems.THREETIER;
+import static seedu.homechef.testutil.TypicalMenuItems.WEDDING;
 import static seedu.homechef.testutil.TypicalMenuItems.getTypicalMenuBook;
 
 import java.util.List;
@@ -125,7 +127,10 @@ public class MenuBookTest {
 
         // EP: "Cake" is a substring of "Birthday Cake", "Cupcakes (24pcs)", "Wedding Cake - 3 Tier", "Wedding Cake"
         List<MenuItem> results = menuBook.findBySubstring("Cake");
-        assertEquals(4, results.size());
+        assertTrue(results.contains(BIRTHDAY));
+        assertTrue(results.contains(CUPCAKES));
+        assertTrue(results.contains(THREETIER));
+        assertTrue(results.contains(WEDDING));
     }
 
     @Test

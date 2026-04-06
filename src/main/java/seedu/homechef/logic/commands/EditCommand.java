@@ -1,8 +1,6 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.homechef.logic.Messages.MESSAGE_MENU_ITEM_AMBIGUOUS;
-import static seedu.homechef.logic.Messages.MESSAGE_MENU_ITEM_NOT_FOUND;
 import static seedu.homechef.logic.Messages.MESSAGE_MENU_ITEM_UNAVAILABLE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_BANK_NAME;
@@ -23,7 +21,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import seedu.homechef.commons.core.index.Index;
 import seedu.homechef.commons.util.CollectionUtil;
@@ -104,26 +101,10 @@ public class EditCommand extends Command {
 
         if (descriptor.getFood().isPresent()) {
             String targetFoodName = descriptor.getFood().get().toString();
-            Optional<MenuItem> exactMatch = model.getMenuBook().findExact(targetFoodName);
-            MenuItem matchingItem;
-            if (exactMatch.isPresent()) {
-                matchingItem = exactMatch.get();
-            } else {
-                List<MenuItem> substringMatches = model.getMenuBook().findBySubstring(targetFoodName);
-                if (substringMatches.isEmpty()) {
-                    throw new CommandException(String.format(MESSAGE_MENU_ITEM_NOT_FOUND, targetFoodName));
-                }
-                if (substringMatches.size() > 1) {
-                    String matchingNames = substringMatches.stream()
-                            .map(item -> item.getFood().toString())
-                            .collect(Collectors.joining(", "));
-                    throw new CommandException(
-                            String.format(MESSAGE_MENU_ITEM_AMBIGUOUS, targetFoodName, matchingNames));
-                }
-                matchingItem = substringMatches.get(0);
-            }
+            MenuItem matchingItem = MenuItemResolver.resolve(model.getMenuBook(), targetFoodName);
             if (!matchingItem.isAvailable()) {
-                throw new CommandException(String.format(MESSAGE_MENU_ITEM_UNAVAILABLE, targetFoodName));
+                throw new CommandException(
+                        String.format(MESSAGE_MENU_ITEM_UNAVAILABLE, matchingItem.getFood().toString()));
             }
             String canonicalName = matchingItem.getFood().toString();
             Price menuPrice = new Price(matchingItem.getPrice().toString());

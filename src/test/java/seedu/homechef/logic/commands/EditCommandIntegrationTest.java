@@ -57,6 +57,15 @@ public class EditCommandIntegrationTest {
     }
 
     @Test
+    public void execute_editFoodToAmbiguousItem_throwsCommandException() {
+        // "Cake" has no exact match but matches multiple menu items by substring
+        Index indexAlice = Index.fromOneBased(1);
+        EditCommand.EditOrderDescriptor descriptor = new EditCommand.EditOrderDescriptor();
+        descriptor.setFood(new Food("Cake"));
+        assertThrows(CommandException.class, () -> new EditCommand(indexAlice, descriptor).execute(model));
+    }
+
+    @Test
     public void execute_editFoodToUnknownItem_throwsCommandException() {
         Index indexAlice = Index.fromOneBased(1);
         EditCommand.EditOrderDescriptor descriptor = new EditCommand.EditOrderDescriptor();
