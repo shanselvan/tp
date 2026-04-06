@@ -9,15 +9,17 @@ import java.util.Arrays;
  * Availability states for a menu item.
  */
 public enum Availability {
-    YES("Yes"),
-    NO("No");
+    YES("Yes", "Available"),
+    NO("No", "Unavailable");
 
     public static final String MESSAGE_CONSTRAINTS = "Availability must be 'Yes' or 'No'";
 
+    private final String inputValue;
     private final String displayValue;
 
-    Availability(String displayValue) {
+    Availability(String inputValue, String displayValue) {
         assert displayValue != null && !displayValue.isEmpty();
+        this.inputValue = inputValue;
         this.displayValue = displayValue;
     }
 
@@ -28,7 +30,7 @@ public enum Availability {
         requireNonNull(value);
         checkArgument(isValidAvailability(value), MESSAGE_CONSTRAINTS);
         return Arrays.stream(Availability.values())
-                .filter(status -> status.displayValue.equalsIgnoreCase(value))
+                .filter(status -> status.inputValue.equalsIgnoreCase(value))
                 .findFirst()
                 .get();
     }
@@ -37,8 +39,18 @@ public enum Availability {
      * Returns true if the specified string is a valid availability value.
      */
     public static boolean isValidAvailability(String test) {
+        if (test == null) {
+            return false;
+        }
         return Arrays.stream(Availability.values())
-                .anyMatch(status -> status.displayValue.equalsIgnoreCase(test));
+                .anyMatch(status -> status.inputValue.equalsIgnoreCase(test));
+    }
+
+    /**
+     * Returns the canonical user input value used for parsing and storage.
+     */
+    public String toInputValue() {
+        return inputValue;
     }
 
     public boolean isAvailable() {

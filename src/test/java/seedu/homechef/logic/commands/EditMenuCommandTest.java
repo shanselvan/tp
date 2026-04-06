@@ -144,7 +144,7 @@ public class EditMenuCommandTest {
         String expected = EditMenuCommand.class.getCanonicalName()
                 + "{index=" + Index.class.getCanonicalName() + "{zeroBasedIndex=0}, editMenuDescriptor="
                 + EditMenuDescriptor.class.getCanonicalName()
-                + "{name=Chicken Rice, price=5.50, availability=Yes}}";
+                + "{name=Chicken Rice, price=5.50, availability=Available}}";
 
         // EP: command string representation includes both index and descriptor contents
         assertEquals(expected, command.toString());
@@ -209,7 +209,7 @@ public class EditMenuCommandTest {
         descriptor.setAvailability(Availability.YES);
 
         String expected = EditMenuDescriptor.class.getCanonicalName()
-                + "{name=Chicken Rice, price=5.50, availability=Yes}";
+                + "{name=Chicken Rice, price=5.50, availability=Available}";
 
         // EP: descriptor string representation includes all populated fields
         assertEquals(expected, descriptor.toString());
