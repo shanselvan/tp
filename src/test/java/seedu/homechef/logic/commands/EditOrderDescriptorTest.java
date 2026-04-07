@@ -98,7 +98,8 @@ public class EditOrderDescriptorTest {
                 + editOrderDescriptor.getPhone().orElse(null) + ", email="
                 + editOrderDescriptor.getEmail().orElse(null) + ", address="
                 + editOrderDescriptor.getAddress().orElse(null) + ", date="
-                + editOrderDescriptor.getDate().orElse(null) + ", dietTags="
+                + editOrderDescriptor.getDate().orElse(null) + ", quantity="
+                + editOrderDescriptor.getQuantity().orElse(null) + ", dietTags="
                 + editOrderDescriptor.getTags().orElse(null) + ", paymentInfo="
                 + editOrderDescriptor.getPaymentInfo().orElse(null) + "}";
         assertEquals(expected, editOrderDescriptor.toString());

@@ -12,6 +12,7 @@ import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYMENT_METHOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYMENT_REF;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_QUANTITY;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_WALLET_PROVIDER;
 import static seedu.homechef.model.Model.PREDICATE_SHOW_ALL_ORDERS;
@@ -42,6 +43,7 @@ import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentStatus;
 import seedu.homechef.model.order.Phone;
+import seedu.homechef.model.order.Quantity;
 
 /**
  * Edits the details of an existing order in the HomeChef.
@@ -60,6 +62,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_DATE + "DATE] "
+            + "[" + PREFIX_QUANTITY + "QUANTITY] "
             + "[" + PREFIX_TAG + "TAG]..."
             + "[" + PREFIX_PAYMENT_METHOD + "PAYMENT_METHOD] "
             + "[" + PREFIX_PAYMENT_REF + "PAYMENT_REF] "
@@ -100,8 +103,8 @@ public class EditCommand extends Command {
         Order orderToEdit = lastShownList.get(index.getZeroBased());
         Order editedOrder = createEditedOrder(orderToEdit, descriptor);
 
-        if (descriptor.getFood().isPresent()) {
-            String targetFoodName = descriptor.getFood().get().toString();
+        if (descriptor.getFood().isPresent() || descriptor.getQuantity().isPresent()) {
+            String targetFoodName = descriptor.getFood().orElse(orderToEdit.getFood()).toString();
             Optional<MenuItem> matchingItem = model.getMenuBook().getMenuItemList().stream()
                     .filter(item -> item.getFood().nameContains(targetFoodName))
                     .findFirst();
@@ -111,12 +114,13 @@ public class EditCommand extends Command {
                     throw new CommandException(String.format(MESSAGE_MENU_ITEM_UNAVAILABLE, targetFoodName));
                 }
                 String canonicalName = matchingItem.get().getFood().toString();
-                Price menuPrice = new Price(matchingItem.get().getPrice().toString());
+                Quantity newQuantity = editedOrder.getQuantity();
+                Price totalPrice = new Price(matchingItem.get().getPrice().toString()).multiply(newQuantity);
                 editedOrder = new Order(new Food(canonicalName), editedOrder.getCustomer(),
                         editedOrder.getPhone(), editedOrder.getEmail(), editedOrder.getAddress(),
                         editedOrder.getDate(), editedOrder.getCompletionStatus(),
                         editedOrder.getPaymentStatus(), editedOrder.getTags(),
-                        menuPrice, editedOrder.getPaymentInfo());
+                        newQuantity, totalPrice, editedOrder.getPaymentInfo());
             } else {
                 throw new CommandException(String.format(MESSAGE_MENU_ITEM_NOT_FOUND, targetFoodName));
             }
@@ -146,6 +150,7 @@ public class EditCommand extends Command {
         Date updatedDate = descriptor.getDate().orElse(orderToEdit.getDate());
         CompletionStatus updatedCompletionStatus = orderToEdit.getCompletionStatus();
         PaymentStatus updatedPaymentStatus = orderToEdit.getPaymentStatus();
+        Quantity updatedQuantity = descriptor.getQuantity().orElse(orderToEdit.getQuantity());
         Price updatedPrice = orderToEdit.getPrice();
         Set<DietTag> updatedDietTags = descriptor.getTags().orElse(orderToEdit.getTags());
         Optional<PaymentInfo> updatedPaymentInfo = descriptor.getPaymentInfo().isPresent()
@@ -153,7 +158,8 @@ public class EditCommand extends Command {
                                                    : orderToEdit.getPaymentInfo();
 
         return new Order(updatedFood, updatedCustomer, updatedPhone, updatedEmail, updatedAddress, updatedDate,
-                updatedCompletionStatus, updatedPaymentStatus, updatedDietTags, updatedPrice, updatedPaymentInfo);
+                updatedCompletionStatus, updatedPaymentStatus, updatedDietTags,
+                updatedQuantity, updatedPrice, updatedPaymentInfo);
     }
 
     @Override
@@ -191,6 +197,7 @@ public class EditCommand extends Command {
         private Email email;
         private Address address;
         private Date date;
+        private Quantity quantity;
         private Set<DietTag> dietTags;
         private PaymentInfo paymentInfo;
 
@@ -208,6 +215,7 @@ public class EditCommand extends Command {
             setEmail(toCopy.email);
             setAddress(toCopy.address);
             setDate(toCopy.date);
+            setQuantity(toCopy.quantity);
             setTags(toCopy.dietTags);
             setPaymentInfo(toCopy.paymentInfo);
         }
@@ -217,7 +225,7 @@ public class EditCommand extends Command {
          */
         public boolean isAnyFieldEdited() {
             return CollectionUtil.isAnyNonNull(food, customer, phone, email, address,
-                    date, dietTags, paymentInfo);
+                    date, quantity, dietTags, paymentInfo);
         }
 
         public void setFood(Food food) {
@@ -269,6 +277,20 @@ public class EditCommand extends Command {
         }
 
         /**
+         * Sets the quantity of items ordered.
+         */
+        public void setQuantity(Quantity quantity) {
+            this.quantity = quantity;
+        }
+
+        /**
+         * Returns the quantity if set, or empty if not edited.
+         */
+        public Optional<Quantity> getQuantity() {
+            return Optional.ofNullable(quantity);
+        }
+
+        /**
          * Sets {@code dietTags} to this object's {@code dietTags}.
          * A defensive copy of {@code dietTags} is used internally.
          */
@@ -317,6 +339,7 @@ public class EditCommand extends Command {
                     && Objects.equals(email, otherEditOrderDescriptor.email)
                     && Objects.equals(address, otherEditOrderDescriptor.address)
                     && Objects.equals(date, otherEditOrderDescriptor.date)
+                    && Objects.equals(quantity, otherEditOrderDescriptor.quantity)
                     && Objects.equals(dietTags, otherEditOrderDescriptor.dietTags)
                     && Objects.equals(paymentInfo, otherEditOrderDescriptor.paymentInfo);
         }
@@ -330,6 +353,7 @@ public class EditCommand extends Command {
                     .add("email", email)
                     .add("address", address)
                     .add("date", date)
+                    .add("quantity", quantity)
                     .add("dietTags", dietTags)
                     .add("paymentInfo", paymentInfo)
                     .toString();
