@@ -45,10 +45,12 @@ import seedu.homechef.logic.Messages;
 import seedu.homechef.logic.commands.EditCommand;
 import seedu.homechef.logic.commands.EditCommand.EditOrderDescriptor;
 import seedu.homechef.model.order.Address;
+import seedu.homechef.model.order.BankPayment;
+import seedu.homechef.model.order.CashPayment;
 import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.DietTag;
 import seedu.homechef.model.order.Email;
-import seedu.homechef.model.order.PaymentInfo;
+import seedu.homechef.model.order.PayNowPayment;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.testutil.EditOrderDescriptorBuilder;
 
@@ -120,17 +122,17 @@ public class EditCommandParserTest {
         Index targetIndex = INDEX_FIRST_ORDER;
         assertParseSuccess(parser, targetIndex.getOneBased() + CASH_PAYMENT_DESC,
                 new EditCommand(targetIndex,
-                        new EditOrderDescriptorBuilder().withPaymentInfo(PaymentInfo.cash()).build()));
+                        new EditOrderDescriptorBuilder().withPaymentInfo(new CashPayment()).build()));
 
         assertParseSuccess(parser, targetIndex.getOneBased() + PAYNOW_PAYMENT_DESC,
                 new EditCommand(targetIndex,
-                        new EditOrderDescriptorBuilder().withPaymentInfo(PaymentInfo
-                                .payNow(VALID_PAYMENT_PAYNOW)).build()));
+                        new EditOrderDescriptorBuilder().withPaymentInfo(
+                                new PayNowPayment(VALID_PAYMENT_PAYNOW)).build()));
 
         assertParseSuccess(parser, targetIndex.getOneBased() + BANK_PAYMENT_DESC,
                 new EditCommand(targetIndex,
-                        new EditOrderDescriptorBuilder().withPaymentInfo(PaymentInfo
-                                .bank(VALID_PAYMENT_BANK)).build()));
+                        new EditOrderDescriptorBuilder().withPaymentInfo(
+                                new BankPayment(VALID_PAYMENT_BANK)).build()));
     }
 
     @Test
@@ -146,8 +148,9 @@ public class EditCommandParserTest {
         Index targetIndex = INDEX_FIRST_ORDER;
         String userInput = targetIndex.getOneBased() + " " + PREFIX_PAYNOW_PAYMENT + "  +65   99999999  ";
         EditCommand.EditOrderDescriptor descriptor = new EditOrderDescriptorBuilder()
-                .withPaymentInfo(PaymentInfo.payNow("+65 99999999"))
+                .withPaymentInfo(new PayNowPayment("+65 99999999"))
                 .build();
         assertParseSuccess(parser, userInput, new EditCommand(targetIndex, descriptor));
     }
 }
+

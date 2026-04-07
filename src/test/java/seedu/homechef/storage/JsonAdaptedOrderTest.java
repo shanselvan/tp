@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Test;
 import seedu.homechef.commons.exceptions.IllegalValueException;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.order.Address;
+import seedu.homechef.model.order.BankPayment;
+import seedu.homechef.model.order.CashPayment;
 import seedu.homechef.model.order.CompletionStatus;
 import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.Date;
@@ -22,6 +24,7 @@ import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentStatus;
+import seedu.homechef.model.order.PayNowPayment;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Quantity;
 import seedu.homechef.testutil.OrderBuilder;
@@ -227,7 +230,7 @@ public class JsonAdaptedOrderTest {
 
     @Test
     public void toModelType_validPayNowPayment_roundTrips() throws Exception {
-        PaymentInfo payNow = PaymentInfo.payNow("+65 91234567");
+        PaymentInfo payNow = new PayNowPayment("+65 91234567");
         Order orderWithPayment = new OrderBuilder(BENSON).withPaymentInfo(payNow).build();
         JsonAdaptedOrder adapted = new JsonAdaptedOrder(orderWithPayment);
         Order result = adapted.toModelType();
@@ -239,7 +242,7 @@ public class JsonAdaptedOrderTest {
 
     @Test
     public void toModelType_validBankPayment_roundTrips() throws Exception {
-        PaymentInfo bank = PaymentInfo.bank("REF123");
+        PaymentInfo bank = new BankPayment("REF123");
         Order orderWithPayment = new OrderBuilder(BENSON).withPaymentInfo(bank).build();
         JsonAdaptedOrder adapted = new JsonAdaptedOrder(orderWithPayment);
         assertEquals(orderWithPayment, adapted.toModelType());
@@ -247,7 +250,7 @@ public class JsonAdaptedOrderTest {
 
     @Test
     public void toModelType_validCashPayment_roundTrips() throws Exception {
-        PaymentInfo cash = PaymentInfo.cash();
+        PaymentInfo cash = new CashPayment();
         Order orderWithPayment = new OrderBuilder(BENSON).withPaymentInfo(cash).build();
         JsonAdaptedOrder adapted = new JsonAdaptedOrder(orderWithPayment);
         assertEquals(orderWithPayment, adapted.toModelType());
@@ -281,4 +284,5 @@ public class JsonAdaptedOrderTest {
     }
 
 }
+
 

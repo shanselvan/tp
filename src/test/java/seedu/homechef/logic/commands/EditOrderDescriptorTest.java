@@ -17,7 +17,9 @@ import static seedu.homechef.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import org.junit.jupiter.api.Test;
 
 import seedu.homechef.logic.commands.EditCommand.EditOrderDescriptor;
+import seedu.homechef.model.order.CashPayment;
 import seedu.homechef.model.order.PaymentInfo;
+import seedu.homechef.model.order.PayNowPayment;
 import seedu.homechef.testutil.EditOrderDescriptorBuilder;
 
 public class EditOrderDescriptorTest {
@@ -76,15 +78,15 @@ public class EditOrderDescriptorTest {
 
         // EP: different paymentInfo -> returns false
         EditOrderDescriptor amyWithPayment = new EditOrderDescriptorBuilder(DESC_AMY)
-                .withPaymentInfo(PaymentInfo.cash()).build();
+                .withPaymentInfo(new CashPayment()).build();
         EditOrderDescriptor amyWithDifferentPayment = new EditOrderDescriptorBuilder(DESC_AMY)
-                .withPaymentInfo(PaymentInfo.payNow("+65 91234567"))
+                .withPaymentInfo(new PayNowPayment("+65 91234567"))
                 .build();
         assertFalse(amyWithPayment.equals(amyWithDifferentPayment));
 
         // EP: same paymentInfo -> returns true
         EditOrderDescriptor amyWithPaymentCopy = new EditOrderDescriptorBuilder(DESC_AMY)
-                .withPaymentInfo(PaymentInfo.cash()).build();
+                .withPaymentInfo(new CashPayment()).build();
         assertTrue(amyWithPayment.equals(amyWithPaymentCopy));
     }
 
@@ -103,3 +105,4 @@ public class EditOrderDescriptorTest {
         assertEquals(expected, editOrderDescriptor.toString());
     }
 }
+

@@ -13,11 +13,14 @@ import seedu.homechef.logic.parser.exceptions.ParseException;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
 import seedu.homechef.model.order.Address;
+import seedu.homechef.model.order.BankPayment;
+import seedu.homechef.model.order.CashPayment;
 import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.Date;
 import seedu.homechef.model.order.DietTag;
 import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.PaymentInfo;
+import seedu.homechef.model.order.PayNowPayment;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Quantity;
 
@@ -270,21 +273,21 @@ public class ParserUtil {
             if (!cashPayment.get().isEmpty()) {
                 throw new ParseException(MESSAGE_CASH_PAYMENT_DOES_NOT_ACCEPT_VALUE);
             }
-            return Optional.of(PaymentInfo.cash());
+            return Optional.of(new CashPayment());
         }
 
         if (bankPayment.isPresent()) {
             if (bankPayment.get().isBlank()) {
                 throw new ParseException(MESSAGE_BANK_PAYMENT_REQUIRED);
             }
-            return Optional.of(PaymentInfo.bank(normalizeWhitespace(bankPayment.get())));
+            return Optional.of(new BankPayment(normalizeWhitespace(bankPayment.get())));
         }
 
         if (payNowPayment.get().isBlank()) {
             throw new ParseException(MESSAGE_PAYNOW_PAYMENT_REQUIRED);
         }
         try {
-            return Optional.of(PaymentInfo.payNow(normalizeWhitespace(payNowPayment.get())));
+            return Optional.of(new PayNowPayment(normalizeWhitespace(payNowPayment.get())));
         } catch (IllegalArgumentException e) {
             throw new ParseException(e.getMessage());
         }
@@ -317,3 +320,4 @@ public class ParserUtil {
         return trimmed.equals("true");
     }
 }
+

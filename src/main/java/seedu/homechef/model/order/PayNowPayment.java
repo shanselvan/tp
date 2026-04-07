@@ -8,6 +8,8 @@ import java.util.Objects;
  * Represents a PayNow payment.
  */
 public final class PayNowPayment implements PaymentInfo {
+    public static final String MESSAGE_INVALID_PAYNOW_HANDLE =
+            "PayNow payment requires a non-blank phone number or handle.";
 
     private final String handle;
 

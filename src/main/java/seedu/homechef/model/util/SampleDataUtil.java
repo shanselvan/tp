@@ -13,13 +13,13 @@ import seedu.homechef.model.menu.MenuBook;
 import seedu.homechef.model.menu.MenuItem;
 import seedu.homechef.model.menu.ReadOnlyMenuBook;
 import seedu.homechef.model.order.Address;
+import seedu.homechef.model.order.BankPayment;
 import seedu.homechef.model.order.CompletionStatus;
 import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.Date;
 import seedu.homechef.model.order.DietTag;
 import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.Order;
-import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentStatus;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Quantity;
@@ -76,7 +76,7 @@ public class SampleDataUtil {
                 PaymentStatus.PAID,
                 getTagSet("colleagues"),
                 new Price("10.50"),
-                Optional.of(PaymentInfo.bank("1234567")));
+                Optional.of(new BankPayment("1234567")));
         return new Order[]{alex, bernice, charlotte, david, irfan, roy};
     }
 
@@ -123,3 +123,4 @@ public class SampleDataUtil {
     }
 
 }
+

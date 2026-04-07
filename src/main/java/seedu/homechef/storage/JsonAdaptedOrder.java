@@ -13,6 +13,7 @@ import seedu.homechef.commons.exceptions.IllegalValueException;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
 import seedu.homechef.model.order.Address;
+import seedu.homechef.model.order.BankPayment;
 import seedu.homechef.model.order.CompletionStatus;
 import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.Date;
@@ -21,6 +22,7 @@ import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentStatus;
+import seedu.homechef.model.order.PayNowPayment;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Quantity;
 
@@ -30,6 +32,8 @@ import seedu.homechef.model.order.Quantity;
 class JsonAdaptedOrder {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Order's %s field is missing!";
+    private static final String MESSAGE_INVALID_PAYMENT_METHOD =
+            "Unsupported payment method. Expected one of: CASH, PAYNOW, BANK.";
 
     private final String food;
     private final String customer;
@@ -203,7 +207,7 @@ class JsonAdaptedOrder {
             modelPaymentInfo = Optional.empty();
         } else {
             try {
-                modelPaymentInfo = Optional.of(PaymentInfo.fromStorageFields(paymentMethod, paymentDetails));
+                modelPaymentInfo = Optional.of(parsePaymentInfo(paymentMethod, paymentDetails));
             } catch (IllegalArgumentException e) {
                 throw new IllegalValueException(e.getMessage(), e);
             }
@@ -223,6 +227,23 @@ class JsonAdaptedOrder {
             }
         }
         return null;
+    }
+
+    private static PaymentInfo parsePaymentInfo(String method, String details) {
+        String normalizedMethod = method.trim().toUpperCase();
+        switch (normalizedMethod) {
+        case PaymentInfo.METHOD_CASH:
+            return new seedu.homechef.model.order.CashPayment();
+        case PaymentInfo.METHOD_PAYNOW:
+            if (details == null || details.isBlank()) {
+                throw new IllegalArgumentException(PayNowPayment.MESSAGE_INVALID_PAYNOW_HANDLE);
+            }
+            return new PayNowPayment(details.trim());
+        case PaymentInfo.METHOD_BANK:
+            return (details == null || details.isBlank()) ? new BankPayment() : new BankPayment(details.trim());
+        default:
+            throw new IllegalArgumentException(MESSAGE_INVALID_PAYMENT_METHOD);
+        }
     }
 
 }

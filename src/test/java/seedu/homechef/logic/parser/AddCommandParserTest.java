@@ -58,12 +58,14 @@ import seedu.homechef.logic.commands.AddCommand;
 import seedu.homechef.logic.parser.exceptions.ParseException;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.order.Address;
+import seedu.homechef.model.order.BankPayment;
+import seedu.homechef.model.order.CashPayment;
 import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.Date;
 import seedu.homechef.model.order.DietTag;
 import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.Order;
-import seedu.homechef.model.order.PaymentInfo;
+import seedu.homechef.model.order.PayNowPayment;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Quantity;
 import seedu.homechef.testutil.OrderBuilder;
@@ -129,7 +131,7 @@ public class AddCommandParserTest {
                 + ADDRESS_DESC_AMY + DATE_DESC_AMY + CASH_PAYMENT_DESC;
         Order expectedOrder = new OrderBuilder().withFood(VALID_FOOD_AMY).withCustomer(VALID_CUSTOMER_AMY)
                 .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
-                .withDate(VALID_DATE_AMY).withPrice(PLACEHOLDER_PRICE).withPaymentInfo(PaymentInfo.cash()).build();
+                .withDate(VALID_DATE_AMY).withPrice(PLACEHOLDER_PRICE).withPaymentInfo(new CashPayment()).build();
         assertParseSuccess(parser, userInput, new AddCommand(expectedOrder));
     }
 
@@ -140,7 +142,7 @@ public class AddCommandParserTest {
         Order expectedOrder = new OrderBuilder().withFood(VALID_FOOD_AMY).withCustomer(VALID_CUSTOMER_AMY)
                 .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withDate(VALID_DATE_AMY).withPrice(PLACEHOLDER_PRICE)
-                .withPaymentInfo(PaymentInfo.payNow(VALID_PAYMENT_PAYNOW)).build();
+                .withPaymentInfo(new PayNowPayment(VALID_PAYMENT_PAYNOW)).build();
         assertParseSuccess(parser, userInput, new AddCommand(expectedOrder));
     }
 
@@ -151,7 +153,7 @@ public class AddCommandParserTest {
         Order expectedOrder = new OrderBuilder().withFood(VALID_FOOD_AMY).withCustomer(VALID_CUSTOMER_AMY)
                 .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withDate(VALID_DATE_AMY).withPrice(PLACEHOLDER_PRICE)
-                .withPaymentInfo(PaymentInfo.bank(VALID_PAYMENT_BANK)).build();
+                .withPaymentInfo(new BankPayment(VALID_PAYMENT_BANK)).build();
         assertParseSuccess(parser, userInput, new AddCommand(expectedOrder));
     }
 
@@ -189,3 +191,4 @@ public class AddCommandParserTest {
         }
     }
 }
+

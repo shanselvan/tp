@@ -136,7 +136,7 @@ public class OrderTest {
 
     @Test
     public void getPaymentInfo_withPaymentInfo_returnsPaymentInfo() {
-        PaymentInfo payNow = PaymentInfo.payNow("+65 91234567");
+        PaymentInfo payNow = new PayNowPayment("+65 91234567");
         Order order = new OrderBuilder().withPaymentInfo(payNow).build();
         assertEquals(Optional.of(payNow), order.getPaymentInfo());
     }
@@ -144,8 +144,9 @@ public class OrderTest {
     @Test
     public void equals_sameFieldsDifferentPaymentInfo_notEqual() {
         Order orderWithout = new OrderBuilder().build();
-        PaymentInfo cash = PaymentInfo.cash();
+        PaymentInfo cash = new CashPayment();
         Order orderWith = new OrderBuilder().withPaymentInfo(cash).build();
         assertFalse(orderWithout.equals(orderWith));
     }
 }
+

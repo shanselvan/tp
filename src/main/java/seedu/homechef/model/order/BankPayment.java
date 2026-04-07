@@ -8,6 +8,8 @@ import java.util.Objects;
  * Represents a bank transfer payment.
  */
 public final class BankPayment implements PaymentInfo {
+    public static final String MESSAGE_INVALID_BANK_REFERENCE =
+            "Bank payment requires a non-blank payment reference/details value.";
 
     private final String reference;
 
