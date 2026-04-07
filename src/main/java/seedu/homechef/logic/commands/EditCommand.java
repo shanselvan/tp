@@ -146,14 +146,7 @@ public class EditCommand extends Command {
         PaymentStatus updatedPaymentStatus = orderToEdit.getPaymentStatus();
         Price updatedPrice = orderToEdit.getPrice();
         Set<DietTag> updatedDietTags = descriptor.getTags().orElse(orderToEdit.getTags());
-        Optional<PaymentInfo> updatedPaymentInfo;
-        if (descriptor.isPaymentInfoCleared()) {
-            updatedPaymentInfo = Optional.empty();
-        } else if (descriptor.getPaymentInfo().isPresent()) {
-            updatedPaymentInfo = descriptor.getPaymentInfo();
-        } else {
-            updatedPaymentInfo = orderToEdit.getPaymentInfo();
-        }
+        Optional<PaymentInfo> updatedPaymentInfo = resolveUpdatedPaymentInfo(orderToEdit, descriptor);
 
         return new Order(updatedFood, updatedCustomer, updatedPhone, updatedEmail, updatedAddress, updatedDate,
                 updatedCompletionStatus, updatedPaymentStatus, updatedDietTags, updatedPrice, updatedPaymentInfo);
@@ -224,7 +217,7 @@ public class EditCommand extends Command {
          */
         public boolean isAnyFieldEdited() {
             return CollectionUtil.isAnyNonNull(food, customer, phone, email, address,
-                    date, dietTags, paymentInfo, isPaymentInfoCleared);
+                    date, dietTags, paymentInfo) || isPaymentInfoCleared;
         }
 
         public void setFood(Food food) {
@@ -359,5 +352,14 @@ public class EditCommand extends Command {
                     .add("isPaymentInfoCleared", isPaymentInfoCleared)
                     .toString();
         }
+    }
+
+    private static Optional<PaymentInfo> resolveUpdatedPaymentInfo(Order orderToEdit, EditOrderDescriptor descriptor) {
+        if (descriptor.isPaymentInfoCleared()) {
+            return Optional.empty();
+        }
+        return descriptor.getPaymentInfo().isPresent()
+                ? descriptor.getPaymentInfo()
+                : orderToEdit.getPaymentInfo();
     }
 }

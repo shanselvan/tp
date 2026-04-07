@@ -289,7 +289,7 @@ This helps with updating orders when information changes, without having to dele
 Format:
 `edit INDEX [f/FOOD] [c/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/DATE] [t/TAG]...
 
-> > > > > > > [bank/BANK_DETAILS] [paynow/PAYNOW_CONTACT] [cash/]`
+> > > > > > > [bank/BANK_DETAILS] [paynow/PAYNOW_CONTACT] [cash/YES_OR_NO]`
 
 <div markdown="span" class="alert alert-primary">:bulb:
 **Notes about the edit command:**<br>
@@ -298,8 +298,10 @@ Format:
 * Existing values will be updated to the input values.
 * If `f/FOOD` is changed, the order's price is automatically updated to match the new menu item's price.
 * When editing dietTags, the existing dietTags of the order will be removed i.e adding of dietTags is not cumulative.
-* You can remove all the order’s dietTags by typing `t/` without
-    specifying any dietTags after it.
+* You can remove all the order's dietTags by typing `t/` without specifying any dietTags after it.
+* For cash payment in `edit`:
+  * `cash/yes` (or `cash/true`) sets payment info to cash.
+  * `cash/no` (or `cash/false`) clears payment info.
 </div>
 
 Examples:
@@ -308,8 +310,8 @@ Examples:
   and `johndoe@example.com` respectively.
 - `edit 2 c/Betsy Crower t/` Edits the name of the 2nd order's customer to be `Betsy Crower` and clears all existing
   dietTags.
+- `edit 3 cash/yes` Sets the 3rd order's payment info to cash.
 - `edit 1` Shows an error message saying `At least one field to edit must be provided.`
-
 ### Deleting an order : `delete`
 
 Deletes the specified order.
@@ -484,7 +486,7 @@ downloaded.
 | **Mark Paid**        | `paid INDEX` <br> e.g., `paid 1`                                                                                                                                                                                                                                    |
 | **Mark Partial**     | `partial INDEX` <br> e.g., `partial 1`                                                                                                                                                                                                                              |
 | **Mark Unpaid**      | `unpaid INDEX` <br> e.g., `unpaid 1`                                                                                                                                                                                                                                |
-| **Edit**             | `edit INDEX [f/FOOD] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]... [bank/BANK_DETAILS] [paynow/PAYNOW_CONTACT] [cash/]`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com paynow/+65 91234567` |
+| **Edit**             | `edit INDEX [f/FOOD] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]... [bank/BANK_DETAILS] [paynow/PAYNOW_CONTACT] [cash/YES_OR_NO]`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com cash/yes` |
 | **Delete**           | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                                                                                                 |
 | **Clear**            | `clear`                                                                                                                                                                                                                                                             |
 | **Add Menu**         | `add-menu n/NAME $/PRICE [v/AVAILABILITY]` <br> e.g., `add-menu n/Bee Hoon $/5.00 v/true`                                                                                                                                                                           |
@@ -492,5 +494,9 @@ downloaded.
 | **Edit Menu**        | `edit-menu INDEX [n/NAME] [$/PRICE] [v/AVAILABILITY]` <br> e.g., `edit-menu 2 n/Pain au Chocolat $/3.50 v/true`                                                                                                                                                     |
 | **Help**             | `help`                                                                                                                                                                                                                                                              |
 | **Exit**             | `exit`                                                                                                                                                                                                                                                              |
+
+
+
+
 
 
