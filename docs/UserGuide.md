@@ -453,7 +453,7 @@ Overwrite the empty data file it creates with the file that contains the data of
 the `data` folder. The next time you open the app, all the original sample orders and menu items will be restored.
 
 **Q**: What's the rectangular box below where I put in the commands?<br>
-**A**: That's the status window! It tells you if the commands you type in are typed correctly, and if it is executed
+**A**: That's the status window! It tells you if the commands you type in are typed correctly and if it is executed
 properly. It also gives suggestions and hints if you input commands incorrectly.<br>
 If the status information given is still unclear, feel free to refer to the command information above.
 
@@ -480,11 +480,7 @@ downloaded.
 | **Mark Paid**        | `paid INDEX` <br> e.g., `paid 1`                                                                                                                                                                                                                                    |
 | **Mark Partial**     | `partial INDEX` <br> e.g., `partial 1`                                                                                                                                                                                                                              |
 | **Mark Unpaid**      | `unpaid INDEX` <br> e.g., `unpaid 1`                                                                                                                                                                                                                                |
-<<<<<<< HEAD
-| **Edit**             | `edit INDEX [f/FOOD] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​ [m/PAYMENT METHOD] [r/PAYMENT REF] [b/BANK NAME] [w/WALLET PROVIDER]`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                           |
-=======
 | **Edit**             | `edit INDEX [f/FOOD] [c/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [d/DATE] [q/QUANTITY] [t/TAG]…​ [m/PAYMENT METHOD] [r/PAYMENT REF] [b/BANK NAME] [w/WALLET PROVIDER]`<br> e.g.,`edit 2 c/James Lee e/jameslee@example.com`                                      |
->>>>>>> 95906dc99db4cc5a139eba2136a2056f8f999d8c
 | **Delete**           | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                                                                                                 |
 | **Clear**            | `clear`                                                                                                                                                                                                                                                             |
 | **Add Menu**         | `add-menu n/NAME $/PRICE [v/AVAILABILITY]` <br> e.g., `add-menu n/Bee Hoon $/5.00 v/true`                                                                                                                                                                           |
