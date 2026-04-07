@@ -16,7 +16,9 @@ import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
 import seedu.homechef.model.menu.Availability;
 import seedu.homechef.model.menu.MenuItem;
+import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.Phone;
+import seedu.homechef.model.order.Quantity;
 import seedu.homechef.testutil.TypicalMenuItems;
 
 /**
@@ -29,6 +31,36 @@ public class EditCommandIntegrationTest {
     @BeforeEach
     public void setUp() {
         model = new ModelManager(getTypicalHomeChef(), TypicalMenuItems.getTypicalMenuBook(), new UserPrefs());
+    }
+
+    @Test
+    public void execute_editQuantity_updatesQuantityAndRecalculatesPrice() throws Exception {
+        // Alice's order defaults to quantity 1; "Birthday Cake" costs $25.00 on the menu
+        Index indexAlice = Index.fromOneBased(1);
+        EditCommand.EditOrderDescriptor descriptor = new EditCommand.EditOrderDescriptor();
+        descriptor.setQuantity(new Quantity(3));
+        new EditCommand(indexAlice, descriptor).execute(model);
+
+        Order stored = model.getFilteredOrderList().get(0);
+        assertEquals(new Quantity(3), stored.getQuantity());
+        assertEquals(new Price("75.00"), stored.getPrice());
+    }
+
+    @Test
+    public void execute_editFoodOnHighQuantityOrder_preservesQuantityAndRecalculatesPrice() throws Exception {
+        // Change Alice's quantity to 3 first, then change the food
+        Index indexAlice = Index.fromOneBased(1);
+        EditCommand.EditOrderDescriptor setQty = new EditCommand.EditOrderDescriptor();
+        setQty.setQuantity(new Quantity(3));
+        new EditCommand(indexAlice, setQty).execute(model);
+
+        EditCommand.EditOrderDescriptor changeFood = new EditCommand.EditOrderDescriptor();
+        changeFood.setFood(new Food("Chicken Rice")); // $5.50 on the menu
+        new EditCommand(indexAlice, changeFood).execute(model);
+
+        Order stored = model.getFilteredOrderList().get(0);
+        assertEquals(new Quantity(3), stored.getQuantity());
+        assertEquals(new Price("16.50"), stored.getPrice());
     }
 
     @Test

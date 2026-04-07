@@ -6,6 +6,7 @@ import static seedu.homechef.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_QUANTITY;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Set;
@@ -55,6 +56,7 @@ public class OrderUtil {
         descriptor.getEmail().ifPresent(email -> sb.append(PREFIX_EMAIL).append(email).append(" "));
         descriptor.getAddress().ifPresent(address -> sb.append(PREFIX_ADDRESS).append(address).append(" "));
         descriptor.getDate().ifPresent(date -> sb.append(PREFIX_DATE).append(date).append(" "));
+        descriptor.getQuantity().ifPresent(qty -> sb.append(PREFIX_QUANTITY).append(qty).append(" "));
         if (descriptor.getTags().isPresent()) {
             Set<DietTag> dietTags = descriptor.getTags().get();
             if (dietTags.isEmpty()) {
