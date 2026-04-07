@@ -29,8 +29,8 @@ public final class PayNowPayment implements PaymentInfo {
     }
 
     @Override
-    public PaymentType getType() {
-        return PaymentType.PAYNOW;
+    public String getMethod() {
+        return METHOD_PAYNOW;
     }
 
     @Override
@@ -52,6 +52,6 @@ public final class PayNowPayment implements PaymentInfo {
 
     @Override
     public int hashCode() {
-        return Objects.hash(PaymentType.PAYNOW, handle);
+        return Objects.hash(METHOD_PAYNOW, handle);
     }
 }

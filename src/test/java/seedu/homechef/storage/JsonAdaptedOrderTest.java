@@ -22,7 +22,6 @@ import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentStatus;
-import seedu.homechef.model.order.PaymentType;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Quantity;
 import seedu.homechef.testutil.OrderBuilder;
@@ -38,7 +37,7 @@ public class JsonAdaptedOrderTest {
     private static final String INVALID_PAYMENT_STATUS = "Not a payment";
     private static final String INVALID_TAG = "#friend";
     private static final String INVALID_PRICE = "05.20";
-    private static final String INVALID_PAYMENT_TYPE = "CRYPTO";
+    private static final String INVALID_PAYMENT_METHOD = "CRYPTO";
 
     private static final String VALID_FOOD = BENSON.getFood().toString();
     private static final String VALID_CUSTOMER = BENSON.getCustomer().toString();
@@ -64,7 +63,7 @@ public class JsonAdaptedOrderTest {
         JsonAdaptedOrder order =
                 new JsonAdaptedOrder(VALID_FOOD, INVALID_CUSTOMER, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_DATE,
                         VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, VALID_TAGS,
-                        null, null, null, null, null, null, null, null);
+                        null, null, null);
         String expectedMessage = Customer.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
     }
@@ -73,7 +72,7 @@ public class JsonAdaptedOrderTest {
     public void toModelType_nullName_throwsIllegalValueException() {
         JsonAdaptedOrder order = new JsonAdaptedOrder(VALID_FOOD, null, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
                 VALID_DATE, VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, VALID_TAGS,
-                null, null, null, null, null, null, null, null);
+                null, null, null);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Customer.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
     }
@@ -83,7 +82,7 @@ public class JsonAdaptedOrderTest {
         JsonAdaptedOrder order =
                 new JsonAdaptedOrder(VALID_FOOD, VALID_CUSTOMER, INVALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_DATE,
                         VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, VALID_TAGS,
-                        null, null, null, null, null, null, null, null);
+                        null, null, null);
         String expectedMessage = Phone.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
     }
@@ -92,7 +91,7 @@ public class JsonAdaptedOrderTest {
     public void toModelType_nullPhone_throwsIllegalValueException() {
         JsonAdaptedOrder order = new JsonAdaptedOrder(VALID_FOOD, VALID_CUSTOMER, null, VALID_EMAIL, VALID_ADDRESS,
                 VALID_DATE, VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, VALID_TAGS,
-                null, null, null, null, null, null, null, null);
+                null, null, null);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
     }
@@ -102,7 +101,7 @@ public class JsonAdaptedOrderTest {
         JsonAdaptedOrder order =
                 new JsonAdaptedOrder(VALID_FOOD, VALID_CUSTOMER, VALID_PHONE, INVALID_EMAIL, VALID_ADDRESS, VALID_DATE,
                         VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, VALID_TAGS,
-                        null, null, null, null, null, null, null, null);
+                        null, null, null);
         String expectedMessage = Email.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
     }
@@ -111,7 +110,7 @@ public class JsonAdaptedOrderTest {
     public void toModelType_nullEmail_throwsIllegalValueException() {
         JsonAdaptedOrder order = new JsonAdaptedOrder(VALID_FOOD, VALID_CUSTOMER, VALID_PHONE, null, VALID_ADDRESS,
                 VALID_DATE, VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, VALID_TAGS,
-                null, null, null, null, null, null, null, null);
+                null, null, null);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
     }
@@ -121,7 +120,7 @@ public class JsonAdaptedOrderTest {
         JsonAdaptedOrder order =
                 new JsonAdaptedOrder(VALID_FOOD, VALID_CUSTOMER, VALID_PHONE, VALID_EMAIL, INVALID_ADDRESS, VALID_DATE,
                         VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, VALID_TAGS,
-                        null, null, null, null, null, null, null, null);
+                        null, null, null);
         String expectedMessage = Address.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
     }
@@ -130,7 +129,7 @@ public class JsonAdaptedOrderTest {
     public void toModelType_nullAddress_throwsIllegalValueException() {
         JsonAdaptedOrder order = new JsonAdaptedOrder(VALID_FOOD, VALID_CUSTOMER, VALID_PHONE, VALID_EMAIL, null,
                 VALID_DATE, VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, VALID_TAGS,
-                null, null, null, null, null, null, null, null);
+                null, null, null);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
     }
@@ -142,7 +141,7 @@ public class JsonAdaptedOrderTest {
         JsonAdaptedOrder order =
                 new JsonAdaptedOrder(VALID_FOOD, VALID_CUSTOMER, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_DATE,
                         VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, invalidTags,
-                        null, null, null, null, null, null, null, null);
+                        null, null, null);
         assertThrows(IllegalValueException.class, order::toModelType);
     }
 
@@ -150,7 +149,7 @@ public class JsonAdaptedOrderTest {
     public void toModelType_invalidDish_throwsIllegalValueException() {
         JsonAdaptedOrder order = new JsonAdaptedOrder(INVALID_FOOD, VALID_CUSTOMER, VALID_PHONE,
                 VALID_EMAIL, VALID_ADDRESS, VALID_DATE, VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS,
-                VALID_TAGS, null, null, null, null, null, null, null, null);
+                VALID_TAGS, null, null, null);
         String expectedMessage = Food.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
     }
@@ -159,7 +158,7 @@ public class JsonAdaptedOrderTest {
     public void toModelType_nullDish_throwsIllegalValueException() {
         JsonAdaptedOrder order = new JsonAdaptedOrder(null, VALID_CUSTOMER, VALID_PHONE,
                 VALID_EMAIL, VALID_ADDRESS, VALID_DATE, VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS,
-                VALID_TAGS, null, null, null, null, null, null, null, null);
+                VALID_TAGS, null, null, null);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Food.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
     }
@@ -168,7 +167,7 @@ public class JsonAdaptedOrderTest {
     public void toModelType_invalidDate_throwsIllegalValueException() {
         JsonAdaptedOrder order = new JsonAdaptedOrder(VALID_FOOD, VALID_CUSTOMER, VALID_PHONE,
                 VALID_EMAIL, VALID_ADDRESS, INVALID_DATE, VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS,
-                VALID_TAGS, null, null, null, null, null, null, null, null);
+                VALID_TAGS, null, null, null);
         String expectedMessage = Date.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
     }
@@ -177,7 +176,7 @@ public class JsonAdaptedOrderTest {
     public void toModelType_nullDate_throwsIllegalValueException() {
         JsonAdaptedOrder order = new JsonAdaptedOrder(VALID_FOOD, VALID_CUSTOMER, VALID_PHONE,
                 VALID_EMAIL, VALID_ADDRESS, null, VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS,
-                VALID_TAGS, null, null, null, null, null, null, null, null);
+                VALID_TAGS, null, null, null);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Date.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
     }
@@ -186,7 +185,7 @@ public class JsonAdaptedOrderTest {
     public void toModelType_invalidCompletionStatus_throwsIllegalValueException() {
         JsonAdaptedOrder order = new JsonAdaptedOrder(VALID_FOOD, VALID_CUSTOMER, VALID_PHONE,
                 VALID_EMAIL, VALID_ADDRESS, VALID_DATE, VALID_PRICE, INVALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS,
-                VALID_TAGS, null, null, null, null, null, null, null, null);
+                VALID_TAGS, null, null, null);
         String expectedMessage = CompletionStatus.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
     }
@@ -196,7 +195,7 @@ public class JsonAdaptedOrderTest {
     public void toModelType_nullCompletionStatus_throwsIllegalValueException() {
         JsonAdaptedOrder order = new JsonAdaptedOrder(VALID_FOOD, VALID_CUSTOMER, VALID_PHONE,
                 VALID_EMAIL, VALID_ADDRESS, VALID_DATE, VALID_PRICE, null, VALID_PAYMENT_STATUS,
-                VALID_TAGS, null, null, null, null, null, null, null, null);
+                VALID_TAGS, null, null, null);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, CompletionStatus.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
     }
@@ -205,7 +204,7 @@ public class JsonAdaptedOrderTest {
     public void toModelType_invalidPaymentStatus_throwsIllegalValueException() {
         JsonAdaptedOrder order = new JsonAdaptedOrder(VALID_FOOD, VALID_CUSTOMER, VALID_PHONE,
                 VALID_EMAIL, VALID_ADDRESS, VALID_DATE, VALID_PRICE, VALID_COMPLETION_STATUS, INVALID_PAYMENT_STATUS,
-                VALID_TAGS, null, null, null, null, null, null, null, null);
+                VALID_TAGS, null, null, null);
         String expectedMessage = PaymentStatus.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
     }
@@ -214,7 +213,7 @@ public class JsonAdaptedOrderTest {
     public void toModelType_nullPaymentStatus_throwsIllegalValueException() {
         JsonAdaptedOrder order = new JsonAdaptedOrder(VALID_FOOD, VALID_CUSTOMER, VALID_PHONE,
                 VALID_EMAIL, VALID_ADDRESS, VALID_DATE, VALID_PRICE, VALID_COMPLETION_STATUS, null,
-                VALID_TAGS, null, null, null, null, null, null, null, null);
+                VALID_TAGS, null, null, null);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, PaymentStatus.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, order::toModelType);
     }
@@ -234,7 +233,7 @@ public class JsonAdaptedOrderTest {
         Order result = adapted.toModelType();
         assertEquals(orderWithPayment, result);
         assertTrue(result.getPaymentInfo().isPresent());
-        assertEquals(PaymentType.PAYNOW, result.getPaymentInfo().get().getType());
+        assertEquals(PaymentInfo.METHOD_PAYNOW, result.getPaymentInfo().get().getMethod());
         assertEquals("+65 91234567", result.getPaymentInfo().get().getHandle());
     }
 
@@ -247,27 +246,6 @@ public class JsonAdaptedOrderTest {
     }
 
     @Test
-    public void toModelType_legacyCardType_mapsToBank() throws Exception {
-        JsonAdaptedOrder order = new JsonAdaptedOrder(
-                VALID_FOOD, VALID_CUSTOMER, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_DATE,
-                VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, VALID_TAGS,
-                "CARD", null, null, "4321", null, null, null, null);
-        Order result = order.toModelType();
-        assertEquals(PaymentType.BANK, result.getPaymentInfo().get().getType());
-        assertEquals("4321", result.getPaymentInfo().get().getReferenceNumber());
-    }
-
-    @Test
-    public void toModelType_legacyEWalletType_mapsToBank() throws Exception {
-        JsonAdaptedOrder order = new JsonAdaptedOrder(
-                VALID_FOOD, VALID_CUSTOMER, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_DATE,
-                VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, VALID_TAGS,
-                "EWALLET", null, null, null, null, "GrabPay", "user@grab.com", null);
-        Order result = order.toModelType();
-        assertEquals(PaymentType.BANK, result.getPaymentInfo().get().getType());
-    }
-
-    @Test
     public void toModelType_validCashPayment_roundTrips() throws Exception {
         PaymentInfo cash = PaymentInfo.cash();
         Order orderWithPayment = new OrderBuilder(BENSON).withPaymentInfo(cash).build();
@@ -276,11 +254,11 @@ public class JsonAdaptedOrderTest {
     }
 
     @Test
-    public void toModelType_corruptedPaymentType_throwsIllegalValueException() {
+    public void toModelType_corruptedPaymentMethod_throwsIllegalValueException() {
         JsonAdaptedOrder order = new JsonAdaptedOrder(
                 VALID_FOOD, VALID_CUSTOMER, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_DATE,
                 VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, VALID_TAGS,
-                INVALID_PAYMENT_TYPE, null, null, null, null, null, null, null);
+                INVALID_PAYMENT_METHOD, null, null);
         assertThrows(IllegalValueException.class, order::toModelType);
     }
 
@@ -297,9 +275,10 @@ public class JsonAdaptedOrderTest {
         JsonAdaptedOrder order = new JsonAdaptedOrder(
                 VALID_FOOD, VALID_CUSTOMER, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_DATE,
                 VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, VALID_TAGS,
-                null, null, null, null, null, null, null, null);
+                null, null, null);
         Order result = order.toModelType();
         assertEquals(new Quantity(1), result.getQuantity());
     }
 
 }
+

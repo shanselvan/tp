@@ -27,7 +27,6 @@ import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.DietTag;
 import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.PaymentInfo;
-import seedu.homechef.model.order.PaymentType;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Quantity;
 
@@ -192,7 +191,7 @@ public class ParserUtilTest {
         Optional<PaymentInfo> result = ParserUtil.parsePaymentInfo(
                 Optional.empty(), Optional.empty(), Optional.of(""));
         assertTrue(result.isPresent());
-        assertEquals(PaymentType.CASH, result.get().getType());
+        assertEquals(PaymentInfo.METHOD_CASH, result.get().getMethod());
     }
 
     @Test
@@ -200,7 +199,7 @@ public class ParserUtilTest {
         Optional<PaymentInfo> result = ParserUtil.parsePaymentInfo(
                 Optional.empty(), Optional.of("+65 91234567"), Optional.empty());
         assertTrue(result.isPresent());
-        assertEquals(PaymentType.PAYNOW, result.get().getType());
+        assertEquals(PaymentInfo.METHOD_PAYNOW, result.get().getMethod());
         assertEquals("+65 91234567", result.get().getHandle());
     }
 
@@ -209,7 +208,7 @@ public class ParserUtilTest {
         Optional<PaymentInfo> result = ParserUtil.parsePaymentInfo(
                 Optional.of("REF123"), Optional.empty(), Optional.empty());
         assertTrue(result.isPresent());
-        assertEquals(PaymentType.BANK, result.get().getType());
+        assertEquals(PaymentInfo.METHOD_BANK, result.get().getMethod());
         assertEquals("REF123", result.get().getReferenceNumber());
     }
 

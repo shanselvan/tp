@@ -21,7 +21,7 @@ Order *--> Email
 Order *--> Address
 Order *--> Date
 Order *--> Price
-Order *--> PaymentType
+Order *--> PaymentInfo
 Order *--> CompletionStatus
 Order *--> PaymentStatus
 @enduml

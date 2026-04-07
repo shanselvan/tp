@@ -9,54 +9,39 @@ import org.junit.jupiter.api.Test;
 
 public class PaymentInfoTest {
     @Test
-    public void fromType_cash_success() {
-        PaymentInfo info = PaymentInfo.fromType(PaymentType.CASH);
-        assertEquals(PaymentType.CASH, info.getType());
+    public void fromStorageFields_cash_success() {
+        PaymentInfo info = PaymentInfo.fromStorageFields("CASH", null);
+        assertEquals(PaymentInfo.METHOD_CASH, info.getMethod());
         assertEquals("CASH", info.toString());
     }
 
     @Test
-    public void fromType_bank_success() {
-        PaymentInfo info = PaymentInfo.fromType(PaymentType.BANK);
-        assertEquals(PaymentType.BANK, info.getType());
-        assertEquals("BANK", info.toString());
-    }
-
-    @Test
-    public void fromType_payNow_throwsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> PaymentInfo.fromType(PaymentType.PAYNOW));
-    }
-
-    @Test
-    public void factories_success() {
-        assertEquals(PaymentType.CASH, PaymentInfo.cash().getType());
-        assertEquals(PaymentType.PAYNOW, PaymentInfo.payNow("alice@paynow").getType());
-        assertEquals("BANK", PaymentInfo.bank().toString());
-        assertEquals("BANK (ref: REF123)", PaymentInfo.bank("REF123").toString());
-    }
-
-    @Test
-    public void fromLegacyFields_payNow_success() {
-        PaymentInfo info = PaymentInfo.fromLegacyFields(PaymentType.PAYNOW, "+65 91234567",
-                null, null, null, null, null);
-        assertEquals(PaymentType.PAYNOW, info.getType());
+    public void fromStorageFields_payNow_success() {
+        PaymentInfo info = PaymentInfo.fromStorageFields("PAYNOW", "+65 91234567");
+        assertEquals(PaymentInfo.METHOD_PAYNOW, info.getMethod());
         assertEquals("PAYNOW (handle: +65 91234567)", info.toString());
     }
 
     @Test
-    public void fromLegacyFields_bankFallbacks_success() {
-        assertEquals("REF123", PaymentInfo.fromLegacyFields(
-                PaymentType.BANK, null, "DBS", "REF123", null, null, null).getReferenceNumber());
-        assertEquals("4321", PaymentInfo.fromLegacyFields(
-                PaymentType.BANK, null, null, null, "4321", null, null).getReferenceNumber());
-        assertEquals("GrabPay user@grab.com", PaymentInfo.fromLegacyFields(
-                PaymentType.BANK, null, null, null, null, "GrabPay", "user@grab.com").getReferenceNumber());
+    public void fromStorageFields_bank_success() {
+        PaymentInfo info = PaymentInfo.fromStorageFields("BANK", "REF123");
+        assertEquals(PaymentInfo.METHOD_BANK, info.getMethod());
+        assertEquals("REF123", info.getReferenceNumber());
     }
 
     @Test
-    public void fromLegacyFields_failures() {
-        assertThrows(IllegalArgumentException.class, () -> PaymentInfo.fromLegacyFields(
-                PaymentType.PAYNOW, null, null, null, null, null, null));
+    public void fromStorageFields_failures() {
+        assertThrows(IllegalArgumentException.class, () -> PaymentInfo.fromStorageFields(null, null));
+        assertThrows(IllegalArgumentException.class, () -> PaymentInfo.fromStorageFields("CRYPTO", null));
+        assertThrows(IllegalArgumentException.class, () -> PaymentInfo.fromStorageFields("PAYNOW", "   "));
+    }
+
+    @Test
+    public void factories_success() {
+        assertEquals(PaymentInfo.METHOD_CASH, PaymentInfo.cash().getMethod());
+        assertEquals(PaymentInfo.METHOD_PAYNOW, PaymentInfo.payNow("alice@paynow").getMethod());
+        assertEquals("BANK", PaymentInfo.bank().toString());
+        assertEquals("BANK (ref: REF123)", PaymentInfo.bank("REF123").toString());
     }
 
     @Test

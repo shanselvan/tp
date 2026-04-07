@@ -34,8 +34,8 @@ public final class BankPayment implements PaymentInfo {
     }
 
     @Override
-    public PaymentType getType() {
-        return PaymentType.BANK;
+    public String getMethod() {
+        return METHOD_BANK;
     }
 
     @Override
@@ -57,6 +57,6 @@ public final class BankPayment implements PaymentInfo {
 
     @Override
     public int hashCode() {
-        return Objects.hash(PaymentType.BANK, reference);
+        return Objects.hash(METHOD_BANK, reference);
     }
 }

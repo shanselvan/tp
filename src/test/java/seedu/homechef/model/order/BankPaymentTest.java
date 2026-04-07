@@ -12,7 +12,7 @@ public class BankPaymentTest {
     @Test
     public void constructor_noReference_success() {
         BankPayment payment = new BankPayment();
-        assertEquals(PaymentType.BANK, payment.getType());
+        assertEquals(PaymentInfo.METHOD_BANK, payment.getMethod());
         assertEquals(null, payment.getReferenceNumber());
         assertEquals("BANK", payment.toString());
     }

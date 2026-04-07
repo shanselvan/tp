@@ -6,8 +6,8 @@ package seedu.homechef.model.order;
 public final class CashPayment implements PaymentInfo {
 
     @Override
-    public PaymentType getType() {
-        return PaymentType.CASH;
+    public String getMethod() {
+        return METHOD_CASH;
     }
 
     @Override
@@ -22,6 +22,6 @@ public final class CashPayment implements PaymentInfo {
 
     @Override
     public int hashCode() {
-        return PaymentType.CASH.hashCode();
+        return METHOD_CASH.hashCode();
     }
 }
