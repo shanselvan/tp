@@ -9,6 +9,8 @@ title: Developer Guide
 
 ## **Acknowledgements**
 
+* This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
+* Libraries used: [JavaFX](https://openjfx.io/), [Jackson](https://github.com/FasterXML/jackson), [JUnit5](https://github.com/junit-team/junit5)
 * {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
 
 --------------------------------------------------------------------------------------------------------------------
@@ -155,6 +157,28 @@ Classes used by multiple components are in the `seedu.homechef.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Add and Edit commands: Interactions between Order List and Menu
+
+The app has both an order list and a menu. When adding or editing an order, the app will thus refer to the current menu for information regarding the order.
+1. The app checks if the input food name in the order matches that of a food in the current menu.
+2. The app automatically calculates the total price of an order using the `quantity` field in the given order and the `price` field of matching food item in the menu.
+
+### Automatic date formatting
+
+The app automatically formats the date field of the orders, colouring the text red when overdue, orange when urgent and white when normal.
+1. When `OrderListPanel` is initialised, it has the filtered `OrderList` information provided by `logic`.
+2. The `OrderListPanel` uses the given filtered `OrderList` information to create `OrderCard`s.
+3. `OrderCard` is initialised using the `Order` information in the filtered `OrderList`.
+4. `OrderCard` uses the `model` `Date`'s method `getUrgency` to obtain a String representation of the order's date's urgency.
+5. Upon calling `getUrgency`, the `Date` field compares the current date with its own date and the specified `URGENCY_PERIOD`. `URGENCY_PERIOD` is a constant of 3 days for the current iteration of HomeChef-Helper.
+   1. If its own date is before the current date, it returns `"Overdue"`.
+   2. If its own date is after the current date, but within the `URGENCY_PERIOD` of days past the current date, it returns `"Urgent"`.
+   3. If its own date is after the `URGENCY_PERIOD` of days past the current date, it returns `"Normal"`.
+6. The `OrderCard` then colours the display text of the `Date` depending on the String it obtains.
+   1. The text is red if it obtains `"Overdue"`.
+   2. The text is orange if it obtains `"Urgent"`.
+   3. The text is white if it obtains `"Normal"`.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Documentation, logging, testing, configuration, dev-ops**
@@ -222,14 +246,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 (For all use cases below, the **System** is the `HomeChef Helper` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: UC01 - Delete a customer**
+**Use case: UC01 - Delete an order**
 
 **MSS**
 
-1. User requests to list customers.
-2. System shows a list of customers.
-3. User requests to delete a specific customer in the list.
-4. System deletes the customer.
+1. User requests to list orders.
+2. System shows a list of orders.
+3. User requests to delete a specific order in the list.
+4. System deletes the order.
 
    Use case ends.
 
@@ -245,12 +269,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
-**Use case: UC02 - Add an order for an existing customer**
+**Use case: UC02 - Add an order**
 
 **MSS**
 
-1. User searches for the customer (UC04).
-2. User requests to add an order for a specific customer in the results.
+1. User searches menu for a valid food item.
+2. User requests to add an order of the given food item.
 3. System requests for order details.
 4. User enters the requested details.
 5. System saves the order and displays the updated order list.
@@ -259,7 +283,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 
-* 2a. The given index is invalid.
+* 2a. The given food item is invalid.
 
     * 2a1. System shows an error message.
 
@@ -274,7 +298,32 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes from step 5.
 
-**Use case: UC03 - Mark an order as paid**
+**Use case: UC03 - Edit an order**
+
+**MSS**
+
+1. User requests to list orders.
+2. System shows a list of orders.
+3. User requests to edit a specific order's information.
+4. System requests for updated order details.
+5. User enters the requested details.
+6. System updates the order and displays the updated order.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. System shows an error message.
+
+      Use case resumes at step 2.
+
+**Use case: UC04 - Mark an order as paid**
 
 **MSS**
 
@@ -299,28 +348,28 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3b. The order is already marked as paid.
 
-    * 3b1. System shows a message indicating the order is already paid.
+    * 3b1. System still marks the order as paid.
 
       Use case ends.
 
-**Use case: UC04 - Search for a customer by name**
+**Use case: UC05 - Search for an order by customer name**
 
 **MSS**
 
 1. User requests to filter orders by customer name.
-2. System shows a list of customers matching the search term.
+2. System shows a list of orders matching the search term.
 
    Use case ends.
 
 **Extensions**
 
-* 2a. No customers match the search term.
+* 2a. No orders match the search term.
 
-    * 2a1. System shows a message indicating no results found.
+    * 2a1. System shows an empty list indicating no results found.
 
       Use case ends.
 
-**Use case: UC05 - Update order completion status**
+**Use case: UC06 - Update order completion status**
 
 **MSS**
 
@@ -349,6 +398,98 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 3.
 
+**Use case: UC07 - Add an item to the menu**
+
+**MSS**
+
+1. User requests to add a menu item.
+2. System requests for menu item details.
+3. User enters the requested details.
+4. System saves the menu item and displays the updated menu.
+
+   Use case ends.
+
+**Extensions**
+
+* 3a. A menu item of the same name exists.
+
+    * 3a1. System shows an error message.
+
+        Use case resumes at step 2.
+
+* 3b. The given menu item details are invalid.
+
+    * 3b1. System shows an error message.
+
+      Use case resumes at step 2.
+
+**Use case: UC08 - Delete an item from the menu**
+
+**MSS**
+
+1. System shows a list of menu items.
+2. User requests to delete a specific item in the menu.
+3. System deletes the menu item.
+
+   Use case ends.
+
+**Extensions**
+
+* 1a. The list is empty.
+
+  Use case ends.
+
+* 2a. The given index is invalid.
+
+    * 2a1. System shows an error message.
+
+      Use case resumes at step 1.
+
+**Use case: UC09 - Mark a menu item as unavailable**
+
+**MSS**
+
+1. System shows a list of menu items.
+2. User requests to mark a specific item in the menu as unavailable.
+3. System saves the updated item and shows an updated menu.
+
+   Use case ends.
+
+**Extensions**
+
+* 1a. The list is empty.
+
+  Use case ends.
+
+* 2a. The given index is invalid.
+
+    * 2a1. System shows an error message.
+
+      Use case resumes at step 1.
+
+**Use case: UC10 - Edit a menu item**
+
+**MSS**
+
+1. System shows a list of menu items.
+2. User requests to edit a specific menu item.
+3. System requests for updated menu item details.
+4. User enters the requested details.
+5. System saves the menu item and displays the updated menu.
+
+   Use case ends.
+
+**Extensions**
+
+* 1a. The list is empty.
+
+  Use case ends.
+
+* 2a. The given index is invalid.
+
+    * 2a1. System shows an error message.
+
+      Use case resumes at step 1.
 
 *{More to be added}*
 
@@ -376,6 +517,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Payment Status**: Whether an order has been paid for. Possible states are: Paid, Unpaid, Partially Paid.
 * **Completion Status**: Whether an order has been finished and delivered. Possible states are: Pending, In Progress, Completed.
 * **Menu**: A set of food items which a Customer can select and make a purchase from.
+* **Menu Item**: An entry in the menu that represents a food item that a Customer can purchase.
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -429,10 +571,10 @@ testers are expected to do more *exploratory* testing.
    1. Prerequisites: List all orders using the `list` command. Multiple orders in the list.
 
    1. Test case: `delete 1`<br>
-      Expected: First order is deleted from the list. Details of the deleted order shown in the status message. Timestamp in the status bar is updated.
+      Expected: First order is deleted from the list. Details of the deleted order shown in the status message.
 
    1. Test case: `delete 0`<br>
-      Expected: No order is deleted. Error details shown in the status message. Status bar remains the same.
+      Expected: No order is deleted. Error details shown in the status message.
 
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
@@ -441,19 +583,70 @@ testers are expected to do more *exploratory* testing.
 
     1. Prerequisites: Have multiple orders with a common character or word in the food name such as "cake". List all orders using the `list f/FOOD` command. `FOOD` refers to the common food name the orders have.
 
-    1. Test case: `delete 2`<br>
-       Expected: First order is deleted from the filtered list. Details of the deleted order shown in the status message. Timestamp in the status bar is updated. Switching back to the original unfiltered list using `list` should also show that the order of the same information is deleted, though it may not be of the same index as in the filtered list.
+    1. Test case: `delete 1`<br>
+       Expected: First order is deleted from the filtered list. Details of the deleted order shown in the status message. Switching back to the original unfiltered list using `list` should also show that the order of the same information is deleted, though it may not be of the same index as in the filtered list.
 
     1. Test case: `delete 0`<br>
-       Expected: No order is deleted. Error details shown in the status message. Status bar remains the same.
+       Expected: No order is deleted. Error details shown in the status message.
 
     1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
        Expected: Similar to previous.
 
-### Saving data
+### Deleting a menu item
 
-1. Dealing with missing/corrupted data files
+1. Deleting a menu item
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+    1. Prerequisites: Multiple menu items present in the menu.
+
+    1. Test case: `delete-menu 1`<br>
+       Expected: First menu item is deleted from the menu. Details of the deleted menu item shown in the status message.
+
+    1. Test case: `delete-menu 0`<br>
+       Expected: No menu item is deleted. Error details shown in the status message.
+
+    1. Other incorrect delete commands to try: `delete-menu`, `delete-menu x`, `...` (where x is larger than the menu size)<br>
+       Expected: Similar to previous.
+
+
+### Saving and loading data
+
+1. Dealing with corrupted data files
+
+   1. Prerequisites: In the `data` folder, have a `homechef.json` file or `menu.json` file. Have at least 1 entry in the `homechef.json` file or the `menu.json` file.
+
+   1. Test case: Open the respective `homechef.json` file or `menu.json` file and modify an existing order or menu item such that any of their mandatory fields contain an `empty string`, meaning a pair of inverted commas with no characters in between as such: `""`. Start up HomeChef-Helper.<br>
+      Expected: The respective order list or menu will appear blank in the UI when HomeChef-Helper is started up again. Upon `exit`, the respective `.json` files will contain no orders or menu items.
+
+   1. Test case: Modify an existing order or menu item such that any of their mandatory fields contain a `blank string`, a pair of inverted commas with whitespace in between: `" "`. Start up HomeChef-Helper.<br>
+      Expected: Similar to previous.
+
+   1. Other corruptions to try: Deleting an entire mandatory field of an entry in one of the `.json` files, inserting non-English characters like Chinese or Japanese into fields in the `.json` file, modify an existing order or menu item such that any of their fields contain a non-alphanumeric character (e.g. `!`, `@`, `#`, any character that is not a letter or a number).<br>
+      Expected: Similar to previous.
+
+1. Dealing with missing data files
+
+    1. Prerequisites: Have an existing `homechef.json` file or `menu.json` file in the `data` folder.
+
+    1. Test case: Open the `data` folder and delete the files inside. Start up HomeChef-Helper.<br>
+       Expected: The initial sample order list and menu will appear in the UI when HomeChef-Helper is started up again. Upon `exit`, the `homechef.json` and `menu.json` files will appear again in the `data` folder, with the sample entries.
+
+    1. Test case: Open the `data` folder, cut and paste the contained files elsewhere in the computer. Start up HomeChef-Helper.<br>
+       Expected: Similar to previous.
+
+    1. Other missing file cases to try: Moving the files to the parent folder of the `data` folder, moving the files to another folder outside the `data` folder but in the same parent folder, moving the files to a folder located **inside** the `data` folder.<br>
+       Expected: Similar to previous.
+
+1. Restoring/transferring data files
+
+   1. Prerequisites: Have a valid uncorrupted `homechef.json` file or `menu.json` file containing at least 1 entry. This file should be located outside of the directory the HomeChef-Helper files are located in. We shall refer to these files as the external files.
+
+   1. Test case: With existing entries in the current save file(s), copy and paste the external files into the `data` folder, replacing the existing `homechef.json` or `menu.json` files. The replaced files should be named the same exactly. Start up HomeChef-Helper.<br>
+      Expected: The respective order list or menu will show the orders and/or menu items of external files. No errors should occur, even if the orders' food name and the menu items are mismatched.
+
+   1. Test case: Test with other forms of existing data files, such as a blank order list and menu file, and an empty `data` folder with no data files.<br>
+      Expected: Similar to previous.
+
+   1. Test case: With existing entries in the current save file(s), copy and paste the external files into the `data` folder. The external files should be named the same differently from the already existing `homechef.json` and `menu.json` files. Start up HomeChef-Helper.<br>
+      Expected: The respective order list or menu will show the orders and/or menu items of the existing files, not the external files. No errors should occur, and modifying the order list and menu through commands like `add` and `delete` will only affect the existing files and not the imported external files.
 
 1. _{ more test cases …​ }_
