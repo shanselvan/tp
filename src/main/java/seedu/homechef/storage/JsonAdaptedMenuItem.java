@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import seedu.homechef.commons.exceptions.IllegalValueException;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
+import seedu.homechef.model.menu.Availability;
 import seedu.homechef.model.menu.MenuItem;
 
 /**
@@ -17,7 +18,7 @@ class JsonAdaptedMenuItem {
 
     private final String name;
     private final String price;
-    private final Boolean available;
+    private final String availability;
 
     /**
      * Constructs a {@code JsonAdaptedMenuItem} with the given menu item details.
@@ -25,10 +26,10 @@ class JsonAdaptedMenuItem {
     @JsonCreator
     public JsonAdaptedMenuItem(@JsonProperty("name") String name,
                                @JsonProperty("price") String price,
-                               @JsonProperty("available") Boolean available) {
+                               @JsonProperty("availability") String availability) {
         this.name = name;
         this.price = price;
-        this.available = available;
+        this.availability = availability;
     }
 
     /**
@@ -37,7 +38,7 @@ class JsonAdaptedMenuItem {
     public JsonAdaptedMenuItem(MenuItem source) {
         name = source.getFood().toString();
         price = source.getPrice().toString();
-        available = source.isAvailable();
+        availability = source.getAvailability().toInputValue();
     }
 
     /**
@@ -62,7 +63,18 @@ class JsonAdaptedMenuItem {
             throw new IllegalValueException(Price.MESSAGE_CONSTRAINTS);
         }
 
-        boolean isAvailable = available == null ? true : available;
-        return new MenuItem(new Food(name), new Price(price), isAvailable);
+        if (availability == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Availability.class.getSimpleName()));
+        }
+
+        final Availability modelAvailability;
+        try {
+            modelAvailability = Availability.fromString(availability);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalValueException("Invalid availability value: " + availability);
+        }
+
+        return new MenuItem(new Food(name), new Price(price), modelAvailability);
     }
 }

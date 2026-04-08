@@ -17,6 +17,7 @@ import seedu.homechef.logic.commands.exceptions.CommandException;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
+import seedu.homechef.model.menu.Availability;
 import seedu.homechef.model.menu.MenuItem;
 
 /**
@@ -33,9 +34,9 @@ public class EditMenuCommand extends Command {
             + "[" + PREFIX_FOOD + "NAME] "
             + "[" + PREFIX_PRICE + "PRICE] "
             + "[" + PREFIX_AVAILABILITY + "AVAILABILITY]\n"
-            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_PRICE + "6.00 " + PREFIX_AVAILABILITY + "false";
+            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_PRICE + "6.00 " + PREFIX_AVAILABILITY + "no";
 
-    public static final String MESSAGE_EDIT_MENU_ITEM_SUCCESS = "Edited menu item: %1$s $%2$s (available: %3$s)";
+    public static final String MESSAGE_EDIT_MENU_ITEM_SUCCESS = "Edited menu item: %1$s $%2$s (availability: %3$s)";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_MENU_ITEM =
             "A menu item with this name already exists in the menu";
@@ -74,7 +75,7 @@ public class EditMenuCommand extends Command {
         return new CommandResult(String.format(MESSAGE_EDIT_MENU_ITEM_SUCCESS,
                 editedMenuItem.getFood(),
                 editedMenuItem.getPrice().toString(),
-                editedMenuItem.isAvailable()));
+                editedMenuItem.getAvailability()));
     }
 
     /**
@@ -87,8 +88,9 @@ public class EditMenuCommand extends Command {
 
         Food updatedName = editMenuDescriptor.getName().orElse(menuItemToEdit.getFood());
         Price updatedPrice = editMenuDescriptor.getPrice().orElse(menuItemToEdit.getPrice());
-        boolean updatedAvailable = editMenuDescriptor.getAvailable().orElse(menuItemToEdit.isAvailable());
-        return new MenuItem(updatedName, updatedPrice, updatedAvailable);
+        Availability updatedAvailability = editMenuDescriptor.getAvailability().orElse(
+                menuItemToEdit.getAvailability());
+        return new MenuItem(updatedName, updatedPrice, updatedAvailability);
     }
 
     @Override
@@ -122,7 +124,7 @@ public class EditMenuCommand extends Command {
     public static class EditMenuDescriptor {
         private Food name;
         private Price price;
-        private Boolean available;
+        private Availability availability;
 
         /**
          * Creates an empty {@code EditMenuDescriptor}.
@@ -136,14 +138,14 @@ public class EditMenuCommand extends Command {
         public EditMenuDescriptor(EditMenuDescriptor toCopy) {
             setName(toCopy.name);
             setPrice(toCopy.price);
-            setAvailable(toCopy.available);
+            setAvailability(toCopy.availability);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, price, available);
+            return CollectionUtil.isAnyNonNull(name, price, availability);
         }
 
         /**
@@ -177,15 +179,15 @@ public class EditMenuCommand extends Command {
         /**
          * Sets the availability to edit.
          */
-        public void setAvailable(Boolean available) {
-            this.available = available;
+        public void setAvailability(Availability availability) {
+            this.availability = availability;
         }
 
         /**
          * Returns the availability to edit, if any.
          */
-        public Optional<Boolean> getAvailable() {
-            return Optional.ofNullable(available);
+        public Optional<Availability> getAvailability() {
+            return Optional.ofNullable(availability);
         }
 
         @Override
@@ -202,7 +204,7 @@ public class EditMenuCommand extends Command {
             EditMenuDescriptor otherDesc = (EditMenuDescriptor) other;
             return Objects.equals(name, otherDesc.name)
                     && Objects.equals(price, otherDesc.price)
-                    && Objects.equals(available, otherDesc.available);
+                    && Objects.equals(availability, otherDesc.availability);
         }
 
         @Override
@@ -210,7 +212,7 @@ public class EditMenuCommand extends Command {
             return new ToStringBuilder(this)
                     .add("name", name)
                     .add("price", price)
-                    .add("available", available)
+                    .add("availability", availability)
                     .toString();
         }
     }

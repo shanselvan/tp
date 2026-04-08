@@ -13,17 +13,18 @@ import seedu.homechef.logic.Messages;
 import seedu.homechef.logic.commands.AddMenuCommand;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
+import seedu.homechef.model.menu.Availability;
 import seedu.homechef.model.menu.MenuItem;
 
 public class AddMenuCommandParserTest {
 
     private static final String VALID_NAME = "Chicken Rice";
     private static final String VALID_PRICE = "5.50";
-    private static final String VALID_AVAILABILITY = "true";
-    private static final String VALID_UNAVAILABLE = "false";
+    private static final String VALID_AVAILABILITY = "yes";
+    private static final String VALID_UNAVAILABLE = "no";
     private static final String INVALID_NAME = "Chicken Rice&";
     private static final String INVALID_PRICE = "05.50";
-    private static final String INVALID_AVAILABILITY = "yes";
+    private static final String INVALID_AVAILABILITY = "maybe";
 
     private static final String NAME_DESC = " " + PREFIX_FOOD + VALID_NAME;
     private static final String PRICE_DESC = " " + PREFIX_PRICE + VALID_PRICE;
@@ -39,21 +40,21 @@ public class AddMenuCommandParserTest {
     @Test
     public void parse_allFieldsPresent_success() {
         // EP: all required fields present with a valid explicit availability value.
-        MenuItem expectedMenuItem = new MenuItem(new Food(VALID_NAME), new Price(VALID_PRICE), true);
+        MenuItem expectedMenuItem = new MenuItem(new Food(VALID_NAME), new Price(VALID_PRICE), Availability.YES);
         assertParseSuccess(parser, NAME_DESC + PRICE_DESC + AVAILABILITY_DESC, new AddMenuCommand(expectedMenuItem));
     }
 
     @Test
     public void parse_optionalAvailabilityMissing_defaultsToTrue() {
         // EP: optional availability omitted, so parser should fall back to the default available state.
-        MenuItem expectedMenuItem = new MenuItem(new Food(VALID_NAME), new Price(VALID_PRICE), true);
+        MenuItem expectedMenuItem = new MenuItem(new Food(VALID_NAME), new Price(VALID_PRICE), Availability.YES);
         assertParseSuccess(parser, NAME_DESC + PRICE_DESC, new AddMenuCommand(expectedMenuItem));
     }
 
     @Test
     public void parse_validFalseAvailability_success() {
         // EP: valid explicit unavailable state.
-        MenuItem expectedMenuItem = new MenuItem(new Food(VALID_NAME), new Price(VALID_PRICE), false);
+        MenuItem expectedMenuItem = new MenuItem(new Food(VALID_NAME), new Price(VALID_PRICE), Availability.NO);
         assertParseSuccess(parser, NAME_DESC + PRICE_DESC + UNAVAILABLE_DESC, new AddMenuCommand(expectedMenuItem));
     }
 
@@ -81,7 +82,7 @@ public class AddMenuCommandParserTest {
 
     @Test
     public void parse_invalidAvailability_failureShowsFieldSpecificMessage() {
-        // EP: availability accepts only true/false, so arbitrary text should fail with the field-specific message.
+        // EP: availability accepts only enum names, so arbitrary text should fail with the field-specific message.
         assertParseFailure(parser, NAME_DESC + PRICE_DESC + INVALID_AVAILABILITY_DESC,
                 ParserUtil.MESSAGE_INVALID_AVAILABILITY);
     }

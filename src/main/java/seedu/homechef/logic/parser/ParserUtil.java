@@ -12,6 +12,7 @@ import seedu.homechef.commons.util.StringUtil;
 import seedu.homechef.logic.parser.exceptions.ParseException;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
+import seedu.homechef.model.menu.Availability;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.BankPayment;
 import seedu.homechef.model.order.CashPayment;
@@ -30,7 +31,8 @@ import seedu.homechef.model.order.Quantity;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
-    public static final String MESSAGE_INVALID_AVAILABILITY = "Availability must be 'true' or 'false'.";
+    public static final String MESSAGE_INVALID_AVAILABILITY =
+            "Availability must be one of: yes, no.";
     public static final String MESSAGE_MULTIPLE_PAYMENT_PREFIXES =
             "Only one payment prefix may be provided: bank/, paynow/, or cash/.";
     public static final String MESSAGE_CASH_PAYMENT_DOES_NOT_ACCEPT_VALUE =
@@ -305,19 +307,20 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String availability} and returns the boolean value.
+     * Parses a {@code String availability} and returns the enum value.
      *
      * @param availability Availability string to parse
      * @return The parsed availability value.
-     * @throws ParseException if the value is not "true" or "false" (case-insensitive)
+     * @throws ParseException if the value is invalid.
      */
-    public static boolean parseAvailability(String availability) throws ParseException {
+    public static Availability parseAvailability(String availability) throws ParseException {
         requireNonNull(availability);
-        String trimmed = normalizeWhitespace(availability).toLowerCase();
-        if (!trimmed.equals("true") && !trimmed.equals("false")) {
+        String trimmed = normalizeWhitespace(availability);
+        try {
+            return Availability.fromString(trimmed);
+        } catch (IllegalArgumentException e) {
             throw new ParseException(MESSAGE_INVALID_AVAILABILITY);
         }
-        return trimmed.equals("true");
     }
 }
 

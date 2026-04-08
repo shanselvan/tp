@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import seedu.homechef.model.menu.Availability;
 import seedu.homechef.model.menu.MenuItem;
 
 /**
@@ -45,11 +46,11 @@ public class MenuCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         name.setText(menuItem.getFood().toString());
         price.setText("$" + menuItem.getPrice());
-        if (menuItem.isAvailable()) {
-            availability.setText("Available");
+        if (menuItem.getAvailability() == Availability.YES) {
+            availability.setText(Availability.YES.toString());
             availability.getStyleClass().add("availability_available");
         } else {
-            availability.setText("Unavailable");
+            availability.setText(Availability.NO.toString());
             availability.getStyleClass().add("availability_unavailable");
         }
     }

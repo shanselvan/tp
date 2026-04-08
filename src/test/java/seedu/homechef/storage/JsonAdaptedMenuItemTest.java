@@ -8,45 +8,51 @@ import org.junit.jupiter.api.Test;
 import seedu.homechef.commons.exceptions.IllegalValueException;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
+import seedu.homechef.model.menu.Availability;
 import seedu.homechef.model.menu.MenuItem;
 
 public class JsonAdaptedMenuItemTest {
 
     @Test
     public void toModelType_validFields_success() throws Exception {
-        JsonAdaptedMenuItem adapted = new JsonAdaptedMenuItem("Chicken Rice", "5.50", true);
-        MenuItem expected = new MenuItem(new Food("Chicken Rice"), new Price("5.50"), true);
+        JsonAdaptedMenuItem adapted = new JsonAdaptedMenuItem("Chicken Rice", "5.50", "Yes");
+        MenuItem expected = new MenuItem(new Food("Chicken Rice"), new Price("5.50"), Availability.YES);
         assertEquals(expected, adapted.toModelType());
     }
 
     @Test
     public void toModelType_nullName_throwsIllegalValueException() {
-        JsonAdaptedMenuItem adapted = new JsonAdaptedMenuItem(null, "5.50", true);
+        JsonAdaptedMenuItem adapted = new JsonAdaptedMenuItem(null, "5.50", "Yes");
         assertThrows(IllegalValueException.class, adapted::toModelType);
     }
 
     @Test
     public void toModelType_invalidName_throwsIllegalValueException() {
-        JsonAdaptedMenuItem adapted = new JsonAdaptedMenuItem("", "5.50", true);
+        JsonAdaptedMenuItem adapted = new JsonAdaptedMenuItem("", "5.50", "Yes");
         assertThrows(IllegalValueException.class, adapted::toModelType);
     }
 
     @Test
     public void toModelType_nullPrice_throwsIllegalValueException() {
-        JsonAdaptedMenuItem adapted = new JsonAdaptedMenuItem("Chicken Rice", null, true);
+        JsonAdaptedMenuItem adapted = new JsonAdaptedMenuItem("Chicken Rice", null, "Yes");
         assertThrows(IllegalValueException.class, adapted::toModelType);
     }
 
     @Test
     public void toModelType_invalidPrice_throwsIllegalValueException() {
-        JsonAdaptedMenuItem adapted = new JsonAdaptedMenuItem("Chicken Rice", "0", true);
+        JsonAdaptedMenuItem adapted = new JsonAdaptedMenuItem("Chicken Rice", "0", "Yes");
         assertThrows(IllegalValueException.class, adapted::toModelType);
     }
 
     @Test
-    public void toModelType_nullAvailable_defaultsToTrue() throws Exception {
+    public void toModelType_nullAvailability_throwsIllegalValueException() {
         JsonAdaptedMenuItem adapted = new JsonAdaptedMenuItem("Chicken Rice", "5.50", null);
-        MenuItem result = adapted.toModelType();
-        assertEquals(true, result.isAvailable());
+        assertThrows(IllegalValueException.class, adapted::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidAvailability_throwsIllegalValueException() {
+        JsonAdaptedMenuItem adapted = new JsonAdaptedMenuItem("Chicken Rice", "5.50", "maybe");
+        assertThrows(IllegalValueException.class, adapted::toModelType);
     }
 }

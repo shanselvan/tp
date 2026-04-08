@@ -25,7 +25,7 @@ public class AddMenuCommand extends Command {
             + "\nExample: " + COMMAND_WORD + " "
             + PREFIX_FOOD + "Chicken Rice "
             + PREFIX_PRICE + "5.50 "
-            + PREFIX_AVAILABILITY + "true";
+            + PREFIX_AVAILABILITY + "yes";
 
     public static final String MESSAGE_SUCCESS = "New menu item added: %1$s $%2$s";
     public static final String MESSAGE_DUPLICATE_MENU_ITEM =

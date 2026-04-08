@@ -23,6 +23,7 @@ import seedu.homechef.model.ReadOnlyHomeChef;
 import seedu.homechef.model.ReadOnlyUserPrefs;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
+import seedu.homechef.model.menu.Availability;
 import seedu.homechef.model.menu.MenuItem;
 import seedu.homechef.model.menu.ReadOnlyMenuBook;
 import seedu.homechef.model.order.Order;
@@ -30,9 +31,9 @@ import seedu.homechef.model.order.Order;
 public class EditMenuCommandTest {
 
     private static final MenuItem CHICKEN = new MenuItem(
-            new Food("Chicken Rice"), new Price("5.50"), true);
+            new Food("Chicken Rice"), new Price("5.50"), Availability.YES);
     private static final MenuItem NASI = new MenuItem(
-            new Food("Nasi Goreng"), new Price("6.00"), true);
+            new Food("Nasi Goreng"), new Price("6.00"), Availability.YES);
 
     @Test
     public void execute_editPrice_success() throws Exception {
@@ -43,7 +44,8 @@ public class EditMenuCommandTest {
         CommandResult result = new EditMenuCommand(Index.fromOneBased(1), descriptor).execute(modelStub);
 
         // EP: only price edited; name and availability fall back to original values
-        assertEquals(String.format(EditMenuCommand.MESSAGE_EDIT_MENU_ITEM_SUCCESS, "Chicken Rice", "7.00", true),
+        assertEquals(String.format(EditMenuCommand.MESSAGE_EDIT_MENU_ITEM_SUCCESS,
+                "Chicken Rice", "7.00", Availability.YES),
                 result.getFeedbackToUser());
     }
 
@@ -56,7 +58,8 @@ public class EditMenuCommandTest {
         CommandResult result = new EditMenuCommand(Index.fromOneBased(1), descriptor).execute(modelStub);
 
         // EP: only name edited; other fields unchanged
-        assertEquals(String.format(EditMenuCommand.MESSAGE_EDIT_MENU_ITEM_SUCCESS, "Mee Goreng", "5.50", true),
+        assertEquals(String.format(EditMenuCommand.MESSAGE_EDIT_MENU_ITEM_SUCCESS,
+                "Mee Goreng", "5.50", Availability.YES),
                 result.getFeedbackToUser());
     }
 
@@ -65,11 +68,12 @@ public class EditMenuCommandTest {
         ModelStubWithMenuItemList modelStub = new ModelStubWithMenuItemList(CHICKEN);
 
         EditMenuDescriptor descriptor = new EditMenuDescriptor();
-        descriptor.setAvailable(false);
+        descriptor.setAvailability(Availability.NO);
         CommandResult result = new EditMenuCommand(Index.fromOneBased(1), descriptor).execute(modelStub);
 
         // EP: only availability edited; name and price unchanged
-        assertEquals(String.format(EditMenuCommand.MESSAGE_EDIT_MENU_ITEM_SUCCESS, "Chicken Rice", "5.50", false),
+        assertEquals(String.format(EditMenuCommand.MESSAGE_EDIT_MENU_ITEM_SUCCESS,
+                "Chicken Rice", "5.50", Availability.NO),
                 result.getFeedbackToUser());
     }
 
@@ -133,14 +137,14 @@ public class EditMenuCommandTest {
         EditMenuDescriptor descriptor = new EditMenuDescriptor();
         descriptor.setName(new Food("Chicken Rice"));
         descriptor.setPrice(new Price("5.50"));
-        descriptor.setAvailable(true);
+        descriptor.setAvailability(Availability.YES);
 
         EditMenuCommand command = new EditMenuCommand(Index.fromOneBased(1), descriptor);
 
         String expected = EditMenuCommand.class.getCanonicalName()
                 + "{index=" + Index.class.getCanonicalName() + "{zeroBasedIndex=0}, editMenuDescriptor="
                 + EditMenuDescriptor.class.getCanonicalName()
-                + "{name=Chicken Rice, price=5.50, available=true}}";
+                + "{name=Chicken Rice, price=5.50, availability=Available}}";
 
         // EP: command string representation includes both index and descriptor contents
         assertEquals(expected, command.toString());
@@ -163,14 +167,14 @@ public class EditMenuCommandTest {
         EditMenuDescriptor descriptor = new EditMenuDescriptor();
         descriptor.setName(new Food("Chicken Rice"));
         descriptor.setPrice(new Price("5.50"));
-        descriptor.setAvailable(false);
+        descriptor.setAvailability(Availability.NO);
 
         EditMenuDescriptor copy = new EditMenuDescriptor(descriptor);
 
         // EP: copy constructor preserves every optional field
         assertEquals(descriptor.getName(), copy.getName());
         assertEquals(descriptor.getPrice(), copy.getPrice());
-        assertEquals(descriptor.getAvailable(), copy.getAvailable());
+        assertEquals(descriptor.getAvailability(), copy.getAvailability());
         assertEquals(descriptor, copy);
     }
 
@@ -179,11 +183,11 @@ public class EditMenuCommandTest {
         EditMenuDescriptor descriptor = new EditMenuDescriptor();
         descriptor.setName(new Food("Chicken Rice"));
         descriptor.setPrice(new Price("5.50"));
-        descriptor.setAvailable(true);
+        descriptor.setAvailability(Availability.YES);
 
         EditMenuDescriptor sameDescriptor = new EditMenuDescriptor(descriptor);
         EditMenuDescriptor differentDescriptor = new EditMenuDescriptor();
-        differentDescriptor.setAvailable(false);
+        differentDescriptor.setAvailability(Availability.NO);
 
         // EP: same object -> returns true
         assertTrue(descriptor.equals(descriptor));
@@ -202,10 +206,10 @@ public class EditMenuCommandTest {
         EditMenuDescriptor descriptor = new EditMenuDescriptor();
         descriptor.setName(new Food("Chicken Rice"));
         descriptor.setPrice(new Price("5.50"));
-        descriptor.setAvailable(true);
+        descriptor.setAvailability(Availability.YES);
 
         String expected = EditMenuDescriptor.class.getCanonicalName()
-                + "{name=Chicken Rice, price=5.50, available=true}";
+                + "{name=Chicken Rice, price=5.50, availability=Available}";
 
         // EP: descriptor string representation includes all populated fields
         assertEquals(expected, descriptor.toString());

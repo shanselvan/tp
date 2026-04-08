@@ -9,6 +9,7 @@ import seedu.homechef.model.HomeChef;
 import seedu.homechef.model.ReadOnlyHomeChef;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
+import seedu.homechef.model.menu.Availability;
 import seedu.homechef.model.menu.MenuBook;
 import seedu.homechef.model.menu.MenuItem;
 import seedu.homechef.model.menu.ReadOnlyMenuBook;
@@ -84,12 +85,14 @@ public class SampleDataUtil {
      * Returns sample menu items corresponding to the sample foods.
      */
     public static MenuItem[] getSampleMenuItems() {
-        MenuItem cake = new MenuItem(new Food("Birthday Cake"), new Price("10.50"), true);
-        MenuItem cupcakes = new MenuItem(new Food("Cupcakes (24pcs)"), new Price("10.50"), true);
-        MenuItem cookies = new MenuItem(new Food("Chocolate Chip Cookies (3pcs)"), new Price("10.50"), true);
-        MenuItem assortment = new MenuItem(new Food("Cookies Assortment (50pcs)"), new Price("10.50"), true);
-        MenuItem pie = new MenuItem(new Food("Blueberry Pie"), new Price("10.50"), true);
-        MenuItem bread = new MenuItem(new Food("Sourdough Bread (3pcs)"), new Price("10.50"), true);
+        MenuItem cake = new MenuItem(new Food("Birthday Cake"), new Price("10.50"), Availability.YES);
+        MenuItem cupcakes = new MenuItem(new Food("Cupcakes (24pcs)"), new Price("10.50"), Availability.YES);
+        MenuItem cookies = new MenuItem(new Food("Chocolate Chip Cookies (3pcs)"),
+                new Price("10.50"), Availability.YES);
+        MenuItem assortment = new MenuItem(new Food("Cookies Assortment (50pcs)"),
+                new Price("10.50"), Availability.YES);
+        MenuItem pie = new MenuItem(new Food("Blueberry Pie"), new Price("10.50"), Availability.YES);
+        MenuItem bread = new MenuItem(new Food("Sourdough Bread (3pcs)"), new Price("10.50"), Availability.YES);
         return new MenuItem[]{cake, cupcakes, cookies, assortment, pie, bread};
     }
 

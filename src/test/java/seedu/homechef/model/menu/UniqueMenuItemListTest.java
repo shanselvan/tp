@@ -17,9 +17,9 @@ import seedu.homechef.model.menu.exceptions.MenuItemNotFoundException;
 public class UniqueMenuItemListTest {
 
     private static final MenuItem CHICKEN = new MenuItem(
-            new Food("Chicken Rice"), new Price("5.50"), true);
+            new Food("Chicken Rice"), new Price("5.50"), Availability.YES);
     private static final MenuItem NASI = new MenuItem(
-            new Food("Nasi Goreng"), new Price("6.00"), true);
+            new Food("Nasi Goreng"), new Price("6.00"), Availability.YES);
 
     private final UniqueMenuItemList list = new UniqueMenuItemList();
 
@@ -38,14 +38,14 @@ public class UniqueMenuItemListTest {
     @Test
     public void add_duplicateName_throwsDuplicateMenuItemException() {
         list.add(CHICKEN);
-        MenuItem duplicate = new MenuItem(new Food("Chicken Rice"), new Price("9.00"), false);
+        MenuItem duplicate = new MenuItem(new Food("Chicken Rice"), new Price("9.00"), Availability.NO);
         assertThrows(DuplicateMenuItemException.class, () -> list.add(duplicate));
     }
 
     @Test
     public void add_duplicateNameCaseInsensitive_throwsDuplicateMenuItemException() {
         list.add(CHICKEN);
-        MenuItem duplicate = new MenuItem(new Food("chicken rice"), new Price("5.50"), true);
+        MenuItem duplicate = new MenuItem(new Food("chicken rice"), new Price("5.50"), Availability.YES);
         assertThrows(DuplicateMenuItemException.class, () -> list.add(duplicate));
     }
 
@@ -59,7 +59,7 @@ public class UniqueMenuItemListTest {
     @Test
     public void remove_sameIdentityDifferentFields_success() {
         list.add(CHICKEN);
-        MenuItem sameIdentity = new MenuItem(new Food("Chicken Rice"), new Price("9.00"), false);
+        MenuItem sameIdentity = new MenuItem(new Food("Chicken Rice"), new Price("9.00"), Availability.NO);
 
         list.remove(sameIdentity);
 
@@ -75,7 +75,7 @@ public class UniqueMenuItemListTest {
     @Test
     public void setMenuItem_validEdit_success() {
         list.add(CHICKEN);
-        MenuItem edited = new MenuItem(new Food("Chicken Rice"), new Price("7.00"), true);
+        MenuItem edited = new MenuItem(new Food("Chicken Rice"), new Price("7.00"), Availability.YES);
         list.setMenuItem(CHICKEN, edited);
         assertTrue(list.contains(edited));
     }
@@ -83,14 +83,14 @@ public class UniqueMenuItemListTest {
     @Test
     public void setMenuItem_targetNotFound_throwsMenuItemNotFoundException() {
         assertThrows(MenuItemNotFoundException.class, () -> list.setMenuItem(CHICKEN,
-                new MenuItem(new Food("Chicken Rice"), new Price("7.00"), true)));
+                new MenuItem(new Food("Chicken Rice"), new Price("7.00"), Availability.YES)));
     }
 
     @Test
     public void setMenuItem_editedNameConflicts_throwsDuplicateMenuItemException() {
         list.add(CHICKEN);
         list.add(NASI);
-        MenuItem conflict = new MenuItem(new Food("Nasi Goreng"), new Price("5.50"), true);
+        MenuItem conflict = new MenuItem(new Food("Nasi Goreng"), new Price("5.50"), Availability.YES);
         assertThrows(DuplicateMenuItemException.class, () -> list.setMenuItem(CHICKEN, conflict));
     }
 
@@ -120,7 +120,7 @@ public class UniqueMenuItemListTest {
 
     @Test
     public void setMenuItems_listWithDuplicates_throwsDuplicateMenuItemException() {
-        MenuItem duplicate = new MenuItem(new Food("chicken rice"), new Price("9.00"), false);
+        MenuItem duplicate = new MenuItem(new Food("chicken rice"), new Price("9.00"), Availability.NO);
 
         // EP: replacement list contains duplicate identities
         assertThrows(DuplicateMenuItemException.class, () -> list.setMenuItems(Arrays.asList(CHICKEN, duplicate)));

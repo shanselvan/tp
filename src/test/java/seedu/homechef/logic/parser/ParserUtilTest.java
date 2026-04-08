@@ -1,7 +1,6 @@
 package seedu.homechef.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_BANK_PAYMENT_REQUIRED;
 import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_CASH_PAYMENT_DOES_NOT_ACCEPT_VALUE;
@@ -22,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import seedu.homechef.logic.parser.exceptions.ParseException;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
+import seedu.homechef.model.menu.Availability;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.DietTag;
@@ -237,11 +237,12 @@ public class ParserUtilTest {
 
     @Test
     public void parseAvailability_cases() throws Exception {
-        assertTrue(ParserUtil.parseAvailability("true"));
-        assertFalse(ParserUtil.parseAvailability("false"));
-        assertTrue(ParserUtil.parseAvailability("  TRUE  "));
-        assertFalse(ParserUtil.parseAvailability("  False  "));
-        assertThrows(ParseException.class, () -> ParserUtil.parseAvailability("yes"));
+        assertEquals(Availability.YES, ParserUtil.parseAvailability("yes"));
+        assertEquals(Availability.NO, ParserUtil.parseAvailability("no"));
+        assertEquals(Availability.YES, ParserUtil.parseAvailability("  yEs  "));
+        assertEquals(Availability.NO, ParserUtil.parseAvailability("  nO  "));
+        assertThrows(ParseException.class, () -> ParserUtil.parseAvailability("true"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseAvailability("false"));
     }
 
     @Test

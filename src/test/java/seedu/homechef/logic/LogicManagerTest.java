@@ -33,6 +33,7 @@ import seedu.homechef.model.ReadOnlyHomeChef;
 import seedu.homechef.model.UserPrefs;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
+import seedu.homechef.model.menu.Availability;
 import seedu.homechef.model.menu.MenuBook;
 import seedu.homechef.model.menu.MenuItem;
 import seedu.homechef.model.order.Order;
@@ -106,7 +107,7 @@ public class LogicManagerTest {
 
     @Test
     public void getFilteredMenuItemList_modifyList_throwsUnsupportedOperationException() {
-        model.addMenuItem(new MenuItem(new Food("Chicken Rice"), new Price("5.50"), true));
+        model.addMenuItem(new MenuItem(new Food("Chicken Rice"), new Price("5.50"), Availability.YES));
 
         // EP: returned filtered menu list is unmodifiable
         assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredMenuItemList().remove(0));
@@ -220,7 +221,7 @@ public class LogicManagerTest {
         logic = new LogicManager(model, storage);
 
         // Add "Birthday Cake" to the menu so that AddCommand passes menu validation
-        model.addMenuItem(new MenuItem(new Food("Birthday Cake"), new Price("25.00"), true));
+        model.addMenuItem(new MenuItem(new Food("Birthday Cake"), new Price("25.00"), Availability.YES));
 
         // Triggers the saveHomeChef method by executing an add command
         String addCommand = AddCommand.COMMAND_WORD + FOOD_DESC_AMY + CUSTOMER_DESC_AMY + PHONE_DESC_AMY
@@ -228,7 +229,7 @@ public class LogicManagerTest {
         // price is derived from the menu item ("Birthday Cake" costs "25.00")
         Order expectedOrder = new OrderBuilder(AMY).withTags().withPrice("25.00").build();
         ModelManager expectedModel = new ModelManager();
-        expectedModel.addMenuItem(new MenuItem(new Food("Birthday Cake"), new Price("25.00"), true));
+        expectedModel.addMenuItem(new MenuItem(new Food("Birthday Cake"), new Price("25.00"), Availability.YES));
         expectedModel.addOrder(expectedOrder);
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
     }

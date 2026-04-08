@@ -15,15 +15,16 @@ import seedu.homechef.logic.commands.EditMenuCommand;
 import seedu.homechef.logic.commands.EditMenuCommand.EditMenuDescriptor;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
+import seedu.homechef.model.menu.Availability;
 
 public class EditMenuCommandParserTest {
 
     private static final String VALID_NAME = "Chicken Rice";
     private static final String VALID_PRICE = "5.50";
-    private static final String VALID_AVAILABILITY = "false";
+    private static final String VALID_AVAILABILITY = "no";
     private static final String INVALID_NAME = "Chicken Rice&";
     private static final String INVALID_PRICE = "05.50";
-    private static final String INVALID_AVAILABILITY = "yes";
+    private static final String INVALID_AVAILABILITY = "maybe";
 
     private static final String INDEX_FIRST = "1";
     private static final String NAME_DESC = " " + PREFIX_FOOD + VALID_NAME;
@@ -48,7 +49,7 @@ public class EditMenuCommandParserTest {
         // EP: valid index with valid price and availability edits.
         EditMenuDescriptor descriptor = new EditMenuDescriptor();
         descriptor.setPrice(new Price(VALID_PRICE));
-        descriptor.setAvailable(false);
+        descriptor.setAvailability(Availability.NO);
         assertParseSuccess(parser, INDEX_FIRST + PRICE_DESC + AVAILABILITY_DESC,
                 new EditMenuCommand(INDEX_FIRST_ORDER, descriptor));
     }
@@ -80,7 +81,7 @@ public class EditMenuCommandParserTest {
 
     @Test
     public void parse_invalidAvailability_failureShowsFieldSpecificMessage() {
-        // EP: availability accepts only true/false, so arbitrary text should fail with the field-specific message.
+        // EP: availability accepts only enum names, so arbitrary text should fail with the field-specific message.
         assertParseFailure(parser, INDEX_FIRST + INVALID_AVAILABILITY_DESC,
                 ParserUtil.MESSAGE_INVALID_AVAILABILITY);
     }

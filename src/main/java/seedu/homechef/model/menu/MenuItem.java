@@ -16,16 +16,16 @@ public class MenuItem {
 
     private final Food food;
     private final Price price;
-    private final boolean available;
+    private final Availability availability;
 
     /**
      * All fields must be present and not null.
      */
-    public MenuItem(Food food, Price price, boolean available) {
-        requireAllNonNull(food, price);
+    public MenuItem(Food food, Price price, Availability availability) {
+        requireAllNonNull(food, price, availability);
         this.food = food;
         this.price = price;
-        this.available = available;
+        this.availability = availability;
     }
 
     public Food getFood() {
@@ -36,8 +36,8 @@ public class MenuItem {
         return price;
     }
 
-    public boolean isAvailable() {
-        return available;
+    public Availability getAvailability() {
+        return availability;
     }
 
     /**
@@ -66,12 +66,12 @@ public class MenuItem {
         MenuItem otherItem = (MenuItem) other;
         return food.equals(otherItem.food)
                 && price.equals(otherItem.price)
-                && available == otherItem.available;
+                && availability == otherItem.availability;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(food, price, available);
+        return Objects.hash(food, price, availability);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class MenuItem {
         return new ToStringBuilder(this)
                 .add("name", food)
                 .add("price", price)
-                .add("available", available)
+                .add("availability", availability)
                 .toString();
     }
 }

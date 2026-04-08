@@ -11,6 +11,7 @@ import seedu.homechef.logic.commands.AddMenuCommand;
 import seedu.homechef.logic.parser.exceptions.ParseException;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
+import seedu.homechef.model.menu.Availability;
 import seedu.homechef.model.menu.MenuItem;
 
 /**
@@ -37,12 +38,12 @@ public class AddMenuCommandParser implements Parser<AddMenuCommand> {
 
         Food name = ParserUtil.parseFood(argMultimap.getValue(PREFIX_FOOD).get());
         Price price = ParserUtil.parseMenuPrice(argMultimap.getValue(PREFIX_PRICE).get());
-        boolean available = true;
+        Availability availability = Availability.YES;
         if (argMultimap.getValue(PREFIX_AVAILABILITY).isPresent()) {
-            available = ParserUtil.parseAvailability(argMultimap.getValue(PREFIX_AVAILABILITY).get());
+            availability = ParserUtil.parseAvailability(argMultimap.getValue(PREFIX_AVAILABILITY).get());
         }
 
-        return new AddMenuCommand(new MenuItem(name, price, available));
+        return new AddMenuCommand(new MenuItem(name, price, availability));
     }
 
     /**

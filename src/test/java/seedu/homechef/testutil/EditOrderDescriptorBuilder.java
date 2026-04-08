@@ -14,6 +14,7 @@ import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.Phone;
+import seedu.homechef.model.order.Quantity;
 
 /**
  * A utility class to help with building EditOrderDescriptor objects.
@@ -41,6 +42,7 @@ public class EditOrderDescriptorBuilder {
         descriptor.setEmail(order.getEmail());
         descriptor.setAddress(order.getAddress());
         descriptor.setDate(order.getDate());
+        descriptor.setQuantity(order.getQuantity());
         descriptor.setTags(order.getTags());
         order.getPaymentInfo().ifPresent(descriptor::setPaymentInfo);
     }
@@ -100,6 +102,14 @@ public class EditOrderDescriptorBuilder {
     public EditOrderDescriptorBuilder withTags(String... tags) {
         Set<DietTag> dietTagSet = Stream.of(tags).map(DietTag::new).collect(Collectors.toSet());
         descriptor.setTags(dietTagSet);
+        return this;
+    }
+
+    /**
+     * Sets the {@code Quantity} of the {@code EditOrderDescriptor} that we are building.
+     */
+    public EditOrderDescriptorBuilder withQuantity(int quantity) {
+        descriptor.setQuantity(new Quantity(quantity));
         return this;
     }
 
