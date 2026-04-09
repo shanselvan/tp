@@ -159,7 +159,13 @@ public class Order {
         return otherOrder != null
                 && otherOrder.getFood().equals(getFood())
                 && otherOrder.getCustomer().equals(getCustomer())
-                && otherOrder.getDate().equals(getDate());
+                && otherOrder.getPhone().equals(getPhone())
+                && otherOrder.getEmail().equals(getEmail())
+                && otherOrder.getAddress().equals(getAddress())
+                && otherOrder.getDate().equals(getDate())
+                && otherOrder.getTags().equals(getTags())
+                && otherOrder.getPrice().equals(getPrice())
+                && otherOrder.getQuantity().equals(getQuantity());
     }
 
     /**
