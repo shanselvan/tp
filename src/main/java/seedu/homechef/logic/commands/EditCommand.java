@@ -1,7 +1,6 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.homechef.logic.Messages.MESSAGE_MENU_ITEM_UNAVAILABLE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_BANK_NAME;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_CUSTOMER;
@@ -31,7 +30,6 @@ import seedu.homechef.logic.commands.exceptions.CommandException;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
-import seedu.homechef.model.menu.Availability;
 import seedu.homechef.model.menu.MenuItem;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.CompletionStatus;
@@ -105,11 +103,7 @@ public class EditCommand extends Command {
 
         if (descriptor.getFood().isPresent() || descriptor.getQuantity().isPresent()) {
             String targetFoodName = descriptor.getFood().orElse(orderToEdit.getFood()).toString();
-            MenuItem matchingItem = resolveMenuItem(model.getMenuBook().getMenuItemList(), targetFoodName);
-            if (matchingItem.getAvailability() == Availability.NO) {
-                throw new CommandException(
-                        String.format(MESSAGE_MENU_ITEM_UNAVAILABLE, matchingItem.getFood().toString()));
-            }
+            MenuItem matchingItem = resolveAvailableMenuItem(model.getMenuBook(), targetFoodName);
             String canonicalName = matchingItem.getFood().toString();
             Quantity newQuantity = editedOrder.getQuantity();
             Price totalPrice = new Price(matchingItem.getPrice().toString()).multiply(newQuantity);
