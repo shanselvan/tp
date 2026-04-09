@@ -6,7 +6,7 @@ title: User Guide
 HomeChef-Helper (HomeChef) is a simple, intuitive desktop app for managing orders and payments for any **self-made food
 business owners!**<br>
 From new cooks with no experience managing their orders, to expert home food business owners with extensive knowledge,
-the app helps to **consolidate the order and food information in an easy to read format**, helping you get things done
+the app helps to **consolidate the order and food information in an easy-to-read format**, helping you get things done
 faster!<br>
 With a simple typing interface and a clear order list and food menu, this app is here to help you **manage orders quick
 ** if you can **type fast**.
@@ -34,9 +34,7 @@ With a simple typing interface and a clear order list and food menu, this app is
 
     > 1. Open a command terminal. <br>(Command Prompt or Powershell on Windows, Terminal on Mac)<br>
     > 1. Use the `cd` command to navigate into the folder you put the jar file in.<br> For example:<br>
-
          `cd Desktop/Folder1/FolderContainingHomeChef`<br>
-
     > 1. Type the `java -jar homechef.jar` command to run the application.<br>
 
     If successful, a screen similar to the one below should appear in a few seconds. The app contains some sample data
@@ -79,7 +77,7 @@ With a simple typing interface and a clear order list and food menu, this app is
 
 # Features
 
-<div markdown="block" class="alert alert-info">
+<div markdown="1" class="alert alert-info">
 
 **:information_source: Notes about the command format:**<br>
 
@@ -150,7 +148,7 @@ Format: `add f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE [q/QUANTITY] [t/TAG]
 > Red indicates that the `Order` is late, it was due **_before_** today's date.<br>
 > ![overdue date](images/overdueDate.png)
 
-<div markdown="span" class="alert alert-primary">:bulb:
+<div markdown="1" class="alert alert-primary">:bulb:
 **Notes about the add command:**<br>
 * `FOOD` must match an **existing food's name** in the current menu exactly.
   * Giving an input that is not in the menu will show an error message telling you to `Use 'add-menu' to add it to the menu first.`
@@ -183,7 +181,7 @@ This can be useful for finding orders specific to a certain customer, a certain 
 
 Format: `list [d/DATE] [c/CUSTOMER] [f/FOOD] [p/PHONE] [cs/COMPLETION STATUS] [ps/PAYMENT STATUS]`
 
-<div markdown="span" class="alert alert-primary">:bulb: **Notes about the list command:**<br>
+<div markdown="1" class="alert alert-primary">:bulb: **Notes about the list command:**<br>
 * Lists all orders when no parameters are given.
 * Filters are case-insensitive for `c/`, `f/` and `p/`.
 * `DATE` must be in the format `dd-MM-yyyy`.
@@ -294,7 +292,7 @@ Format:
 `edit INDEX [f/FOOD] [c/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/DATE] [q/QUANTITY] [t/TAG]...
 [bank/BANK_DETAILS] [paynow/PAYNOW_CONTACT] [cash/YES_OR_NO]`
 
-<div markdown="span" class="alert alert-primary">:bulb:
+<div markdown="1" class="alert alert-primary">:bulb:
 **Notes about the edit command:**<br>
 * At least one of the optional fields must be provided.
   * If no fields are provided, a message will appear telling you to provide a field.
@@ -334,7 +332,7 @@ Examples:
 ### Clearing all entries : `clear`
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-This action **cannot be reversed** so only do this if you are sure you want to delete **every** order in the list. <br> If not, use the delete command instead.
+This action **cannot be reversed** so only do this if you are sure you want to delete **every** order in the list. If not, use the delete command instead.
 </div>
 
 Clears all entries from the order list.
@@ -349,14 +347,13 @@ The menu is the list on the right, indicating the food items you have for sale.
 
 The following are the commands that interact with this menu.
 
-<div markdown="block" class="alert alert-info">
+<div markdown="1" class="alert alert-info">
 **:information_source: Notes about the menu:**<br>
 
-- Any modifications to the menu will not affect existing orders.
-  - For example: There is an order with a food name `Birthday Cake`. Deleting or editing `Birthday Cake` in the **menu
-    ** will not affect this existing order.<br>
+* Any modifications to the menu will not affect existing orders.
+  * For example: There is an order with a food name `Birthday Cake`. Deleting or editing `Birthday Cake` in the **menu** will not affect this existing order.<br>
     But **future orders** will not be able to add food called `Birthday Cake` as it now does not exist in the menu.
-  - This is so that you can freely change the menu without affecting past orders. After all, if someone ordered bread
+  * This is so that you can freely change the menu without affecting past orders. After all, if someone ordered bread
     but one year later you switched to cooking noodles, that old order should still be retained for recording
     purposes!
 
@@ -368,7 +365,7 @@ Adds a food item of the given name, price and availability to the menu.
 
 Format: `add-menu n/NAME $/PRICE [v/AVAILABILITY]`
 
-<div markdown="block" class="alert alert-info">
+<div markdown="1" class="alert alert-info">
 **:information_source: Notes about the add-menu command:**<br>
 * `NAME` must be unique, meaning no 2 food items in the menu can share the exact same name. This is **not** case-sensitive, so `birthday cake` and `Birthday Cake` are considered duplicates.
 * `PRICE` is a non-negative number up to 2 decimal places. Having less than 2 decimals is accepted.
@@ -392,7 +389,7 @@ Deletes the food item identified by the index number used in the displayed menu 
 
 Format: `delete-menu INDEX`
 
-<div markdown="block" class="alert alert-info">
+<div markdown="1" class="alert alert-info">
 **:information_source: Notes about the edit-menu command:**<br>
 * You **cannot** delete a menu item that has a food item that is already in use in an order.
 </div>
@@ -404,7 +401,7 @@ Similar functionality to that of `edit` for the order list, except the fields ha
 
 Format: `edit-menu INDEX [n/NAME] [$/PRICE] [v/AVAILABILITY]`
 
-<div markdown="block" class="alert alert-info">
+<div markdown="1" class="alert alert-info">
 **:information_source: Notes about the edit-menu command:**<br>
 * `AVAILABILITY` only accepts `true` or `false` spelled exactly.
   * Typing anything else will give an error message stating `Availability must be 'true' or 'false'`.
