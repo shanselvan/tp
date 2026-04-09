@@ -3,9 +3,13 @@ package seedu.homechef.model.menu;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import seedu.homechef.commons.util.ToStringBuilder;
+import seedu.homechef.model.menu.exceptions.AmbiguousMenuItemException;
+import seedu.homechef.model.menu.exceptions.MenuItemNotFoundException;
 
 /**
  * Wraps all menu data at the MenuBook level.
@@ -77,6 +81,32 @@ public class MenuBook implements ReadOnlyMenuBook {
     @Override
     public ObservableList<MenuItem> getMenuItemList() {
         return menuItems.asUnmodifiableObservableList();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public MenuItem resolveMenuItem(String foodName) {
+        List<MenuItem> items = menuItems.asUnmodifiableObservableList();
+        Optional<MenuItem> exactMatch = items.stream()
+                .filter(item -> item.getFood().toString().equalsIgnoreCase(foodName))
+                .findFirst();
+        if (exactMatch.isPresent()) {
+            return exactMatch.get();
+        }
+
+        List<MenuItem> substringMatches = items.stream()
+                .filter(item -> item.getFood().nameContains(foodName))
+                .collect(Collectors.toList());
+        if (substringMatches.isEmpty()) {
+            throw new MenuItemNotFoundException();
+        }
+        if (substringMatches.size() > 1) {
+            String matchingNames = substringMatches.stream()
+                    .map(item -> item.getFood().toString())
+                    .collect(Collectors.joining(", "));
+            throw new AmbiguousMenuItemException(matchingNames);
+        }
+        return substringMatches.get(0);
     }
 
     @Override

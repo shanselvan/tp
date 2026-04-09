@@ -1,8 +1,6 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.homechef.logic.Messages.MESSAGE_MENU_ITEM_NOT_FOUND;
-import static seedu.homechef.logic.Messages.MESSAGE_MENU_ITEM_UNAVAILABLE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_BANK_NAME;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_CUSTOMER;
@@ -16,15 +14,12 @@ import static seedu.homechef.logic.parser.CliSyntax.PREFIX_QUANTITY;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_WALLET_PROVIDER;
 
-import java.util.Optional;
-
 import seedu.homechef.commons.util.ToStringBuilder;
 import seedu.homechef.logic.Messages;
 import seedu.homechef.logic.commands.exceptions.CommandException;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
-import seedu.homechef.model.menu.Availability;
 import seedu.homechef.model.menu.MenuItem;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.Quantity;
@@ -78,20 +73,10 @@ public class AddCommand extends Command {
         requireNonNull(model);
 
         String targetFoodName = toAdd.getFood().toString();
-        Optional<MenuItem> matchingItem = model.getMenuBook().getMenuItemList().stream()
-                .filter(item -> item.getFood().nameContains(targetFoodName))
-                .findFirst();
+        MenuItem matchingItem = resolveAvailableMenuItem(model.getMenuBook(), targetFoodName);
 
-        if (matchingItem.isPresent()) {
-            if (matchingItem.get().getAvailability() == Availability.NO) {
-                throw new CommandException(String.format(MESSAGE_MENU_ITEM_UNAVAILABLE, targetFoodName));
-            }
-        } else {
-            throw new CommandException(String.format(MESSAGE_MENU_ITEM_NOT_FOUND, targetFoodName));
-        }
-
-        String canonicalName = matchingItem.get().getFood().toString();
-        Price unitPrice = new Price(matchingItem.get().getPrice().toString());
+        String canonicalName = matchingItem.getFood().toString();
+        Price unitPrice = new Price(matchingItem.getPrice().toString());
         Quantity quantity = toAdd.getQuantity();
         Price totalPrice = unitPrice.multiply(quantity);
         Order orderToAdd = new Order(new Food(canonicalName), toAdd.getCustomer(), toAdd.getPhone(),
