@@ -11,8 +11,7 @@ faster!<br>
 With a simple typing interface and a clear order list and food menu, this app is here to help you **manage orders quick** if you can **type fast**.
 
 * Table of Contents
-  {:toc}
-
+{:toc}
 
 --------------------------------------------------------------------------------------------------------------------
 
