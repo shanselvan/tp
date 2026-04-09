@@ -24,6 +24,9 @@ public class DeleteMenuCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_DELETE_MENU_ITEM_SUCCESS = "Deleted menu item: %1$s";
+    public static final String MESSAGE_HAS_ACTIVE_ORDERS =
+            "Cannot delete menu item: there are active orders for \"%1$s\"."
+            + " Delete those orders first before removing this menu item.";
 
     private final Index targetIndex;
 
@@ -47,6 +50,15 @@ public class DeleteMenuCommand extends Command {
         }
 
         MenuItem menuItemToDelete = lastShownList.get(targetIndex.getZeroBased());
+
+        boolean hasActiveOrders = model.getHomeChef().getOrderList().stream()
+                .anyMatch(order -> order.getFood().toString()
+                        .equalsIgnoreCase(menuItemToDelete.getFood().toString()));
+        if (hasActiveOrders) {
+            throw new CommandException(
+                    String.format(MESSAGE_HAS_ACTIVE_ORDERS, menuItemToDelete.getFood()));
+        }
+
         model.deleteMenuItem(menuItemToDelete);
         return new CommandResult(String.format(MESSAGE_DELETE_MENU_ITEM_SUCCESS,
                 menuItemToDelete.getFood()));

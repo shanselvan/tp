@@ -8,6 +8,7 @@ import static seedu.homechef.testutil.Assert.assertThrows;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,7 @@ import javafx.collections.ObservableList;
 import seedu.homechef.commons.core.GuiSettings;
 import seedu.homechef.commons.core.index.Index;
 import seedu.homechef.logic.commands.exceptions.CommandException;
+import seedu.homechef.model.HomeChef;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.ReadOnlyHomeChef;
 import seedu.homechef.model.ReadOnlyUserPrefs;
@@ -26,6 +28,7 @@ import seedu.homechef.model.menu.Availability;
 import seedu.homechef.model.menu.MenuItem;
 import seedu.homechef.model.menu.ReadOnlyMenuBook;
 import seedu.homechef.model.order.Order;
+import seedu.homechef.testutil.OrderBuilder;
 
 public class DeleteMenuCommandTest {
 
@@ -47,6 +50,43 @@ public class DeleteMenuCommandTest {
 
         assertThrows(CommandException.class, ()
                 -> new DeleteMenuCommand(Index.fromOneBased(1)).execute(modelStub));
+    }
+
+    @Test
+    public void execute_menuItemHasActiveOrders_throwsCommandException() throws Exception {
+        MenuItem chicken = new MenuItem(new Food("Chicken Rice"), new Price("5.50"), Availability.YES);
+        Order activeOrder = new OrderBuilder().withFood("Chicken Rice").build();
+        ModelStubWithMenuItemAndOrders modelStub =
+                new ModelStubWithMenuItemAndOrders(chicken, List.of(activeOrder));
+
+        assertThrows(CommandException.class,
+                DeleteMenuCommand.MESSAGE_HAS_ACTIVE_ORDERS.formatted("Chicken Rice"), () ->
+                        new DeleteMenuCommand(Index.fromOneBased(1)).execute(modelStub));
+    }
+
+    @Test
+    public void execute_menuItemHasActiveOrdersCaseInsensitive_throwsCommandException() {
+        // Order food name differs in case from menu item — should still be blocked
+        MenuItem chicken = new MenuItem(new Food("Chicken Rice"), new Price("5.50"), Availability.YES);
+        Order activeOrder = new OrderBuilder().withFood("chicken rice").build();
+        ModelStubWithMenuItemAndOrders modelStub =
+                new ModelStubWithMenuItemAndOrders(chicken, List.of(activeOrder));
+
+        assertThrows(CommandException.class, ()
+                -> new DeleteMenuCommand(Index.fromOneBased(1)).execute(modelStub));
+    }
+
+    @Test
+    public void execute_menuItemNoActiveOrders_success() throws Exception {
+        MenuItem chicken = new MenuItem(new Food("Chicken Rice"), new Price("5.50"), Availability.YES);
+        Order unrelatedOrder = new OrderBuilder().withFood("Birthday Cake").build();
+        ModelStubWithMenuItemAndOrders modelStub =
+                new ModelStubWithMenuItemAndOrders(chicken, List.of(unrelatedOrder));
+
+        CommandResult result = new DeleteMenuCommand(Index.fromOneBased(1)).execute(modelStub);
+
+        assertEquals(String.format(DeleteMenuCommand.MESSAGE_DELETE_MENU_ITEM_SUCCESS, "Chicken Rice"),
+                result.getFeedbackToUser());
     }
 
     @Test
@@ -196,6 +236,38 @@ public class DeleteMenuCommandTest {
         public void deleteMenuItem(MenuItem menuItem) {
             items.remove(menuItem);
             deletedItems.add(menuItem);
+        }
+
+        @Override
+        public ReadOnlyHomeChef getHomeChef() {
+            return new HomeChef();
+        }
+    }
+
+    private class ModelStubWithMenuItemAndOrders extends ModelStub {
+        final ArrayList<MenuItem> deletedItems = new ArrayList<>();
+        private final ObservableList<MenuItem> menuItems = FXCollections.observableArrayList();
+        private final HomeChef homeChef = new HomeChef();
+
+        ModelStubWithMenuItemAndOrders(MenuItem menuItem, List<Order> orders) {
+            menuItems.add(menuItem);
+            orders.forEach(homeChef::addOrder);
+        }
+
+        @Override
+        public ObservableList<MenuItem> getFilteredMenuItemList() {
+            return menuItems;
+        }
+
+        @Override
+        public void deleteMenuItem(MenuItem menuItem) {
+            menuItems.remove(menuItem);
+            deletedItems.add(menuItem);
+        }
+
+        @Override
+        public ReadOnlyHomeChef getHomeChef() {
+            return homeChef;
         }
     }
 }

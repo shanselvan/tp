@@ -66,4 +66,5 @@ public class FoodTest {
         Food food2 = new Food("Valid Food");
         assertEquals(food1.hashCode(), food2.hashCode());
     }
+
 }
