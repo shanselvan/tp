@@ -130,7 +130,7 @@ public class OrderCard extends UiPart<Region> {
     }
 
     private void setQuantityDisplay(Quantity qty) {
-        this.quantity.setText("Qty: " + qty.value);
+        this.quantity.setText("Qty: " + qty);
         this.quantity.setMinWidth(Region.USE_PREF_SIZE);
     }
 

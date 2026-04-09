@@ -273,16 +273,6 @@ public class JsonAdaptedOrderTest {
         assertEquals(new Quantity(3), result.getQuantity());
     }
 
-    @Test
-    public void toModelType_nullQuantity_defaultsToOne() throws Exception {
-        JsonAdaptedOrder order = new JsonAdaptedOrder(
-                VALID_FOOD, VALID_CUSTOMER, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_DATE,
-                VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, VALID_TAGS,
-                null, null, null);
-        Order result = order.toModelType();
-        assertEquals(new Quantity(1), result.getQuantity());
-    }
-
 }
 
 

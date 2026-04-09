@@ -47,9 +47,7 @@ class JsonAdaptedOrder {
     private final String price;
     private final String paymentMethod;
     private final String paymentDetails;
-
-    @JsonProperty("quantity")
-    private final Integer quantity;
+    private final String quantity;
 
     /**
      * Constructs a {@code JsonAdaptedOrder} with the given order details.
@@ -68,7 +66,7 @@ class JsonAdaptedOrder {
             @JsonProperty("tags") List<JsonAdaptedTag> tags,
             @JsonProperty("paymentMethod") String paymentMethod,
             @JsonProperty("paymentDetails") String paymentDetails,
-            @JsonProperty("quantity") Integer quantity) {
+            @JsonProperty("quantity") String quantity) {
         this.food = food;
         this.customer = customer;
         this.phone = phone;
@@ -98,7 +96,7 @@ class JsonAdaptedOrder {
         date = source.getDate().toString();
         completionStatus = source.getCompletionStatus().toString();
         paymentStatus = source.getPaymentStatus().toString();
-        quantity = source.getQuantity().value;
+        quantity = source.getQuantity().toString();
         price = source.getPrice().toString();
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
@@ -213,8 +211,14 @@ class JsonAdaptedOrder {
             }
         }
 
-        int qty = (quantity != null) ? quantity : 1;
-        final Quantity modelQuantity = new Quantity(qty);
+        if (quantity == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Quantity.class.getSimpleName()));
+        }
+        if (!Quantity.isValidQuantity(quantity)) {
+            throw new IllegalValueException(Quantity.MESSAGE_CONSTRAINTS);
+        }
+        final Quantity modelQuantity = new Quantity(Integer.parseInt(quantity));
 
         return new Order(modelFood, modelCustomer, modelPhone, modelEmail, modelAddress, modelDate,
                 modelCompletionStatus, modelPaymentStatus, modelDietTags, modelQuantity, modelPrice, modelPaymentInfo);

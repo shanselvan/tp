@@ -13,7 +13,8 @@
       "paymentStatus": "Paid",
       "tags": [
         "friends"
-      ]
+      ],
+      "quantity": "1"
     },
     {
       "food": "Sourdough Bread",
@@ -28,7 +29,8 @@
       "tags": [
         "owesMoney",
         "friends"
-      ]
+      ],
+      "quantity": "1"
     },
     {
       "food": "Cupcakes (24pcs)",
@@ -40,7 +42,8 @@
       "price": "35.70",
       "completionStatus": "Pending",
       "paymentStatus": "Paid",
-      "tags": []
+      "tags": [],
+      "quantity": "1"
     },
     {
       "food": "Wedding Cake - 3 Tier",
@@ -54,7 +57,8 @@
       "paymentStatus": "Paid",
       "tags": [
         "friends"
-      ]
+      ],
+      "quantity": "1"
     },
     {
       "food": "Chocolate Chip Cookies (3pcs)",
@@ -66,7 +70,8 @@
       "price": "8.50",
       "completionStatus": "Pending",
       "paymentStatus": "Unpaid",
-      "tags": []
+      "tags": [],
+      "quantity": "1"
     },
     {
       "food": "Muffin (4pc)",
@@ -78,7 +83,8 @@
       "price": "12.60",
       "completionStatus": "Pending",
       "paymentStatus": "Unpaid",
-      "tags": []
+      "tags": [],
+      "quantity": "1"
     },
     {
       "food": "Doughnut Assortment",
@@ -90,7 +96,8 @@
       "price": "18",
       "completionStatus": "Pending",
       "paymentStatus": "Paid",
-      "tags": []
+      "tags": [],
+      "quantity": "1"
     }
   ]
 }

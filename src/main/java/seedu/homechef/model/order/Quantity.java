@@ -12,7 +12,7 @@ public class Quantity {
     private static final int MIN_VALUE = 1;
     private static final int MAX_VALUE = 999;
 
-    public final int value;
+    private final int value;
 
     /**
      * Constructs a {@code Quantity}.

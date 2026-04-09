@@ -51,7 +51,11 @@ public class Price {
      */
     public Price multiply(Quantity qty) {
         requireNonNull(qty);
-        BigDecimal total = new BigDecimal(value).multiply(BigDecimal.valueOf(qty.value));
+        int multiplier = Integer.parseInt(qty.toString());
+        if (multiplier == 0) {
+            return new Price("0.00");
+        }
+        BigDecimal total = new BigDecimal(value).multiply(BigDecimal.valueOf(multiplier));
         return new Price(total.setScale(2, RoundingMode.UNNECESSARY).toPlainString());
     }
 

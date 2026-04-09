@@ -12,7 +12,8 @@
       "paymentStatus": "Unpaid",
       "tags": [
         "friends"
-      ]
+      ],
+      "quantity": "1"
     },
     {
       "food": "Birthday Cake",
@@ -26,7 +27,8 @@
       "paymentStatus": "Paid",
       "tags": [
         "friends"
-      ]
+      ],
+      "quantity": "1"
     }
   ]
 }
