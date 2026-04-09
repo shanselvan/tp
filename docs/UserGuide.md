@@ -111,6 +111,10 @@ With a simple typing interface and a clear order list and food menu, this app is
 - Parameters can be in any order.<br>
   e.g. if the command specifies `f/FOOD p/PHONE`, `p/PHONE f/FOOD` is also acceptable.
 
+- Parameters **only** accept alphabets and numbers as characters, and a few other special characters.<br>
+  These special characters are: `(`, `)`, `[`, `]`, `-`, ` ` (a blank space).<br>
+  However, the blank space **cannot** be used as the very first character of any parameter.
+
 - Extra parameters for commands that do not take in parameters (such as `help`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
@@ -284,7 +288,7 @@ This helps with updating orders when information changes, without having to dele
 
 Format:
 `edit INDEX [f/FOOD] [c/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/DATE] [q/QUANTITY] [t/TAG]…
-> > > > > > > [m/PAYMENT METHOD] [r/PAYMENT REF] [b/BANK NAME] [w/WALLET PROVIDER]`
+[m/PAYMENT METHOD] [r/PAYMENT REF] [b/BANK NAME] [w/WALLET PROVIDER]`
 
 <div markdown="span" class="alert alert-primary">:bulb:
 **Notes about the edit command:**<br>
@@ -360,6 +364,7 @@ Format: `add-menu n/NAME $/PRICE [v/AVAILABILITY]`
 
 <div markdown="block" class="alert alert-info">
 **:information_source: Notes about the add-menu command:**<br>
+* `NAME` must be unique, meaning no 2 food items in the menu can share the exact same name. This is **not** case-sensitive, so `birthday cake` and `Birthday Cake` are considered duplicates.
 * `PRICE` is a non-negative number up to 2 decimal places. Having less than 2 decimals is accepted.
   * Giving an input that is **not a number** or a number with **more than 2 decimals** will cause an error message to appear telling you the correct format you should use.
 * Similar functionality to that of `add` for the order list, except the fields have different prefixes.
@@ -381,6 +386,11 @@ Deletes the food item identified by the index number used in the displayed menu 
 
 Format: `delete-menu INDEX`
 
+<div markdown="block" class="alert alert-info">
+**:information_source: Notes about the edit-menu command:**<br>
+* You **cannot** delete a menu item that has a food item that is already in use in an order.
+</div>
+
 ### Editing a food item : `edit-menu`
 
 Edits an existing food item in the menu.
@@ -391,8 +401,9 @@ Format: `edit-menu INDEX [n/NAME] [$/PRICE] [v/AVAILABILITY]`
 <div markdown="block" class="alert alert-info">
 **:information_source: Notes about the edit-menu command:**<br>
 * `AVAILABILITY` only accepts `true` or `false` spelled exactly.
-  * * Typing anything else will give an error message stating `Availability must be 'true' or 'false'`.
-  </div>
+  * Typing anything else will give an error message stating `Availability must be 'true' or 'false'`.
+* Editing the `PRICE` of a menu item **will not** change the price of existing orders. This is because old orders may have prices that differ from the new price of a menu item, for book keeping purposes.
+</div>
 
 Example:
 
