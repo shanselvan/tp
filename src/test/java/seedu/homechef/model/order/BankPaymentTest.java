@@ -13,14 +13,14 @@ public class BankPaymentTest {
     public void constructor_noReference_success() {
         BankPayment payment = new BankPayment();
         assertEquals(PaymentInfo.METHOD_BANK, payment.getMethod());
-        assertEquals(null, payment.getReferenceNumber());
+        assertEquals(null, payment.getReference());
         assertEquals("BANK", payment.toString());
     }
 
     @Test
     public void constructor_reference_success() {
         BankPayment payment = new BankPayment("DBS-123456");
-        assertEquals("DBS-123456", payment.getReferenceNumber());
+        assertEquals("DBS-123456", payment.getReference());
         assertEquals("BANK (ref: DBS-123456)", payment.toString());
     }
 

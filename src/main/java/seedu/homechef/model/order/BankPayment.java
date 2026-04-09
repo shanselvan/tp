@@ -8,7 +8,7 @@ import java.util.Objects;
  * Represents a bank transfer payment.
  */
 public final class BankPayment implements PaymentInfo {
-    public static final String MESSAGE_INVALID_BANK_REFERENCE =
+    public static final String MESSAGE_INVALID_REFERENCE =
             "Bank payment requires a non-blank payment reference/details value.";
 
     private final String reference;
@@ -25,24 +25,19 @@ public final class BankPayment implements PaymentInfo {
     public BankPayment(String reference) {
         requireNonNull(reference);
         if (reference.isBlank()) {
-            throw new IllegalArgumentException(MESSAGE_INVALID_BANK_REFERENCE);
+            throw new IllegalArgumentException(MESSAGE_INVALID_REFERENCE);
         }
         this.reference = reference;
     }
 
     @Override
-    public String getReferenceNumber() {
+    public String getReference() {
         return reference;
     }
 
     @Override
-    public String getMethod() {
-        return METHOD_BANK;
-    }
-
-    @Override
     public String toString() {
-        return reference == null ? "BANK" : "BANK (ref: " + reference + ")";
+        return "Bank: " + reference;
     }
 
     @Override
@@ -54,11 +49,11 @@ public final class BankPayment implements PaymentInfo {
             return false;
         }
         BankPayment otherPayment = (BankPayment) other;
-        return Objects.equals(reference, otherPayment.reference);
+        return reference.equals(otherPayment.reference);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(METHOD_BANK, reference);
+        return Objects.hash(BankPayment.class, reference);
     }
 }
