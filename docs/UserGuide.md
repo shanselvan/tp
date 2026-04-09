@@ -77,7 +77,7 @@ With a simple typing interface and a clear order list and food menu, this app is
 
 # Features
 
-<div markdown="1" class="alert alert-info">
+<div markdown="span" class="alert alert-info">
 
 **:information_source: Notes about the command format:**<br>
 
@@ -148,7 +148,7 @@ Format: `add f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE [q/QUANTITY] [t/TAG]
 > Red indicates that the `Order` is late, it was due **_before_** today's date.<br>
 > ![overdue date](images/overdueDate.png)
 
-<div markdown="1" class="alert alert-primary">:bulb:
+<div markdown="span" class="alert alert-primary">:bulb:
 **Notes about the add command:**<br>
 * `FOOD` must match an **existing food's name** in the current menu exactly.
   * Giving an input that is not in the menu will show an error message telling you to `Use 'add-menu' to add it to the menu first.`
@@ -181,7 +181,7 @@ This can be useful for finding orders specific to a certain customer, a certain 
 
 Format: `list [d/DATE] [c/CUSTOMER] [f/FOOD] [p/PHONE] [cs/COMPLETION STATUS] [ps/PAYMENT STATUS]`
 
-<div markdown="1" class="alert alert-primary">:bulb: **Notes about the list command:**<br>
+<div markdown="span" class="alert alert-primary">:bulb: **Notes about the list command:**<br>
 * Lists all orders when no parameters are given.
 * Filters are case-insensitive for `c/`, `f/` and `p/`.
 * `DATE` must be in the format `dd-MM-yyyy`.
@@ -292,7 +292,7 @@ Format:
 `edit INDEX [f/FOOD] [c/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/DATE] [q/QUANTITY] [t/TAG]...
 [bank/BANK_DETAILS] [paynow/PAYNOW_CONTACT] [cash/YES_OR_NO]`
 
-<div markdown="1" class="alert alert-primary">:bulb:
+<div markdown="span" class="alert alert-primary">:bulb:
 **Notes about the edit command:**<br>
 * At least one of the optional fields must be provided.
   * If no fields are provided, a message will appear telling you to provide a field.
@@ -347,7 +347,7 @@ The menu is the list on the right, indicating the food items you have for sale.
 
 The following are the commands that interact with this menu.
 
-<div markdown="1" class="alert alert-info">
+<div markdown="span" class="alert alert-info">
 **:information_source: Notes about the menu:**<br>
 
 * Any modifications to the menu will not affect existing orders.
@@ -364,7 +364,7 @@ Adds a food item of the given name, price and availability to the menu.
 
 Format: `add-menu n/NAME $/PRICE [v/AVAILABILITY]`
 
-<div markdown="1" class="alert alert-info">
+<div markdown="span" class="alert alert-info">
 **:information_source: Notes about the add-menu command:**<br>
 * `NAME` must be unique, meaning no 2 food items in the menu can share the exact same name. This is **not** case-sensitive, so `birthday cake` and `Birthday Cake` are considered duplicates.
 * `PRICE` is a non-negative number up to 2 decimal places. Having less than 2 decimals is accepted.
@@ -388,7 +388,7 @@ Deletes the food item identified by the index number used in the displayed menu 
 
 Format: `delete-menu INDEX`
 
-<div markdown="1" class="alert alert-info">
+<div markdown="span" class="alert alert-info">
 **:information_source: Notes about the edit-menu command:**<br>
 * You **cannot** delete a menu item that has a food item that is already in use in an order.
 </div>
@@ -400,7 +400,7 @@ Similar functionality to that of `edit` for the order list, except the fields ha
 
 Format: `edit-menu INDEX [n/NAME] [$/PRICE] [v/AVAILABILITY]`
 
-<div markdown="1" class="alert alert-info">
+<div markdown="span" class="alert alert-info">
 **:information_source: Notes about the edit-menu command:**<br>
 * `AVAILABILITY` only accepts `true` or `false` spelled exactly.
   * Typing anything else will give an error message stating `Availability must be 'true' or 'false'`.
