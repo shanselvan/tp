@@ -620,7 +620,7 @@ testers are expected to do more *exploratory* testing.
    1. Test case: Modify an existing order or menu item such that any of their mandatory fields contain a `blank string`, a pair of inverted commas with whitespace in between: `" "`. Start up HomeChef-Helper.<br>
       Expected: Similar to previous.
 
-   1. Other corruptions to try: Deleting an entire mandatory field of an entry in one of the `.json` files, inserting non-English characters like Chinese or Japanese into fields in the `.json` file, modify an existing order or menu item such that any of their fields contain a non-alphanumeric character (e.g. `!`, `@`, `#`, any character that is not a letter or a number).<br>
+   1. Other corruptions to try: Deleting an entire mandatory field of an entry in one of the `.json` files, inserting non-English characters like Chinese or Japanese into fields in the `.json` file, modify an existing order or menu item such that any of their fields contain a non-alphanumeric character that is not accepted (e.g. `!`, `#`, ... ).<br>
       Expected: Similar to previous.
 
 1. Dealing with missing data files
@@ -650,3 +650,13 @@ testers are expected to do more *exploratory* testing.
       Expected: The respective order list or menu will show the orders and/or menu items of the existing files, not the external files. No errors should occur, and modifying the order list and menu through commands like `add` and `delete` will only affect the existing files and not the imported external files.
 
 1. _{ more test cases …​ }_
+
+--------------------------------------------------------------------------------------------------------------------
+
+## **Appendix - Future Features**
+
+1. Manual editing of order price to allow it to match updated food items in the menu if needed.
+2. Additional filtering of the order list using other filters, like price, payment info, email, etc.
+3. Filtering of the menu according to food name, price and availability.
+4. Other ways to sort the order list, such as by date descending order (where the furthest date is positioned first), name alphabetical order, name reverse alphabetical order, etc.
+5. Add support for characters of different languages as not all chefs are English-speaking.
