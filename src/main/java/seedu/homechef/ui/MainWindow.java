@@ -27,6 +27,8 @@ import seedu.homechef.logic.parser.exceptions.ParseException;
 public class MainWindow extends UiPart<Stage> {
 
     private static final String FXML = "MainWindow.fxml";
+    private static final String MESSAGE_UNEXPECTED_ERROR =
+            "An unexpected internal error occurred while executing the command.";
     // Require a minimally visible overlap so disconnected-monitor coordinates are treated as invalid.
     private static final double MIN_VISIBLE_WIDTH = 50;
     private static final double MIN_VISIBLE_HEIGHT = 50;
@@ -256,6 +258,10 @@ public class MainWindow extends UiPart<Stage> {
             logger.info("An error occurred while executing command: " + commandText);
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;
+        } catch (RuntimeException e) {
+            logger.info("Unexpected error while executing command: " + commandText + ". " + e);
+            resultDisplay.setFeedbackToUser(MESSAGE_UNEXPECTED_ERROR);
+            throw new CommandException(MESSAGE_UNEXPECTED_ERROR, e);
         }
     }
 }
