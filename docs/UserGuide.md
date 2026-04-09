@@ -13,6 +13,7 @@ With a simple typing interface and a clear order list and food menu, this app is
 * Table of Contents
   {:toc}
 
+
 --------------------------------------------------------------------------------------------------------------------
 
 # Looking to get started?<br> Here's a quick guide:
