@@ -66,6 +66,8 @@
 
         <!-- Row 6: payment info + status badges pushed right -->
         <HBox spacing="5" alignment="CENTER_LEFT">
+            <ImageView fx:id="paymentInfoDisplayIcon" fitHeight="13" fitWidth="13" preserveRatio="true"
+                       pickOnBounds="true"/>
             <Label fx:id="paymentInfo" styleClass="cell_small_label"/>
             <Region HBox.hgrow="ALWAYS"/>
             <Label fx:id="completionStatus" styleClass="cell_status_label"/>

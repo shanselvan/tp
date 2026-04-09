@@ -3,6 +3,7 @@ package seedu.homechef.ui;
 import static seedu.homechef.commons.util.AppUtil.checkArgument;
 
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.Set;
 
 import javafx.fxml.FXML;
@@ -14,16 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
-import seedu.homechef.model.order.Address;
-import seedu.homechef.model.order.CompletionStatus;
-import seedu.homechef.model.order.Customer;
-import seedu.homechef.model.order.Date;
-import seedu.homechef.model.order.DietTag;
-import seedu.homechef.model.order.Email;
-import seedu.homechef.model.order.Order;
-import seedu.homechef.model.order.PaymentStatus;
-import seedu.homechef.model.order.Phone;
-import seedu.homechef.model.order.Quantity;
+import seedu.homechef.model.order.*;
 
 /**
  * An UI component that displays information of a {@code Order}.
@@ -51,6 +43,7 @@ public class OrderCard extends UiPart<Region> {
     private final Image addressIcon = new Image(this.getClass().getResourceAsStream("/images/address.png"));
     private final Image dateIcon = new Image(this.getClass().getResourceAsStream("/images/date.png"));
     private final Image emailIcon = new Image(this.getClass().getResourceAsStream("/images/email.png"));
+    private final Image paymentInfoIcon = new Image(this.getClass().getResourceAsStream("/images/payment_info.png"));
 
     @FXML
     private HBox cardPane;
@@ -81,6 +74,8 @@ public class OrderCard extends UiPart<Region> {
     @FXML
     private Label price;
     @FXML
+    private ImageView paymentInfoDisplayIcon;
+    @FXML
     private Label paymentInfo;
     @FXML
     private Label completionStatus;
@@ -109,11 +104,7 @@ public class OrderCard extends UiPart<Region> {
         setPriceDisplay(order.getPrice());
         setCompletionStatusDisplay(order.getCompletionStatus());
         setPaymentStatusDisplay(order.getPaymentStatus());
-        order.getPaymentInfo().ifPresentOrElse(
-                info -> paymentInfo.setText("Payment: " + info.toString()), () -> {
-                    paymentInfo.setVisible(false);
-                    paymentInfo.setManaged(false);
-                });
+        setPaymentInfoDisplay(order.getPaymentInfo());
         setDietTagsDisplay(order.getTags());
         if (order.getTags().isEmpty()) {
             dietTags.setVisible(false);
@@ -220,6 +211,15 @@ public class OrderCard extends UiPart<Region> {
             checkArgument(PaymentStatus.isValidPaymentStatus(status.toString()),
                     PaymentStatus.MESSAGE_CONSTRAINTS);
         }
+    }
+
+    private void setPaymentInfoDisplay(Optional<PaymentInfo> value) {
+        paymentInfoDisplayIcon.setImage(paymentInfoIcon);
+        value.ifPresentOrElse(
+                info -> paymentInfo.setText("Payment: " + info.toString()), () -> {
+                    paymentInfo.setVisible(false);
+                    paymentInfo.setManaged(false);
+                });
     }
 
     private void setDietTagsDisplay(Set<DietTag> tags) {
