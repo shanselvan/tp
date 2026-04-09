@@ -1,7 +1,7 @@
-
+---
 layout: page
 title: User Guide
---------------------------------------------------------------------------------------------------------------------
+---
 
 HomeChef-Helper (HomeChef) is a simple, intuitive desktop app for managing orders and payments for any **self-made food
 business owners!**<br>
@@ -11,7 +11,7 @@ faster!<br>
 With a simple typing interface and a clear order list and food menu, this app is here to help you **manage orders quick
 ** if you can **type fast**.
 
-- Table of Contents
+* Table of Contents
   {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
