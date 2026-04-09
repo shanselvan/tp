@@ -18,8 +18,8 @@ import javafx.collections.ObservableList;
 import seedu.homechef.commons.core.GuiSettings;
 import seedu.homechef.commons.core.index.Index;
 import seedu.homechef.logic.commands.exceptions.CommandException;
-import seedu.homechef.model.Model;
 import seedu.homechef.model.HomeChef;
+import seedu.homechef.model.Model;
 import seedu.homechef.model.ReadOnlyHomeChef;
 import seedu.homechef.model.ReadOnlyUserPrefs;
 import seedu.homechef.model.common.Food;
@@ -60,8 +60,8 @@ public class DeleteMenuCommandTest {
                 new ModelStubWithMenuItemAndOrders(chicken, List.of(activeOrder));
 
         assertThrows(CommandException.class,
-                DeleteMenuCommand.MESSAGE_HAS_ACTIVE_ORDERS.formatted("Chicken Rice"),
-                () -> new DeleteMenuCommand(Index.fromOneBased(1)).execute(modelStub));
+                DeleteMenuCommand.MESSAGE_HAS_ACTIVE_ORDERS.formatted("Chicken Rice"), () ->
+                        new DeleteMenuCommand(Index.fromOneBased(1)).execute(modelStub));
     }
 
     @Test
