@@ -2,7 +2,6 @@
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Scene?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -11,54 +10,55 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.Scene?>
+<?import javafx.stage.Stage?>
 <fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
          title="HomeChef-Helper" minWidth="700" minHeight="650" onCloseRequest="#handleExit">
-  <icons>
-    <Image url="@/images/address_book_32.png" />
-  </icons>
-  <scene>
-    <Scene>
-      <stylesheets>
-        <URL value="@DarkTheme.css" />
-        <URL value="@Extensions.css" />
-      </stylesheets>
+    <icons>
+        <Image url="@/images/address_book_32.png"/>
+    </icons>
+    <scene>
+        <Scene>
+            <stylesheets>
+                <URL value="@DarkTheme.css"/>
+                <URL value="@Extensions.css"/>
+            </stylesheets>
 
-      <VBox>
-        <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
-          <Menu mnemonicParsing="false" text="File">
-            <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
-          </Menu>
-        </MenuBar>
+            <VBox>
+                <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
+                    <Menu mnemonicParsing="false" text="File">
+                        <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit"/>
+                    </Menu>
+                    <Menu mnemonicParsing="false" text="Help">
+                        <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help"/>
+                    </Menu>
+                </MenuBar>
 
-        <StackPane VBox.vgrow="NEVER" fx:id="commandBoxPlaceholder" styleClass="pane-with-border">
-          <padding>
-            <Insets top="5" right="10" bottom="5" left="10" />
-          </padding>
-        </StackPane>
+                <StackPane VBox.vgrow="NEVER" fx:id="commandBoxPlaceholder" styleClass="pane-with-border">
+                    <padding>
+                        <Insets top="5" right="10" bottom="5" left="10"/>
+                    </padding>
+                </StackPane>
 
-        <StackPane VBox.vgrow="NEVER" fx:id="resultDisplayPlaceholder" styleClass="pane-with-border"
-                   minHeight="60" prefHeight="90">
-          <padding>
-            <Insets top="5" right="10" bottom="5" left="10" />
-          </padding>
-        </StackPane>
+                <StackPane VBox.vgrow="NEVER" fx:id="resultDisplayPlaceholder" styleClass="pane-with-border"
+                           minHeight="60" prefHeight="90">
+                    <padding>
+                        <Insets top="5" right="10" bottom="5" left="10"/>
+                    </padding>
+                </StackPane>
 
-        <SplitPane VBox.vgrow="ALWAYS" dividerPositions="0.65">
-          <VBox styleClass="pane-with-border" SplitPane.resizableWithParent="true">
-            <Label text="ORDERS" styleClass="panel-header-label"/>
-            <StackPane fx:id="orderListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
-          </VBox>
-          <VBox styleClass="pane-with-border" SplitPane.resizableWithParent="true">
-            <Label text="MENU" styleClass="panel-header-label"/>
-            <StackPane fx:id="menuListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
-          </VBox>
-        </SplitPane>
+                <SplitPane VBox.vgrow="ALWAYS" dividerPositions="0.5">
+                    <VBox styleClass="pane-with-border" SplitPane.resizableWithParent="true">
+                        <Label text="ORDERS" styleClass="panel-header-label"/>
+                        <StackPane fx:id="orderListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+                    </VBox>
+                    <VBox styleClass="pane-with-border" SplitPane.resizableWithParent="true">
+                        <Label text="MENU" styleClass="panel-header-label"/>
+                        <StackPane fx:id="menuListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+                    </VBox>
+                </SplitPane>
 
-      </VBox>
-    </Scene>
-  </scene>
+            </VBox>
+        </Scene>
+    </scene>
 </fx:root>

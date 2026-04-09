@@ -5,7 +5,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-
 <HBox id="menuCardPane" fx:id="menuCardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <VBox HBox.hgrow="ALWAYS" spacing="5">
         <padding>
@@ -14,8 +13,7 @@
         <!-- Row 1: index + name -->
         <HBox spacing="5" alignment="CENTER_LEFT">
             <Label fx:id="id" styleClass="cell_id_label"/>
-            <Label fx:id="name" styleClass="cell_big_label" wrapText="true" maxWidth="1.7976931348623157E308"
-                   HBox.hgrow="ALWAYS"/>
+            <Label fx:id="name" styleClass="cell_big_label" wrapText="true" HBox.hgrow="ALWAYS"/>
         </HBox>
         <!-- Row 2: price left, availability right -->
         <HBox alignment="CENTER_LEFT">
