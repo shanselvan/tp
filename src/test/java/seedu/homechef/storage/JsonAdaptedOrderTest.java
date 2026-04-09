@@ -236,8 +236,8 @@ public class JsonAdaptedOrderTest {
         Order result = adapted.toModelType();
         assertEquals(orderWithPayment, result);
         assertTrue(result.getPaymentInfo().isPresent());
-        assertEquals(PaymentInfo.METHOD_PAYNOW, result.getPaymentInfo().get().getMethod());
-        assertEquals("+65 91234567", result.getPaymentInfo().get().getHandle());
+        assertTrue(result.getPaymentInfo().get() instanceof PayNowPayment);
+        assertEquals("+65 91234567", result.getPaymentInfo().get().getReference());
     }
 
     @Test
@@ -263,6 +263,24 @@ public class JsonAdaptedOrderTest {
                 VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, VALID_TAGS,
                 INVALID_PAYMENT_METHOD, null, null);
         assertThrows(IllegalValueException.class, order::toModelType);
+    }
+
+    @Test
+    public void toModelType_blankPayNowDetails_throwsIllegalValueException() {
+        JsonAdaptedOrder order = new JsonAdaptedOrder(
+                VALID_FOOD, VALID_CUSTOMER, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_DATE,
+                VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, VALID_TAGS,
+                "PAYNOW", "   ", null);
+        assertThrows(IllegalValueException.class, PayNowPayment.MESSAGE_INVALID_REFERENCE, order::toModelType);
+    }
+
+    @Test
+    public void toModelType_missingBankDetails_throwsIllegalValueException() {
+        JsonAdaptedOrder order = new JsonAdaptedOrder(
+                VALID_FOOD, VALID_CUSTOMER, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_DATE,
+                VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, VALID_TAGS,
+                "BANK", null, null);
+        assertThrows(IllegalValueException.class, BankPayment.MESSAGE_INVALID_REFERENCE, order::toModelType);
     }
 
     @Test

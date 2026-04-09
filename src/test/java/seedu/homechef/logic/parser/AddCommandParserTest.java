@@ -5,6 +5,7 @@ import static seedu.homechef.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.homechef.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static seedu.homechef.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
 import static seedu.homechef.logic.commands.CommandTestUtil.BANK_PAYMENT_DESC;
+import static seedu.homechef.logic.commands.CommandTestUtil.CASH_NO_PAYMENT_DESC;
 import static seedu.homechef.logic.commands.CommandTestUtil.CASH_PAYMENT_DESC;
 import static seedu.homechef.logic.commands.CommandTestUtil.CUSTOMER_DESC_AMY;
 import static seedu.homechef.logic.commands.CommandTestUtil.CUSTOMER_DESC_BOB;
@@ -16,6 +17,7 @@ import static seedu.homechef.logic.commands.CommandTestUtil.FOOD_DESC_AMY;
 import static seedu.homechef.logic.commands.CommandTestUtil.FOOD_DESC_BOB;
 import static seedu.homechef.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.homechef.logic.commands.CommandTestUtil.INVALID_BANK_PAYMENT_DESC;
+import static seedu.homechef.logic.commands.CommandTestUtil.INVALID_CASH_PAYMENT_DESC;
 import static seedu.homechef.logic.commands.CommandTestUtil.INVALID_CUSTOMER_DESC;
 import static seedu.homechef.logic.commands.CommandTestUtil.INVALID_DATE_DESC;
 import static seedu.homechef.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
@@ -45,7 +47,7 @@ import static seedu.homechef.logic.parser.CliSyntax.PREFIX_QUANTITY;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_BANK_PAYMENT_REQUIRED;
-import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_CASH_PAYMENT_DOES_NOT_ACCEPT_VALUE;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_CASH_PAYMENT_REQUIRED;
 import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_MULTIPLE_PAYMENT_PREFIXES;
 import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_PAYNOW_PAYMENT_REQUIRED;
 import static seedu.homechef.testutil.TypicalOrders.AMY;
@@ -72,7 +74,7 @@ import seedu.homechef.testutil.OrderBuilder;
 
 public class AddCommandParserTest {
     private static final String PLACEHOLDER_PRICE = "0.01";
-    private AddCommandParser parser = new AddCommandParser();
+    private final AddCommandParser parser = new AddCommandParser();
 
     @Test
     public void parse_allFieldsPresent_success() {
@@ -121,7 +123,7 @@ public class AddCommandParserTest {
         assertParseFailure(parser, FOOD_DESC_BOB + CUSTOMER_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + DATE_DESC_BOB + INVALID_TAG_DESC + VALID_TAG_FRIEND, DietTag.MESSAGE_CONSTRAINTS);
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + FOOD_DESC_BOB + CUSTOMER_DESC_BOB + PHONE_DESC_BOB
-                + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + DATE_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+                        + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + DATE_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
     }
 
@@ -132,6 +134,16 @@ public class AddCommandParserTest {
         Order expectedOrder = new OrderBuilder().withFood(VALID_FOOD_AMY).withCustomer(VALID_CUSTOMER_AMY)
                 .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withDate(VALID_DATE_AMY).withPrice(PLACEHOLDER_PRICE).withPaymentInfo(new CashPayment()).build();
+        assertParseSuccess(parser, userInput, new AddCommand(expectedOrder));
+    }
+
+    @Test
+    public void parse_withCashNo_success() {
+        String userInput = FOOD_DESC_AMY + CUSTOMER_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
+                + ADDRESS_DESC_AMY + DATE_DESC_AMY + CASH_NO_PAYMENT_DESC;
+        Order expectedOrder = new OrderBuilder().withFood(VALID_FOOD_AMY).withCustomer(VALID_CUSTOMER_AMY)
+                .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
+                .withDate(VALID_DATE_AMY).withPrice(PLACEHOLDER_PRICE).build();
         assertParseSuccess(parser, userInput, new AddCommand(expectedOrder));
     }
 
@@ -161,9 +173,10 @@ public class AddCommandParserTest {
     public void parse_paymentValidation_failures() {
         String base = FOOD_DESC_AMY + CUSTOMER_DESC_AMY + PHONE_DESC_AMY
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + DATE_DESC_AMY;
+        assertParseFailure(parser, base + INVALID_CASH_PAYMENT_DESC, MESSAGE_CASH_PAYMENT_REQUIRED);
         assertParseFailure(parser, base + INVALID_PAYNOW_PAYMENT_DESC, MESSAGE_PAYNOW_PAYMENT_REQUIRED);
         assertParseFailure(parser, base + INVALID_BANK_PAYMENT_DESC, MESSAGE_BANK_PAYMENT_REQUIRED);
-        assertParseFailure(parser, base + " cash/accepted", MESSAGE_CASH_PAYMENT_DOES_NOT_ACCEPT_VALUE);
+        assertParseFailure(parser, base + " cash/accepted", MESSAGE_CASH_PAYMENT_REQUIRED);
         assertParseFailure(parser, base + BANK_PAYMENT_DESC + PAYNOW_PAYMENT_DESC, MESSAGE_MULTIPLE_PAYMENT_PREFIXES);
     }
 

@@ -35,8 +35,8 @@ public class ParserUtil {
             "Availability must be one of: yes, no.";
     public static final String MESSAGE_MULTIPLE_PAYMENT_PREFIXES =
             "Only one payment prefix may be provided: bank/, paynow/, or cash/.";
-    public static final String MESSAGE_CASH_PAYMENT_DOES_NOT_ACCEPT_VALUE =
-            "cash/ does not accept a value.";
+    public static final String MESSAGE_CASH_PAYMENT_REQUIRED =
+            "cash/ requires yes or no.";
     public static final String MESSAGE_BANK_PAYMENT_REQUIRED =
             "bank/ requires a non-blank bank reference/details value.";
     public static final String MESSAGE_PAYNOW_PAYMENT_REQUIRED =
@@ -272,10 +272,7 @@ public class ParserUtil {
         }
 
         if (cashPayment.isPresent()) {
-            if (!cashPayment.get().isEmpty()) {
-                throw new ParseException(MESSAGE_CASH_PAYMENT_DOES_NOT_ACCEPT_VALUE);
-            }
-            return Optional.of(new CashPayment());
+            return parseCashPayment(cashPayment.get());
         }
 
         if (bankPayment.isPresent()) {
@@ -292,6 +289,25 @@ public class ParserUtil {
             return Optional.of(new PayNowPayment(normalizeWhitespace(payNowPayment.get())));
         } catch (IllegalArgumentException e) {
             throw new ParseException(e.getMessage());
+        }
+    }
+
+    /**
+     * Parses the cash payment prefix value into either cash payment or no payment info.
+     *
+     * @param cashPayment Value supplied after the cash/ prefix.
+     * @return Cash payment if the value is yes; empty if the value is no.
+     * @throws ParseException if the supplied value is not yes or no.
+     */
+    public static Optional<PaymentInfo> parseCashPayment(String cashPayment) throws ParseException {
+        String normalizedCashPayment = normalizeWhitespace(cashPayment).toLowerCase();
+        switch (normalizedCashPayment) {
+        case "yes":
+            return Optional.of(new CashPayment());
+        case "no":
+            return Optional.empty();
+        default:
+            throw new ParseException(MESSAGE_CASH_PAYMENT_REQUIRED);
         }
     }
 

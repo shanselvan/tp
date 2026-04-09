@@ -14,6 +14,7 @@ import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.BankPayment;
+import seedu.homechef.model.order.CashPayment;
 import seedu.homechef.model.order.CompletionStatus;
 import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.Date;
@@ -34,6 +35,9 @@ class JsonAdaptedOrder {
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Order's %s field is missing!";
     private static final String MESSAGE_INVALID_PAYMENT_METHOD =
             "Unsupported payment method. Expected one of: CASH, PAYNOW, BANK.";
+    private static final String METHOD_CASH = "CASH";
+    private static final String METHOD_PAYNOW = "PAYNOW";
+    private static final String METHOD_BANK = "BANK";
 
     private final String food;
     private final String customer;
@@ -105,8 +109,18 @@ class JsonAdaptedOrder {
         Optional<PaymentInfo> optPaymentInfo = source.getPaymentInfo();
         if (optPaymentInfo.isPresent()) {
             PaymentInfo info = optPaymentInfo.get();
-            paymentMethod = info.getMethod();
-            paymentDetails = firstNonBlank(info.getHandle(), info.getReferenceNumber());
+            if (info instanceof CashPayment) {
+                paymentMethod = METHOD_CASH;
+                paymentDetails = null;
+            } else if (info instanceof PayNowPayment) {
+                paymentMethod = METHOD_PAYNOW;
+                paymentDetails = info.getReference();
+            } else if (info instanceof BankPayment) {
+                paymentMethod = METHOD_BANK;
+                paymentDetails = info.getReference();
+            } else {
+                throw new IllegalArgumentException(MESSAGE_INVALID_PAYMENT_METHOD);
+            }
         } else {
             paymentMethod = null;
             paymentDetails = null;
@@ -224,27 +238,21 @@ class JsonAdaptedOrder {
                 modelCompletionStatus, modelPaymentStatus, modelDietTags, modelQuantity, modelPrice, modelPaymentInfo);
     }
 
-    private static String firstNonBlank(String... values) {
-        for (String value : values) {
-            if (value != null && !value.isBlank()) {
-                return value;
-            }
-        }
-        return null;
-    }
-
     private static PaymentInfo parsePaymentInfo(String method, String details) {
         String normalizedMethod = method.trim().toUpperCase();
         switch (normalizedMethod) {
-        case PaymentInfo.METHOD_CASH:
-            return new seedu.homechef.model.order.CashPayment();
-        case PaymentInfo.METHOD_PAYNOW:
+        case METHOD_CASH:
+            return new CashPayment();
+        case METHOD_PAYNOW:
             if (details == null || details.isBlank()) {
-                throw new IllegalArgumentException(PayNowPayment.MESSAGE_INVALID_PAYNOW_HANDLE);
+                throw new IllegalArgumentException(PayNowPayment.MESSAGE_INVALID_REFERENCE);
             }
             return new PayNowPayment(details.trim());
-        case PaymentInfo.METHOD_BANK:
-            return (details == null || details.isBlank()) ? new BankPayment() : new BankPayment(details.trim());
+        case METHOD_BANK:
+            if (details == null || details.isBlank()) {
+                throw new IllegalArgumentException(BankPayment.MESSAGE_INVALID_REFERENCE);
+            }
+            return new BankPayment(details.trim());
         default:
             throw new IllegalArgumentException(MESSAGE_INVALID_PAYMENT_METHOD);
         }

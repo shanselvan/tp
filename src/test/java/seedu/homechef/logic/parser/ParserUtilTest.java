@@ -3,7 +3,7 @@ package seedu.homechef.logic.parser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_BANK_PAYMENT_REQUIRED;
-import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_CASH_PAYMENT_DOES_NOT_ACCEPT_VALUE;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_CASH_PAYMENT_REQUIRED;
 import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_MULTIPLE_PAYMENT_PREFIXES;
 import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_PAYNOW_PAYMENT_REQUIRED;
@@ -23,9 +23,12 @@ import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
 import seedu.homechef.model.menu.Availability;
 import seedu.homechef.model.order.Address;
+import seedu.homechef.model.order.BankPayment;
+import seedu.homechef.model.order.CashPayment;
 import seedu.homechef.model.order.Customer;
 import seedu.homechef.model.order.DietTag;
 import seedu.homechef.model.order.Email;
+import seedu.homechef.model.order.PayNowPayment;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Quantity;
@@ -57,7 +60,7 @@ public class ParserUtilTest {
     @Test
     public void parseIndex_outOfRangeInput_throwsParseException() {
         assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, ()
-                -> ParserUtil.parseIndex(Long.toString(Integer.MAX_VALUE + 1)));
+                -> ParserUtil.parseIndex(String.valueOf(Integer.MAX_VALUE) + 1));
     }
 
     @Test
@@ -68,7 +71,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseCustomer_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parseCustomer((String) null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseCustomer(null));
     }
 
     @Test
@@ -85,7 +88,7 @@ public class ParserUtilTest {
 
     @Test
     public void parsePhone_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parsePhone((String) null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parsePhone(null));
     }
 
     @Test
@@ -102,7 +105,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseAddress_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parseAddress((String) null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseAddress(null));
     }
 
     @Test
@@ -119,7 +122,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseEmail_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parseEmail((String) null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseEmail(null));
     }
 
     @Test
@@ -165,7 +168,7 @@ public class ParserUtilTest {
 
     @Test
     public void parsePrice_cases() throws Exception {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parsePrice((String) null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parsePrice(null));
         assertThrows(ParseException.class, () -> ParserUtil.parsePrice(INVALID_PRICE));
         assertEquals(new Price(VALID_PRICE), ParserUtil.parsePrice(VALID_PRICE));
         assertEquals(new Price(VALID_PRICE), ParserUtil.parsePrice(WHITESPACE + VALID_PRICE + WHITESPACE));
@@ -189,9 +192,16 @@ public class ParserUtilTest {
     @Test
     public void parsePaymentInfo_cash_success() throws Exception {
         Optional<PaymentInfo> result = ParserUtil.parsePaymentInfo(
-                Optional.empty(), Optional.empty(), Optional.of(""));
+                Optional.empty(), Optional.empty(), Optional.of("yes"));
         assertTrue(result.isPresent());
-        assertEquals(PaymentInfo.METHOD_CASH, result.get().getMethod());
+        assertTrue(result.get() instanceof CashPayment);
+    }
+
+    @Test
+    public void parsePaymentInfo_cashNo_success() throws Exception {
+        Optional<PaymentInfo> result = ParserUtil.parsePaymentInfo(
+                Optional.empty(), Optional.empty(), Optional.of("no"));
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -199,8 +209,8 @@ public class ParserUtilTest {
         Optional<PaymentInfo> result = ParserUtil.parsePaymentInfo(
                 Optional.empty(), Optional.of("+65 91234567"), Optional.empty());
         assertTrue(result.isPresent());
-        assertEquals(PaymentInfo.METHOD_PAYNOW, result.get().getMethod());
-        assertEquals("+65 91234567", result.get().getHandle());
+        assertTrue(result.get() instanceof PayNowPayment);
+        assertEquals("+65 91234567", result.get().getReference());
     }
 
     @Test
@@ -208,27 +218,30 @@ public class ParserUtilTest {
         Optional<PaymentInfo> result = ParserUtil.parsePaymentInfo(
                 Optional.of("REF123"), Optional.empty(), Optional.empty());
         assertTrue(result.isPresent());
-        assertEquals(PaymentInfo.METHOD_BANK, result.get().getMethod());
-        assertEquals("REF123", result.get().getReferenceNumber());
+        assertTrue(result.get() instanceof BankPayment);
+        assertEquals("REF123", result.get().getReference());
     }
 
     @Test
     public void parsePaymentInfo_normalization_success() throws Exception {
         Optional<PaymentInfo> paynow = ParserUtil.parsePaymentInfo(
                 Optional.empty(), Optional.of("  +65   91234567  "), Optional.empty());
-        assertEquals("+65 91234567", paynow.get().getHandle());
+        assertTrue(paynow.isPresent());
+        assertEquals("+65 91234567", paynow.get().getReference());
 
         Optional<PaymentInfo> bank = ParserUtil.parsePaymentInfo(
                 Optional.of("  DBS   REF   001  "), Optional.empty(), Optional.empty());
-        assertEquals("DBS REF 001", bank.get().getReferenceNumber());
+        assertEquals("DBS REF 001", bank.get().getReference());
     }
 
     @Test
     public void parsePaymentInfo_failures() {
         assertThrows(ParseException.class, MESSAGE_MULTIPLE_PAYMENT_PREFIXES, () ->
                 ParserUtil.parsePaymentInfo(Optional.of("REF123"), Optional.of("+65 91234567"), Optional.empty()));
-        assertThrows(ParseException.class, MESSAGE_CASH_PAYMENT_DOES_NOT_ACCEPT_VALUE, () ->
+        assertThrows(ParseException.class, MESSAGE_CASH_PAYMENT_REQUIRED, () ->
                 ParserUtil.parsePaymentInfo(Optional.empty(), Optional.empty(), Optional.of("value")));
+        assertThrows(ParseException.class, MESSAGE_CASH_PAYMENT_REQUIRED, () ->
+                ParserUtil.parsePaymentInfo(Optional.empty(), Optional.empty(), Optional.of("  ")));
         assertThrows(ParseException.class, MESSAGE_PAYNOW_PAYMENT_REQUIRED, () ->
                 ParserUtil.parsePaymentInfo(Optional.empty(), Optional.of("  "), Optional.empty()));
         assertThrows(ParseException.class, MESSAGE_BANK_PAYMENT_REQUIRED, () ->

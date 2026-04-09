@@ -63,7 +63,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_TAG + "TAG]..."
             + "[" + PREFIX_BANK_PAYMENT + "BANK_DETAILS] "
             + "[" + PREFIX_PAYNOW_PAYMENT + "PAYNOW_CONTACT] "
-            + "[" + PREFIX_CASH_PAYMENT + "true|false] "
+            + "[" + PREFIX_CASH_PAYMENT + "YES_OR_NO] "
             + "\nExample: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";

@@ -42,7 +42,7 @@ public class AddCommand extends Command {
             + "[" + PREFIX_TAG + "TAG]... "
             + "[" + PREFIX_BANK_PAYMENT + "BANK_DETAILS] "
             + "[" + PREFIX_PAYNOW_PAYMENT + "PAYNOW_CONTACT] "
-            + "[" + PREFIX_CASH_PAYMENT + "] "
+            + "[" + PREFIX_CASH_PAYMENT + "YES_OR_NO] "
             + "\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_FOOD + "Birthday Cake "

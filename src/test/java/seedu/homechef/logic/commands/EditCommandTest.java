@@ -2,7 +2,6 @@ package seedu.homechef.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.homechef.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.homechef.logic.commands.CommandTestUtil.DESC_BOB;
@@ -255,8 +254,7 @@ public class EditCommandTest {
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
         Order result = expectedModel.getFilteredOrderList().get(INDEX_FIRST_ORDER.getZeroBased());
-        assertEquals(PaymentInfo.METHOD_CASH, result.getPaymentInfo().get().getMethod());
-        assertNull(result.getPaymentInfo().get().getHandle());
+        assertTrue(result.getPaymentInfo().get() instanceof CashPayment);
     }
 
     @Test

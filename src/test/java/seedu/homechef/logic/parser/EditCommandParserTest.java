@@ -3,11 +3,13 @@ package seedu.homechef.logic.parser;
 import static seedu.homechef.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.homechef.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static seedu.homechef.logic.commands.CommandTestUtil.BANK_PAYMENT_DESC;
+import static seedu.homechef.logic.commands.CommandTestUtil.CASH_NO_PAYMENT_DESC;
 import static seedu.homechef.logic.commands.CommandTestUtil.CASH_PAYMENT_DESC;
 import static seedu.homechef.logic.commands.CommandTestUtil.CUSTOMER_DESC_AMY;
 import static seedu.homechef.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.homechef.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.homechef.logic.commands.CommandTestUtil.INVALID_BANK_PAYMENT_DESC;
+import static seedu.homechef.logic.commands.CommandTestUtil.INVALID_CASH_PAYMENT_DESC;
 import static seedu.homechef.logic.commands.CommandTestUtil.INVALID_CUSTOMER_DESC;
 import static seedu.homechef.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.homechef.logic.commands.CommandTestUtil.INVALID_PAYNOW_PAYMENT_DESC;
@@ -31,6 +33,7 @@ import static seedu.homechef.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_BANK_PAYMENT_REQUIRED;
+import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_CASH_PAYMENT_REQUIRED;
 import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_MULTIPLE_PAYMENT_PREFIXES;
 import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_PAYNOW_PAYMENT_REQUIRED;
 import static seedu.homechef.testutil.TypicalIndexes.INDEX_FIRST_ORDER;
@@ -59,7 +62,7 @@ public class EditCommandParserTest {
     private static final String MESSAGE_INVALID_FORMAT =
             String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
 
-    private EditCommandParser parser = new EditCommandParser();
+    private final EditCommandParser parser = new EditCommandParser();
 
     @Test
     public void parse_missingParts_failure() {
@@ -84,13 +87,12 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_allFieldsSpecified_success() {
-        Index targetIndex = INDEX_SECOND_ORDER;
-        String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + TAG_DESC_HUSBAND
+        String userInput = INDEX_SECOND_ORDER.getOneBased() + PHONE_DESC_BOB + TAG_DESC_HUSBAND
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + CUSTOMER_DESC_AMY + TAG_DESC_FRIEND;
         EditOrderDescriptor descriptor = new EditOrderDescriptorBuilder().withCustomer(VALID_CUSTOMER_AMY)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, userInput, new EditCommand(targetIndex, descriptor));
+        assertParseSuccess(parser, userInput, new EditCommand(INDEX_SECOND_ORDER, descriptor));
     }
 
     @Test
@@ -123,6 +125,10 @@ public class EditCommandParserTest {
                 new EditCommand(targetIndex,
                         new EditOrderDescriptorBuilder().withPaymentInfo(new CashPayment()).build()));
 
+        assertParseSuccess(parser, targetIndex.getOneBased() + CASH_NO_PAYMENT_DESC,
+                new EditCommand(targetIndex,
+                        new EditOrderDescriptorBuilder().clearPaymentInfo().build()));
+
         assertParseSuccess(parser, targetIndex.getOneBased() + PAYNOW_PAYMENT_DESC,
                 new EditCommand(targetIndex,
                         new EditOrderDescriptorBuilder().withPaymentInfo(
@@ -132,27 +138,16 @@ public class EditCommandParserTest {
                 new EditCommand(targetIndex,
                         new EditOrderDescriptorBuilder().withPaymentInfo(
                                 new BankPayment(VALID_PAYMENT_BANK)).build()));
-
-        assertParseSuccess(parser, targetIndex.getOneBased() + " cash/true",
-                new EditCommand(targetIndex,
-                        new EditOrderDescriptorBuilder().withPaymentInfo(new CashPayment()).build()));
-        assertParseSuccess(parser, targetIndex.getOneBased() + " cash/yes",
-                new EditCommand(targetIndex,
-                        new EditOrderDescriptorBuilder().withPaymentInfo(new CashPayment()).build()));
-        assertParseSuccess(parser, targetIndex.getOneBased() + " cash/false",
-                new EditCommand(targetIndex,
-                        new EditOrderDescriptorBuilder().clearPaymentInfo().build()));
-        assertParseSuccess(parser, targetIndex.getOneBased() + " cash/no",
-                new EditCommand(targetIndex,
-                        new EditOrderDescriptorBuilder().clearPaymentInfo().build()));
     }
 
     @Test
     public void parse_payment_failure() {
+        assertParseFailure(parser, "1" + INVALID_CASH_PAYMENT_DESC, MESSAGE_CASH_PAYMENT_REQUIRED);
         assertParseFailure(parser, "1" + INVALID_PAYNOW_PAYMENT_DESC, MESSAGE_PAYNOW_PAYMENT_REQUIRED);
         assertParseFailure(parser, "1" + INVALID_BANK_PAYMENT_DESC, MESSAGE_BANK_PAYMENT_REQUIRED);
-        assertParseFailure(parser, "1 cash/accepted", EditCommandParser.MESSAGE_CASH_PAYMENT_BOOLEAN_REQUIRED);
         assertParseFailure(parser, "1" + BANK_PAYMENT_DESC + PAYNOW_PAYMENT_DESC, MESSAGE_MULTIPLE_PAYMENT_PREFIXES);
+        assertParseFailure(parser, "1" + CASH_PAYMENT_DESC + BANK_PAYMENT_DESC, MESSAGE_MULTIPLE_PAYMENT_PREFIXES);
+        assertParseFailure(parser, "1" + CASH_PAYMENT_DESC + PAYNOW_PAYMENT_DESC, MESSAGE_MULTIPLE_PAYMENT_PREFIXES);
     }
 
     @Test

@@ -8,36 +8,32 @@ import java.util.Objects;
  * Represents a PayNow payment.
  */
 public final class PayNowPayment implements PaymentInfo {
-    public static final String MESSAGE_INVALID_PAYNOW_HANDLE =
+    public static final String MESSAGE_INVALID_REFERENCE =
             "PayNow payment requires a non-blank phone number or handle.";
 
-    private final String handle;
+    private final String reference;
 
     /**
-     *  Creates a PayNow payment with the specified handle.
-     * @param handle
+     * Creates a PayNow payment with the specified handle.
+     *
+     * @param reference PayNow phone number or handle.
      */
-    public PayNowPayment(String handle) {
-        requireNonNull(handle);
-        if (handle.isBlank()) {
-            throw new IllegalArgumentException(MESSAGE_INVALID_PAYNOW_HANDLE);
+    public PayNowPayment(String reference) {
+        requireNonNull(reference);
+        if (reference.isBlank()) {
+            throw new IllegalArgumentException(MESSAGE_INVALID_REFERENCE);
         }
-        this.handle = handle;
+        this.reference = reference;
     }
 
     @Override
-    public String getHandle() {
-        return handle;
-    }
-
-    @Override
-    public String getMethod() {
-        return METHOD_PAYNOW;
+    public String getReference() {
+        return reference;
     }
 
     @Override
     public String toString() {
-        return "PAYNOW (handle: " + handle + ")";
+        return "PayNow: " + this.reference;
     }
 
     @Override
@@ -49,11 +45,11 @@ public final class PayNowPayment implements PaymentInfo {
             return false;
         }
         PayNowPayment otherPayment = (PayNowPayment) other;
-        return Objects.equals(handle, otherPayment.handle);
+        return reference.equals(otherPayment.reference);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(METHOD_PAYNOW, handle);
+        return Objects.hash(PayNowPayment.class, reference);
     }
 }

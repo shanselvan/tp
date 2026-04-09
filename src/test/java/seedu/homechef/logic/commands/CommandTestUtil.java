@@ -83,7 +83,9 @@ public class CommandTestUtil {
     public static final String VALID_PAYMENT_BANK = "DBS-REF-001";
 
     public static final String CASH_PAYMENT_DESC =
-            " " + PREFIX_CASH_PAYMENT;
+            " " + PREFIX_CASH_PAYMENT + "yes";
+    public static final String CASH_NO_PAYMENT_DESC =
+            " " + PREFIX_CASH_PAYMENT + "no";
     public static final String PAYNOW_PAYMENT_DESC =
             " " + PREFIX_PAYNOW_PAYMENT + VALID_PAYMENT_PAYNOW;
     public static final String BANK_PAYMENT_DESC =
@@ -92,6 +94,8 @@ public class CommandTestUtil {
             " " + PREFIX_PAYNOW_PAYMENT;
     public static final String INVALID_BANK_PAYMENT_DESC =
             " " + PREFIX_BANK_PAYMENT;
+    public static final String INVALID_CASH_PAYMENT_DESC =
+            " " + PREFIX_CASH_PAYMENT;
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";

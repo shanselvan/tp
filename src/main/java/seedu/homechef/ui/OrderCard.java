@@ -225,11 +225,7 @@ public class OrderCard extends UiPart<Region> {
 
     private void setPaymentInfoDisplay(Optional<PaymentInfo> value) {
         paymentInfoDisplayIcon.setImage(paymentInfoIcon);
-        value.ifPresentOrElse(
-                info -> paymentInfo.setText("Payment: " + info.toString()), () -> {
-                    paymentInfo.setVisible(false);
-                    paymentInfo.setManaged(false);
-                });
+        paymentInfo.setText(value.map(PaymentInfo::toString).orElse("None"));
     }
 
     private void setDietTagsDisplay(Set<DietTag> tags) {

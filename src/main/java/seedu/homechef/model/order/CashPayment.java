@@ -6,13 +6,13 @@ package seedu.homechef.model.order;
 public final class CashPayment implements PaymentInfo {
 
     @Override
-    public String getMethod() {
-        return METHOD_CASH;
+    public String getReference() {
+        return "CashPayment";
     }
 
     @Override
     public String toString() {
-        return "CASH";
+        return "Cash";
     }
 
     @Override
@@ -22,6 +22,6 @@ public final class CashPayment implements PaymentInfo {
 
     @Override
     public int hashCode() {
-        return METHOD_CASH.hashCode();
+        return CashPayment.class.hashCode();
     }
 }

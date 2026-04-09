@@ -23,7 +23,6 @@ import seedu.homechef.commons.core.index.Index;
 import seedu.homechef.logic.commands.EditCommand;
 import seedu.homechef.logic.commands.EditCommand.EditOrderDescriptor;
 import seedu.homechef.logic.parser.exceptions.ParseException;
-import seedu.homechef.model.order.CashPayment;
 import seedu.homechef.model.order.DietTag;
 import seedu.homechef.model.order.PaymentInfo;
 
@@ -31,9 +30,6 @@ import seedu.homechef.model.order.PaymentInfo;
  * Parses input arguments and creates a new EditCommand object
  */
 public class EditCommandParser implements Parser<EditCommand> {
-    public static final String MESSAGE_CASH_PAYMENT_BOOLEAN_REQUIRED =
-            "For edit, cash/ only accepts true/false (or yes/no).";
-
     /**
      * Parses the given {@code String} of arguments in the context of the EditCommand
      * and returns an EditCommand object for execution.
@@ -93,16 +89,11 @@ public class EditCommandParser implements Parser<EditCommand> {
             throw new ParseException(ParserUtil.MESSAGE_MULTIPLE_PAYMENT_PREFIXES);
         }
         if (cashPayment.isPresent()) {
-            String normalizedCashValue = cashPayment.get().isBlank()
-                    ? ""
-                    : ParserUtil.normalizeWhitespace(cashPayment.get()).toLowerCase();
-            if (normalizedCashValue.isEmpty() || normalizedCashValue.equals("true")
-                    || normalizedCashValue.equals("yes")) {
-                editOrderDescriptor.setPaymentInfo(new CashPayment());
-            } else if (normalizedCashValue.equals("false") || normalizedCashValue.equals("no")) {
-                editOrderDescriptor.clearPaymentInfo();
+            Optional<PaymentInfo> parsedCashPayment = ParserUtil.parseCashPayment(cashPayment.get());
+            if (parsedCashPayment.isPresent()) {
+                editOrderDescriptor.setPaymentInfo(parsedCashPayment.get());
             } else {
-                throw new ParseException(MESSAGE_CASH_PAYMENT_BOOLEAN_REQUIRED);
+                editOrderDescriptor.clearPaymentInfo();
             }
         } else {
             Optional<PaymentInfo> paymentInfo = ParserUtil.parsePaymentInfo(

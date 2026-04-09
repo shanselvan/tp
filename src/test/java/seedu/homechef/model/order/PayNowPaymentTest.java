@@ -12,15 +12,14 @@ public class PayNowPaymentTest {
     @Test
     public void constructor_validHandle_success() {
         PayNowPayment payment = new PayNowPayment("+65 91234567");
-        assertEquals(PaymentInfo.METHOD_PAYNOW, payment.getMethod());
-        assertEquals("+65 91234567", payment.getHandle());
-        assertEquals("PAYNOW (handle: +65 91234567)", payment.toString());
+        assertEquals("+65 91234567", payment.getReference());
+        assertEquals("PayNow: +65 91234567", payment.toString());
     }
 
     @Test
     public void constructor_nonPhoneHandle_success() {
         PayNowPayment payment = new PayNowPayment("alice@paynow");
-        assertEquals("alice@paynow", payment.getHandle());
+        assertEquals("alice@paynow", payment.getReference());
     }
 
     @Test
