@@ -24,6 +24,7 @@ import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentStatus;
 import seedu.homechef.model.order.Phone;
+import seedu.homechef.model.order.Quantity;
 
 /**
  * Marks an order identified using it's displayed index from the HomeChef as In Progress.
@@ -79,11 +80,12 @@ public class MarkInProgressCommand extends Command {
         CompletionStatus updatedCompletionStatus = CompletionStatus.IN_PROGRESS;
         PaymentStatus paymentStatus = orderToMarkInProgress.getPaymentStatus();
         Set<DietTag> dietTags = orderToMarkInProgress.getTags();
+        Quantity quantity = orderToMarkInProgress.getQuantity();
         Price price = orderToMarkInProgress.getPrice();
         Optional<PaymentInfo> paymentInfo = orderToMarkInProgress.getPaymentInfo();
 
         return new Order(food, customer, phone,
-                email, address, date, updatedCompletionStatus, paymentStatus, dietTags, price, paymentInfo);
+                email, address, date, updatedCompletionStatus, paymentStatus, dietTags, quantity, price, paymentInfo);
     }
 
     @Override

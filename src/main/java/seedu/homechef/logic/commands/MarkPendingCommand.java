@@ -24,6 +24,7 @@ import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.PaymentInfo;
 import seedu.homechef.model.order.PaymentStatus;
 import seedu.homechef.model.order.Phone;
+import seedu.homechef.model.order.Quantity;
 
 /**
  * Marks an order identified using it's displayed index from the HomeChef as completed.
@@ -78,11 +79,12 @@ public class MarkPendingCommand extends Command {
         CompletionStatus updatedCompletionStatus = CompletionStatus.PENDING;
         PaymentStatus paymentStatus = orderToMarkPending.getPaymentStatus();
         Set<DietTag> dietTags = orderToMarkPending.getTags();
+        Quantity quantity = orderToMarkPending.getQuantity();
         Price price = orderToMarkPending.getPrice();
         Optional<PaymentInfo> paymentInfo = orderToMarkPending.getPaymentInfo();
 
         return new Order(food, customer, phone,
-                email, address, date, updatedCompletionStatus, paymentStatus, dietTags, price, paymentInfo);
+                email, address, date, updatedCompletionStatus, paymentStatus, dietTags, quantity, price, paymentInfo);
     }
 
     @Override
