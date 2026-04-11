@@ -660,3 +660,4 @@ testers are expected to do more *exploratory* testing.
 3. Filtering of the menu according to food name, price and availability.
 4. Other ways to sort the order list, such as by date descending order (where the furthest date is positioned first), name alphabetical order, name reverse alphabetical order, etc.
 5. Add support for characters of different languages as not all chefs are English-speaking.
+6. Add a confirmation step for `clear` or an `undo` command to undo the previous command, to prevent accidental deletion of data.
