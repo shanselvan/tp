@@ -94,6 +94,11 @@ With a simple typing interface and a clear order list and food menu, this app is
   e.g. A list may originally be of size 10, so `5` is a valid `INDEX`. Using `list f/Cake` shortens the displayed list
   to a size of 3. This makes `5` an invalid `INDEX` now.
 
+* `PHONE` can only have numerical characters (`0` to `9`) and the special character `+`.<br>
+  More specifically, `PHONE` must be at least 3 numerical characters long.<br>
+  If using the `+` symbol to indicate international phone numbers, a blank space must be found between to country code and the phone number. The country code itself must be at least 1 character long, and can be at most 3 characters long.<br>
+  e.g. `+65 98898998` and `98765432` are accepted numbers, but `+6598898998` and `9876 5432` are not accepted numbers.
+
 * Items in square brackets are optional.<br>
   e.g `f/FOOD [t/TAG]` can be used as `f/Butter Cake t/no dairy` or as `f/Butter Cake`.
 
@@ -107,7 +112,7 @@ With a simple typing interface and a clear order list and food menu, this app is
 * Parameters can be in any order.<br>
   e.g. if the command specifies `f/FOOD p/PHONE`, `p/PHONE f/FOOD` is also acceptable.
 
-* Parameters **only** accept alphabets and numbers as characters, and a few other special characters.<br>
+* Besides the previously mentioned parameters, parameters **only** accept alphabets and numbers as characters, and a few other special characters.<br>
   These special characters are: `(`, `)`, `[`, `]`, `-`, ` ` (a blank space).<br>
   However, the blank space **cannot** be used as the very first character of any parameter.
 
@@ -148,7 +153,11 @@ Format: `add f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE [q/QUANTITY] [t/TAG]
 
 <div markdown="1" class="alert alert-primary">:bulb:
 **Notes about the add command:**<br>
-* `FOOD` must match an **existing food's name** in the current menu exactly.
+* `FOOD` must match an **existing food's name** in the current menu, but it is case-insensitive.
+  * HomeChef will try to match the given food name to the closest existing food in the menu.<br>
+    e.g. inputting `Birthday` will create an order with `Birthday Cake` is `Birthday Cake` exists in the menu, but not any other food with `Birthday`.
+  * If any food names share the input word, an error message will tell you to `Please use the exact menu item`.<br>
+    e.g. inputting `Cake` will give this error if both `Birthday Cake` and `Cupcakes` exist in the menu.
   * Giving an input that is not in the menu will show an error message telling you to `Use 'add-menu' to add it to the menu first.`
 * `DATE` is in **DD-MM-YYYY** format.
 * The order's price is automatically taken from the matching menu item. Use `add-menu` or `edit-menu` to update a food's price.
@@ -208,7 +217,7 @@ Sets the completion status of an order to 'In progress'.
 In progress orders have their completion status coloured orange.
 This helps to easily tell at a glance when an order is currently in progress.
 
-* On an in progress order, the completion status will not be changed.
+* On an in progress order, the completion status will remain as `In progress`.
 
 Format: `inprogress INDEX`
 
@@ -218,7 +227,7 @@ Sets the completion status of an order to 'Completed'.
 Completed orders have their completion status coloured green.
 This helps to easily tell at a glance when an order is completed.
 
-* On a completed order, the completion status will not be changed.
+* On a completed order, the completion status will remain as `Complete`.
 
 Format: `complete INDEX`
 
@@ -228,7 +237,7 @@ Sets the completion status of an order to 'Pending'.
 Pending orders have their completion status coloured dark grey.
 This helps to easily tell at a glance when an order has yet to be worked on.
 
-* On a pending order, the completion status will not be changed.
+* On a pending order, the completion status will remain as `Pending`.
 
 Format: `pending INDEX`
 
@@ -238,7 +247,7 @@ Sets the payment status of an order to 'Paid'.
 Paid orders have their payment status coloured green.
 This helps to easily tell at a glance when an order has been totally paid for by a customer.
 
-* On a paid order, the completion status will not be changed.
+* On a paid order, the completion status will remain as `Paid`.
 
 Format: `paid INDEX`
 
@@ -248,7 +257,7 @@ Sets the payment status of an order to 'Partial'.
 Partially paid orders have their payment status coloured yellow.
 This helps to easily tell at a glance when an order has been partially paid for by a customer.
 
-* On a partially paid order, the completion status will not be changed.
+* On a partially paid order, the completion status will remain as `Partial`.
 
 Format: `partial INDEX`
 
@@ -258,7 +267,7 @@ Sets the payment status of an order to 'Unpaid'.
 Unpaid orders have their payment status coloured red.
 This helps to easily tell at a glance when an order has yet to be paid by a customer.
 
-* On an unpaid order, the completion status will not be changed.
+* On an unpaid order, the completion status will remain as `Unpaid`.
 
 Format: `unpaid INDEX`
 
@@ -269,6 +278,7 @@ Generates a plain-text receipt file for the specified order.
 Format: `receipt INDEX`
 
 * A receipt file is created in a `receipts` folder beside the HomeChef data file.
+  * More specifically, the created receipt file can be found in `[JAR file location]/data/receipts`.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 You can also use the shortcut command `rec`.
@@ -278,6 +288,10 @@ Examples:
 
 * `receipt 1` Prints a receipt for the order located at `INDEX` 1 of the shown list.
 * `rec 2` Prints a receipt for the order located at `INDEX` 2 of the shown list.
+* For the example order as shown:<br>
+  ![example order](images/receiptExampleOrder.png)<br>
+  The generated receipt will look like this:<br>
+  ![receipt](images/sampleReceipt.png)
 
 ### Editing an order : `edit`
 
@@ -395,7 +409,7 @@ Deletes the food item identified by the index number used in the displayed menu 
 Format: `delete-menu INDEX`
 
 <div markdown="1" class="alert alert-info">
-**:information_source: Notes about the edit-menu command:**<br>
+**:information_source: Notes about the delete-menu command:**<br>
 * You **cannot** delete a menu item that has a food item that is already in use in an order.
 </div>
 
@@ -410,9 +424,9 @@ Format: `edit-menu INDEX [f/NAME] [$/PRICE] [v/AVAILABILITY]`
 **:information_source: Notes about the edit-menu command:**<br>
 * `AVAILABILITY` only accepts `yes` or `no` spelled exactly.
   * Typing anything else will give an error message stating `Availability must be 'yes' or 'no'`.
-* Editing the `NAME` of a menu item **will not** change the food name in existing orders.
-  This preserves historical order records for bookkeeping purposes.
-* Editing the `PRICE` of a menu item **will not** change the price of existing orders. This is because old orders may have prices that differ from the new price of a menu item, for book keeping purposes.
+* Editing the `NAME` of a menu item **will not** change the name of existing orders. This is because old orders may have names that differ from the new name of a menu item, for book keeping purposes.
+  * e.g. In the past, someone ordered a `Birthday Cake`. 1 year later, you change the name of the `Birthday Cake` to `Event Cake`. The old order should remain in the records with the original name it was sold under to maintain consistency with the receipts.
+* Similarly, editing `PRICE` will not update existing orders either.
 </div>
 
 Example:
@@ -457,7 +471,7 @@ It is, however, recommended that a backup of the homechef.json and menu.json fil
 
 ### Editing the data file
 
-HomeChef data is saved automatically as a JSON file `[JAR file location]/data/homechef.json`. Advanced users are welcome
+HomeChef order list data is saved automatically as a JSON file `[JAR file location]/data/homechef.json`. The menu data is stored in the same location, under file name `menu.json`. Advanced users are welcome
 to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
