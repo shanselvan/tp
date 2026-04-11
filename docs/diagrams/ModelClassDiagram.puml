@@ -19,7 +19,7 @@ Class Email
 Class Food
 Class Customer
 Class Phone
-Class Tag
+Class DietTag
 Class CompletionStatus
 Class PaymentStatus
 Class PaymentInfo
@@ -50,7 +50,7 @@ Order *--> Email
 Order *--> Address
 Order *--> Date
 Order *--> Price
-Order *--> "*" Tag
+Order *--> "*" DietTag
 Order *--> CompletionStatus
 Order *--> PaymentStatus
 Order *--> "0..1" PaymentInfo
