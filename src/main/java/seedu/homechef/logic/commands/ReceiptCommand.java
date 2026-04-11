@@ -30,6 +30,8 @@ public class ReceiptCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Receipt generated at: %1$s";
     public static final String MESSAGE_FAILURE = "Could not generate receipt: %1$s";
+    public static final String MESSAGE_ONLY_PAID_ALLOWED =
+            "Receipts can only be generated for orders with payment status 'Paid'.";
 
     private final Index targetIndex;
 
@@ -47,6 +49,9 @@ public class ReceiptCommand extends Command {
         }
 
         Order orderToReceipt = lastShownList.get(targetIndex.getZeroBased());
+        if (!orderToReceipt.getPaymentStatus().isPaid()) {
+            throw new CommandException(MESSAGE_ONLY_PAID_ALLOWED);
+        }
         Path outputPath = ReceiptUtil.buildReceiptPath(model.getHomeChefFilePath(), orderToReceipt);
 
         try {
