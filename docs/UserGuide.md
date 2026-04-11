@@ -316,6 +316,7 @@ Examples:
   dietTags.
 * `edit 3 cash/yes` Sets the 3rd order's payment info to cash.
 * `edit 1` Shows an error message saying `At least one field to edit must be provided.`
+
 ### Deleting an order : `delete`
 
 Deletes the specified order.
