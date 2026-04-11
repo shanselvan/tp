@@ -182,8 +182,8 @@ Format: `list [d/DATE] [c/CUSTOMER] [f/FOOD] [p/PHONE] [cs/COMPLETION STATUS] [p
 
 <div markdown="1" class="alert alert-primary">:bulb: **Notes about the list command:**<br>
 * Lists all orders when no parameters are given.
-* Filters are case-insensitive for `c/`, `f/` and `p/`.
-* `DATE` must be in the format `dd-MM-yyyy`.
+* Filters are case-insensitive for `c/`, `f/`, `p/`, `cs/` and `ps/` parameters. For example, `list cs/pending` and `list cs/Pending` will give the same results.
+* `DATE` must be in the format `dd-MM-yyyy`. (e.g. `18-10-2026` for 18th October 2026)
 * `COMPLETION_STATUS` must be one of `Pending`, `In progress` or `Completed`.
 * `PAYMENT_STATUS` must be one of `Paid`, `Unpaid` or `Partial`.
 * Using `list` with no parameters is a good way to reset the order list view to show every order stored.
