@@ -107,6 +107,8 @@ public class DateTest {
         assertFalse(Date.isValidDate("1-12-2026")); // wrong format
         assertFalse(Date.isValidDate("32-01-2026")); // invalid day
         assertFalse(Date.isValidDate("01-13-2026")); // invalid month
+        assertFalse(Date.isValidDate("31-02-2026")); // invalid day/month combination
+        assertFalse(Date.isValidDate("29-02-2025")); // non-leap year Feb 29
         assertFalse(Date.isValidDate("abc")); // non-numeric input
 
         // EP: valid date

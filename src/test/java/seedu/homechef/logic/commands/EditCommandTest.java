@@ -16,6 +16,8 @@ import static seedu.homechef.testutil.TypicalIndexes.INDEX_FIRST_ORDER;
 import static seedu.homechef.testutil.TypicalIndexes.INDEX_SECOND_ORDER;
 import static seedu.homechef.testutil.TypicalOrders.getTypicalHomeChef;
 
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.homechef.commons.core.index.Index;
@@ -50,7 +52,7 @@ public class EditCommandTest {
                 .withPhone("85355255")
                 .withEmail("amy@gmail.com")
                 .withAddress("123, Jurong West Ave 6, #08-111")
-                .withDate("10-03-2026")
+                .withDate("10-03-2099")
                 .withPrice(VALID_MENU_BIRTHDAY_PRICE) // price derived from menu; "Birthday Cake" costs "20.00"
                 .build();
 
@@ -60,7 +62,7 @@ public class EditCommandTest {
                 .withPhone("85355255")
                 .withEmail("amy@gmail.com")
                 .withAddress("123, Jurong West Ave 6, #08-111")
-                .withDate("10-03-2026")
+                .withDate("10-03-2099")
                 .build();
 
         EditCommand editCommand = new EditCommand(INDEX_FIRST_ORDER, descriptor);
@@ -293,5 +295,23 @@ public class EditCommandTest {
                 .get(INDEX_FIRST_ORDER.getZeroBased()).getPaymentInfo().isEmpty());
     }
 
-}
+    @Test
+    public void execute_dateEditedToPast_includesWarning() {
+        Order orderToEdit = model.getFilteredOrderList().get(INDEX_FIRST_ORDER.getZeroBased());
+        String yesterday = LocalDate.now().minusDays(1).format(seedu.homechef.model.order.Date.FORMATTER);
 
+        EditOrderDescriptor descriptor = new EditOrderDescriptorBuilder().withDate(yesterday).build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_ORDER, descriptor);
+
+        Order expectedOrder = new OrderBuilder(orderToEdit).withDate(yesterday).build();
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_ORDER_SUCCESS, Messages.format(expectedOrder))
+                + EditCommand.MESSAGE_PAST_DATE_WARNING;
+
+        Model expectedModel = new ModelManager(
+                new HomeChef(model.getHomeChef()), TypicalMenuItems.getTypicalMenuBook(), new UserPrefs());
+        expectedModel.setOrder(orderToEdit, expectedOrder);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+}

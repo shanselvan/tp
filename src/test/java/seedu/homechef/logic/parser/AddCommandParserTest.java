@@ -194,6 +194,13 @@ public class AddCommandParserTest {
         assertEquals(new Quantity(1), extractOrder(command).getQuantity());
     }
 
+    @Test
+    public void parse_invalidCalendarDate_failure() {
+        assertParseFailure(parser, FOOD_DESC_BOB + CUSTOMER_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                + ADDRESS_DESC_BOB + " d/31-02-2026" + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+                Date.MESSAGE_CONSTRAINTS);
+    }
+
     private static Order extractOrder(AddCommand command) {
         try {
             java.lang.reflect.Field field = AddCommand.class.getDeclaredField("toAdd");
@@ -204,4 +211,3 @@ public class AddCommandParserTest {
         }
     }
 }
-

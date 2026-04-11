@@ -291,6 +291,12 @@ public class JsonAdaptedOrderTest {
         assertEquals(new Quantity(3), result.getQuantity());
     }
 
+    @Test
+    public void toModelType_invalidCalendarDate_throwsIllegalValueException() {
+        JsonAdaptedOrder order = new JsonAdaptedOrder(VALID_FOOD, VALID_CUSTOMER, VALID_PHONE,
+                VALID_EMAIL, VALID_ADDRESS, "31-02-2026", VALID_PRICE, VALID_COMPLETION_STATUS,
+                VALID_PAYMENT_STATUS, VALID_TAGS, null, null, null);
+        assertThrows(IllegalValueException.class, Date.MESSAGE_CONSTRAINTS, order::toModelType);
+    }
+
 }
-
-

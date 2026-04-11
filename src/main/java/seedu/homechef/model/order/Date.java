@@ -6,6 +6,7 @@ import static seedu.homechef.commons.util.AppUtil.checkArgument;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 
 /**
  * Represents an Order's fulfillment date in HomeChef.
@@ -18,7 +19,8 @@ public class Date implements Comparable<Date> {
     public static final String URGENCY_CONSTRAINTS =
             "Urgency should be Normal, Urgent, or Overdue.";
 
-    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    public static final DateTimeFormatter FORMATTER =
+            DateTimeFormatter.ofPattern("dd-MM-uuuu").withResolverStyle(ResolverStyle.STRICT);
 
     public static final String NORMAL = "Normal";
     public static final String URGENT = "Urgent";
@@ -55,12 +57,20 @@ public class Date implements Comparable<Date> {
     public int compareTo(Date other) {
         return this.value.compareTo(other.value);
     }
+
+    /**
+     * Returns true if this date is before the current day.
+     */
+    public boolean isBeforeToday() {
+        return value.isBefore(LocalDate.now());
+    }
+
     /**
      * Returns a string representation of the urgency status of a Date.
      * A Date is considered urgent if it is within the specified URGENT_PERIOD_DAYS.
      */
     public String getUrgency() {
-        if (value.isBefore(LocalDate.now())) {
+        if (isBeforeToday()) {
             return OVERDUE;
         }
         if (value.isBefore(LocalDate.now().plusDays(URGENT_PERIOD_DAYS))) {

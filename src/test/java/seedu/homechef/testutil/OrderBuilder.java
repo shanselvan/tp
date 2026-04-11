@@ -29,7 +29,7 @@ public class OrderBuilder {
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
-    public static final String DEFAULT_DATE = "10-03-2026";
+    public static final String DEFAULT_DATE = "10-03-2099";
     public static final String DEFAULT_COMPLETION_STATUS = "Pending";
     public static final String DEFAULT_PAYMENT_STATUS = "Unpaid";
     public static final String DEFAULT_PRICE = "6.70";

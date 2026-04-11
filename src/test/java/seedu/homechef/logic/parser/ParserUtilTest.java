@@ -26,6 +26,7 @@ import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.BankPayment;
 import seedu.homechef.model.order.CashPayment;
 import seedu.homechef.model.order.Customer;
+import seedu.homechef.model.order.Date;
 import seedu.homechef.model.order.DietTag;
 import seedu.homechef.model.order.Email;
 import seedu.homechef.model.order.PayNowPayment;
@@ -266,5 +267,15 @@ public class ParserUtilTest {
         assertThrows(ParseException.class, () -> ParserUtil.parseQuantity("-1"));
         assertThrows(ParseException.class, () -> ParserUtil.parseQuantity("1000"));
         assertThrows(ParseException.class, () -> ParserUtil.parseQuantity("abc"));
+    }
+
+    @Test
+    public void parseDate_cases() throws Exception {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseDate(null));
+        assertThrows(ParseException.class, Date.MESSAGE_CONSTRAINTS, () -> ParserUtil.parseDate("31-02-2026"));
+        assertThrows(ParseException.class, Date.MESSAGE_CONSTRAINTS, () -> ParserUtil.parseDate("29-02-2025"));
+
+        assertEquals(new Date("29-02-2024"), ParserUtil.parseDate("29-02-2024"));
+        assertEquals(new Date("01-03-2026"), ParserUtil.parseDate(WHITESPACE + "01-03-2026" + WHITESPACE));
     }
 }

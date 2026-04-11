@@ -71,6 +71,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_ORDER_SUCCESS = "Edited Order: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_ORDER = "This order already exists in the HomeChef.";
+    public static final String MESSAGE_PAST_DATE_WARNING = AddCommand.MESSAGE_PAST_DATE_WARNING;
 
     private final Index index;
     private final EditOrderDescriptor descriptor;
@@ -118,7 +119,11 @@ public class EditCommand extends Command {
 
         model.setOrder(orderToEdit, editedOrder);
         model.updateFilteredOrderList(PREDICATE_SHOW_ALL_ORDERS);
-        return new CommandResult(String.format(MESSAGE_EDIT_ORDER_SUCCESS, Messages.format(editedOrder)));
+        String feedback = String.format(MESSAGE_EDIT_ORDER_SUCCESS, Messages.format(editedOrder));
+        if (descriptor.getDate().isPresent() && editedOrder.getDate().isBeforeToday()) {
+            feedback += MESSAGE_PAST_DATE_WARNING;
+        }
+        return new CommandResult(feedback);
     }
 
     /**

@@ -43,6 +43,11 @@ public class ListCommandParserTest {
     }
 
     @Test
+    public void parse_invalidCalendarDateValue_failure() {
+        assertParseFailure(parser, " d/31-02-2026", Date.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
     public void parse_validMultipleFilters_success() {
         ListCommand.ListFilterDescriptor d = new ListCommand.ListFilterDescriptor();
         d.setDate(new Date("16-04-2003"));

@@ -8,6 +8,7 @@ import static seedu.homechef.testutil.Assert.assertThrows;
 import static seedu.homechef.testutil.TypicalOrders.ALICE;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Predicate;
@@ -115,6 +116,21 @@ public class AddCommandTest {
         ModelStub modelStub = new ModelStubWithOrder(validOrder);
 
         assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_ORDER, () -> addCommand.execute(modelStub));
+    }
+
+    @Test
+    public void execute_orderWithPastDate_includesWarning() throws Exception {
+        ModelStubAcceptingOrderAdded modelStub = new ModelStubAcceptingOrderAdded();
+        String yesterday = LocalDate.now().minusDays(1).format(seedu.homechef.model.order.Date.FORMATTER);
+        Order inputOrder = new OrderBuilder().withDate(yesterday).build();
+        Order expectedOrder = new OrderBuilder().withDate(yesterday).withPrice(OrderBuilder.DEFAULT_PRICE).build();
+
+        CommandResult commandResult = new AddCommand(inputOrder).execute(modelStub);
+
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(expectedOrder))
+                        + AddCommand.MESSAGE_PAST_DATE_WARNING,
+                commandResult.getFeedbackToUser());
+        assertEquals(Arrays.asList(expectedOrder), modelStub.ordersAdded);
     }
 
     @Test

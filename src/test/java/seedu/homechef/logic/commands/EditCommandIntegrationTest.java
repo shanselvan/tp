@@ -7,10 +7,13 @@ import static seedu.homechef.logic.commands.CommandTestUtil.VALID_MENU_BREAD_PRI
 import static seedu.homechef.logic.commands.CommandTestUtil.VALID_MENU_CHICKEN_PRICE;
 import static seedu.homechef.testutil.TypicalOrders.getTypicalHomeChef;
 
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.homechef.commons.core.index.Index;
+import seedu.homechef.logic.Messages;
 import seedu.homechef.logic.commands.exceptions.CommandException;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.ModelManager;
@@ -19,9 +22,11 @@ import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
 import seedu.homechef.model.menu.Availability;
 import seedu.homechef.model.menu.MenuItem;
+import seedu.homechef.model.order.Date;
 import seedu.homechef.model.order.Order;
 import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Quantity;
+import seedu.homechef.testutil.OrderBuilder;
 import seedu.homechef.testutil.TypicalMenuItems;
 
 /**
@@ -133,5 +138,21 @@ public class EditCommandIntegrationTest {
         String storedFoodName = model.getFilteredOrderList().get(0).getFood().toString();
         assertEquals("Chicken Rice", storedFoodName,
                 "Food name should be normalized to canonical menu casing");
+    }
+
+    @Test
+    public void execute_editDateToPast_feedbackIncludesWarning() throws Exception {
+        Index indexAlice = Index.fromOneBased(1);
+        Order orderToEdit = model.getFilteredOrderList().get(indexAlice.getZeroBased());
+
+        EditCommand.EditOrderDescriptor descriptor = new EditCommand.EditOrderDescriptor();
+        String yesterday = LocalDate.now().minusDays(1).format(Date.FORMATTER);
+        descriptor.setDate(new Date(yesterday));
+
+        CommandResult result = new EditCommand(indexAlice, descriptor).execute(model);
+
+        Order expectedOrder = new OrderBuilder(orderToEdit).withDate(yesterday).build();
+        assertEquals(String.format(EditCommand.MESSAGE_EDIT_ORDER_SUCCESS, Messages.format(expectedOrder))
+                + EditCommand.MESSAGE_PAST_DATE_WARNING, result.getFeedbackToUser());
     }
 }

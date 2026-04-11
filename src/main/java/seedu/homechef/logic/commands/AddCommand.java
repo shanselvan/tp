@@ -56,6 +56,8 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New order added: %1$s";
     public static final String MESSAGE_DUPLICATE_ORDER = "This order already exists in the HomeChef";
+    public static final String MESSAGE_PAST_DATE_WARNING =
+            " Warning: this order date is in the past and will be marked as overdue.";
 
     private final Order toAdd;
 
@@ -88,7 +90,11 @@ public class AddCommand extends Command {
         }
 
         model.addOrder(orderToAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(orderToAdd)));
+        String feedback = String.format(MESSAGE_SUCCESS, Messages.format(orderToAdd));
+        if (orderToAdd.getDate().isBeforeToday()) {
+            feedback += MESSAGE_PAST_DATE_WARNING;
+        }
+        return new CommandResult(feedback);
     }
 
     @Override
