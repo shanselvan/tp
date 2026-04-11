@@ -434,6 +434,11 @@ Exits the program.
 
 Format: `exit`
 
+<div markdown="1" class="alert alert-info">
+**:information_source: Notes about the exit command:**<br>
+* Additional text after `exit` is ignored (e.g., `exit 1`, `exit now`) and the app will still close.
+</div>
+
 * You can also exit the program by using your mouse cursor and clicking on the dropdown tab labelled `File` and then
   clicking on `Exit`.<br>
 
