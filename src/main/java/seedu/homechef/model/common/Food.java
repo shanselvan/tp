@@ -63,6 +63,12 @@ public class Food {
         return foodName.toLowerCase(Locale.ROOT).equals(otherFood.foodName.toLowerCase(Locale.ROOT));
     }
 
+    /**
+     * Returns true if this food name contains {@code other}, ignoring case.
+     *
+     * @param other String to search for within this food name.
+     * @return True if this food name contains {@code other}; false otherwise.
+     */
     public boolean nameContains(String other) {
         requireNonNull(other);
         String normalizedOther = Normalizer.normalize(other, Normalizer.Form.NFC);
