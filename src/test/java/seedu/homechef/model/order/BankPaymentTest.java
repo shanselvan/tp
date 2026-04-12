@@ -34,7 +34,7 @@ public class BankPaymentTest {
 
     @Test
     public void constructor_tooLongReference_throwsIllegalArgumentException() {
-        String longReference = "A".repeat(101);
+        String longReference = "A".repeat(51);
         assertThrows(IllegalArgumentException.class, () -> new BankPayment(longReference));
     }
 

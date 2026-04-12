@@ -172,7 +172,8 @@ Format: `add f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE [q/QUANTITY] [t/TAG]
   * Use `cash/yes` to set cash payment, or `cash/no` to leave the order without payment info.
   * Use `paynow/PAYNOW_CONTACT` for PayNow. It accepts any non-blank PayNow identifier
     (e.g., phone number, UEN, or handle/reference), and is intentionally more flexible than `p/PHONE_NUMBER`.
-  * Use `bank/BANK_DETAILS` for bank transfer. It must be 1-100 characters and contain at least one letter or digit.
+  * Use `bank/BANK_DETAILS` for bank transfer. It must be 1-50 characters, include at least one letter or digit,
+    and can only use these symbols: spaces, `-`, `_`, `/`, `(`, `)`, `.`, `,`, `:`, `+`, `&`, `@`, `#`, `'`, `[`, `]`.
 </div>
 
 Examples:
@@ -325,7 +326,8 @@ Format:
 * For PayNow and bank payment in `edit`:
   * `paynow/PAYNOW_CONTACT` sets payment info to PayNow and requires a non-blank identifier/reference
     (e.g., phone number, UEN, or handle). This is intentionally more flexible than `p/PHONE_NUMBER` as in reality PayNow identifiers can take various forms. (See DBS  PayNow [here](https://www.dbs.com.sg/personal/deposits/pay-with-ease/paynow) for examples of PayNow identifiers.)
-  * `bank/BANK_DETAILS` sets payment info to bank transfer and requires 1-100 characters with at least one letter or digit.
+  * `bank/BANK_DETAILS` sets payment info to bank transfer and requires 1-50 characters with at least one letter or digit.
+    Allowed symbols are spaces, `-`, `_`, `/`, `(`, `)`, `.`, `,`, `:`, `+`, `&`, `@`, `#`, `'`, `[`, `]`.
 * If `c/NAME` is provided, it follows the same character rules as `add`.
 * If `f/FOOD` is provided, it must still match an existing menu item and follows the same food-name character rules as `add-menu`.
 </div>

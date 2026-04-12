@@ -1,6 +1,7 @@
 package seedu.homechef.model.order;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.commons.util.AppUtil.checkArgument;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -9,10 +10,14 @@ import java.util.regex.Pattern;
  * Represents a bank transfer payment.
  */
 public final class BankPayment implements PaymentInfo {
-    public static final String MESSAGE_INVALID_REFERENCE =
-            "Bank payment requires 1-100 characters and at least one letter or digit.";
+    public static final String MESSAGE_CONSTRAINTS =
+            "Bank payment requires 1-50 characters, at least one letter or digit, and only supported symbols"
+                    + " (space, -_/().,:+&@#'[]).";
+    public static final String MESSAGE_INVALID_REFERENCE = MESSAGE_CONSTRAINTS;
 
-    private static final int MAX_REFERENCE_LENGTH = 100;
+    private static final int MAX_REFERENCE_LENGTH = 50;
+    private static final Pattern ALLOWED_CHARACTERS =
+            Pattern.compile("^[A-Za-z0-9\\s\\-_/().,:+&@#'\\[\\]]+$");
     private static final Pattern HAS_ALPHANUMERIC = Pattern.compile(".*[A-Za-z0-9].*");
     private final String reference;
 
@@ -24,12 +29,18 @@ public final class BankPayment implements PaymentInfo {
     public BankPayment(String reference) {
         requireNonNull(reference);
         String trimmedReference = reference.trim();
-        if (trimmedReference.isEmpty()
-                || trimmedReference.length() > MAX_REFERENCE_LENGTH
-                || !HAS_ALPHANUMERIC.matcher(trimmedReference).matches()) {
-            throw new IllegalArgumentException(MESSAGE_INVALID_REFERENCE);
-        }
-        this.reference = reference;
+        checkArgument(isValidBankPayment(trimmedReference), MESSAGE_CONSTRAINTS);
+        this.reference = trimmedReference;
+    }
+
+    /**
+     * Returns true if the supplied bank payment reference is valid.
+     */
+    public static boolean isValidBankPayment(String test) {
+        return !test.isEmpty()
+                && test.length() <= MAX_REFERENCE_LENGTH
+                && ALLOWED_CHARACTERS.matcher(test).matches()
+                && HAS_ALPHANUMERIC.matcher(test).matches();
     }
 
     @Override
