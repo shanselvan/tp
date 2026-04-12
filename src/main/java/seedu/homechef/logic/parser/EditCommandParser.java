@@ -52,8 +52,8 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_FOOD, PREFIX_CUSTOMER, PREFIX_PHONE, PREFIX_EMAIL,
-                PREFIX_ADDRESS,
-                PREFIX_DATE);
+                PREFIX_ADDRESS, PREFIX_DATE, PREFIX_QUANTITY,
+                PREFIX_BANK_PAYMENT, PREFIX_PAYNOW_PAYMENT, PREFIX_CASH_PAYMENT);
 
         EditOrderDescriptor editOrderDescriptor = new EditOrderDescriptor();
 

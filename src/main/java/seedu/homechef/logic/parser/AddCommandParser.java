@@ -59,7 +59,8 @@ public class AddCommandParser implements Parser<AddCommand> {
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_FOOD, PREFIX_CUSTOMER, PREFIX_PHONE, PREFIX_EMAIL,
-                PREFIX_ADDRESS, PREFIX_DATE);
+                PREFIX_ADDRESS, PREFIX_DATE, PREFIX_QUANTITY,
+                PREFIX_BANK_PAYMENT, PREFIX_PAYNOW_PAYMENT, PREFIX_CASH_PAYMENT);
         Food food = ParserUtil.parseFood(argMultimap.getValue(PREFIX_FOOD).get());
         Customer customer = ParserUtil.parseCustomer(argMultimap.getValue(PREFIX_CUSTOMER).get());
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());

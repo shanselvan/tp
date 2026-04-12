@@ -44,6 +44,9 @@ import static seedu.homechef.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.homechef.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_CUSTOMER;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_BANK_PAYMENT;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_CASH_PAYMENT;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYNOW_PAYMENT;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_QUANTITY;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -90,6 +93,26 @@ public class AddCommandParserTest {
                 + ADDRESS_DESC_BOB + DATE_DESC_BOB + TAG_DESC_FRIEND;
         assertParseFailure(parser, CUSTOMER_DESC_AMY + validExpectedOrderString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_CUSTOMER));
+    }
+
+    @Test
+    public void parse_repeatedQuantity_failure() {
+        String base = FOOD_DESC_AMY + CUSTOMER_DESC_AMY + PHONE_DESC_AMY
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + DATE_DESC_AMY;
+        assertParseFailure(parser, base + " " + PREFIX_QUANTITY + "2" + " " + PREFIX_QUANTITY + "3",
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_QUANTITY));
+    }
+
+    @Test
+    public void parse_repeatedPaymentPrefixes_failure() {
+        String base = FOOD_DESC_AMY + CUSTOMER_DESC_AMY + PHONE_DESC_AMY
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + DATE_DESC_AMY;
+        assertParseFailure(parser, base + BANK_PAYMENT_DESC + " " + PREFIX_BANK_PAYMENT + "UOB-REF-002",
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_BANK_PAYMENT));
+        assertParseFailure(parser, base + PAYNOW_PAYMENT_DESC + " " + PREFIX_PAYNOW_PAYMENT + "+65 99887766",
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PAYNOW_PAYMENT));
+        assertParseFailure(parser, base + CASH_PAYMENT_DESC + CASH_NO_PAYMENT_DESC,
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_CASH_PAYMENT));
     }
 
     @Test

@@ -8,42 +8,43 @@ business owners!**<br>
 From new cooks with no experience managing their orders, to expert home food business owners with extensive knowledge,
 the app helps to **consolidate the order and food information in an easy-to-read format**, helping you get things done
 faster!<br>
-With a simple typing interface and a clear order list and food menu, this app is here to help you **manage orders quick** if you can **type fast**.
+With a simple typing interface and a clear order list and food menu, this app is here to help you **manage orders quick
+** if you can **type fast**.
 
 * Table of Contents
-{:toc}
+  {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
 
 # Looking to get started?<br> Here's a quick guide:
 
-1.  Ensure you have Java `17` or above installed in your Computer.<br>
-    A tutorial on how to download Java `17` can be
-    found [here](https://se-education.org/guides/tutorials/javaInstallation.html).<br>
-    **Mac users:** Ensure you have the precise JDK version
-    prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+1. Ensure you have Java `17` or above installed in your Computer.<br>
+   A tutorial on how to download Java `17` can be
+   found [here](https://se-education.org/guides/tutorials/javaInstallation.html).<br>
+   **Mac users:** Ensure you have the precise JDK version
+   prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1.  Download the latest `.jar` file from [here](https://github.com/AY2526S2-CS2103T-T13-4/tp/releases).<br>Only the
-    `.jar` file is needed, not the source code.
+1. Download the latest `.jar` file from [here](https://github.com/AY2526S2-CS2103T-T13-4/tp/releases).<br>Only the
+   `.jar` file is needed, not the source code.
 
-1.  Copy the file to the folder you want to use as the _home folder_ for your HomeChef.
+1. Copy the file to the folder you want to use as the _home folder_ for your HomeChef.
 
-1.  Double-click on the `homechef.jar` file to launch the app.<br>
-    If that does not work, try the following:
+1. Double-click on the `homechef.jar` file to launch the app.<br>
+   If that does not work, try the following:
 
-    > 1. Open a command terminal. <br>(Command Prompt or Powershell on Windows, Terminal on Mac)<br>
-    > 1. Use the `cd` command to navigate into the folder you put the jar file in.<br> For example:<br>
-         `cd Desktop/Folder1/FolderContainingHomeChef`<br>
-    > 1. Type the `java -jar homechef.jar` command to run the application.<br>
+   > 1. Open a command terminal. <br>(Command Prompt or Powershell on Windows, Terminal on Mac)<br>
+   > 1. Use the `cd` command to navigate into the folder you put the jar file in.<br> For example:<br>
+        `cd Desktop/Folder1/FolderContainingHomeChef`<br>
+   > 1. Type the `java -jar homechef.jar` command to run the application.<br>
 
-    If successful, a screen similar to the one below should appear in a few seconds. The app contains some sample data
-    for you to get an idea of how it functions.<br>
+   If successful, a screen similar to the one below should appear in a few seconds. The app contains some sample data
+   for you to get an idea of how it functions.<br>
 
-    ![Ui](images/Ui.png)
+   ![Ui](images/Ui.png)
 
-1.  Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will
-    open the help window.<br>
-    Some example commands you can try:
+1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will
+   open the help window.<br>
+   Some example commands you can try:
     * `list` : Lists all orders. Good for resetting the display to show a full view of all orders you have.
 
     * `list f/cake` : Lists all orders with "cake" in the food's name. Good for finding orders of a similar type, or
@@ -70,7 +71,7 @@ With a simple typing interface and a clear order list and food menu, this app is
 
     * `exit` : Exits the app. See you next time!
 
-1.  Do refer to the [Features](#features) below for details of each command.
+1. Do refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -83,7 +84,8 @@ With a simple typing interface and a clear order list and food menu, this app is
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
   e.g. in `add f/FOOD`, `FOOD` is a parameter which can be used as `add f/Chocolate Cake`.
 
-* `INDEX` values can only be non-zero positive whole numbers. Any input `INDEX` that is `0`, **negative** or a **decimal** will give an error message.<br>
+* `INDEX` values can only be non-zero positive whole numbers. Any input `INDEX` that is `0`, **negative** or a **decimal
+  ** will give an error message.<br>
   e.g. `0`, `-1` and `2.0` will give `Invalid command format` error messages.
 
 * `INDEX` values cannot be larger than the size of the shown list.<br>
@@ -96,7 +98,9 @@ With a simple typing interface and a clear order list and food menu, this app is
 
 * `PHONE` can only have numerical characters (`0` to `9`) and the special character `+`.<br>
   More specifically, `PHONE` must be at least 3 numerical characters long.<br>
-  If using the `+` symbol to indicate international phone numbers, a blank space must be found between to country code and the phone number. The country code itself must be at least 1 character long, and can be at most 3 characters long.<br>
+  If using the `+` symbol to indicate international phone numbers, a blank space must be found between to country code
+  and the phone number. The country code itself must be at least 1 character long, and can be at most 3 characters
+  long.<br>
   e.g. `+65 98898998` and `98765432` are accepted numbers, but `+6598898998` and `9876 5432` are not accepted numbers.
 
 * Items in square brackets are optional.<br>
@@ -108,6 +112,9 @@ With a simple typing interface and a clear order list and food menu, this app is
 
 * Items with `…`​ after them can be used multiple times including zero times.<br>
   e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/no peanuts`, `t/gluten-free t/extra sprinkles` etc.
+
+* Prefixes without `...` are single-valued and must not be repeated in the same command.<br>
+  e.g. `q/2 q/3` is invalid.
 
 * Parameters can be in any order.<br>
   e.g. if the command specifies `f/FOOD p/PHONE`, `p/PHONE f/FOOD` is also acceptable.
@@ -168,6 +175,7 @@ Format: `add f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE [q/QUANTITY] [t/TAG]
   * The total order price is calculated as `PRICE` x `QUANTITY`.
   * `QUANTITY` must be a positive integer between `1` and `999` (inclusive). Any other value will show an error message.
 * An order can have any number of dietTags (including 0)
+  * `t/TAG` is the only repeatable prefix for `add`.
 * Payment info is optional and supports exactly one method at a time.
   * Use `cash/yes` to set cash payment, or `cash/no` to leave the order without payment info.
   * Use `paynow/PAYNOW_CONTACT` for PayNow. It accepts any non-blank PayNow identifier
@@ -280,7 +288,7 @@ Generates a plain-text receipt file for the specified order.
 Format: `receipt INDEX`
 
 * A receipt file is created in a `receipts` folder beside the HomeChef data file.
-  * More specifically, the created receipt file can be found in `[JAR file location]/data/receipts`.
+    * More specifically, the created receipt file can be found in `[JAR file location]/data/receipts`.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 You can also use the shortcut command `rec`.
@@ -319,6 +327,7 @@ Format:
 * If `q/QUANTITY` is changed, the order's total price is recalculated as `unit price x quantity`.
 * When editing dietTags, the existing dietTags of the order will be removed i.e adding of dietTags is not cumulative.
 * You can remove all the order's dietTags by typing `t/` without specifying any dietTags after it.
+* `t/TAG` is the only repeatable prefix for `edit`.
 * For cash payment in `edit`:
   * `cash/yes` sets payment info to cash, matching the `add` command.
   * `cash/no` clears payment info.
@@ -376,11 +385,12 @@ The following are the commands that interact with this menu.
 **:information_source: Notes about the menu:**<br>
 
 * Any modifications to the menu will not affect existing orders.
-  * For example: There is an order with a food name `Birthday Cake`. Deleting or editing `Birthday Cake` in the **menu** will not affect this existing order.<br>
-    But **future orders** will not be able to add food called `Birthday Cake` as it now does not exist in the menu.
-  * This is so that you can freely change the menu without affecting past orders. After all, if someone ordered bread
-    but one year later you switched to cooking noodles, that old order should still be retained for recording
-    purposes!
+    * For example: There is an order with a food name `Birthday Cake`. Deleting or editing `Birthday Cake` in the **menu
+      ** will not affect this existing order.<br>
+      But **future orders** will not be able to add food called `Birthday Cake` as it now does not exist in the menu.
+    * This is so that you can freely change the menu without affecting past orders. After all, if someone ordered bread
+      but one year later you switched to cooking noodles, that old order should still be retained for recording
+      purposes!
 
 </div>
 
@@ -483,7 +493,8 @@ It is, however, recommended that a backup of the homechef.json and menu.json fil
 
 ### Editing the data file
 
-HomeChef order list data is saved automatically as a JSON file `[JAR file location]/data/homechef.json`. The menu data is stored in the same location, under file name `menu.json`. Advanced users are welcome
+HomeChef order list data is saved automatically as a JSON file `[JAR file location]/data/homechef.json`. The menu data
+is stored in the same location, under file name `menu.json`. Advanced users are welcome
 to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**

@@ -27,8 +27,11 @@ import static seedu.homechef.logic.commands.CommandTestUtil.VALID_PAYMENT_PAYNOW
 import static seedu.homechef.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.homechef.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.homechef.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_BANK_PAYMENT;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_CASH_PAYMENT;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYNOW_PAYMENT;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_QUANTITY;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -108,6 +111,25 @@ public class EditCommandParserTest {
         Index targetIndex = INDEX_FIRST_ORDER;
         String userInput = targetIndex.getOneBased() + INVALID_PHONE_DESC + PHONE_DESC_BOB;
         assertParseFailure(parser, userInput, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
+    }
+
+    @Test
+    public void parse_repeatedQuantity_failure() {
+        Index targetIndex = INDEX_FIRST_ORDER;
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_QUANTITY + "10"
+                + " " + PREFIX_QUANTITY + "434";
+        assertParseFailure(parser, userInput, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_QUANTITY));
+    }
+
+    @Test
+    public void parse_repeatedPaymentPrefixes_failure() {
+        Index targetIndex = INDEX_FIRST_ORDER;
+        assertParseFailure(parser, targetIndex.getOneBased() + BANK_PAYMENT_DESC + " " + PREFIX_BANK_PAYMENT + "OCBC-123",
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_BANK_PAYMENT));
+        assertParseFailure(parser, targetIndex.getOneBased() + PAYNOW_PAYMENT_DESC + " " + PREFIX_PAYNOW_PAYMENT + "+65 90001111",
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PAYNOW_PAYMENT));
+        assertParseFailure(parser, targetIndex.getOneBased() + CASH_PAYMENT_DESC + CASH_NO_PAYMENT_DESC,
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_CASH_PAYMENT));
     }
 
     @Test
