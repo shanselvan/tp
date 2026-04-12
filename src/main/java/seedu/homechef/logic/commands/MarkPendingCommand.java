@@ -39,6 +39,7 @@ public class MarkPendingCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_PENDING_ORDER_SUCCESS = "Marked Order as Pending: %1$s";
+    public static final String MESSAGE_ALREADY_PENDING = "Order is already marked as pending.";
 
     private final Index targetIndex;
 
@@ -56,6 +57,9 @@ public class MarkPendingCommand extends Command {
         }
 
         Order orderToMarkPending = lastShownList.get(targetIndex.getZeroBased());
+        if (orderToMarkPending.getCompletionStatus() == CompletionStatus.PENDING) {
+            throw new CommandException(MESSAGE_ALREADY_PENDING);
+        }
         Order pendingOrder = createPendingOrder(orderToMarkPending);
 
         model.setOrder(orderToMarkPending, pendingOrder);

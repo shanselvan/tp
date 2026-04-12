@@ -39,6 +39,7 @@ public class MarkInProgressCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_IN_PROGRESS_ORDER_SUCCESS = "Marked Order as In Progress: %1$s";
+    public static final String MESSAGE_ALREADY_IN_PROGRESS = "Order is already marked as in progress.";
 
     private final Index targetIndex;
 
@@ -56,6 +57,9 @@ public class MarkInProgressCommand extends Command {
         }
 
         Order orderToMarkInProgress = lastShownList.get(targetIndex.getZeroBased());
+        if (orderToMarkInProgress.getCompletionStatus() == CompletionStatus.IN_PROGRESS) {
+            throw new CommandException(MESSAGE_ALREADY_IN_PROGRESS);
+        }
         Order incompleteOrder = createIncompleteOrder(orderToMarkInProgress);
 
         model.setOrder(orderToMarkInProgress, incompleteOrder);
