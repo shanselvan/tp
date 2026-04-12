@@ -116,7 +116,7 @@ With a simple typing interface and a clear order list and food menu, this app is
   characters) and selected punctuation; details are listed under each command.
 * For `c/NAME` and `f/FOOD`, the first character must be a letter or digit.
 
-* `Completion status` is meant to be a marker for you to know that you have completed an order, not a "finalised state" which confirms that the order information is fixed. Thus, it does not affect the ability to modify any of the orders.
+* `COMPLETION STATUS` is meant to be a marker for you to know that you have completed an order, not a "finalised state" which confirms that the order information is fixed. Thus, it does not affect the ability to modify any of the orders.
 
 * Extra parameters for commands that do not take in parameters (such as `help`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
@@ -164,8 +164,12 @@ Format: `add f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE [q/QUANTITY] [t/TAG]
 * `DATE` must be in **DD-MM-YYYY** format and be a valid calendar date (e.g. `31-02-2026` is rejected).
 * If you add an order with a past `DATE`, HomeChef still adds it but shows a warning that the order is overdue.
 * `NAME` accepts letters/digits (including international characters), spaces, apostrophes (`'` and `’`), slashes (`/`), at signs (`@`), periods (`.`), and hyphens (`-`).
-* `ADDRESS` accepts the same character as `NAME` as well as hashes (`#`).
-* `EMAIL` accepts the same characters as `ADDRESS`.
+* `ADDRESS` accepts any character, but cannot be blank.
+* `EMAIL` should be of the format local-part@domain.tld and adhere to the following constraints:
+  1. The local-part should only contain alphanumeric characters and these special characters: !#$%&'*+/=?^_`{|}~._%\-
+  2. This is followed by a '@' and then a domain name.
+  3. The domain name must contain only alphanumeric characters, dots, or hyphens.
+  4. The email must end with a top-level domain (TLD) of at least 2 alphabetic characters (e.g. .com, .org, .io).
 * The order's price is automatically taken from the matching menu item. Use `add-menu` or `edit-menu` to update a food's price.
 * `QUANTITY` specifies how many units of the food item are ordered.
   * If omitted, `QUANTITY` defaults to `1`.
