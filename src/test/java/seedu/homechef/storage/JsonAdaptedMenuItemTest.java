@@ -21,6 +21,13 @@ public class JsonAdaptedMenuItemTest {
     }
 
     @Test
+    public void toModelType_zeroPrice_success() throws Exception {
+        JsonAdaptedMenuItem adapted = new JsonAdaptedMenuItem("Free Sample", "0", "Yes");
+        MenuItem expected = new MenuItem(new Food("Free Sample"), new Price("0.00"), Availability.YES);
+        assertEquals(expected, adapted.toModelType());
+    }
+
+    @Test
     public void toModelType_nullName_throwsIllegalValueException() {
         JsonAdaptedMenuItem adapted = new JsonAdaptedMenuItem(null, "5.50", "Yes");
         assertThrows(IllegalValueException.class, adapted::toModelType);
@@ -40,7 +47,7 @@ public class JsonAdaptedMenuItemTest {
 
     @Test
     public void toModelType_invalidPrice_throwsIllegalValueException() {
-        JsonAdaptedMenuItem adapted = new JsonAdaptedMenuItem("Chicken Rice", "0", "Yes");
+        JsonAdaptedMenuItem adapted = new JsonAdaptedMenuItem("Chicken Rice", "00.50", "Yes");
         assertThrows(IllegalValueException.class, adapted::toModelType);
     }
 

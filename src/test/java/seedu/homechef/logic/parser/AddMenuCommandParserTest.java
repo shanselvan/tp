@@ -22,6 +22,7 @@ public class AddMenuCommandParserTest {
     private static final String VALID_NAME_WITH_PUNCTUATION = "Fish & Chips";
     private static final String VALID_NAME_WITH_AT_SIGN = "Nasi @ Home";
     private static final String VALID_PRICE = "5.50";
+    private static final String VALID_ZERO_PRICE = "0.00";
     private static final String VALID_AVAILABILITY = "yes";
     private static final String VALID_UNAVAILABLE = "no";
     private static final String INVALID_NAME = "Chicken Rice#";
@@ -32,6 +33,7 @@ public class AddMenuCommandParserTest {
     private static final String NAME_WITH_PUNCTUATION_DESC = " " + PREFIX_FOOD + VALID_NAME_WITH_PUNCTUATION;
     private static final String NAME_WITH_AT_SIGN_DESC = " " + PREFIX_FOOD + VALID_NAME_WITH_AT_SIGN;
     private static final String PRICE_DESC = " " + PREFIX_PRICE + VALID_PRICE;
+    private static final String ZERO_PRICE_DESC = " " + PREFIX_PRICE + VALID_ZERO_PRICE;
     private static final String AVAILABILITY_DESC = " " + PREFIX_AVAILABILITY + VALID_AVAILABILITY;
     private static final String UNAVAILABLE_DESC = " " + PREFIX_AVAILABILITY + VALID_UNAVAILABLE;
     private static final String INVALID_NAME_DESC = " " + PREFIX_FOOD + INVALID_NAME;
@@ -60,6 +62,12 @@ public class AddMenuCommandParserTest {
         // EP: valid explicit unavailable state.
         MenuItem expectedMenuItem = new MenuItem(new Food(VALID_NAME), new Price(VALID_PRICE), Availability.NO);
         assertParseSuccess(parser, NAME_DESC + PRICE_DESC + UNAVAILABLE_DESC, new AddMenuCommand(expectedMenuItem));
+    }
+
+    @Test
+    public void parse_zeroPrice_success() {
+        MenuItem expectedMenuItem = new MenuItem(new Food(VALID_NAME), new Price(VALID_ZERO_PRICE), Availability.YES);
+        assertParseSuccess(parser, NAME_DESC + ZERO_PRICE_DESC, new AddMenuCommand(expectedMenuItem));
     }
 
     @Test

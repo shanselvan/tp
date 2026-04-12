@@ -19,8 +19,6 @@ public class PriceTest {
     @Test
     public void constructor_invalidPrice_throwsIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, () -> new Price("")); // empty string, boundary value
-        assertThrows(IllegalArgumentException.class, () -> new Price("0"));
-        assertThrows(IllegalArgumentException.class, () -> new Price("0.00"));
         assertThrows(IllegalArgumentException.class, () -> new Price("-1"));
         assertThrows(IllegalArgumentException.class, () -> new Price("abc"));
         assertThrows(IllegalArgumentException.class, () -> new Price("1.999"));
@@ -35,13 +33,13 @@ public class PriceTest {
 
         // EP: invalid price
         assertFalse(Price.isValidPrice(""));
-        assertFalse(Price.isValidPrice("0"));
-        assertFalse(Price.isValidPrice("0.00"));
         assertFalse(Price.isValidPrice("-5"));
         assertFalse(Price.isValidPrice("abc"));
         assertFalse(Price.isValidPrice("1.999"));
 
         // EP: valid price
+        assertTrue(Price.isValidPrice("0"));
+        assertTrue(Price.isValidPrice("0.00"));
         assertTrue(Price.isValidPrice("0.01"));
         assertTrue(Price.isValidPrice("1"));
         assertTrue(Price.isValidPrice("5.50"));
@@ -79,5 +77,11 @@ public class PriceTest {
     public void constructor_validIntegerPrice_normalizesToTwoDecimalPlaces() {
         // EP: valid integer input should be accepted and normalized for display consistency.
         assertEquals("12.00", new Price("12").toString());
+    }
+
+    @Test
+    public void constructor_zeroPrice_normalizesToTwoDecimalPlaces() {
+        // EP: zero-valued input is valid and should be normalized for display consistency.
+        assertEquals("0.00", new Price("0").toString());
     }
 }

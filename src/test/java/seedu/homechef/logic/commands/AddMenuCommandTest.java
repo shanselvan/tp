@@ -46,6 +46,18 @@ public class AddMenuCommandTest {
     }
 
     @Test
+    public void execute_zeroPriceMenuItemAcceptedByModel_addSuccessful() throws Exception {
+        ModelStubAcceptingMenuItemAdded modelStub = new ModelStubAcceptingMenuItemAdded();
+        MenuItem validItem = new MenuItem(new Food("Free Sample"), new Price("0.00"), Availability.YES);
+
+        CommandResult commandResult = new AddMenuCommand(validItem).execute(modelStub);
+
+        assertEquals(String.format(AddMenuCommand.MESSAGE_SUCCESS, "Free Sample", "0.00"),
+                commandResult.getFeedbackToUser());
+        assertEquals(1, modelStub.menuItemsAdded.size());
+    }
+
+    @Test
     public void execute_duplicateMenuItem_throwsCommandException() {
         MenuItem validItem = new MenuItem(new Food("Chicken Rice"), new Price("5.50"), Availability.YES);
         AddMenuCommand addCommand = new AddMenuCommand(validItem);

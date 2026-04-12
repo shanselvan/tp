@@ -73,6 +73,18 @@ public class AddCommandIntegrationTest {
     }
 
     @Test
+    public void execute_foodWithZeroMenuPriceAndQuantity_success() throws Exception {
+        MenuItem freeSample = new MenuItem(new Food("Free Sample"), new Price("0.00"), Availability.YES);
+        model.addMenuItem(freeSample);
+
+        Order inputOrder = new OrderBuilder().withFood("Free Sample").withQuantity(3).build();
+        new AddCommand(inputOrder).execute(model);
+
+        Order expectedOrder = new OrderBuilder().withFood("Free Sample").withQuantity(3).withPrice("0.00").build();
+        assertTrue(model.getFilteredOrderList().contains(expectedOrder));
+    }
+
+    @Test
     public void execute_foodMatchesUnavailableMenuItem_throwsCommandException() {
         MenuItem unavailableChicken = new MenuItem(
                 new Food("Chicken Rice"),

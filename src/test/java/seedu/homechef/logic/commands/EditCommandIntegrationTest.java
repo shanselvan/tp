@@ -85,6 +85,46 @@ public class EditCommandIntegrationTest {
     }
 
     @Test
+    public void execute_editFoodToZeroPricedItem_recalculatesToZero() throws Exception {
+        model.addMenuItem(new MenuItem(new Food("Free Sample"), new Price("0.00"), Availability.YES));
+
+        Index indexAlice = Index.fromOneBased(1);
+        EditCommand.EditOrderDescriptor setQty = new EditCommand.EditOrderDescriptor();
+        setQty.setQuantity(new Quantity(3));
+        new EditCommand(indexAlice, setQty).execute(model);
+
+        EditCommand.EditOrderDescriptor setFood = new EditCommand.EditOrderDescriptor();
+        setFood.setFood(new Food("Free Sample"));
+        new EditCommand(indexAlice, setFood).execute(model);
+
+        Order stored = model.getFilteredOrderList().get(0);
+        assertEquals(new Quantity(3), stored.getQuantity());
+        assertEquals(new Price("0.00"), stored.getPrice());
+    }
+
+    @Test
+    public void execute_editFoodFromZeroPricedItem_recalculatesToNonZero() throws Exception {
+        model.addMenuItem(new MenuItem(new Food("Free Sample"), new Price("0.00"), Availability.YES));
+
+        Index indexAlice = Index.fromOneBased(1);
+        EditCommand.EditOrderDescriptor setQty = new EditCommand.EditOrderDescriptor();
+        setQty.setQuantity(new Quantity(2));
+        new EditCommand(indexAlice, setQty).execute(model);
+
+        EditCommand.EditOrderDescriptor setFreeFood = new EditCommand.EditOrderDescriptor();
+        setFreeFood.setFood(new Food("Free Sample"));
+        new EditCommand(indexAlice, setFreeFood).execute(model);
+
+        EditCommand.EditOrderDescriptor setChicken = new EditCommand.EditOrderDescriptor();
+        setChicken.setFood(new Food("Chicken Rice"));
+        new EditCommand(indexAlice, setChicken).execute(model);
+
+        Order stored = model.getFilteredOrderList().get(0);
+        assertEquals(new Quantity(2), stored.getQuantity());
+        assertEquals(new Price("11.00"), stored.getPrice());
+    }
+
+    @Test
     public void execute_editFoodToUnavailableItem_throwsCommandException() {
         MenuItem unavailable = new MenuItem(
                 new Food("Sourdough Bread"), new Price(VALID_MENU_BREAD_PRICE), Availability.NO);

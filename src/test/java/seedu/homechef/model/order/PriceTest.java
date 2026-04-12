@@ -26,8 +26,6 @@ public class PriceTest {
         assertThrows(IllegalArgumentException.class, () -> new Price("abc"));
         assertThrows(IllegalArgumentException.class, () -> new Price("-5"));
         assertThrows(IllegalArgumentException.class, () -> new Price("5.123")); // more than 2 dp
-        assertThrows(IllegalArgumentException.class, () -> new Price("0")); // not allowed by current regex
-        assertThrows(IllegalArgumentException.class, () -> new Price("0.00")); // not allowed by current regex
     }
 
     @Test
@@ -42,8 +40,8 @@ public class PriceTest {
         assertFalse(Price.isValidPrice("-5")); // negative
         assertFalse(Price.isValidPrice("5.123")); // more than 2 decimal places
         assertFalse(Price.isValidPrice("00.50")); // leading zero invalid per regex
-        assertFalse(Price.isValidPrice("0")); // zero not allowed
-        assertFalse(Price.isValidPrice("0.00")); // zero not allowed
+        assertTrue(Price.isValidPrice("0"));
+        assertTrue(Price.isValidPrice("0.00"));
 
         // EP: valid prices
         assertTrue(Price.isValidPrice("5"));

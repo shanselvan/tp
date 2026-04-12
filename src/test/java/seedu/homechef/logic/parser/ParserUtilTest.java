@@ -50,6 +50,7 @@ public class ParserUtilTest {
     private static final String VALID_EMAIL = "rachel@example.com";
     private static final String VALID_PRICE = "10.50";
     private static final String VALID_PRICE_NO_DECIMAL = "10";
+    private static final String VALID_ZERO_PRICE = "0.00";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
 
@@ -184,6 +185,7 @@ public class ParserUtilTest {
         assertEquals(new Price(VALID_PRICE), ParserUtil.parsePrice(VALID_PRICE));
         assertEquals(new Price(VALID_PRICE), ParserUtil.parsePrice(WHITESPACE + VALID_PRICE + WHITESPACE));
         assertEquals(new Price(VALID_PRICE_NO_DECIMAL), ParserUtil.parsePrice(VALID_PRICE_NO_DECIMAL));
+        assertEquals(new Price(VALID_ZERO_PRICE), ParserUtil.parsePrice(VALID_ZERO_PRICE));
     }
 
     @Test
@@ -198,6 +200,7 @@ public class ParserUtilTest {
                 ParserUtil.parseFood(WHITESPACE + "No. 1 Curry + Rice" + WHITESPACE));
         assertEquals(new Food("Nasi @ Home"), ParserUtil.parseFood(WHITESPACE + "Nasi @ Home" + WHITESPACE));
         assertEquals(new Food("Ramen 日本"), ParserUtil.parseFood(WHITESPACE + "Ramen 日本" + WHITESPACE));
+        assertEquals("0.00", ParserUtil.parseMenuPrice("0").toString());
         assertEquals("5.50", ParserUtil.parseMenuPrice("5.5").toString());
         assertEquals("12.00", ParserUtil.parseMenuPrice("12").toString());
     }

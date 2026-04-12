@@ -23,6 +23,7 @@ public class EditMenuCommandParserTest {
     private static final String VALID_NAME_WITH_AMPERSAND = "Fish & Chips";
     private static final String VALID_NAME_WITH_AT_SIGN = "Nasi @ Home";
     private static final String VALID_PRICE = "5.50";
+    private static final String VALID_ZERO_PRICE = "0.00";
     private static final String VALID_AVAILABILITY = "no";
     private static final String INVALID_NAME = "Chicken Rice#";
     private static final String INVALID_PRICE = "05.50";
@@ -31,6 +32,7 @@ public class EditMenuCommandParserTest {
     private static final String INDEX_FIRST = "1";
     private static final String NAME_DESC = " " + PREFIX_FOOD + VALID_NAME;
     private static final String PRICE_DESC = " " + PREFIX_PRICE + VALID_PRICE;
+    private static final String ZERO_PRICE_DESC = " " + PREFIX_PRICE + VALID_ZERO_PRICE;
     private static final String AVAILABILITY_DESC = " " + PREFIX_AVAILABILITY + VALID_AVAILABILITY;
     private static final String INVALID_NAME_DESC = " " + PREFIX_FOOD + INVALID_NAME;
     private static final String INVALID_PRICE_DESC = " " + PREFIX_PRICE + INVALID_PRICE;
@@ -69,6 +71,14 @@ public class EditMenuCommandParserTest {
         descriptor.setPrice(new Price(VALID_PRICE));
         descriptor.setAvailability(Availability.NO);
         assertParseSuccess(parser, INDEX_FIRST + PRICE_DESC + AVAILABILITY_DESC,
+                new EditMenuCommand(INDEX_FIRST_ORDER, descriptor));
+    }
+
+    @Test
+    public void parse_zeroPrice_success() {
+        EditMenuDescriptor descriptor = new EditMenuDescriptor();
+        descriptor.setPrice(new Price(VALID_ZERO_PRICE));
+        assertParseSuccess(parser, INDEX_FIRST + ZERO_PRICE_DESC,
                 new EditMenuCommand(INDEX_FIRST_ORDER, descriptor));
     }
 

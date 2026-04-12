@@ -50,6 +50,19 @@ public class EditMenuCommandTest {
     }
 
     @Test
+    public void execute_editPriceToZero_success() throws Exception {
+        ModelStubWithMenuItemList modelStub = new ModelStubWithMenuItemList(CHICKEN);
+
+        EditMenuDescriptor descriptor = new EditMenuDescriptor();
+        descriptor.setPrice(new Price("0.00"));
+        CommandResult result = new EditMenuCommand(Index.fromOneBased(1), descriptor).execute(modelStub);
+
+        assertEquals(String.format(EditMenuCommand.MESSAGE_EDIT_MENU_ITEM_SUCCESS,
+                "Chicken Rice", "0.00", Availability.YES),
+                result.getFeedbackToUser());
+    }
+
+    @Test
     public void execute_editName_success() throws Exception {
         ModelStubWithMenuItemList modelStub = new ModelStubWithMenuItemList(CHICKEN);
 

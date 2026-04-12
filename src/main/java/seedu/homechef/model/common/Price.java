@@ -15,16 +15,16 @@ import seedu.homechef.model.order.Quantity;
 public class Price {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Price must be a positive decimal with at most 2 decimal places (e.g. 5.50, 12, 0.01)";
+            "Price must be a non-negative decimal with at most 2 decimal places (e.g. 0, 0.00, 5.50, 12)";
 
     /**
-     * Validation regex for a positive decimal number with up to 2 decimal places.
-     * Accepts values >= 0.01 and integers >= 1.
-     * Examples of valid inputs: 1, 3.5, 3.50, 0.01, 0.99
-     * Examples of invalid inputs: 0, 00.5, 1.234, .5, 5.
+     * Validation regex for a non-negative decimal number with up to 2 decimal places.
+     * Accepts zero and positive values.
+     * Examples of valid inputs: 0, 0.0, 0.00, 1, 3.5, 3.50
+     * Examples of invalid inputs: 00.5, 1.234, .5, 5.
      */
     public static final String VALIDATION_REGEX =
-            "^([1-9][0-9]*(\\.[0-9]{1,2})?|0\\.(0[1-9]|[1-9][0-9]?))$";
+            "^(0(\\.[0-9]{1,2})?|[1-9][0-9]*(\\.[0-9]{1,2})?)$";
 
     private final String value;
 

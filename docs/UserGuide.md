@@ -395,6 +395,7 @@ Format: `add-menu f/NAME $/PRICE [v/AVAILABILITY]`
 * `NAME` must be unique, meaning no 2 food items in the menu can share the exact same name. This is **not** case-sensitive, so `birthday cake` and `Birthday Cake` are considered duplicates.
 * `NAME` accepts letters/digits (including international characters), spaces, apostrophes (`'` and `’`), slashes (`/`), ampersands (`&`), commas (`,`), periods (`.`), plus signs (`+`), parentheses (`(` and `)`), square brackets (`[` and `]`), at signs (`@`), and hyphens (`-`).
 * `PRICE` is a non-negative number up to 2 decimal places. Having less than 2 decimals is accepted.
+  * `0`, `0.0`, and `0.00` are valid (useful for free/complimentary items).
   * Giving an input that is **not a number** or a number with **more than 2 decimals** will cause an error message to appear telling you the correct format you should use.
 * Similar functionality to that of `add` for the order list, except the fields have different prefixes.
 * `AVAILABILITY` only accepts `yes` or `no` spelled exactly.
@@ -408,6 +409,7 @@ Examples:
   `Available`.
 * `add-menu f/Mee Goreng $/6.00 v/yes` Adds a food item called `Mee Goreng` into the menu with a price of `$6.00` and
   is specified as `Available`.
+* `add-menu f/Free Sample $/0.00` Adds a food item called `Free Sample` into the menu with a zero price.
 
 ### Deleting a food item : `delete-menu`
 
@@ -432,6 +434,7 @@ Format: `edit-menu INDEX [f/NAME] [$/PRICE] [v/AVAILABILITY]`
 * `AVAILABILITY` only accepts `yes` or `no` spelled exactly.
   * Typing anything else will give an error message stating `Availability must be 'yes' or 'no'`.
 * If `f/NAME` is provided, it follows the same character rules as `add-menu`.
+* If `$/PRICE` is provided, it follows the same number rules as `add-menu` (including allowing `0` / `0.00`).
 * Editing the `NAME` of a menu item **will not** change the name of existing orders. This is because old orders may have names that differ from the new name of a menu item, for book keeping purposes.
   * e.g. In the past, someone ordered a `Birthday Cake`. 1 year later, you change the name of the `Birthday Cake` to `Event Cake`. The old order should remain in the records with the original name it was sold under to maintain consistency with the receipts.
 * Similarly, editing `PRICE` will not update existing orders either.
@@ -443,6 +446,7 @@ Example:
   `Raisin Cookies` and a price of `$2.00`.
 * `edit-menu 2 f/Pain au Chocolat $/3.50 v/no` Edits the food in the second position of the displayed menu to have
   the name `Pain au Chocolat` and a price of `$3.50`.
+* `edit-menu 3 $/0.00` Edits the food in the third position of the displayed menu to have a zero price.
 
 ## Other commands:
 
