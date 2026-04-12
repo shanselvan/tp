@@ -14,8 +14,6 @@ public final class BankPayment implements PaymentInfo {
             "Bank payment requires 1-50 characters, at least one letter or digit, and only supported symbols"
                     + " (space, -_/().,:+&@#'[]).";
     public static final String MESSAGE_INVALID_REFERENCE = MESSAGE_CONSTRAINTS;
-
-    private static final int MAX_REFERENCE_LENGTH = 50;
     private static final Pattern VALID_REFERENCE =
             Pattern.compile("^(?=.*[A-Za-z0-9])[A-Za-z0-9\\s\\-_/().,:+&@#'\\[\\]]{1,50}$");
     private final String reference;
