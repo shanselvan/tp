@@ -165,6 +165,7 @@ Format: `add f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE [q/QUANTITY] [t/TAG]
 * If you add an order with a past `DATE`, HomeChef still adds it but shows a warning that the order is overdue.
 * `NAME` accepts letters/digits (including international characters), spaces, apostrophes (`'` and `’`), slashes (`/`), at signs (`@`), periods (`.`), and hyphens (`-`).
 * `ADDRESS` accepts the same character as `NAME` as well as hashes (`#`).
+* `EMAIL` accepts the same characters as `ADDRESS`.
 * The order's price is automatically taken from the matching menu item. Use `add-menu` or `edit-menu` to update a food's price.
 * `QUANTITY` specifies how many units of the food item are ordered.
   * If omitted, `QUANTITY` defaults to `1`.
@@ -335,7 +336,7 @@ Format:
   * `paynow/PAYNOW_CONTACT` sets payment info to PayNow and requires a non-blank identifier/reference
     (e.g., phone number, UEN, or handle). This is intentionally more flexible than `p/PHONE_NUMBER` as in reality PayNow identifiers can take various forms. (See DBS  PayNow [here](https://www.dbs.com.sg/personal/deposits/pay-with-ease/paynow) for examples of PayNow identifiers.)
   * `bank/BANK_DETAILS` sets payment info to bank transfer and requires a non-blank reference/details.
-* If `c/NAME` is provided, it follows the same character rules as `add`.
+* If `c/NAME`, `e/EMAIL` or `a/ADDRESS` is provided, it follows the same character rules as `add`.
 * If `f/FOOD` is provided, it must still match an existing menu item and follows the same food-name character rules as `add-menu`.
 </div>
 
