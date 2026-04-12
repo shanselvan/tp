@@ -660,9 +660,7 @@ testers are expected to do more *exploratory* testing.
 2. **Additional filtering of the order list**: Use other filters, like price, payment info, email, etc.
 3. **Filtering of the menu**: Can filter the menu according to food name, price and availability.
 4. **Other ways to sort the order list**: Sort the list in other ways such as by date descending order (where the furthest date is positioned first), name alphabetical order, name reverse alphabetical order, etc.
-5. **Add support for characters of different languages**: Not all chefs nor customers are English-speaking, furthermore not all foods can be easily written in Latin script either.
-6. **Add a confirmation step**: Commands that perform massive changes like `clear` can be problematic. A warning or an `undo` command to undo the previous command, to prevent accidental deletion of data.
-7. **Implement bulk operations for commands**: Commands like `complete` or `paid` currently have to be executed multiple times for multiple orders. Having a way to execute all of these commands at once with multiple `INDEX` inputs can help to speed up workflows.
-8. **Add warnings for commands that cause conflicts between the order list and the menu**: Currently, a number of commands like `delete-menu` and `edit-menu` may cause the order list and menu to have different food names or pricing.
+5. **Add a confirmation step**: Commands that perform massive changes like `clear` can be problematic. A warning or an `undo` command to undo the previous command, to prevent accidental deletion of data.
+6. **Implement bulk operations for commands**: Commands like `complete` or `paid` currently have to be executed multiple times for multiple orders. Having a way to execute all of these commands at once with multiple `INDEX` inputs can help to speed up workflows.
+7. **Add warnings for commands that cause conflicts between the order list and the menu**: Currently, a number of commands like `delete-menu` and `edit-menu` may cause the order list and menu to have different food names or pricing.
    This can cause confusion to users as they may assume that the commands affecting the menu will automatically update the order list, so a reminder that these commands will make the lists out of sync can reduce ambiguity on what the commands will change.
-9. 
