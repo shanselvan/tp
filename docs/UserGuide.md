@@ -116,6 +116,8 @@ With a simple typing interface and a clear order list and food menu, this app is
   characters) and selected punctuation; details are listed under each command.
 * For `c/NAME` and `f/FOOD`, the first character must be a letter or digit.
 
+* `Completion status` is meant to be a marker for you to know that you have completed an order, not a "finalised state" which confirms that the order information is fixed. Thus, it does not affect the ability to modify any of the orders.
+
 * Extra parameters for commands that do not take in parameters (such as `help`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
@@ -162,6 +164,7 @@ Format: `add f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE [q/QUANTITY] [t/TAG]
 * `DATE` must be in **DD-MM-YYYY** format and be a valid calendar date (e.g. `31-02-2026` is rejected).
 * If you add an order with a past `DATE`, HomeChef still adds it but shows a warning that the order is overdue.
 * `NAME` accepts letters/digits (including international characters), spaces, apostrophes (`'` and `’`), slashes (`/`), at signs (`@`), periods (`.`), and hyphens (`-`).
+* `ADDRESS` accepts the same character as `NAME` as well as hashes (`#`).
 * The order's price is automatically taken from the matching menu item. Use `add-menu` or `edit-menu` to update a food's price.
 * `QUANTITY` specifies how many units of the food item are ordered.
   * If omitted, `QUANTITY` defaults to `1`.
@@ -177,10 +180,11 @@ Format: `add f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE [q/QUANTITY] [t/TAG]
 
 Examples:
 
-* `add f/Red Bean Bun c/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 d/30-03-2026`
-  `add f/Hawaiian Pizza c/Betsy Crowe t/Halal e/betsycrowe@example.com a/Newgate Prison p/1234567 d/12-12-2026 t/No peanuts`
+The following examples assume that a menu item of the given food name already exists in the menu. Refer to the [menu commands](#menu-commands) for more information in adding these food names to the menu.
 
-* `add f/Bananas c/Monkey p/80801414 t/An actual monkey e/ooaa@ananab.com a/Monkey Village d/18-03-2026 cash/yes`
+* `add f/Red Bean Bun c/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 d/30-03-2026` Adds the order of the given information to the order list.
+* `add f/Hawaiian Pizza c/Betsy Crowe t/Halal e/betsycrowe@example.com a/Newgate Prison p/1234567 d/12-12-2026 t/No peanuts` Adds the order of the given information to the order list.
+* `add f/Bananas c/Monkey p/80801414 t/An actual monkey e/ooaa@ananab.com a/Monkey Village d/18-03-2026 cash/yes` Adds the order of the given information to the order list.
 * `add f/Nasi Lemak q/3 c/John p/91234567 e/john@example.com a/123 Street d/01-12-2024` Adds an order of `3` units of
   `Nasi Lemak`. The total price shown will be the menu price multiplied by `3`.
 
@@ -232,6 +236,11 @@ This helps to easily tell at a glance when an order is completed.
 * On a completed order, the completion status will remain as `Complete`.
 
 Format: `complete INDEX`
+
+<div markdown="1" class="alert alert-primary">:bulb: **Notes about the complete command:**<br>
+* Orders are meant to be editable after completion, because if a mistake was made, you can fix it before printing it to receipt without having to change the status back.
+* As mentioned before, completion status is meant to be a marker for you to know that you have completed an order, so marking an order as complete will **not** make the information fixed. You still can edit a command after it is complete.
+</div>
 
 ### Marking an order as pending: `pending`
 
@@ -375,9 +384,9 @@ The following are the commands that interact with this menu.
 <div markdown="1" class="alert alert-info">
 **:information_source: Notes about the menu:**<br>
 
-* Any modifications to the menu will not affect existing orders.
+* **Any modifications to the menu will not affect existing orders.**
   * For example: There is an order with a food name `Birthday Cake`. Deleting or editing `Birthday Cake` in the **menu** will not affect this existing order.<br>
-    But **future orders** will not be able to add food called `Birthday Cake` as it now does not exist in the menu.
+    But **future orders** will not be able to add the food called `Birthday Cake` as it now does not exist in the menu.
   * This is so that you can freely change the menu without affecting past orders. After all, if someone ordered bread
     but one year later you switched to cooking noodles, that old order should still be retained for recording
     purposes!
@@ -432,9 +441,9 @@ Format: `edit-menu INDEX [f/NAME] [$/PRICE] [v/AVAILABILITY]`
 * `AVAILABILITY` only accepts `yes` or `no` spelled exactly.
   * Typing anything else will give an error message stating `Availability must be 'yes' or 'no'`.
 * If `f/NAME` is provided, it follows the same character rules as `add-menu`.
-* Editing the `NAME` of a menu item **will not** change the name of existing orders. This is because old orders may have names that differ from the new name of a menu item, for book keeping purposes.
+* Editing the `NAME` of a menu item will **not** change the name of existing orders. This is because old orders may have names that differ from the new name of a menu item, for book keeping purposes.
   * e.g. In the past, someone ordered a `Birthday Cake`. 1 year later, you change the name of the `Birthday Cake` to `Event Cake`. The old order should remain in the records with the original name it was sold under to maintain consistency with the receipts.
-* Similarly, editing `PRICE` will not update existing orders either.
+* Similarly, editing `PRICE` and `AVAILABILITY` will **not** update existing orders either.
 </div>
 
 Example:
