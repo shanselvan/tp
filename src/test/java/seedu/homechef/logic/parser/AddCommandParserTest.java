@@ -42,10 +42,10 @@ import static seedu.homechef.logic.commands.CommandTestUtil.VALID_PAYMENT_BANK;
 import static seedu.homechef.logic.commands.CommandTestUtil.VALID_PAYMENT_PAYNOW;
 import static seedu.homechef.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.homechef.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
-import static seedu.homechef.logic.parser.CliSyntax.PREFIX_CUSTOMER;
-import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_BANK_PAYMENT;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_CASH_PAYMENT;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_CUSTOMER;
+import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYNOW_PAYMENT;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_QUANTITY;
 import static seedu.homechef.logic.parser.CommandParserTestUtil.assertParseFailure;
@@ -221,7 +221,7 @@ public class AddCommandParserTest {
     @Test
     public void parse_invalidCalendarDate_failure() {
         assertParseFailure(parser, FOOD_DESC_BOB + CUSTOMER_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + " d/31-02-2026" + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+                        + ADDRESS_DESC_BOB + " d/31-02-2026" + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 Date.MESSAGE_CONSTRAINTS);
     }
 

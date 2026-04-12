@@ -124,9 +124,11 @@ public class EditCommandParserTest {
     @Test
     public void parse_repeatedPaymentPrefixes_failure() {
         Index targetIndex = INDEX_FIRST_ORDER;
-        assertParseFailure(parser, targetIndex.getOneBased() + BANK_PAYMENT_DESC + " " + PREFIX_BANK_PAYMENT + "OCBC-123",
+        assertParseFailure(parser,
+                targetIndex.getOneBased() + BANK_PAYMENT_DESC + " " + PREFIX_BANK_PAYMENT + "OCBC-123",
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_BANK_PAYMENT));
-        assertParseFailure(parser, targetIndex.getOneBased() + PAYNOW_PAYMENT_DESC + " " + PREFIX_PAYNOW_PAYMENT + "+65 90001111",
+        assertParseFailure(parser,
+                targetIndex.getOneBased() + PAYNOW_PAYMENT_DESC + " " + PREFIX_PAYNOW_PAYMENT + "+65 90001111",
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PAYNOW_PAYMENT));
         assertParseFailure(parser, targetIndex.getOneBased() + CASH_PAYMENT_DESC + CASH_NO_PAYMENT_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_CASH_PAYMENT));
