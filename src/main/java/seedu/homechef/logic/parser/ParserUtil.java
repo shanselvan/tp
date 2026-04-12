@@ -282,7 +282,7 @@ public class ParserUtil {
             try {
                 return Optional.of(new BankPayment(normalizeWhitespace(bankPayment.get())));
             } catch (IllegalArgumentException e) {
-                throw new ParseException(e.getMessage());
+                throw new ParseException(BankPayment.MESSAGE_INVALID_REFERENCE);
             }
         }
 
@@ -292,7 +292,7 @@ public class ParserUtil {
         try {
             return Optional.of(new PayNowPayment(normalizeWhitespace(payNowPayment.get())));
         } catch (IllegalArgumentException e) {
-            throw new ParseException(e.getMessage());
+            throw new ParseException(PayNowPayment.MESSAGE_INVALID_REFERENCE);
         }
     }
 
