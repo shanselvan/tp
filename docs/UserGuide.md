@@ -219,7 +219,7 @@ Sets the completion status of an order to 'In progress'.
 In progress orders have their completion status coloured orange.
 This helps to easily tell at a glance when an order is currently in progress.
 
-* On an in progress order, the completion status will remain as `In progress`.
+* On an order that is already `In progress`, the command will show an error message instead of updating the order.
 
 Format: `inprogress INDEX`
 
@@ -229,7 +229,7 @@ Sets the completion status of an order to 'Completed'.
 Completed orders have their completion status coloured green.
 This helps to easily tell at a glance when an order is completed.
 
-* On a completed order, the completion status will remain as `Complete`.
+* On an order that is already `Completed`, the command will show an error message instead of updating the order.
 
 Format: `complete INDEX`
 
@@ -239,7 +239,7 @@ Sets the completion status of an order to 'Pending'.
 Pending orders have their completion status coloured dark grey.
 This helps to easily tell at a glance when an order has yet to be worked on.
 
-* On a pending order, the completion status will remain as `Pending`.
+* On an order that is already `Pending`, the command will show an error message instead of updating the order.
 
 Format: `pending INDEX`
 
@@ -249,7 +249,7 @@ Sets the payment status of an order to 'Paid'.
 Paid orders have their payment status coloured green.
 This helps to easily tell at a glance when an order has been totally paid for by a customer.
 
-* On a paid order, the completion status will remain as `Paid`.
+* On an order that is already `Paid`, the command will show an error message instead of updating the order.
 
 Format: `paid INDEX`
 
@@ -259,7 +259,7 @@ Sets the payment status of an order to 'Partial'.
 Partially paid orders have their payment status coloured yellow.
 This helps to easily tell at a glance when an order has been partially paid for by a customer.
 
-* On a partially paid order, the completion status will remain as `Partial`.
+* On an order that is already `Partial`, the command will show an error message instead of updating the order.
 
 Format: `partial INDEX`
 
@@ -269,7 +269,7 @@ Sets the payment status of an order to 'Unpaid'.
 Unpaid orders have their payment status coloured red.
 This helps to easily tell at a glance when an order has yet to be paid by a customer.
 
-* On an unpaid order, the completion status will remain as `Unpaid`.
+* On an order that is already `Unpaid`, the command will show an error message instead of updating the order.
 
 Format: `unpaid INDEX`
 

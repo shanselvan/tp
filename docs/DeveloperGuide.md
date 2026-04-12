@@ -348,9 +348,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3b. The order is already marked as paid.
 
-    * 3b1. System still marks the order as paid.
+    * 3b1. System shows an error message indicating the order is already marked as paid.
 
-      Use case ends.
+      Use case resumes at step 2.
 
 **Use case: UC05 - Search for an order by customer name**
 
@@ -392,9 +392,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
-* 3b. The given status value is invalid.
+* 3b. The order is already in the target completion status.
 
-    * 3b1. System shows an error message with valid status options.
+    * 3b1. System shows an error message indicating no status change is needed.
 
       Use case resumes at step 3.
 
