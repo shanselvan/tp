@@ -33,6 +33,7 @@ public class PaidCommand extends Command {
     public static final String COMMAND_WORD = "paid";
 
     public static final String MESSAGE_MARK_PAID_SUCCESS = "Marked order as paid: %1$s";
+    public static final String MESSAGE_ALREADY_PAID = "Order is already marked as paid.";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Marks as paid the order identified by the index number used in the displayed order list.\n"
@@ -55,6 +56,9 @@ public class PaidCommand extends Command {
         }
 
         Order orderToMarkPaid = lastShownList.get(targetIndex.getZeroBased());
+        if (orderToMarkPaid.getPaymentStatus().isPaid()) {
+            throw new CommandException(MESSAGE_ALREADY_PAID);
+        }
         Order paidOrder = createPaidOrder(orderToMarkPaid);
 
         model.setOrder(orderToMarkPaid, paidOrder);

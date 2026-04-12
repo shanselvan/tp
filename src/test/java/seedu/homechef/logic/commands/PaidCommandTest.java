@@ -31,8 +31,8 @@ public class PaidCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        Order orderToEdit = model.getFilteredOrderList().get(INDEX_FIRST_ORDER.getZeroBased());
-        PaidCommand paidCommand = new PaidCommand(INDEX_FIRST_ORDER);
+        Order orderToEdit = model.getFilteredOrderList().get(INDEX_SECOND_ORDER.getZeroBased());
+        PaidCommand paidCommand = new PaidCommand(INDEX_SECOND_ORDER);
 
         PaymentStatus paidStatus = PaymentStatus.PAID;
         Order editedOrder = new Order(
@@ -60,7 +60,7 @@ public class PaidCommandTest {
 
     @Test
     public void execute_validIndexFilteredList_success() {
-        showOrderAtIndex(model, INDEX_FIRST_ORDER);
+        showOrderAtIndex(model, INDEX_SECOND_ORDER);
 
         Order orderToEdit = model.getFilteredOrderList().get(INDEX_FIRST_ORDER.getZeroBased());
         PaidCommand paidCommand = new PaidCommand(INDEX_FIRST_ORDER);

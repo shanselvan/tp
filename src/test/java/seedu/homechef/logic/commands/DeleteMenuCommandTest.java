@@ -53,27 +53,32 @@ public class DeleteMenuCommandTest {
     }
 
     @Test
-    public void execute_menuItemHasActiveOrders_throwsCommandException() throws Exception {
+    public void execute_menuItemHasActiveOrders_success() throws Exception {
         MenuItem chicken = new MenuItem(new Food("Chicken Rice"), new Price("5.50"), Availability.YES);
         Order activeOrder = new OrderBuilder().withFood("Chicken Rice").build();
         ModelStubWithMenuItemAndOrders modelStub =
                 new ModelStubWithMenuItemAndOrders(chicken, List.of(activeOrder));
 
-        assertThrows(CommandException.class,
-                DeleteMenuCommand.MESSAGE_HAS_ACTIVE_ORDERS.formatted("Chicken Rice"), () ->
-                        new DeleteMenuCommand(Index.fromOneBased(1)).execute(modelStub));
+        CommandResult result = new DeleteMenuCommand(Index.fromOneBased(1)).execute(modelStub);
+
+        assertEquals(String.format(DeleteMenuCommand.MESSAGE_DELETE_MENU_ITEM_SUCCESS, "Chicken Rice"),
+                result.getFeedbackToUser());
+        assertTrue(modelStub.deletedItems.contains(chicken));
     }
 
     @Test
-    public void execute_menuItemHasActiveOrdersCaseInsensitive_throwsCommandException() {
+    public void execute_menuItemHasActiveOrdersCaseInsensitive_success() throws Exception {
         // Order food name differs in case from menu item — should still be blocked
         MenuItem chicken = new MenuItem(new Food("Chicken Rice"), new Price("5.50"), Availability.YES);
         Order activeOrder = new OrderBuilder().withFood("chicken rice").build();
         ModelStubWithMenuItemAndOrders modelStub =
                 new ModelStubWithMenuItemAndOrders(chicken, List.of(activeOrder));
 
-        assertThrows(CommandException.class, ()
-                -> new DeleteMenuCommand(Index.fromOneBased(1)).execute(modelStub));
+        CommandResult result = new DeleteMenuCommand(Index.fromOneBased(1)).execute(modelStub);
+
+        assertEquals(String.format(DeleteMenuCommand.MESSAGE_DELETE_MENU_ITEM_SUCCESS, "Chicken Rice"),
+                result.getFeedbackToUser());
+        assertTrue(modelStub.deletedItems.contains(chicken));
     }
 
     @Test
@@ -87,6 +92,42 @@ public class DeleteMenuCommandTest {
 
         assertEquals(String.format(DeleteMenuCommand.MESSAGE_DELETE_MENU_ITEM_SUCCESS, "Chicken Rice"),
                 result.getFeedbackToUser());
+    }
+
+    @Test
+    public void execute_menuItemOrderCompletedAndPaid_success() throws Exception {
+        MenuItem chicken = new MenuItem(new Food("Chicken Rice"), new Price("5.50"), Availability.YES);
+        Order completedAndPaidOrder = new OrderBuilder()
+                .withFood("Chicken Rice")
+                .withCompletionStatus("Completed")
+                .withPaymentStatus("Paid")
+                .build();
+        ModelStubWithMenuItemAndOrders modelStub =
+                new ModelStubWithMenuItemAndOrders(chicken, List.of(completedAndPaidOrder));
+
+        CommandResult result = new DeleteMenuCommand(Index.fromOneBased(1)).execute(modelStub);
+
+        assertEquals(String.format(DeleteMenuCommand.MESSAGE_DELETE_MENU_ITEM_SUCCESS, "Chicken Rice"),
+                result.getFeedbackToUser());
+        assertTrue(modelStub.deletedItems.contains(chicken));
+    }
+
+    @Test
+    public void execute_menuItemOrderCompletedButUnpaid_success() throws Exception {
+        MenuItem chicken = new MenuItem(new Food("Chicken Rice"), new Price("5.50"), Availability.YES);
+        Order completedButUnpaidOrder = new OrderBuilder()
+                .withFood("Chicken Rice")
+                .withCompletionStatus("Completed")
+                .withPaymentStatus("Unpaid")
+                .build();
+        ModelStubWithMenuItemAndOrders modelStub =
+                new ModelStubWithMenuItemAndOrders(chicken, List.of(completedButUnpaidOrder));
+
+        CommandResult result = new DeleteMenuCommand(Index.fromOneBased(1)).execute(modelStub);
+
+        assertEquals(String.format(DeleteMenuCommand.MESSAGE_DELETE_MENU_ITEM_SUCCESS, "Chicken Rice"),
+                result.getFeedbackToUser());
+        assertTrue(modelStub.deletedItems.contains(chicken));
     }
 
     @Test

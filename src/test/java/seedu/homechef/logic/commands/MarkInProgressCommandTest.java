@@ -27,9 +27,9 @@ public class MarkInProgressCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        Order orderToMark = model.getFilteredOrderList().get(INDEX_FIRST_ORDER.getZeroBased());
+        Order orderToMark = model.getFilteredOrderList().get(INDEX_SECOND_ORDER.getZeroBased());
         Order inProgressOrder = new OrderBuilder(orderToMark).withCompletionStatus("In progress").build();
-        MarkInProgressCommand markInProgressCommand = new MarkInProgressCommand(INDEX_FIRST_ORDER);
+        MarkInProgressCommand markInProgressCommand = new MarkInProgressCommand(INDEX_SECOND_ORDER);
 
         String expectedMessage = String.format(MarkInProgressCommand.MESSAGE_IN_PROGRESS_ORDER_SUCCESS,
                 Messages.format(inProgressOrder));
@@ -50,7 +50,7 @@ public class MarkInProgressCommandTest {
 
     @Test
     public void execute_filteredList_success() {
-        showOrderAtIndex(model, INDEX_FIRST_ORDER);
+        showOrderAtIndex(model, INDEX_SECOND_ORDER);
 
         Order orderInFilteredList = model.getFilteredOrderList().get(INDEX_FIRST_ORDER.getZeroBased());
         Order inProgressOrder = new OrderBuilder(orderInFilteredList).withCompletionStatus("In progress").build();

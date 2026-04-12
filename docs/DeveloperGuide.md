@@ -348,9 +348,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3b. The order is already marked as paid.
 
-    * 3b1. System still marks the order as paid.
+    * 3b1. System shows an error message indicating the order is already marked as paid.
 
-      Use case ends.
+      Use case resumes at step 2.
 
 **Use case: UC05 - Search for an order by customer name**
 
@@ -392,9 +392,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
-* 3b. The given status value is invalid.
+* 3b. The order is already in the target completion status.
 
-    * 3b1. System shows an error message with valid status options.
+    * 3b1. System shows an error message indicating no status change is needed.
 
       Use case resumes at step 3.
 
@@ -497,6 +497,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
 2.  Should be able to hold up to 1000 orders without a noticeable sluggishness in performance for typical usage.
+    More specifically, the system shall respond to user actions within 2 seconds for 95% of requests under normal operating conditions.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 4.  All data should be stored locally and persisted automatically, so that customer and order information remains available after restarting the application.
 5.  The application should not require an internet connection for normal operation.
@@ -601,6 +602,9 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `delete-menu 1`<br>
        Expected: First menu item is deleted from the menu. Details of the deleted menu item shown in the status message.
 
+    1. Test case: `delete-menu 1` where at least one existing order references that food and is not completed or not paid<br>
+       Expected: Menu item is still deleted. Existing orders remain unchanged.
+
     1. Test case: `delete-menu 0`<br>
        Expected: No menu item is deleted. Error details shown in the status message.
 
@@ -655,9 +659,11 @@ testers are expected to do more *exploratory* testing.
 
 ## **Appendix - Future Features**
 
-1. Manual editing of order price to allow it to match updated food items in the menu if needed.
-2. Additional filtering of the order list using other filters, like price, payment info, email, etc.
-3. Filtering of the menu according to food name, price and availability.
-4. Other ways to sort the order list, such as by date descending order (where the furthest date is positioned first), name alphabetical order, name reverse alphabetical order, etc.
-5. Add support for characters of different languages as not all chefs are English-speaking.
-6. Add a confirmation step for `clear` or an `undo` command to undo the previous command, to prevent accidental deletion of data.
+1. **Manual editing of order price**: Allows users to match updated food items in the menu if needed.
+2. **Additional filtering of the order list**: Use other filters, like price, payment info, email, etc.
+3. **Filtering of the menu**: Can filter the menu according to food name, price and availability.
+4. **Other ways to sort the order list**: Sort the list in other ways such as by date descending order (where the furthest date is positioned first), name alphabetical order, name reverse alphabetical order, etc.
+5. **Add a confirmation step**: Commands that perform massive changes like `clear` can be problematic. A warning or an `undo` command to undo the previous command, to prevent accidental deletion of data.
+6. **Implement bulk operations for commands**: Commands like `complete` or `paid` currently have to be executed multiple times for multiple orders. Having a way to execute all of these commands at once with multiple `INDEX` inputs can help to speed up workflows.
+7. **Add warnings for commands that cause conflicts between the order list and the menu**: Currently, a number of commands like `delete-menu` and `edit-menu` may cause the order list and menu to have different food names or pricing.
+   This can cause confusion to users as they may assume that the commands affecting the menu will automatically update the order list, so a reminder that these commands will make the lists out of sync can reduce ambiguity on what the commands will change.
