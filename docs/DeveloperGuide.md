@@ -445,6 +445,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 1.
 
+* 2b. The selected menu item is still used by at least one order that is not both `Completed` and `Paid`.
+
+    * 2b1. System shows an error message indicating there are active orders for that menu item.
+
+      Use case resumes at step 1.
+
 **Use case: UC09 - Mark a menu item as unavailable**
 
 **MSS**
@@ -598,8 +604,11 @@ testers are expected to do more *exploratory* testing.
 
     1. Prerequisites: Multiple menu items present in the menu.
 
-    1. Test case: `delete-menu 1`<br>
+    1. Test case: `delete-menu 1` where all matching orders for that food are `Completed` and `Paid`<br>
        Expected: First menu item is deleted from the menu. Details of the deleted menu item shown in the status message.
+
+    1. Test case: `delete-menu 1` where at least one matching order is not completed or not paid<br>
+       Expected: Menu item is not deleted. Error details shown in the status message indicating there are active orders.
 
     1. Test case: `delete-menu 0`<br>
        Expected: No menu item is deleted. Error details shown in the status message.

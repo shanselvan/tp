@@ -419,7 +419,8 @@ Format: `delete-menu INDEX`
 
 <div markdown="1" class="alert alert-info">
 **:information_source: Notes about the delete-menu command:**<br>
-* You **cannot** delete a menu item that has a food item that is already in use in an order.
+* You **cannot** delete a menu item if there is at least one matching order that is not both `Completed` and `Paid`.
+* You can delete a menu item when all matching orders are already `Completed` and `Paid`.
 </div>
 
 ### Editing a food item : `edit-menu`

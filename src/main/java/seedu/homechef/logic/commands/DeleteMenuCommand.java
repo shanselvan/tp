@@ -10,6 +10,7 @@ import seedu.homechef.logic.Messages;
 import seedu.homechef.logic.commands.exceptions.CommandException;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.menu.MenuItem;
+import seedu.homechef.model.order.CompletionStatus;
 
 /**
  * Deletes a menu item from the menu using its displayed index.
@@ -53,7 +54,10 @@ public class DeleteMenuCommand extends Command {
 
         boolean hasActiveOrders = model.getHomeChef().getOrderList().stream()
                 .anyMatch(order -> order.getFood().toString()
-                        .equalsIgnoreCase(menuItemToDelete.getFood().toString()));
+                        .equalsIgnoreCase(menuItemToDelete.getFood().toString())
+                        && (order.getCompletionStatus() != CompletionStatus.COMPLETED
+                        || !order.getPaymentStatus().isPaid()));
+
         if (hasActiveOrders) {
             throw new CommandException(
                     String.format(MESSAGE_HAS_ACTIVE_ORDERS, menuItemToDelete.getFood()));

@@ -90,6 +90,40 @@ public class DeleteMenuCommandTest {
     }
 
     @Test
+    public void execute_menuItemOrderCompletedAndPaid_success() throws Exception {
+        MenuItem chicken = new MenuItem(new Food("Chicken Rice"), new Price("5.50"), Availability.YES);
+        Order completedAndPaidOrder = new OrderBuilder()
+                .withFood("Chicken Rice")
+                .withCompletionStatus("Completed")
+                .withPaymentStatus("Paid")
+                .build();
+        ModelStubWithMenuItemAndOrders modelStub =
+                new ModelStubWithMenuItemAndOrders(chicken, List.of(completedAndPaidOrder));
+
+        CommandResult result = new DeleteMenuCommand(Index.fromOneBased(1)).execute(modelStub);
+
+        assertEquals(String.format(DeleteMenuCommand.MESSAGE_DELETE_MENU_ITEM_SUCCESS, "Chicken Rice"),
+                result.getFeedbackToUser());
+        assertTrue(modelStub.deletedItems.contains(chicken));
+    }
+
+    @Test
+    public void execute_menuItemOrderCompletedButUnpaid_throwsCommandException() {
+        MenuItem chicken = new MenuItem(new Food("Chicken Rice"), new Price("5.50"), Availability.YES);
+        Order completedButUnpaidOrder = new OrderBuilder()
+                .withFood("Chicken Rice")
+                .withCompletionStatus("Completed")
+                .withPaymentStatus("Unpaid")
+                .build();
+        ModelStubWithMenuItemAndOrders modelStub =
+                new ModelStubWithMenuItemAndOrders(chicken, List.of(completedButUnpaidOrder));
+
+        assertThrows(CommandException.class,
+                DeleteMenuCommand.MESSAGE_HAS_ACTIVE_ORDERS.formatted("Chicken Rice"), () ->
+                        new DeleteMenuCommand(Index.fromOneBased(1)).execute(modelStub));
+    }
+
+    @Test
     public void equals() {
         DeleteMenuCommand deleteFirst = new DeleteMenuCommand(Index.fromOneBased(1));
         DeleteMenuCommand deleteSecond = new DeleteMenuCommand(Index.fromOneBased(2));
