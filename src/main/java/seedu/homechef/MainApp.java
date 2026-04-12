@@ -50,6 +50,8 @@ public class MainApp extends Application {
     protected Model model;
     protected Config config;
 
+    private String startupWarning = "";
+
     @Override
     public void init() throws Exception {
         logger.info("=============================[ Initializing HomeChef ]===========================");
@@ -70,7 +72,7 @@ public class MainApp extends Application {
 
         logic = new LogicManager(model, storage);
 
-        ui = new UiManager(logic);
+        ui = new UiManager(logic, startupWarning);
     }
 
     /**
@@ -93,6 +95,8 @@ public class MainApp extends Application {
         } catch (DataLoadingException e) {
             logger.warning("Data file at " + storage.getHomeChefFilePath() + " could not be loaded."
                     + " Will be starting with an empty HomeChef.");
+            startupWarning += "Order data file is corrupted and could not be loaded."
+                    + " Starting with an empty order list.";
             initialData = new HomeChef();
         }
 
@@ -106,6 +110,11 @@ public class MainApp extends Application {
             initialMenuData = menuBookOptional.orElseGet(SampleDataUtil::getSampleMenuBook);
         } catch (DataLoadingException e) {
             logger.warning("Menu data file could not be loaded. Will be starting with an empty MenuBook.");
+            if (!startupWarning.isEmpty()) {
+                startupWarning += "\n";
+            }
+            startupWarning += "Menu data file is corrupted and could not be loaded."
+                    + " Starting with an empty menu.";
             initialMenuData = new MenuBook();
         }
 

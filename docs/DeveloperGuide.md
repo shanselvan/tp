@@ -619,7 +619,7 @@ testers are expected to do more *exploratory* testing.
    1. Prerequisites: In the `data` folder, have a `homechef.json` file or `menu.json` file. Have at least 1 entry in the `homechef.json` file or the `menu.json` file.
 
    1. Test case: Open the respective `homechef.json` file or `menu.json` file and modify an existing order or menu item such that any of their mandatory fields contain an `empty string`, meaning a pair of inverted commas with no characters in between as such: `""`. Start up HomeChef-Helper.<br>
-      Expected: The respective order list or menu will appear blank in the UI when HomeChef-Helper is started up again. Upon `exit`, the respective `.json` files will contain no orders or menu items.
+      Expected: The respective order list or menu will appear blank in the UI when HomeChef-Helper is started up again, with a warning message shown in the result display. The corrupted `.json` files are not overwritten on `exit` or window close — they remain on disk in their corrupted state. The files will be overwritten with clean (empty) data only after a data-modifying command (e.g. `add`, `delete`, `edit`) is executed.
 
    1. Test case: Modify an existing order or menu item such that any of their mandatory fields contain a `blank string`, a pair of inverted commas with whitespace in between: `" "`. Start up HomeChef-Helper.<br>
       Expected: Similar to previous.
@@ -632,7 +632,7 @@ testers are expected to do more *exploratory* testing.
     1. Prerequisites: Have an existing `homechef.json` file or `menu.json` file in the `data` folder.
 
     1. Test case: Open the `data` folder and delete the files inside. Start up HomeChef-Helper.<br>
-       Expected: The initial sample order list and menu will appear in the UI when HomeChef-Helper is started up again. Upon `exit`, the `homechef.json` and `menu.json` files will appear again in the `data` folder, with the sample entries.
+       Expected: The initial sample order list and menu will appear in the UI when HomeChef-Helper is started up again. The `homechef.json` and `menu.json` files will not be re-created by `exit` or window close — they will be created in the `data` folder (with the sample entries) only after a data-modifying command (e.g. `add`, `delete`, `edit`) is executed.
 
     1. Test case: Open the `data` folder, cut and paste the contained files elsewhere in the computer. Start up HomeChef-Helper.<br>
        Expected: Similar to previous.
