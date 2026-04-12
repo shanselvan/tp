@@ -50,7 +50,7 @@ public class MainApp extends Application {
     protected Model model;
     protected Config config;
 
-    private String startupWarning = "";
+    protected String startupWarning = "";
 
     @Override
     public void init() throws Exception {
@@ -80,7 +80,7 @@ public class MainApp extends Application {
      * The data from the sample HomeChef will be used instead if {@code storage}'s HomeChef is not found,
      * or an empty HomeChef will be used instead if errors occur when reading {@code storage}'s HomeChef.
      */
-    private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
+    protected Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
         logger.info("Using data file : " + storage.getHomeChefFilePath());
 
         Optional<ReadOnlyHomeChef> homeChefOptional;
