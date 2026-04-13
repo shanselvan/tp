@@ -16,7 +16,7 @@ public class Customer {
             "Customer names should only contain letters or digits (including international characters),"
                     + " spaces, apostrophes ('), typographic apostrophes, slashes (/), at signs (@),"
                     + " periods (.), or hyphens (-),"
-                    + " and should not be blank";
+                    + " and should not be blank.";
 
     /*
      * The first character of the customer name must be a letter or digit,

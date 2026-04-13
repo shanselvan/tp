@@ -1,6 +1,7 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.logic.Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_BANK_PAYMENT;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_CASH_PAYMENT;
@@ -68,7 +69,7 @@ public class EditCommand extends Command {
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
 
-    public static final String MESSAGE_EDIT_ORDER_SUCCESS = "Edited Order: %1$s";
+    public static final String MESSAGE_EDIT_ORDER_SUCCESS = "Edited order: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_ORDER = "This order already exists in the HomeChef.";
     public static final String MESSAGE_PAST_DATE_WARNING = AddCommand.MESSAGE_PAST_DATE_WARNING;
@@ -94,7 +95,7 @@ public class EditCommand extends Command {
         List<Order> lastShownList = model.getFilteredOrderList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX);
+            throw new CommandException(MESSAGE_INVALID_ORDER_DISPLAYED_INDEX);
         }
 
         Order orderToEdit = lastShownList.get(index.getZeroBased());

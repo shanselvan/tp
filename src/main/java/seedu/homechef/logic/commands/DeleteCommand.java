@@ -1,6 +1,7 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.logic.Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class DeleteCommand extends Command {
             + "Parameters: INDEX (must be a non-zero positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_DELETE_ORDER_SUCCESS = "Deleted Order: %1$s";
+    public static final String MESSAGE_DELETE_ORDER_SUCCESS = "Deleted order: %1$s";
 
     private final Index targetIndex;
 
@@ -37,7 +38,7 @@ public class DeleteCommand extends Command {
         List<Order> lastShownList = model.getFilteredOrderList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX);
+            throw new CommandException(MESSAGE_INVALID_ORDER_DISPLAYED_INDEX);
         }
 
         Order orderToDelete = lastShownList.get(targetIndex.getZeroBased());

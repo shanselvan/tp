@@ -1,12 +1,12 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.logic.Messages.MESSAGE_INVALID_MENU_ITEM_DISPLAYED_INDEX;
 
 import java.util.List;
 
 import seedu.homechef.commons.core.index.Index;
 import seedu.homechef.commons.util.ToStringBuilder;
-import seedu.homechef.logic.Messages;
 import seedu.homechef.logic.commands.exceptions.CommandException;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.menu.MenuItem;
@@ -42,7 +42,7 @@ public class DeleteMenuCommand extends Command {
         List<MenuItem> lastShownList = model.getFilteredMenuItemList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_MENU_ITEM_DISPLAYED_INDEX);
+            throw new CommandException(MESSAGE_INVALID_MENU_ITEM_DISPLAYED_INDEX);
         }
 
         MenuItem menuItemToDelete = lastShownList.get(targetIndex.getZeroBased());

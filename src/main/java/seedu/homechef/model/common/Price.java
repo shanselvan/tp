@@ -15,7 +15,7 @@ import seedu.homechef.model.order.Quantity;
 public class Price {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Price must be a non-negative decimal with at most 2 decimal places (e.g. 0, 0.00, 5.50, 12)";
+            "Price must be a non-negative decimal with at most 2 decimal places (e.g. 0, 0.00, 5.50, 12).";
 
     /**
      * Validation regex for a non-negative decimal number with up to 2 decimal places.

@@ -15,7 +15,7 @@ import java.time.format.ResolverStyle;
 public class Date implements Comparable<Date> {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Dates should be in the format dd-MM-yyyy and must be a valid calendar date";
+            "Dates should be in the format dd-MM-yyyy and must be a valid calendar date.";
     public static final String URGENCY_CONSTRAINTS =
             "Urgency should be Normal, Urgent, or Overdue.";
 

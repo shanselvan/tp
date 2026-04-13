@@ -1,6 +1,7 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.logic.Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX;
 import static seedu.homechef.model.Model.PREDICATE_SHOW_ALL_ORDERS;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class MarkInProgressCommand extends Command {
             + "Parameters: INDEX (must be a non-zero positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_IN_PROGRESS_ORDER_SUCCESS = "Marked Order as In Progress: %1$s";
+    public static final String MESSAGE_IN_PROGRESS_ORDER_SUCCESS = "Marked order as in progress: %1$s";
     public static final String MESSAGE_ALREADY_IN_PROGRESS = "Order is already marked as in progress.";
 
     private final Index targetIndex;
@@ -53,7 +54,7 @@ public class MarkInProgressCommand extends Command {
         List<Order> lastShownList = model.getFilteredOrderList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX);
+            throw new CommandException(MESSAGE_INVALID_ORDER_DISPLAYED_INDEX);
         }
 
         Order orderToMarkInProgress = lastShownList.get(targetIndex.getZeroBased());

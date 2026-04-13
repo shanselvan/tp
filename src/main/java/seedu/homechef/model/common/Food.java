@@ -16,7 +16,7 @@ public class Food {
             "Food name should only contain letters or digits (including international characters),"
                     + " spaces, apostrophes ('), typographic apostrophes, slashes (/),"
                     + " ampersands (&), commas (,), periods (.), plus signs (+), parentheses,"
-                    + " square brackets, at signs (@), or hyphens (-), and should not be blank";
+                    + " square brackets, at signs (@), or hyphens (-), and should not be blank.";
 
     /*
      * The first character of the food name must be a letter or digit,

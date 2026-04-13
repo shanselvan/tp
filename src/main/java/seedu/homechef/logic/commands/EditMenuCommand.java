@@ -1,6 +1,7 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.logic.Messages.MESSAGE_INVALID_MENU_ITEM_DISPLAYED_INDEX;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_AVAILABILITY;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PRICE;
@@ -12,7 +13,6 @@ import java.util.Optional;
 import seedu.homechef.commons.core.index.Index;
 import seedu.homechef.commons.util.CollectionUtil;
 import seedu.homechef.commons.util.ToStringBuilder;
-import seedu.homechef.logic.Messages;
 import seedu.homechef.logic.commands.exceptions.CommandException;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.common.Food;
@@ -61,7 +61,7 @@ public class EditMenuCommand extends Command {
         List<MenuItem> lastShownList = model.getFilteredMenuItemList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_MENU_ITEM_DISPLAYED_INDEX);
+            throw new CommandException(MESSAGE_INVALID_MENU_ITEM_DISPLAYED_INDEX);
         }
 
         MenuItem menuItemToEdit = lastShownList.get(index.getZeroBased());
