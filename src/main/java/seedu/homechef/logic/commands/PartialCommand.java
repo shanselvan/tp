@@ -1,6 +1,7 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.model.Model.PREDICATE_SHOW_ALL_ORDERS;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,7 +62,7 @@ public class PartialCommand extends Command {
         Order partialOrder = createPartialOrder(orderToMarkPartial);
 
         model.setOrder(orderToMarkPartial, partialOrder);
-        model.updateFilteredOrderList(Model.PREDICATE_SHOW_ALL_ORDERS);
+        model.updateFilteredOrderList(PREDICATE_SHOW_ALL_ORDERS);
 
         return new CommandResult(generateSuccessMessage(partialOrder));
     }

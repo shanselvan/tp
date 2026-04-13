@@ -1,6 +1,7 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.model.Model.PREDICATE_SHOW_ALL_ORDERS;
 
 import java.util.List;
 import java.util.Optional;
@@ -62,7 +63,7 @@ public class MarkPendingCommand extends Command {
         Order pendingOrder = createPendingOrder(orderToMarkPending);
 
         model.setOrder(orderToMarkPending, pendingOrder);
-        model.updateFilteredOrderList(Model.PREDICATE_SHOW_ALL_ORDERS);
+        model.updateFilteredOrderList(PREDICATE_SHOW_ALL_ORDERS);
         return new CommandResult(String.format(MESSAGE_PENDING_ORDER_SUCCESS, Messages.format(pendingOrder)));
     }
 
