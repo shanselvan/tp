@@ -40,7 +40,9 @@ public class MarkPendingCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_PENDING_ORDER_SUCCESS = "Marked order as pending: %1$s";
-    public static final String MESSAGE_ALREADY_PENDING = "Order is already marked as pending.";
+    public static final String MESSAGE_ALREADY_PENDING =
+            "Order is already marked as pending. "
+            + "Use 'complete INDEX' or 'inprogress INDEX' to change the completion status.";
 
     private final Index targetIndex;
 

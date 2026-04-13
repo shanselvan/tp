@@ -35,7 +35,8 @@ public class PaidCommand extends Command {
     public static final String COMMAND_WORD = "paid";
 
     public static final String MESSAGE_MARK_PAID_SUCCESS = "Marked order as paid: %1$s";
-    public static final String MESSAGE_ALREADY_PAID = "Order is already marked as paid.";
+    public static final String MESSAGE_ALREADY_PAID =
+            "Order is already marked as paid. Use 'unpaid INDEX' or 'partial INDEX' to change the payment status.";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Marks as paid the order identified by the index number used in the displayed order list.\n"
