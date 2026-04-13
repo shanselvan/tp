@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_BANK_PAYMENT_REQUIRED;
 import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_CASH_PAYMENT_REQUIRED;
-import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_MULTIPLE_PAYMENT_PREFIXES;
 import static seedu.homechef.logic.parser.ParserUtil.MESSAGE_PAYNOW_PAYMENT_REQUIRED;
 import static seedu.homechef.testutil.Assert.assertThrows;
@@ -63,8 +62,8 @@ public class ParserUtilTest {
 
     @Test
     public void parseIndex_outOfRangeInput_throwsParseException() {
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, ()
-                -> ParserUtil.parseIndex(String.valueOf(Integer.MAX_VALUE) + 1));
+        assertThrows(ParseException.class, () ->
+                ParserUtil.parseIndex(String.valueOf(Integer.MAX_VALUE) + 1));
     }
 
     @Test

@@ -1,7 +1,5 @@
 package seedu.homechef.logic.parser;
 
-import static seedu.homechef.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-
 import seedu.homechef.commons.core.index.Index;
 import seedu.homechef.logic.commands.MarkPendingCommand;
 import seedu.homechef.logic.parser.exceptions.ParseException;
@@ -21,8 +19,7 @@ public class MarkPendingCommandParser implements Parser<MarkPendingCommand> {
             Index index = ParserUtil.parseIndex(args);
             return new MarkPendingCommand(index);
         } catch (ParseException pe) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkPendingCommand.MESSAGE_USAGE), pe);
+            throw ParserUtil.handleIndexParseException(pe, MarkPendingCommand.MESSAGE_USAGE);
         }
     }
 
