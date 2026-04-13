@@ -1,10 +1,9 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.logic.Messages.MESSAGE_INVALID_MENU_ITEM_DISPLAYED_INDEX;
 
 import java.util.List;
-
-import static seedu.homechef.logic.Messages.MESSAGE_INVALID_MENU_ITEM_DISPLAYED_INDEX;
 
 import seedu.homechef.commons.core.index.Index;
 import seedu.homechef.commons.util.ToStringBuilder;

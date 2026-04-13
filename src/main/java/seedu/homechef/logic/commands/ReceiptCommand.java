@@ -1,12 +1,11 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.logic.Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
-
-import static seedu.homechef.logic.Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX;
 
 import seedu.homechef.commons.core.index.Index;
 import seedu.homechef.commons.util.ReceiptUtil;

@@ -1,6 +1,7 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.logic.Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_BANK_PAYMENT;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_CASH_PAYMENT;
@@ -12,7 +13,6 @@ import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PAYNOW_PAYMENT;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_QUANTITY;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.homechef.logic.Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX;
 import static seedu.homechef.model.Model.PREDICATE_SHOW_ALL_ORDERS;
 
 import java.util.Collections;
