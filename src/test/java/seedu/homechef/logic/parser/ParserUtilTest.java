@@ -17,7 +17,6 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.homechef.commons.core.index.Index;
 import seedu.homechef.logic.parser.exceptions.ParseException;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
