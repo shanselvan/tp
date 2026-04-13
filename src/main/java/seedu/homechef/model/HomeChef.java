@@ -71,8 +71,8 @@ public class HomeChef implements ReadOnlyHomeChef {
      * Adds a order to the HomeChef.
      * The order must not already exist in the HomeChef.
      */
-    public void addOrder(Order p) {
-        orders.add(p);
+    public void addOrder(Order order) {
+        orders.add(order);
     }
 
     /**

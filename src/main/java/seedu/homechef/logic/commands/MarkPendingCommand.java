@@ -27,7 +27,7 @@ import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Quantity;
 
 /**
- * Marks an order identified using it's displayed index from the HomeChef as completed.
+ * Marks an order identified using its displayed index from the HomeChef as pending.
  */
 public class MarkPendingCommand extends Command {
 
@@ -68,7 +68,7 @@ public class MarkPendingCommand extends Command {
     }
 
     /**
-     * Creates and returns a {@code Order} with the details of {@code orderToMarkComplete}
+     * Creates and returns a {@code Order} with the details of {@code orderToMarkPending}
      * marking {@code CompletionStatus} to pending.
      */
     private static Order createPendingOrder(Order orderToMarkPending) {

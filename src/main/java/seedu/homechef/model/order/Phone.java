@@ -3,6 +3,8 @@ package seedu.homechef.model.order;
 import static java.util.Objects.requireNonNull;
 import static seedu.homechef.commons.util.AppUtil.checkArgument;
 
+import java.util.Locale;
+
 /**
  * Represents a Order's phone number in the HomeChef.
  * Guarantees: immutable; is valid as declared in {@link #isValidPhone(String)}
@@ -56,7 +58,7 @@ public class Phone {
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return value.toLowerCase(Locale.ROOT).hashCode();
     }
 
 }

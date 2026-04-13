@@ -29,7 +29,7 @@ public class AddMenuCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New menu item added: %1$s $%2$s";
     public static final String MESSAGE_DUPLICATE_MENU_ITEM =
-            "A item with this name already exists in the menu";
+            "An item with this name already exists in the menu";
 
     private final MenuItem toAdd;
 

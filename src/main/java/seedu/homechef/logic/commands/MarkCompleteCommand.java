@@ -27,7 +27,7 @@ import seedu.homechef.model.order.Phone;
 import seedu.homechef.model.order.Quantity;
 
 /**
- * Marks an order identified using it's displayed index from the HomeChef as completed.
+ * Marks an order identified using its displayed index from the HomeChef as completed.
  */
 public class MarkCompleteCommand extends Command {
 

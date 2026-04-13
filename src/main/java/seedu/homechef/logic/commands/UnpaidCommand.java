@@ -1,6 +1,7 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.model.Model.PREDICATE_SHOW_ALL_ORDERS;
 
 import java.util.List;
 import java.util.Optional;
@@ -56,13 +57,13 @@ public class UnpaidCommand extends Command {
         }
 
         Order orderToMarkUnpaid = lastShownList.get(targetIndex.getZeroBased());
-        if (orderToMarkUnpaid.getPaymentStatus() == PaymentStatus.UNPAID) {
+        if (orderToMarkUnpaid.getPaymentStatus().isUnpaid()) {
             throw new CommandException(MESSAGE_ALREADY_UNPAID);
         }
         Order unpaidOrder = createUnpaidOrder(orderToMarkUnpaid);
 
         model.setOrder(orderToMarkUnpaid, unpaidOrder);
-        model.updateFilteredOrderList(Model.PREDICATE_SHOW_ALL_ORDERS);
+        model.updateFilteredOrderList(PREDICATE_SHOW_ALL_ORDERS);
 
         return new CommandResult(generateSuccessMessage(unpaidOrder));
     }

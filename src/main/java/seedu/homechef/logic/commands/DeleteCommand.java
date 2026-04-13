@@ -12,7 +12,7 @@ import seedu.homechef.model.Model;
 import seedu.homechef.model.order.Order;
 
 /**
- * Deletes a order identified using it's displayed index from the HomeChef.
+ * Deletes a order identified using its displayed index from the HomeChef.
  */
 public class DeleteCommand extends Command {
 
