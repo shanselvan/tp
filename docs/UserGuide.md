@@ -218,7 +218,7 @@ Format: `list [d/DATE] [c/CUSTOMER] [f/FOOD] [p/PHONE] [cs/COMPLETION STATUS] [p
 * Filters are case-insensitive for `c/`, `f/`, `p/`, `cs/` and `ps/` parameters. For example, `list cs/pending` and `list cs/Pending` will give the same results.
 * `DATE` must be in the format `dd-MM-yyyy`. (e.g. `18-10-2026` for 18th October 2026)
 * `COMPLETION_STATUS` must be one of `Pending`, `In progress` or `Completed`.
-* `PAYMENT_STATUS` must be one of `Paid`, `Unpaid` or `Partial`.
+* `PAYMENT_STATUS` must be one of `Paid` or `Unpaid`.
 * Using `list` with no parameters is a good way to reset the order list view to show every order stored.
 * A common `list` command is `list cs/Pending ps/Paid` to easily find orders that should be started on, since they have already been paid.
 * Another common command is `list cs/Completed ps/Unpaid` to find orders that have been completed but not yet paid, to track troublesome customers who have yet to pay for their food.
@@ -278,16 +278,6 @@ This helps to easily tell at a glance when an order has been totally paid for by
 * On an order that is already `Paid`, the command will show an error message instead of updating the order.
 
 Format: `paid INDEX`
-
-### Marking an order as partially paid: `partial`
-
-Sets the payment status of an order to 'Partial'.
-Partially paid orders have their payment status coloured yellow.
-This helps to easily tell at a glance when an order has been partially paid for by a customer.
-
-* On an order that is already `Partial`, the command will show an error message instead of updating the order.
-
-Format: `partial INDEX`
 
 ### Marking an order as unpaid: `unpaid`
 
@@ -562,8 +552,7 @@ downloaded.
 | **Mark In Progress** | `inprogress INDEX` <br> e.g., `inprogress 2`                                                                                                                                                                                                                          |
 | **Mark Complete**    | `complete INDEX` <br> e.g., `complete 4`                                                                                                                                                                                                                              |
 | **Mark Pending**     | `pending INDEX` <br> e.g., `pending 3`                                                                                                                                                                                                                                |
-| **Mark Paid**        | `paid INDEX` <br> e.g., `paid 1`                                                                                                                                                                                                                                      |
-| **Mark Partial**     | `partial INDEX` <br> e.g., `partial 1`                                                                                                                                                                                                                                |
+| **Mark Paid**        | `paid INDEX` <br> e.g., `paid 1`                                                                                                                                                                                                                                      | 
 | **Mark Unpaid**      | `unpaid INDEX` <br> e.g., `unpaid 1`                                                                                                                                                                                                                                  |
 | **Edit**             | `edit INDEX [f/FOOD] [c/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [d/DATE] [q/QUANTITY] [t/TAG]... [bank/BANK_DETAILS] [paynow/PAYNOW_CONTACT] [cash/YES_OR_NO]`<br> e.g.,`edit 2 c/James Lee e/jameslee@example.com q/2 cash/no`                                  |
 | **Delete**           | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                                                                                                   |

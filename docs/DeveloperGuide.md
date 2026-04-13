@@ -225,15 +225,15 @@ It highlights potential scheduling issues to help sellers manage deliveries.
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​            | I want to …​                                           | So that I can…​                                                                 |
-|----------|--------------------|-------------------------------------------------------|--------------------------------------------------------------------------------|
+| Priority | As a …​            | I want to …​                                         | So that I can…​                                                                 |
+|----------|--------------------|------------------------------------------------------|--------------------------------------------------------------------------------|
 | `* * *`  | user               | add payment information to orders                    | I know who owes me money                                                      |
 | `*`      | user               | add a new person                                     | add a new customer to the system                                              |
 | `* * *`  | user               | add a new order linked to an existing customer       | record what they ordered and when it's due                                    |
 | `* * *`  | user               | view all orders due for delivery today               | see my workload for the day at a glance                                        |
 | `* * *`  | user               | delete a cancelled order from the system             | avoid confusing it with active orders that need to be fulfilled               |
 | `* * *`  | user               | add dietary restrictions or special instructions     | remember to make the cake nut-free or sugar-free as requested                 |
-| `* * *`  | user               | mark an order as paid / unpaid / partially paid      | track outstanding payments or balances easily                                 |
+| `* * *`  | user               | mark an order as paid / unpaid                       | track outstanding payments or balances easily                                 |
 | `* * *`  | user               | mark order completion status                         | know the state of my current orders                                           |
 | `* *`    | user               | edit contact information after the order is complete | modify and update information if records were incorrect                       |
 | `* *`    | expert user        | use shortcuts for commands                           | efficiently type out commands                                                 |
@@ -525,7 +525,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Customer**: A person who placed an order.
 * **Dietary Restrictions**: Constraints on ingredients and preparation for an order.
 * **Shortcut**: An alternative, faster way to execute a command using fewer characters.
-* **Payment Status**: Whether an order has been paid for. Possible states are: Paid, Unpaid, Partially Paid.
+* **Payment Status**: Whether an order has been paid for. Possible states are: Paid, Unpaid.
 * **Completion Status**: Whether an order has been finished and delivered. Possible states are: Pending, In Progress, Completed.
 * **Menu**: A set of food items which a Customer can select and make a purchase from.
 * **Menu Item**: An entry in the menu that represents a food item that a Customer can purchase.
