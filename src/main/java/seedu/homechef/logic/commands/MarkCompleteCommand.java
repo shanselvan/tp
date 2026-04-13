@@ -43,6 +43,11 @@ public class MarkCompleteCommand extends Command {
 
     private final Index targetIndex;
 
+    /**
+     * Creates a {@code MarkCompleteCommand} to mark the order at the given {@code targetIndex} as complete.
+     *
+     * @param targetIndex Index of the order in the filtered order list.
+     */
     public MarkCompleteCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }

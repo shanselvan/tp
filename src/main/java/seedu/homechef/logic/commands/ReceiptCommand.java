@@ -35,6 +35,11 @@ public class ReceiptCommand extends Command {
 
     private final Index targetIndex;
 
+    /**
+     * Creates a {@code ReceiptCommand} to generate a receipt for the order at the given {@code targetIndex}.
+     *
+     * @param targetIndex Index of the order in the filtered order list.
+     */
     public ReceiptCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }

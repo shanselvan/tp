@@ -42,6 +42,11 @@ public class UnpaidCommand extends Command {
 
     private final Index targetIndex;
 
+    /**
+     * Creates a {@code UnpaidCommand} to mark the order at the given {@code targetIndex} as unpaid.
+     *
+     * @param targetIndex Index of the order in the filtered order list.
+     */
     public UnpaidCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }

@@ -42,6 +42,11 @@ public class PaidCommand extends Command {
 
     private final Index targetIndex;
 
+    /**
+     * Creates a {@code PaidCommand} to mark the order at the given {@code targetIndex} as paid.
+     *
+     * @param targetIndex Index of the order in the filtered order list.
+     */
     public PaidCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }

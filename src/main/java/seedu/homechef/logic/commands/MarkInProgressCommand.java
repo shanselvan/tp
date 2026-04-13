@@ -43,6 +43,11 @@ public class MarkInProgressCommand extends Command {
 
     private final Index targetIndex;
 
+    /**
+     * Creates a {@code MarkInProgressCommand} to mark the order at the given {@code targetIndex} as in progress.
+     *
+     * @param targetIndex Index of the order in the filtered order list.
+     */
     public MarkInProgressCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }

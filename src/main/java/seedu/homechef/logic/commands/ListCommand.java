@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import seedu.homechef.commons.util.ToStringBuilder;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.order.CompletionStatus;
 import seedu.homechef.model.order.Date;
@@ -196,6 +197,18 @@ public class ListCommand extends Command {
                     && Objects.equals(phoneQuery, otherDescriptor.phoneQuery)
                     && Objects.equals(completionStatus, otherDescriptor.completionStatus)
                     && Objects.equals(paymentStatus, otherDescriptor.paymentStatus);
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this)
+                    .add("date", date)
+                    .add("customerQuery", customerQuery)
+                    .add("foodQuery", foodQuery)
+                    .add("phoneQuery", phoneQuery)
+                    .add("completionStatus", completionStatus)
+                    .add("paymentStatus", paymentStatus)
+                    .toString();
         }
     }
 }

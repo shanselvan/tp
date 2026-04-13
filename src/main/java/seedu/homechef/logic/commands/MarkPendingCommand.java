@@ -43,6 +43,11 @@ public class MarkPendingCommand extends Command {
 
     private final Index targetIndex;
 
+    /**
+     * Creates a {@code MarkPendingCommand} to mark the order at the given {@code targetIndex} as pending.
+     *
+     * @param targetIndex Index of the order in the filtered order list.
+     */
     public MarkPendingCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }

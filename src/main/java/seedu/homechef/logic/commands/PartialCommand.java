@@ -41,6 +41,11 @@ public class PartialCommand extends Command {
 
     private final Index targetIndex;
 
+    /**
+     * Creates a {@code PartialCommand} to mark the order at the given {@code targetIndex} as partially paid.
+     *
+     * @param targetIndex Index of the order in the filtered order list.
+     */
     public PartialCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }
