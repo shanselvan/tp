@@ -13,6 +13,8 @@ import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_QUANTITY;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_TAG;
 
+import static seedu.homechef.logic.Messages.MESSAGE_DUPLICATE_ORDER;
+
 import seedu.homechef.commons.util.ToStringBuilder;
 import seedu.homechef.logic.Messages;
 import seedu.homechef.logic.commands.exceptions.CommandException;
@@ -55,7 +57,6 @@ public class AddCommand extends Command {
             + PREFIX_BANK_PAYMENT + "DBS-123456";
 
     public static final String MESSAGE_SUCCESS = "New order added: %1$s";
-    public static final String MESSAGE_DUPLICATE_ORDER = "This order already exists in the HomeChef";
     public static final String MESSAGE_PAST_DATE_WARNING =
             " Warning: this order date is in the past and will be marked as overdue.";
 

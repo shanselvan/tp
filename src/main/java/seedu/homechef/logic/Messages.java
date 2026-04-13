@@ -25,6 +25,8 @@ public class Messages {
             "'%s' is currently unavailable. Check the menu panel on the right for available items.";
     public static final String MESSAGE_MENU_ITEM_AMBIGUOUS =
             "'%s' matches multiple menu items: %s. Please use the exact menu item name.";
+    public static final String MESSAGE_DUPLICATE_ORDER = "This order already exists in HomeChef.";
+    public static final String MESSAGE_DUPLICATE_MENU_ITEM = "A menu item with this name already exists.";
 
     /**
      * Returns an error message indicating the duplicate prefixes.

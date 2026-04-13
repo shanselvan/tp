@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.homechef.logic.Messages.MESSAGE_DUPLICATE_MENU_ITEM;
 import static seedu.homechef.testutil.Assert.assertThrows;
 
 import java.nio.file.Path;
@@ -64,7 +65,7 @@ public class AddMenuCommandTest {
         ModelStubWithMenuItem modelStub = new ModelStubWithMenuItem(validItem);
 
         assertThrows(CommandException.class,
-                AddMenuCommand.MESSAGE_DUPLICATE_MENU_ITEM, () -> addCommand.execute(modelStub));
+                MESSAGE_DUPLICATE_MENU_ITEM, () -> addCommand.execute(modelStub));
     }
 
     @Test

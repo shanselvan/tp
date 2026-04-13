@@ -1,6 +1,7 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.logic.Messages.MESSAGE_DUPLICATE_MENU_ITEM;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_AVAILABILITY;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PRICE;
@@ -28,8 +29,6 @@ public class AddMenuCommand extends Command {
             + PREFIX_AVAILABILITY + "yes";
 
     public static final String MESSAGE_SUCCESS = "New menu item added: %1$s $%2$s";
-    public static final String MESSAGE_DUPLICATE_MENU_ITEM =
-            "An item with this name already exists in the menu";
 
     private final MenuItem toAdd;
 

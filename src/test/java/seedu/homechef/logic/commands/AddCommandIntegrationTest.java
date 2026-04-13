@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.homechef.logic.commands.CommandTestUtil.VALID_MENU_BIRTHDAY_PRICE;
 import static seedu.homechef.logic.commands.CommandTestUtil.VALID_MENU_CHICKEN_PRICE;
 import static seedu.homechef.logic.commands.CommandTestUtil.VALID_MENU_WEDDING_PRICE;
+import static seedu.homechef.logic.Messages.MESSAGE_DUPLICATE_ORDER;
 import static seedu.homechef.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.homechef.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.homechef.testutil.TypicalOrders.getTypicalHomeChef;
@@ -60,7 +61,7 @@ public class AddCommandIntegrationTest {
     public void execute_duplicateOrder_throwsCommandException() {
         Order orderInList = model.getHomeChef().getOrderList().get(0);
         assertCommandFailure(new AddCommand(orderInList), model,
-                AddCommand.MESSAGE_DUPLICATE_ORDER);
+                MESSAGE_DUPLICATE_ORDER);
     }
 
     @Test
