@@ -5,10 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.homechef.testutil.Assert.assertThrows;
 import static seedu.homechef.testutil.TypicalMenuItems.BIRTHDAY;
+import static seedu.homechef.testutil.TypicalMenuItems.CHICKEN_RICE;
 import static seedu.homechef.testutil.TypicalMenuItems.CUPCAKES;
 import static seedu.homechef.testutil.TypicalMenuItems.getTypicalMenuBook;
 
 import org.junit.jupiter.api.Test;
+
+import seedu.homechef.model.menu.exceptions.MenuItemNotFoundException;
 
 public class MenuBookTest {
 
@@ -107,5 +110,45 @@ public class MenuBookTest {
 
         // EP: string representation with populated menu items
         assertEquals(expected, menuBook.toString());
+    }
+
+    @Test
+    public void resolveMenuItem_validIndexFirst_returnsFirstItem() {
+        MenuBook menuBook = getTypicalMenuBook();
+
+        // EP: valid 1-based index for first item
+        assertEquals(BIRTHDAY, menuBook.resolveMenuItem("1"));
+    }
+
+    @Test
+    public void resolveMenuItem_validIndexLast_returnsLastItem() {
+        MenuBook menuBook = getTypicalMenuBook();
+
+        // EP: valid 1-based index for last item (9 items in typical menu)
+        assertEquals(CHICKEN_RICE, menuBook.resolveMenuItem("9"));
+    }
+
+    @Test
+    public void resolveMenuItem_indexOutOfRange_throwsMenuItemNotFoundException() {
+        MenuBook menuBook = getTypicalMenuBook();
+
+        // EP: integer index exceeds menu size, falls through to name matching and fails
+        assertThrows(MenuItemNotFoundException.class, () -> menuBook.resolveMenuItem("99"));
+    }
+
+    @Test
+    public void resolveMenuItem_indexZero_throwsMenuItemNotFoundException() {
+        MenuBook menuBook = getTypicalMenuBook();
+
+        // EP: zero is not a valid 1-based index, falls through to name matching and fails
+        assertThrows(MenuItemNotFoundException.class, () -> menuBook.resolveMenuItem("0"));
+    }
+
+    @Test
+    public void resolveMenuItem_nonInteger_usesNameMatching() {
+        MenuBook menuBook = getTypicalMenuBook();
+
+        // EP: non-integer string bypasses index lookup and uses name matching
+        assertEquals(BIRTHDAY, menuBook.resolveMenuItem("Birthday Cake"));
     }
 }

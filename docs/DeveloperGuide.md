@@ -163,6 +163,16 @@ The app has both an order list and a menu. When adding or editing an order, the 
 1. The app checks if the input food name in the order matches that of a food in the current menu.
 2. The app automatically calculates the total price of an order using the `quantity` field in the given order and the `price` field of matching food item in the menu.
 
+#### Menu item resolution
+
+Food lookup is handled by `MenuBook#resolveMenuItem(String foodName)` and follows a three-tier strategy:
+
+1. **Tier 0 — Index lookup:** If `foodName` parses as a positive integer within the current menu size, the item at that 1-based position is returned immediately. This allows users to type `f/1` instead of a full food name.
+2. **Tier 1 — Exact match:** Case-insensitive exact name comparison across all menu items.
+3. **Tier 2 — Substring match:** If exactly one menu item's name contains `foodName` as a substring, that item is returned. Multiple matches produce an `AmbiguousMenuItemException`; zero matches produce a `MenuItemNotFoundException`.
+
+Tier 0 takes unconditional priority. A menu item whose name is a pure integer (e.g. `"3"`) cannot be targeted by name if the menu has enough items for that integer to be a valid index.
+
 ### Automatic date formatting
 
 The app automatically formats the date field of the orders, colouring the text red when overdue, orange when urgent and white when normal.
@@ -619,7 +629,7 @@ testers are expected to do more *exploratory* testing.
    1. Prerequisites: In the `data` folder, have a `homechef.json` file or `menu.json` file. Have at least 1 entry in the `homechef.json` file or the `menu.json` file.
 
    1. Test case: Open the respective `homechef.json` file or `menu.json` file and modify an existing order or menu item such that any of their mandatory fields contain an `empty string`, meaning a pair of inverted commas with no characters in between as such: `""`. Start up HomeChef-Helper.<br>
-      Expected: The respective order list or menu will appear blank in the UI when HomeChef-Helper is started up again. Upon `exit`, the respective `.json` files will contain no orders or menu items.
+      Expected: The respective order list or menu will appear blank in the UI when HomeChef-Helper is started up again, with a warning message shown in the result display. The corrupted `.json` files are not overwritten on `exit` or window close — they remain on disk in their corrupted state. The files will be overwritten with clean (empty) data only after a data-modifying command (e.g. `add`, `delete`, `edit`) is executed.
 
    1. Test case: Modify an existing order or menu item such that any of their mandatory fields contain a `blank string`, a pair of inverted commas with whitespace in between: `" "`. Start up HomeChef-Helper.<br>
       Expected: Similar to previous.
@@ -632,7 +642,7 @@ testers are expected to do more *exploratory* testing.
     1. Prerequisites: Have an existing `homechef.json` file or `menu.json` file in the `data` folder.
 
     1. Test case: Open the `data` folder and delete the files inside. Start up HomeChef-Helper.<br>
-       Expected: The initial sample order list and menu will appear in the UI when HomeChef-Helper is started up again. Upon `exit`, the `homechef.json` and `menu.json` files will appear again in the `data` folder, with the sample entries.
+       Expected: The initial sample order list and menu will appear in the UI when HomeChef-Helper is started up again. The `homechef.json` and `menu.json` files will not be re-created by `exit` or window close — they will be created in the `data` folder (with the sample entries) only after a data-modifying command (e.g. `add`, `delete`, `edit`) is executed.
 
     1. Test case: Open the `data` folder, cut and paste the contained files elsewhere in the computer. Start up HomeChef-Helper.<br>
        Expected: Similar to previous.

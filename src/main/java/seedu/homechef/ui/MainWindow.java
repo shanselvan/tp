@@ -137,6 +137,14 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
+     * Displays a warning message in the result display.
+     * Called on startup when a data file could not be loaded.
+     */
+    void showStartupWarning(String warning) {
+        resultDisplay.setFeedbackToUser(warning);
+    }
+
+    /**
      * Sets the default size based on {@code guiSettings}.
      */
     private void setWindowDefaultSize(GuiSettings guiSettings) {

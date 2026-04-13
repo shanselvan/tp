@@ -87,6 +87,14 @@ public class MenuBook implements ReadOnlyMenuBook {
     @Override
     public MenuItem resolveMenuItem(String foodName) {
         List<MenuItem> items = menuItems.asUnmodifiableObservableList();
+        try {
+            int oneBasedIndex = Integer.parseInt(foodName);
+            if (oneBasedIndex >= 1 && oneBasedIndex <= items.size()) {
+                return items.get(oneBasedIndex - 1);
+            }
+        } catch (NumberFormatException e) {
+            // not an integer; fall through to name matching
+        }
         Optional<MenuItem> exactMatch = items.stream()
                 .filter(item -> item.getFood().toString().equalsIgnoreCase(foodName))
                 .findFirst();

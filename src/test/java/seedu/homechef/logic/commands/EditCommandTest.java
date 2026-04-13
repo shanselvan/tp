@@ -296,6 +296,27 @@ public class EditCommandTest {
     }
 
     @Test
+    public void execute_foodByMenuIndex_resolvesToCorrectItem() {
+        // BENSON (index 2) has "Sourdough Bread"; editing food to "1" should resolve to "Birthday Cake"
+        Order orderToEdit = model.getFilteredOrderList().get(INDEX_SECOND_ORDER.getZeroBased());
+        Order editedOrder = new OrderBuilder(orderToEdit)
+                .withFood("Birthday Cake")
+                .withPrice(VALID_MENU_BIRTHDAY_PRICE)
+                .build();
+
+        EditOrderDescriptor descriptor = new EditOrderDescriptorBuilder().withFood("1").build();
+        EditCommand editCommand = new EditCommand(INDEX_SECOND_ORDER, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_ORDER_SUCCESS, Messages.format(editedOrder));
+
+        Model expectedModel = new ModelManager(
+                new HomeChef(model.getHomeChef()), TypicalMenuItems.getTypicalMenuBook(), new UserPrefs());
+        expectedModel.setOrder(orderToEdit, editedOrder);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
     public void execute_dateEditedToPast_includesWarning() {
         Order orderToEdit = model.getFilteredOrderList().get(INDEX_FIRST_ORDER.getZeroBased());
         String yesterday = LocalDate.now().minusDays(1).format(seedu.homechef.model.order.Date.FORMATTER);

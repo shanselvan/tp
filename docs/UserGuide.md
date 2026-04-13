@@ -163,11 +163,14 @@ Format: `add f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE [q/QUANTITY] [t/TAG]
 <div markdown="1" class="alert alert-primary">:bulb:
 **Notes about the add command:**<br>
 * `FOOD` must match an **existing food's name** in the current menu, but it is case-insensitive.
+  * You can use the **menu item's index** (the number shown in the menu panel) instead of typing the full name.<br>
+    e.g. `f/1` resolves to the first item in the menu. Index lookup takes priority over name matching.
   * HomeChef will try to match the given food name to the closest existing food in the menu.<br>
-    e.g. inputting `Birthday` will create an order with `Birthday Cake` is `Birthday Cake` exists in the menu, but not any other food with `Birthday`.
+    e.g. inputting `Birthday` will create an order with `Birthday Cake` if `Birthday Cake` exists in the menu, but not any other food with `Birthday`.
   * If any food names share the input word, an error message will tell you to `Please use the exact menu item`.<br>
     e.g. inputting `Cake` will give this error if both `Birthday Cake` and `Cupcakes` exist in the menu.
   * Giving an input that is not in the menu will show an error message telling you to `Use 'add-menu' to add it to the menu first.`
+  * If a menu item's name is a pure number (e.g. `3`), typing `f/3` resolves by index, not by name.
 * `DATE` must be in **DD-MM-YYYY** format and be a valid calendar date (e.g. `31-02-2026` is rejected).
 * If you add an order with a past `DATE`, HomeChef still adds it but shows a warning that the order is overdue.
 * `NAME` accepts letters/digits (including international characters), spaces, apostrophes (`'` and `’`), slashes (`/`), at signs (`@`), periods (`.`), and hyphens (`-`).
@@ -352,7 +355,7 @@ Format:
   * `bank/BANK_DETAILS` sets payment info to bank transfer and requires 1-50 characters with at least one letter or digit.
     Allowed symbols are spaces, `-`, `_`, `/`, `(`, `)`, `.`, `,`, `:`, `+`, `&`, `@`, `#`, `'`, `[`, `]`.
 * If `c/NAME` is provided, it follows the same character rules as `add`.
-* If `f/FOOD` is provided, it must still match an existing menu item and follows the same food-name character rules as `add-menu`.
+* If `f/FOOD` is provided, it must still match an existing menu item and follows the same food-name character rules as `add-menu`. You may also use the menu item's index (e.g. `f/1`) as a shortcut, which resolves by position before attempting name matching.
 </div>
 
 Examples:
@@ -514,7 +517,7 @@ is stored in the same location, under file name `menu.json`. Advanced users are 
 to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file make its format invalid, HomeChef will **discard all data** and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+If your changes to the data file make its format invalid, HomeChef will **discard all data** and start with empty data at the next run. The corrupted file will be overwritten with clean data only after a data-modifying command (e.g. `add`, `delete`, `edit`) is executed. Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the HomeChef to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 

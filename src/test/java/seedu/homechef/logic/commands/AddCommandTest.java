@@ -110,6 +110,20 @@ public class AddCommandTest {
     }
 
     @Test
+    public void execute_foodByMenuIndex_resolvesToCorrectItem() throws Exception {
+        ModelStubAcceptingOrderAdded modelStub = new ModelStubAcceptingOrderAdded();
+        // "1" is the 1-based index of "Birthday Cake" in the stub's menu
+        Order inputOrder = new OrderBuilder().withFood("1").withPrice("0.01").build();
+        Order expectedOrder = new OrderBuilder().withPrice(OrderBuilder.DEFAULT_PRICE).build();
+
+        CommandResult commandResult = new AddCommand(inputOrder).execute(modelStub);
+
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(expectedOrder)),
+                commandResult.getFeedbackToUser());
+        assertEquals(Arrays.asList(expectedOrder), modelStub.ordersAdded);
+    }
+
+    @Test
     public void execute_duplicateOrder_throwsCommandException() {
         Order validOrder = new OrderBuilder().withPrice(OrderBuilder.DEFAULT_PRICE).build();
         AddCommand addCommand = new AddCommand(validOrder);

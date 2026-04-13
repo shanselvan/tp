@@ -16,12 +16,15 @@ public interface ReadOnlyMenuBook {
     ObservableList<MenuItem> getMenuItemList();
 
     /**
-     * Returns the unique {@code MenuItem} matching {@code foodName}.
-     * Exact case-insensitive match takes priority and bypasses ambiguity checking;
-     * falls back to substring match only when no exact match exists.
+     * Returns the unique {@code MenuItem} matching {@code foodName} using a three-tier strategy:
+     * <ol>
+     *   <li>If {@code foodName} is a positive integer within the menu size, returns the item
+     *       at that 1-based index (bypasses name matching entirely).</li>
+     *   <li>Exact case-insensitive name match.</li>
+     *   <li>Unique substring match (multiple matches are ambiguous).</li>
+     * </ol>
      *
-     * @param foodName the food name to look up; matched case-insensitively,
-     *         with exact match taking priority over substring match
+     * @param foodName the food name or 1-based menu index to look up
      * @throws MenuItemNotFoundException if no items match
      * @throws AmbiguousMenuItemException if the input matches multiple items by substring
      *         and no exact match exists
