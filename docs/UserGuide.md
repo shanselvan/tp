@@ -167,9 +167,9 @@ Format: `add f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE [q/QUANTITY] [t/TAG]
     e.g. `f/1` resolves to the first item in the menu. Index lookup takes priority over name matching.
   * HomeChef will try to match the given food name to the closest existing food in the menu.<br>
     e.g. inputting `Birthday` will create an order with `Birthday Cake` if `Birthday Cake` exists in the menu, but not any other food with `Birthday`.
-  * If any food names share the input word, an error message will tell you to `Please use the exact menu item`.<br>
+  * If any food names share the input word, an error message will appear showing the matching items and asking you to use the exact menu item name.<br>
     e.g. inputting `Cake` will give this error if both `Birthday Cake` and `Cupcakes` exist in the menu.
-  * Giving an input that is not in the menu will show an error message telling you to `Use 'add-menu' to add it to the menu first.`
+  * Giving an input that is not in the menu will show an error message indicating the food was not found and prompting you to use `add-menu` to add it first.
   * If a menu item's name is a pure number (e.g. `3`), typing `f/3` resolves by index, not by name.
 * `DATE` must be in **DD-MM-YYYY** format and be a valid calendar date (e.g. `31-02-2026` is rejected).
 * If you add an order with a past `DATE`, HomeChef still adds it but shows a warning that the order is overdue.
@@ -312,6 +312,11 @@ Format: `receipt INDEX`
 You can also use the shortcut command `rec`.
 </div>
 
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+Receipts can only be generated for orders with payment status **Paid**.
+Use `paid INDEX` to mark the order as paid first.
+</div>
+
 Examples:
 
 * `receipt 1` Displays and saves a receipt for the order located at `INDEX` 1 of the shown list.
@@ -426,8 +431,8 @@ Format: `add-menu f/NAME $/PRICE [v/AVAILABILITY]`
   * `0`, `0.0`, and `0.00` are valid (useful for free/complimentary items).
   * Giving an input that is **not a number** or a number with **more than 2 decimals** will cause an error message to appear telling you the correct format you should use.
 * Similar functionality to that of `add` for the order list, except the fields have different prefixes.
-* `AVAILABILITY` only accepts `yes` or `no` spelled exactly.
-  * Typing anything else will give an error message stating `Availability must be 'yes' or 'no'`.
+* `AVAILABILITY` only accepts `yes` or `no` (case-insensitive).
+  * Typing anything else will give an error message stating `Availability must be 'yes' or 'no'.`
 * If not specified, `AVAILABILITY` will be set as `Available`.
 </div>
 
@@ -460,8 +465,8 @@ Format: `edit-menu INDEX [f/NAME] [$/PRICE] [v/AVAILABILITY]`
 
 <div markdown="1" class="alert alert-info">
 **:information_source: Notes about the edit-menu command:**<br>
-* `AVAILABILITY` only accepts `yes` or `no` spelled exactly.
-  * Typing anything else will give an error message stating `Availability must be 'yes' or 'no'`.
+* `AVAILABILITY` only accepts `yes` or `no` (case-insensitive).
+  * Typing anything else will give an error message stating `Availability must be 'yes' or 'no'.`
 * If `f/NAME` is provided, it follows the same character rules as `add-menu`.
 * If `$/PRICE` is provided, it follows the same number rules as `add-menu` (including allowing `0` / `0.00`).
 * Editing the `NAME` of a menu item **will not** change the name of existing orders. This is because old orders may have names that differ from the new name of a menu item, for book keeping purposes.
