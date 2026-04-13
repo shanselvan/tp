@@ -68,7 +68,7 @@ public class EditCommand extends Command {
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
 
-    public static final String MESSAGE_EDIT_ORDER_SUCCESS = "Edited Order: %1$s";
+    public static final String MESSAGE_EDIT_ORDER_SUCCESS = "Edited order: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_ORDER = "This order already exists in the HomeChef.";
     public static final String MESSAGE_PAST_DATE_WARNING = AddCommand.MESSAGE_PAST_DATE_WARNING;

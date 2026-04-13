@@ -38,7 +38,7 @@ public class MarkCompleteCommand extends Command {
             + "Parameters: INDEX (must be a non-zero positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_COMPLETE_ORDER_SUCCESS = "Marked Order as Complete: %1$s";
+    public static final String MESSAGE_COMPLETE_ORDER_SUCCESS = "Marked order as complete: %1$s";
     public static final String MESSAGE_ALREADY_COMPLETE = "Order is already marked as complete.";
 
     private final Index targetIndex;

@@ -38,7 +38,7 @@ public class MarkInProgressCommand extends Command {
             + "Parameters: INDEX (must be a non-zero positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_IN_PROGRESS_ORDER_SUCCESS = "Marked Order as In Progress: %1$s";
+    public static final String MESSAGE_IN_PROGRESS_ORDER_SUCCESS = "Marked order as in progress: %1$s";
     public static final String MESSAGE_ALREADY_IN_PROGRESS = "Order is already marked as in progress.";
 
     private final Index targetIndex;
