@@ -39,7 +39,7 @@ public class ParserUtil {
     public static final String MESSAGE_CASH_PAYMENT_REQUIRED =
             "cash/ must be 'yes' (cash accepted) or 'no' (cash not accepted).";
     public static final String MESSAGE_BANK_PAYMENT_REQUIRED =
-            "bank/ requires a non-blank bank reference/details value.";
+            "bank/ requires a non-blank bank reference or account details (e.g. DBS-123456, Paynow 98765432).";
     public static final String MESSAGE_PAYNOW_PAYMENT_REQUIRED =
             "paynow/ requires a non-blank PayNow identifier (e.g. phone number, UEN, or handle).";
 

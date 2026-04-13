@@ -13,7 +13,7 @@ import seedu.homechef.model.order.Order;
 public class Messages {
 
     public static final String MESSAGE_UNKNOWN_COMMAND =
-            "Unknown command. Refer to the User Guide for the full list of valid commands.";
+            "Unknown command. Type 'help' to open the User Guide, or refer to it for the full list of valid commands.";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
     public static final String MESSAGE_INVALID_ORDER_DISPLAYED_INDEX =
             "The order index is out of range. Use a number between 1 and the total number of orders shown.";

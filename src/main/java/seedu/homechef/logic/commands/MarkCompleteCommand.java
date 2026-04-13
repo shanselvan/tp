@@ -39,7 +39,9 @@ public class MarkCompleteCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_COMPLETE_ORDER_SUCCESS = "Marked Order as Complete: %1$s";
-    public static final String MESSAGE_ALREADY_COMPLETE = "Order is already marked as complete.";
+    public static final String MESSAGE_ALREADY_COMPLETE =
+            "Order is already marked as complete. "
+            + "Use 'inprogress INDEX' or 'pending INDEX' to change the completion status.";
 
     private final Index targetIndex;
 

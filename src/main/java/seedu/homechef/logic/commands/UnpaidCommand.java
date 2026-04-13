@@ -34,7 +34,8 @@ public class UnpaidCommand extends Command {
     public static final String COMMAND_WORD = "unpaid";
 
     public static final String MESSAGE_MARK_UNPAID_SUCCESS = "Marked order as unpaid: %1$s";
-    public static final String MESSAGE_ALREADY_UNPAID = "Order is already marked as unpaid.";
+    public static final String MESSAGE_ALREADY_UNPAID =
+            "Order is already marked as unpaid. Use 'paid INDEX' or 'partial INDEX' to change the payment status.";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Marks as unpaid the order identified by the index number used in the displayed order list.\n"

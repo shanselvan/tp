@@ -33,7 +33,9 @@ public class PartialCommand extends Command {
     public static final String COMMAND_WORD = "partial";
 
     public static final String MESSAGE_MARK_PARTIAL_SUCCESS = "Marked order as partially paid: %1$s";
-    public static final String MESSAGE_ALREADY_PARTIAL = "Order is already marked as partially paid.";
+    public static final String MESSAGE_ALREADY_PARTIAL =
+            "Order is already marked as partially paid. "
+            + "Use 'paid INDEX' or 'unpaid INDEX' to change the payment status.";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Marks as partially paid the order identified by the index number used in the displayed order list.\n"

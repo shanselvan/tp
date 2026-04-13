@@ -38,7 +38,8 @@ public class EditMenuCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1 " + PREFIX_PRICE + "6.00 " + PREFIX_AVAILABILITY + "no";
 
     public static final String MESSAGE_EDIT_MENU_ITEM_SUCCESS = "Edited menu item: %1$s $%2$s (availability: %3$s)";
-    public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
+    public static final String MESSAGE_NOT_EDITED =
+            "At least one field to edit must be provided (e.g. f/, $/, or avail/).";
 
     private final Index index;
     private final EditMenuDescriptor editMenuDescriptor;
