@@ -215,12 +215,6 @@
     -fx-border-color: #6DB86B;
 }
 
-.cell_status_label.payment_status_label_partial {
-    -fx-text-fill: #E09A3A;
-    -fx-background-color: #2A1E08;
-    -fx-border-color: #E09A3A;
-}
-
 .cell_status_label.payment_status_label_unpaid {
     -fx-text-fill: #D95454;
     -fx-background-color: #2A1010;
