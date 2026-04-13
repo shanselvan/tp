@@ -59,15 +59,6 @@ public enum PaymentStatus {
     }
 
     /**
-     * Returns true if this payment status represents a partially paid order.
-     *
-     * @return True if this payment status represents a partially paid order.
-     */
-    public boolean isPartial() {
-        return this == PARTIAL;
-    }
-
-    /**
      * Returns true if this payment status represents an unpaid order.
      *
      * @return True if this payment status represents an unpaid order.
