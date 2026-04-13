@@ -1,6 +1,8 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.logic.Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX;
+import static seedu.homechef.model.Model.PREDICATE_SHOW_ALL_ORDERS;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +35,8 @@ public class UnpaidCommand extends Command {
     public static final String COMMAND_WORD = "unpaid";
 
     public static final String MESSAGE_MARK_UNPAID_SUCCESS = "Marked order as unpaid: %1$s";
-    public static final String MESSAGE_ALREADY_UNPAID = "Order is already marked as unpaid.";
+    public static final String MESSAGE_ALREADY_UNPAID =
+            "Order is already marked as unpaid. Use 'paid INDEX' or 'partial INDEX' to change the payment status.";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Marks as unpaid the order identified by the index number used in the displayed order list.\n"
@@ -57,17 +60,17 @@ public class UnpaidCommand extends Command {
         List<Order> lastShownList = model.getFilteredOrderList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX);
+            throw new CommandException(MESSAGE_INVALID_ORDER_DISPLAYED_INDEX);
         }
 
         Order orderToMarkUnpaid = lastShownList.get(targetIndex.getZeroBased());
-        if (orderToMarkUnpaid.getPaymentStatus() == PaymentStatus.UNPAID) {
+        if (orderToMarkUnpaid.getPaymentStatus().isUnpaid()) {
             throw new CommandException(MESSAGE_ALREADY_UNPAID);
         }
         Order unpaidOrder = createUnpaidOrder(orderToMarkUnpaid);
 
         model.setOrder(orderToMarkUnpaid, unpaidOrder);
-        model.updateFilteredOrderList(Model.PREDICATE_SHOW_ALL_ORDERS);
+        model.updateFilteredOrderList(PREDICATE_SHOW_ALL_ORDERS);
 
         return new CommandResult(generateSuccessMessage(unpaidOrder));
     }

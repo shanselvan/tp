@@ -15,7 +15,7 @@ import seedu.homechef.model.order.Quantity;
 public class Price {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Price must be a non-negative decimal with at most 2 decimal places (e.g. 0, 0.00, 5.50, 12)";
+            "Price must be a non-negative decimal with at most 2 decimal places (e.g. 0, 0.00, 5.50, 12).";
 
     /**
      * Validation regex for a non-negative decimal number with up to 2 decimal places.
@@ -41,6 +41,20 @@ public class Price {
 
     public static boolean isValidPrice(String test) {
         return test.matches(VALIDATION_REGEX);
+    }
+
+    /**
+     * Returns a new {@code Price} whose value is this price divided by {@code qty},
+     * rounded to 2 decimal places using HALF_UP.
+     *
+     * @param qty the number of items.
+     * @return a {@code Price} representing the unit cost.
+     */
+    public Price divide(Quantity qty) {
+        requireNonNull(qty);
+        int divisor = Integer.parseInt(qty.toString());
+        BigDecimal result = new BigDecimal(value).divide(BigDecimal.valueOf(divisor), 2, RoundingMode.HALF_UP);
+        return new Price(result.toPlainString());
     }
 
     /**
@@ -80,7 +94,7 @@ public class Price {
         }
 
         Price otherPrice = (Price) other;
-        return value.equalsIgnoreCase(otherPrice.value);
+        return value.equals(otherPrice.value);
     }
 
     @Override

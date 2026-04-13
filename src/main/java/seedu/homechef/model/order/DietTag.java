@@ -9,7 +9,9 @@ import static seedu.homechef.commons.util.AppUtil.checkArgument;
  */
 public class DietTag {
 
-    public static final String MESSAGE_CONSTRAINTS = "Tags names should be alphanumeric";
+    public static final String MESSAGE_CONSTRAINTS =
+            "Tag names must start and end with a letter or digit, "
+            + "and may contain single spaces or hyphens between words (e.g. gluten-free, no peanuts).";
     public static final String VALIDATION_REGEX = "\\p{Alnum}+(?:[ -]\\p{Alnum}+)*";
 
     private final String tagName;

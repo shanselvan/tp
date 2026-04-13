@@ -1,6 +1,8 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.logic.Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX;
+import static seedu.homechef.model.Model.PREDICATE_SHOW_ALL_ORDERS;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +35,8 @@ public class PaidCommand extends Command {
     public static final String COMMAND_WORD = "paid";
 
     public static final String MESSAGE_MARK_PAID_SUCCESS = "Marked order as paid: %1$s";
-    public static final String MESSAGE_ALREADY_PAID = "Order is already marked as paid.";
+    public static final String MESSAGE_ALREADY_PAID =
+            "Order is already marked as paid. Use 'unpaid INDEX' or 'partial INDEX' to change the payment status.";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Marks as paid the order identified by the index number used in the displayed order list.\n"
@@ -57,7 +60,7 @@ public class PaidCommand extends Command {
         List<Order> lastShownList = model.getFilteredOrderList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX);
+            throw new CommandException(MESSAGE_INVALID_ORDER_DISPLAYED_INDEX);
         }
 
         Order orderToMarkPaid = lastShownList.get(targetIndex.getZeroBased());
@@ -67,7 +70,7 @@ public class PaidCommand extends Command {
         Order paidOrder = createPaidOrder(orderToMarkPaid);
 
         model.setOrder(orderToMarkPaid, paidOrder);
-        model.updateFilteredOrderList(Model.PREDICATE_SHOW_ALL_ORDERS);
+        model.updateFilteredOrderList(PREDICATE_SHOW_ALL_ORDERS);
 
         return new CommandResult(generateSuccessMessage(paidOrder));
     }

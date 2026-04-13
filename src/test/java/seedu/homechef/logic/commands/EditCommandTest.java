@@ -3,6 +3,7 @@ package seedu.homechef.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.homechef.logic.Messages.MESSAGE_DUPLICATE_ORDER;
 import static seedu.homechef.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.homechef.logic.commands.CommandTestUtil.DESC_BOB;
 import static seedu.homechef.logic.commands.CommandTestUtil.VALID_CUSTOMER_BOB;
@@ -135,7 +136,7 @@ public class EditCommandTest {
         EditOrderDescriptor descriptor = new EditOrderDescriptorBuilder(firstOrder).build();
         EditCommand editCommand = new EditCommand(INDEX_SECOND_ORDER, descriptor);
 
-        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_ORDER);
+        assertCommandFailure(editCommand, model, MESSAGE_DUPLICATE_ORDER);
     }
 
     @Test
@@ -147,7 +148,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_ORDER,
                 new EditOrderDescriptorBuilder(orderInList).build());
 
-        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_ORDER);
+        assertCommandFailure(editCommand, model, MESSAGE_DUPLICATE_ORDER);
     }
 
     @Test
@@ -293,6 +294,27 @@ public class EditCommandTest {
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
         assertTrue(expectedModel.getFilteredOrderList()
                 .get(INDEX_FIRST_ORDER.getZeroBased()).getPaymentInfo().isEmpty());
+    }
+
+    @Test
+    public void execute_foodByMenuIndex_resolvesToCorrectItem() {
+        // BENSON (index 2) has "Sourdough Bread"; editing food to "1" should resolve to "Birthday Cake"
+        Order orderToEdit = model.getFilteredOrderList().get(INDEX_SECOND_ORDER.getZeroBased());
+        Order editedOrder = new OrderBuilder(orderToEdit)
+                .withFood("Birthday Cake")
+                .withPrice(VALID_MENU_BIRTHDAY_PRICE)
+                .build();
+
+        EditOrderDescriptor descriptor = new EditOrderDescriptorBuilder().withFood("1").build();
+        EditCommand editCommand = new EditCommand(INDEX_SECOND_ORDER, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_ORDER_SUCCESS, Messages.format(editedOrder));
+
+        Model expectedModel = new ModelManager(
+                new HomeChef(model.getHomeChef()), TypicalMenuItems.getTypicalMenuBook(), new UserPrefs());
+        expectedModel.setOrder(orderToEdit, editedOrder);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 
     @Test

@@ -51,13 +51,15 @@ public class LogicManager implements Logic {
         Command command = homeChefParser.parseCommand(commandText);
         commandResult = command.execute(model);
 
-        try {
-            storage.saveHomeChef(model.getHomeChef());
-            storage.saveMenuBook(model.getMenuBook());
-        } catch (AccessDeniedException e) {
-            throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
-        } catch (IOException ioe) {
-            throw new CommandException(String.format(FILE_OPS_ERROR_FORMAT, ioe.getMessage()), ioe);
+        if (!commandResult.isExit()) {
+            try {
+                storage.saveHomeChef(model.getHomeChef());
+                storage.saveMenuBook(model.getMenuBook());
+            } catch (AccessDeniedException e) {
+                throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
+            } catch (IOException ioe) {
+                throw new CommandException(String.format(FILE_OPS_ERROR_FORMAT, ioe.getMessage()), ioe);
+            }
         }
 
         return commandResult;

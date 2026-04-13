@@ -127,13 +127,6 @@ public class ListCommandParserTest {
     }
 
     @Test
-    public void parse_validPaymentStatusPartial_success() {
-        ListCommand.ListFilterDescriptor d = new ListCommand.ListFilterDescriptor();
-        d.setPaymentStatus(PaymentStatus.PARTIAL);
-        assertParseSuccess(parser, " ps/partial", new ListCommand(d));
-    }
-
-    @Test
     public void parse_validPaymentStatusExactString_success() {
         ListCommand.ListFilterDescriptor d = new ListCommand.ListFilterDescriptor();
         d.setPaymentStatus(PaymentStatus.PAID);

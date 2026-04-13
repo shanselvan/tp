@@ -1,6 +1,7 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.logic.Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -9,7 +10,6 @@ import java.util.List;
 import seedu.homechef.commons.core.index.Index;
 import seedu.homechef.commons.util.ReceiptUtil;
 import seedu.homechef.commons.util.ToStringBuilder;
-import seedu.homechef.logic.Messages;
 import seedu.homechef.logic.commands.exceptions.CommandException;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.order.Order;
@@ -50,7 +50,7 @@ public class ReceiptCommand extends Command {
         List<Order> lastShownList = model.getFilteredOrderList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX);
+            throw new CommandException(MESSAGE_INVALID_ORDER_DISPLAYED_INDEX);
         }
 
         Order orderToReceipt = lastShownList.get(targetIndex.getZeroBased());
