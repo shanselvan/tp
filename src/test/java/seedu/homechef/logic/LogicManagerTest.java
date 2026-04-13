@@ -24,6 +24,7 @@ import org.junit.jupiter.api.io.TempDir;
 import seedu.homechef.commons.core.GuiSettings;
 import seedu.homechef.logic.commands.AddCommand;
 import seedu.homechef.logic.commands.CommandResult;
+import seedu.homechef.logic.commands.ExitCommand;
 import seedu.homechef.logic.commands.ListCommand;
 import seedu.homechef.logic.commands.exceptions.CommandException;
 import seedu.homechef.logic.parser.exceptions.ParseException;
@@ -80,6 +81,25 @@ public class LogicManagerTest {
     public void execute_validCommand_success() throws Exception {
         String listCommand = ListCommand.COMMAND_WORD;
         assertCommandSuccess(listCommand, ListCommand.MESSAGE_SUCCESS, model);
+    }
+
+    @Test
+    public void execute_exitCommand_doesNotSaveToStorage() throws Exception {
+        // Storage that throws if any save is attempted
+        JsonHomeChefStorage throwingStorage = new JsonHomeChefStorage(temporaryFolder.resolve("exit.json")) {
+            @Override
+            public void saveHomeChef(ReadOnlyHomeChef homeChef, Path filePath) throws IOException {
+                throw new IOException("save should not be called on exit");
+            }
+        };
+        JsonMenuBookStorage menuBookStorage = new JsonMenuBookStorage(temporaryFolder.resolve("exitMenu.json"));
+        JsonUserPrefsStorage userPrefsStorage =
+                new JsonUserPrefsStorage(temporaryFolder.resolve("exitUserPrefs.json"));
+        StorageManager storage = new StorageManager(throwingStorage, menuBookStorage, userPrefsStorage);
+        logic = new LogicManager(model, storage);
+
+        // exit command must succeed without triggering a save
+        assertCommandSuccess("exit", ExitCommand.MESSAGE_EXIT_ACKNOWLEDGEMENT, model);
     }
 
     @Test

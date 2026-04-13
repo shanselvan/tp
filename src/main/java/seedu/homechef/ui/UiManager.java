@@ -24,12 +24,15 @@ public class UiManager implements Ui {
 
     private Logic logic;
     private MainWindow mainWindow;
+    private final String startupWarning;
 
     /**
-     * Creates a {@code UiManager} with the given {@code Logic}.
+     * Creates a {@code UiManager} with the given {@code Logic} and startup warning message.
+     * The {@code startupWarning} is displayed in the result display on launch if non-empty.
      */
-    public UiManager(Logic logic) {
+    public UiManager(Logic logic, String startupWarning) {
         this.logic = logic;
+        this.startupWarning = startupWarning;
     }
 
     @Override
@@ -43,6 +46,9 @@ public class UiManager implements Ui {
             mainWindow = new MainWindow(primaryStage, logic);
             mainWindow.show(); //This should be called before creating other UI parts
             mainWindow.fillInnerParts();
+            if (!startupWarning.isEmpty()) {
+                mainWindow.showStartupWarning(startupWarning);
+            }
 
         } catch (Throwable e) {
             logger.severe(StringUtil.getDetails(e));
