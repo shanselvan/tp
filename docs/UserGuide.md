@@ -41,7 +41,7 @@ input** over mouse clicks.
 
 2. **Download the latest `homechef.jar` file** from the [Release page](https://github.com/AY2526S2-CS2103T-T13-4/tp/releases).
 
-3. **Copy the file to the folder you want to use as the _home folder_ for your HomeChef.**
+3. **Copy the file to the folder you want to use as the _home folder_ for your HomeChef.**<br>
    This folder will be used to store your data file and generated receipts, so make sure to choose a location you can easily access.
 
     > **Example:**
@@ -81,7 +81,9 @@ input** over mouse clicks.
       The newly added order should look like this:
 
       ![sample order](images/sampleOrder.png)
+      
       Note that the ID number may differ if there are other orders in the list.
+      
       The date may also be of a different colour (red or orange) if the current date is after 30-03-2026.
 
     * `complete 1` : Marks the 1st order shown in the current list as completed. Helpful when you want to spot finished
@@ -162,9 +164,7 @@ You're ready to start using HomeChef now! Head to the [Features](#features) sect
 
 </div>
 
---------------------------------------------------------------------------------------------------------------------
-
-## Order List commands:
+## Order Management
 
 The order list is the list on the left, showing all the orders made by customers for certain food items.
 
@@ -174,11 +174,12 @@ The following are the commands that interact with this order list.
 
 ### Adding an order: `add`
 
-Adds an order to the order list.
-All orders are initially set as 'Pending' and 'Unpaid'.
+To begin adding an order to the order list, use the `add` command followed by the order's details.
 
-Format: `add f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE [q/QUANTITY] [t/TAG]...
-[bank/BANK_DETAILS] [paynow/PAYNOW_CONTACT] [cash/YES_OR_NO]`
+**Format:**
+```
+add f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE [q/QUANTITY] [t/TAG]... [bank/BANK_DETAILS] [paynow/PAYNOW_CONTACT] [cash/YES_OR_NO]
+```
 
 * Orders have their completion status set to `Pending` by default.
 * Orders also have their payment status set to `Unpaid` by default.
@@ -231,7 +232,7 @@ Format: `add f/FOOD c/NAME p/PHONE e/EMAIL a/ADDRESS d/DATE [q/QUANTITY] [t/TAG]
     and can only use these symbols: spaces, `-`, `_`, `/`, `(`, `)`, `.`, `,`, `:`, `+`, `&`, `@`, `#`, `'`, `[`, `]`.
 </div>
 
-Examples:
+**Examples:**
 * `add f/Red Bean Bun c/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 d/30-03-2026` Adds the
   order of the given information to the order list.
 * `add f/Hawaiian Pizza c/Betsy Crowe t/Halal e/betsycrowe@example.com a/Newgate Prison p/1234567 d/12-12-2026 t/No peanuts`
@@ -246,11 +247,15 @@ the [menu commands](#menu-commands) for more information in adding these food na
 
 ### Listing all orders : `list`
 
-Shows a list of all orders in the order list when no parameters are given,
-Otherwise, shows a filtered list of orders that match the keywords given as parameters.
+To view the orders you have, use the `list` command with no other parameters.
+
+To filter the orders shown in the order list, use the `list` command with parameters to specify keywords to filter by. 
 This can be useful for finding orders specific to a certain customer, a certain address or even of a certain food name.
 
-Format: `list [d/DATE] [c/CUSTOMER] [f/FOOD] [p/PHONE] [cs/COMPLETION_STATUS] [ps/PAYMENT_STATUS]`
+**Format:**
+```
+list [d/DATE] [c/CUSTOMER] [f/FOOD] [p/PHONE] [cs/COMPLETION_STATUS] [ps/PAYMENT_STATUS]
+```
 
 <div markdown="1" class="alert alert-info">:information_source:
 **Notes:**
@@ -264,7 +269,7 @@ Format: `list [d/DATE] [c/CUSTOMER] [f/FOOD] [p/PHONE] [cs/COMPLETION_STATUS] [p
 * Another common command is `list cs/Completed ps/Unpaid` to find orders that have been completed but not yet paid, to track troublesome customers who have yet to pay for their food.
 </div>
 
-Examples:
+**Examples:**
 
 * `list` Displays the full order list.
 * `list d/18-10-2026` Displays an order list with all orders which have the date `18-10-2026`.
@@ -276,23 +281,31 @@ Examples:
 
 ### Marking an order as in progress: `inprogress`
 
-Sets the completion status of an order to 'In progress'.
-In progress orders have their completion status coloured orange.
+To begin working on an order, use the `inprogress` command to mark it as 'In progress'.
+
+In progress orders have their completion status coloured orange. 
 This helps to easily tell at a glance when an order is currently in progress.
 
-* On an order that is already `In progress`, the command will show an error message instead of updating the order.
+> On an order that is already `In progress`, the command will show an error message instead of updating the order.
 
-Format: `inprogress INDEX`
+**Format:**
+```
+inprogress INDEX
+```
 
 ### Marking an order as complete: `complete`
 
-Sets the completion status of an order to 'Completed'.
+To indicate that you have finished working on an order, use the `complete` command to mark it as 'Completed'.
+
 Completed orders have their completion status coloured green.
 This helps to easily tell at a glance when an order is completed.
 
-* On an order that is already `Completed`, the command will show an error message instead of updating the order.
+> On an order that is already `Completed`, the command will show an error message instead of updating the order.
 
-Format: `complete INDEX`
+**Format:**
+```
+complete INDEX
+```
 
 <div markdown="1" class="alert alert-info">:information_source:
 **Notes:**
@@ -302,39 +315,54 @@ Format: `complete INDEX`
 
 ### Marking an order as pending: `pending`
 
-Sets the completion status of an order to 'Pending'.
+To indicate that an order has yet to be worked on, use the `pending` command to mark it as 'Pending'.
+
 Pending orders have their completion status coloured dark grey.
 This helps to easily tell at a glance when an order has yet to be worked on.
 
-* On an order that is already `Pending`, the command will show an error message instead of updating the order.
+> On an order that is already `Pending`, the command will show an error message instead of updating the order.
 
-Format: `pending INDEX`
+**Format:**
+```
+pending INDEX
+```
 
 ### Marking an order as paid: `paid`
 
-Sets the payment status of an order to 'Paid'.
+To indicate that an order has been paid for, use the `paid` command to mark it as 'Paid'.
+
 Paid orders have their payment status coloured green.
 This helps to easily tell at a glance when an order has been totally paid for by a customer.
 
-* On an order that is already `Paid`, the command will show an error message instead of updating the order.
+> On an order that is already `Paid`, the command will show an error message instead of updating the order.
 
-Format: `paid INDEX`
+**Format:**
+```
+paid INDEX
+```
 
 ### Marking an order as unpaid: `unpaid`
 
-Sets the payment status of an order to 'Unpaid'.
+To indicate that an order has yet to be paid for, use the `unpaid` command to mark it as 'Unpaid'.
+
 Unpaid orders have their payment status coloured red.
 This helps to easily tell at a glance when an order has yet to be paid by a customer.
 
-* On an order that is already `Unpaid`, the command will show an error message instead of updating the order.
+> On an order that is already `Unpaid`, the command will show an error message instead of updating the order.
 
-Format: `unpaid INDEX`
+**Format:**
+```
+unpaid INDEX
+```
 
 ### Generating a receipt: `receipt`
 
-Generates a plain-text receipt file for the specified order and displays the receipt content in the app output.
+To keep a record of a completed order or to give a receipt to your customer, use the `receipt` command to generate a plain-text receipt file for the specified order and display the receipt content in the app output.
 
-Format: `receipt INDEX`
+**Format:**
+```
+receipt INDEX
+```
 
 * A receipt file is created in a `receipts` folder beside the HomeChef data file.
     * More specifically, the created receipt file can be found in `[JAR file location]/data/receipts`.
@@ -351,7 +379,7 @@ You can also use the shortcut command `rec`.
   Use `paid INDEX` to mark the order as paid first.
 </div>
 
-Examples:
+**Examples:**
 
 * `receipt 1` Displays and saves a receipt for the order located at `INDEX` 1 of the shown list.
 * `rec 2` Displays and saves a receipt for the order located at `INDEX` 2 of the shown list.
@@ -362,7 +390,8 @@ Examples:
 
 ### Editing an order : `edit`
 
-Edits an existing order in the order list.
+To update an order's information when details change, use the `edit` command to edit a specified order's details.
+
 This helps with updating orders when information changes, without having to delete and re-add the order to the list.
 
 <div markdown="span" class="alert alert-warning">:exclamation:
@@ -370,9 +399,10 @@ This helps with updating orders when information changes, without having to dele
 * Completion status and payment status cannot be modified using the `edit` command and **must** be modified using the above commands.
 </div>
 
-Format:
-`edit INDEX [f/FOOD] [c/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/DATE] [q/QUANTITY] [t/TAG]...
-[bank/BANK_DETAILS] [paynow/PAYNOW_CONTACT] [cash/YES_OR_NO]`
+**Format:**
+```
+edit INDEX [f/FOOD] [c/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/DATE] [q/QUANTITY] [t/TAG]... [bank/BANK_DETAILS] [paynow/PAYNOW_CONTACT] [cash/YES_OR_NO]
+```
 
 <div markdown="1" class="alert alert-info">:information_source:
 **Notes:**
@@ -398,7 +428,7 @@ Format:
 * If `f/FOOD` is provided, it must still match an existing menu item and follows the same food-name character rules as `add-menu`. You may also use the menu item's index (e.g. `f/1`) as a shortcut, which resolves by position before attempting name matching.
 </div>
 
-Examples:
+**Examples:**
 
 * `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st order to be `91234567`
   and `johndoe@example.com` respectively.
@@ -409,15 +439,18 @@ Examples:
 
 ### Deleting an order : `delete`
 
-Deletes the specified order.
+To remove an order that you no longer need from the order list, use the `delete` command to delete a specified order.
 
-Format: `delete INDEX`
+**Format:**
+```
+delete INDEX
+```
 
 * Deletes the order at the specified `INDEX`.
 * The index refers to the index number shown in the displayed order list.
 * The index **must be a positive integer** 1, 2, 3, …​
 
-Examples:
+**Examples:**
 
 * `list` followed by `delete 2` deletes the 2nd order in the current list.
 * `list c/Betsy` followed by `delete 1` deletes the 1st order in the filtered results.
@@ -429,13 +462,18 @@ Examples:
 * This action **cannot be reversed** so only do this if you are sure you want to delete **every** order in the list. If not, use the delete command instead.
 </div>
 
-Clears all entries from the order list.
+To clear all orders from the order list, use the `clear` command to delete all orders at once. 
 
-Format: `clear`
+This is useful when you want to clear out old orders after a long period of time, without having to delete each order one by one.
+
+**Format:**
+```
+clear
+```
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Menu commands:
+## Menu Management
 
 The menu is the list on the right, indicating the food items you have for sale.
 
@@ -459,9 +497,14 @@ The following are the commands that interact with this menu.
 
 ### Adding a food item : `add-menu`
 
-Adds a food item of the given name, price and availability to the menu.
+To add a food item to the menu, use the `add-menu` command followed by the food's details.
 
-Format: `add-menu f/NAME $/PRICE [v/AVAILABILITY]`
+Adding food items to the menu is necessary before you can add orders of that food, as the `add` command requires the food to already exist in the menu.
+
+**Format:**
+```
+add-menu f/NAME $/PRICE [v/AVAILABILITY]
+```
 
 <div markdown="1" class="alert alert-info">:information_source:
 **Notes:**
@@ -476,7 +519,7 @@ Format: `add-menu f/NAME $/PRICE [v/AVAILABILITY]`
 * If not specified, `AVAILABILITY` will be set as `Available`.
 </div>
 
-Examples:
+**Examples:**
 
 * `add-menu f/Bee Hoon $/5` Adds a food item called `Bee Hoon` into the menu with a price of `$5` and is specified as
   `Available`.
@@ -486,9 +529,12 @@ Examples:
 
 ### Deleting a food item : `delete-menu`
 
-Deletes the food item identified by the index number used in the displayed menu list.
+To remove a food item that you no longer sell from the menu, use the `delete-menu` command to delete a specified food item.
 
-Format: `delete-menu INDEX`
+**Format:**
+```
+delete-menu INDEX
+```
 
 <div markdown="1" class="alert alert-info">:information_source:
 **Notes:**
@@ -498,10 +544,14 @@ Format: `delete-menu INDEX`
 
 ### Editing a food item : `edit-menu`
 
-Edits an existing food item in the menu.
-Similar functionality to that of `edit` for the order list, except the fields have different prefixes.
+To update a food item's information when details change, use the `edit-menu` command to edit a specified food item's details.
 
-Format: `edit-menu INDEX [f/NAME] [$/PRICE] [v/AVAILABILITY]`
+This helps with updating the menu when information changes, without having to delete and re-add the food item to the menu.
+
+**Format:**
+```
+edit-menu INDEX [f/NAME] [$/PRICE] [v/AVAILABILITY]
+```
 
 <div markdown="1" class="alert alert-info">
 **:information_source: Notes:**
@@ -514,7 +564,7 @@ Format: `edit-menu INDEX [f/NAME] [$/PRICE] [v/AVAILABILITY]`
 * Similarly, editing `PRICE` and `AVAILABILITY` will **not** update existing orders either.
 </div>
 
-Example:
+**Examples:**
 
 * `edit-menu 1 f/Raisin Cookies $/2.00` Edits the food in the first position of the displayed menu to have the name
   `Raisin Cookies` and a price of `$2.00`.
@@ -532,13 +582,19 @@ Shows a message explaining how to access the help page.
 
 ![help message](images/helpMessage.png)
 
-Format: `help`
+**Format:**
+```
+help
+```
 
 ### Exiting the program : `exit`
 
 Exits the program.
 
-Format: `exit`
+**Format:**
+```
+exit
+```
 
 <div markdown="1" class="alert alert-info">:information_source:
 **Notes:**
@@ -551,8 +607,7 @@ Format: `exit`
 ### Saving the data
 
 HomeChef Helper data is saved in the hard disk automatically after any command that changes the data. There is no need
-to save
-manually.
+to save manually.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 It is, however, recommended that a backup of the homechef.json and menu.json files are made by copying them to a separate folder outside of the HomeChef Helper folder. This will allow you to copy the files back to the `data` folder when needed, such as when a `clear` command is accidentally executed.
@@ -626,3 +681,26 @@ downloaded.
 | **Edit Menu**        | `edit-menu INDEX [f/NAME] [$/PRICE] [v/AVAILABILITY]` <br> e.g., `edit-menu 2 f/Pain au Chocolat $/3.50 v/yes`                                                                                                                                                        |
 | **Help**             | `help`                                                                                                                                                                                                                                                                |
 | **Exit**             | `exit`                                                                                                                                                                                                                                                                |
+
+--------------------------------------------------------------------------------------------------------------------
+
+# Parameter summary
+
+| Parameter | Prefix | Rules | Examples |
+| --------- | ------ | ----- | -------- |
+| Index | none | Positive whole number within the currently shown list (`1, 2, 3, ...`). | `2`, `15` |
+| Food (order) | `f/` | Must match an existing menu item (case-insensitive); can use menu index shortcut. | `f/Chicken Rice`, `f/1` |
+| Name (customer/menu item) | `c/` or `f/` | Letters/digits (including international characters), spaces, and allowed punctuation as documented per command. | `c/John Tan`, `f/Pain au Chocolat` |
+| Phone | `p/` | Digits only, or `+` country code followed by a space and digits; at least 3 numeric characters. | `p/98765432`, `p/+65 91234567` |
+| Email | `e/` | Must be valid `local-part@domain.tld` format. | `e/jane@example.com` |
+| Address | `a/` | Any non-blank text. | `a/Blk 123 Clementi Ave 3 #10-01` |
+| Date | `d/` | Must be a valid calendar date in `DD-MM-YYYY` format. | `d/30-03-2026` |
+| Quantity | `q/` | Positive integer from `1` to `999` (inclusive). | `q/1`, `q/25` |
+| Tag | `t/` | Optional diet tag text; repeatable for `add`/`edit`. | `t/No peanuts`, `t/Halal` |
+| Completion status | `cs/` | One of `Pending`, `In progress`, `Completed` (case-insensitive). | `cs/Pending` |
+| Payment status | `ps/` | One of `Paid` or `Unpaid` (case-insensitive). | `ps/Paid` |
+| Menu price | `$/` | Non-negative number with up to 2 decimal places. | `$/5`, `$/2.50`, `$/0.00` |
+| Availability | `v/` | Must be `yes` or `no` (case-insensitive). | `v/yes`, `v/no` |
+| Bank details | `bank/` | 1-50 chars, must include at least one letter or digit; allows selected symbols. | `bank/DBS 123-456-789` |
+| PayNow contact | `paynow/` | Any non-blank PayNow identifier/reference. | `paynow/+65 91234567`, `paynow/UEN201234567A` |
+| Cash flag | `cash/` | Must be `yes` or `no`. | `cash/yes`, `cash/no` |
