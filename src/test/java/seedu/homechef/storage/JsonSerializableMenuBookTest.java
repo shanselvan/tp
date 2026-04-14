@@ -17,8 +17,10 @@ public class JsonSerializableMenuBookTest {
 
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "JsonSerializableMenuBookTest");
     private static final Path TYPICAL_MENU_BOOK_FILE = TEST_DATA_FOLDER.resolve("typicalMenuBook.json");
-    private static final Path MISSING_MENU_ITEMS_LIST_FILE = TEST_DATA_FOLDER.resolve("missingMenuItemsListMenuBook.json");
-    private static final Path NULL_MENU_ITEM_ELEMENT_FILE = TEST_DATA_FOLDER.resolve("nullMenuItemElementMenuBook.json");
+    private static final Path MISSING_MENU_ITEMS_LIST_FILE = TEST_DATA_FOLDER.resolve(
+            "missingMenuItemsListMenuBook.json");
+    private static final Path NULL_MENU_ITEM_ELEMENT_FILE = TEST_DATA_FOLDER.resolve(
+            "nullMenuItemElementMenuBook.json");
 
     @Test
     public void toModelType_typicalMenuBookFile_success() throws Exception {
