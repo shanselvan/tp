@@ -53,8 +53,13 @@ input** over mouse clicks.
 
    > 1. Open a command terminal (Command Prompt or Powershell on Windows, Terminal on Mac).
    > 2. Use the `cd` command to navigate into the folder you put the jar file in. For example, type in:
-   >    `cd Desktop/Folder1/FolderContainingHomeChef`
-   > 3. Type the `java -jar homechef.jar` command to run the application.
+   > ```bash
+   > $ cd Desktop/Folder1/FolderContainingHomeChef
+   > ```
+   > 3. Run the application by entering:
+   > ```bash
+   > $ java -jar homechef.jar
+   > ```
 
    If successful, a screen similar to the one below should appear in a few seconds. 
    The app contains some sample data for you to try out some commands.
@@ -93,7 +98,7 @@ input** over mouse clicks.
 
     * `exit` : Exits the app.
 
-6. **See the [Features](#features) section below** for more details on each command.
+You're ready to start using HomeChef now! Head to the [Features](#features) section for more details on how to use each command and make the most out of HomeChef. Happy cooking and selling! 🍳🍰🍕
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -101,7 +106,7 @@ input** over mouse clicks.
 
 <div markdown="1" class="alert alert-info">
 
-**:information_source: Notes:**
+**:information_source: Notes on Parameters:**
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.
   e.g. in `add f/FOOD`, `FOOD` is a parameter which can be used as `add f/Chocolate Cake`.
