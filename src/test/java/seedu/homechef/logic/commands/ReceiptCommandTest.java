@@ -70,6 +70,28 @@ public class ReceiptCommandTest {
     }
 
     @Test
+    public void execute_sameOrderTwice_createsNewSuffixedReceiptFile() throws Exception {
+        Model model = new ModelManager(getTypicalHomeChef(), new MenuBook(), new UserPrefs());
+        Path homeChefFilePath = tempDir.resolve("data").resolve("homechef.json");
+        model.setHomeChefFilePath(homeChefFilePath);
+
+        Order orderToReceipt = model.getFilteredOrderList().get(INDEX_FIRST_ORDER.getZeroBased());
+        ReceiptCommand receiptCommand = new ReceiptCommand(INDEX_FIRST_ORDER);
+
+        Path firstPath = ReceiptUtil.buildReceiptPath(homeChefFilePath, orderToReceipt);
+        receiptCommand.execute(model);
+
+        Path secondPath = ReceiptUtil.buildReceiptPath(homeChefFilePath, orderToReceipt);
+        CommandResult secondResult = receiptCommand.execute(model);
+
+        assertTrue(Files.exists(firstPath));
+        assertTrue(Files.exists(secondPath));
+        assertNotEquals(firstPath, secondPath);
+        assertTrue(secondPath.getFileName().toString().endsWith("_1.txt"));
+        assertTrue(secondResult.getFeedbackToUser().contains(secondPath.toAbsolutePath().toString()));
+    }
+
+    @Test
     public void equals() {
         ReceiptCommand receiptFirstCommand = new ReceiptCommand(INDEX_FIRST_ORDER);
         ReceiptCommand receiptSecondCommand = new ReceiptCommand(INDEX_SECOND_ORDER);

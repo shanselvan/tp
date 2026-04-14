@@ -1,0 +1,84 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":HomeChefParser" as HomeChefParser LOGIC_COLOR
+participant ":ReceiptCommandParser" as ReceiptCommandParser LOGIC_COLOR
+participant "r:ReceiptCommand" as ReceiptCommand LOGIC_COLOR
+participant ":ReceiptUtil" as ReceiptUtil LOGIC_COLOR
+participant "cr:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("receipt 1")
+activate LogicManager
+
+LogicManager -> HomeChefParser : parseCommand("receipt 1")
+activate HomeChefParser
+
+create ReceiptCommandParser
+HomeChefParser -> ReceiptCommandParser
+activate ReceiptCommandParser
+
+ReceiptCommandParser --> HomeChefParser
+deactivate ReceiptCommandParser
+
+HomeChefParser -> ReceiptCommandParser : parse("1")
+activate ReceiptCommandParser
+
+create ReceiptCommand
+ReceiptCommandParser -> ReceiptCommand
+activate ReceiptCommand
+
+ReceiptCommand --> ReceiptCommandParser
+deactivate ReceiptCommand
+
+ReceiptCommandParser --> HomeChefParser : r
+deactivate ReceiptCommandParser
+ReceiptCommandParser -[hidden]-> HomeChefParser
+destroy ReceiptCommandParser
+
+HomeChefParser --> LogicManager : r
+deactivate HomeChefParser
+
+LogicManager -> ReceiptCommand : execute(m)
+activate ReceiptCommand
+
+ReceiptCommand -> Model : getFilteredOrderList()
+activate Model
+Model --> ReceiptCommand : orderList
+deactivate Model
+
+alt index invalid
+    ReceiptCommand --> LogicManager : CommandException
+else order is not paid
+    ReceiptCommand --> LogicManager : CommandException
+else valid paid order
+    ReceiptCommand -> ReceiptUtil : buildReceiptPath(...)
+    activate ReceiptUtil
+    ReceiptUtil --> ReceiptCommand : outputPath
+    deactivate ReceiptUtil
+
+    ReceiptCommand -> ReceiptUtil : writeReceipt(outputPath, order)
+    activate ReceiptUtil
+    ReceiptUtil --> ReceiptCommand
+    deactivate ReceiptUtil
+
+    create CommandResult
+    ReceiptCommand -> CommandResult
+    activate CommandResult
+    CommandResult --> ReceiptCommand
+    deactivate CommandResult
+
+    ReceiptCommand --> LogicManager : cr
+end
+
+deactivate ReceiptCommand
+[<--LogicManager
+deactivate LogicManager
+@enduml

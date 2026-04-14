@@ -19,7 +19,12 @@ public class MenuItem {
     private final Availability availability;
 
     /**
+     * Creates a {@code MenuItem} with the given food, price, and availability.
      * All fields must be present and not null.
+     *
+     * @param food         The name of the menu item.
+     * @param price        The price of the menu item.
+     * @param availability The availability status of the menu item.
      */
     public MenuItem(Food food, Price price, Availability availability) {
         requireAllNonNull(food, price, availability);

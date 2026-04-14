@@ -1,6 +1,7 @@
 package seedu.homechef.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -30,25 +31,26 @@ import seedu.homechef.model.order.Quantity;
  */
 public class ParserUtil {
 
-    public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    public static final String MESSAGE_INVALID_INDEX =
+            "Index must be a positive integer (e.g. 1, 2, 3).";
     public static final String MESSAGE_INDEX_TOO_LARGE =
             "Index is too large. Please enter a smaller positive number.";
     public static final String MESSAGE_INVALID_AVAILABILITY =
-            "Availability must be one of: yes, no.";
+            "Availability must be 'yes' or 'no'.";
     public static final String MESSAGE_MULTIPLE_PAYMENT_PREFIXES =
             "Only one payment prefix may be provided: bank/, paynow/, or cash/.";
     public static final String MESSAGE_CASH_PAYMENT_REQUIRED =
-            "cash/ requires yes or no.";
+            "cash/ must be 'yes' (cash accepted) or 'no' (cash not accepted).";
     public static final String MESSAGE_BANK_PAYMENT_REQUIRED =
-            "bank/ requires a non-blank bank reference/details value.";
+            "bank/ requires a non-blank bank reference or account details (e.g. DBS-123456, Paynow 98765432).";
     public static final String MESSAGE_PAYNOW_PAYMENT_REQUIRED =
-            "paynow/ requires a non-blank PayNow phone number or handle.";
+            "paynow/ requires a non-blank PayNow identifier (e.g. phone number, UEN, or handle).";
 
     /**
      * Trims leading and trailing whitespaces in {@code String input} and
      * replaces sequences of multiple whitespaces with a single space.
      *
-     * @param input String to normalize
+     * @param input String to normalize.
      * @return Normalized string
      */
     public static String normalizeWhitespace(String input) {
@@ -59,7 +61,7 @@ public class ParserUtil {
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it.
      * String will be normalized by trimming and replacing whitespace with a single space.
      *
-     * @param oneBasedIndex One-based index to parse
+     * @param oneBasedIndex One-based index to parse.
      * @return Index object representing the parsed index
      * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
      */
@@ -72,6 +74,27 @@ public class ParserUtil {
         }
 
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
+    }
+
+    /**
+     * Handles a ParseException from parseIndex.
+     * If the exception is an invalid index error, wraps it with the command's usage message.
+     * Otherwise, re-throws the original exception.
+     *
+     * @param pe The ParseException thrown during index parsing.
+     * @param commandUsage The usage message of the command.
+     * @return A new ParseException with usage message if invalid index.
+     * @throws ParseException Always thrown (either wrapped or original).
+     */
+    public static ParseException handleIndexParseException(ParseException pe, String commandUsage)
+            throws ParseException {
+
+        if (pe.getMessage().equals(MESSAGE_INVALID_INDEX)) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, commandUsage), pe);
+        }
+
+        throw pe;
     }
 
     /**
@@ -112,7 +135,7 @@ public class ParserUtil {
      * Parses a {@code String phone} into a {@code Phone}.
      * String will be normalized by trimming and replacing whitespace with a single space.
      *
-     * @param phone Phone number string to parse
+     * @param phone Phone number string to parse.
      * @return A Phone object representing the parsed phone number.
      * @throws ParseException if the given {@code phone} is invalid.
      */
@@ -129,7 +152,7 @@ public class ParserUtil {
      * Parses a {@code String address} into an {@code Address}.
      * String will be normalized by trimming and replacing whitespace with a single space.
      *
-     * @param address Address string to parse
+     * @param address Address string to parse.
      * @return An Address object representing the parsed address.
      * @throws ParseException if the given {@code address} is invalid.
      */
@@ -146,7 +169,7 @@ public class ParserUtil {
      * Parses a {@code String date} into a {@code Date}.
      * String will be normalized by trimming and replacing whitespace with a single space.
      *
-     * @param date Date string to parse
+     * @param date Date string to parse.
      * @return A Date object representing the parsed date.
      * @throws ParseException if the given {@code date} is invalid.
      */
@@ -163,7 +186,7 @@ public class ParserUtil {
      * Parses a {@code String email} into an {@code Email}.
      * String will be normalized by trimming and replacing whitespace with a single space.
      *
-     * @param email Email string to parse
+     * @param email Email string to parse.
      * @return An Email object representing the parsed email.
      * @throws ParseException if the given {@code email} is invalid.
      */
@@ -180,7 +203,7 @@ public class ParserUtil {
      * Parses a {@code String tag} into a {@code DietTag}.
      * String will be normalized by trimming and replacing whitespace with a single space.
      *
-     * @param tag Tag string to parse
+     * @param tag Tag string to parse.
      * @return A DietTag object representing the parsed tag.
      * @throws ParseException if the given {@code tag} is invalid.
      */
@@ -196,7 +219,7 @@ public class ParserUtil {
     /**
      * Parses {@code Collection<String> tags} into a {@code Set<DietTag>}.
      *
-     * @param tags Collection of tag strings to parse
+     * @param tags Collection of tag strings to parse.
      * @return A set of DietTag objects parsed from the collection.
      * @throws ParseException if any of the given tags are invalid.
      */
@@ -213,7 +236,7 @@ public class ParserUtil {
      * Parses a {@code String price} into a {@code Price}.
      * String will be normalized by trimming and replacing whitespace with a single space.
      *
-     * @param price Price string to parse
+     * @param price Price string to parse.
      * @return A Price object representing the parsed order price.
      * @throws ParseException if the given {@code price} is invalid.
      */
@@ -234,20 +257,20 @@ public class ParserUtil {
      * @return A menu Price object representing the parsed menu price.
      * @throws ParseException if the given {@code price} is invalid.
      */
-    public static seedu.homechef.model.common.Price parseMenuPrice(String price) throws ParseException {
+    public static Price parseMenuPrice(String price) throws ParseException {
         requireNonNull(price);
         String trimmedPrice = normalizeWhitespace(price);
-        if (!seedu.homechef.model.common.Price.isValidPrice(trimmedPrice)) {
-            throw new ParseException(seedu.homechef.model.common.Price.MESSAGE_CONSTRAINTS);
+        if (!Price.isValidPrice(trimmedPrice)) {
+            throw new ParseException(Price.MESSAGE_CONSTRAINTS);
         }
-        return new seedu.homechef.model.common.Price(trimmedPrice);
+        return new Price(trimmedPrice);
     }
 
     /**
      * Parses a {@code String value} into a {@code Quantity}.
      * String will be normalized by trimming and replacing whitespace with a single space.
      *
-     * @param value Quantity string to parse
+     * @param value Quantity string to parse.
      * @return A Quantity object representing the parsed quantity.
      * @throws ParseException if the given {@code value} is not a valid quantity.
      */
@@ -334,7 +357,7 @@ public class ParserUtil {
     /**
      * Parses a {@code String availability} and returns the enum value.
      *
-     * @param availability Availability string to parse
+     * @param availability Availability string to parse.
      * @return The parsed availability value.
      * @throws ParseException if the value is invalid.
      */
@@ -354,4 +377,3 @@ public class ParserUtil {
         }
     }
 }
-

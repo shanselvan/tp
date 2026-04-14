@@ -1,7 +1,5 @@
 package seedu.homechef.logic.parser;
 
-import static seedu.homechef.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-
 import seedu.homechef.commons.core.index.Index;
 import seedu.homechef.logic.commands.UnpaidCommand;
 import seedu.homechef.logic.parser.exceptions.ParseException;
@@ -21,8 +19,7 @@ public class UnpaidCommandParser implements Parser<UnpaidCommand> {
             Index index = ParserUtil.parseIndex(args);
             return new UnpaidCommand(index);
         } catch (ParseException pe) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, UnpaidCommand.MESSAGE_USAGE), pe);
+            throw ParserUtil.handleIndexParseException(pe, UnpaidCommand.MESSAGE_USAGE);
         }
     }
 }

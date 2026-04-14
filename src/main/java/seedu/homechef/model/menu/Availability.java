@@ -12,8 +12,6 @@ public enum Availability {
     YES("Yes", "Available"),
     NO("No", "Unavailable");
 
-    public static final String MESSAGE_CONSTRAINTS = "Availability must be 'Yes' or 'No'";
-
     private final String inputValue;
     private final String displayValue;
 
@@ -28,7 +26,7 @@ public enum Availability {
      */
     public static Availability fromString(String value) {
         requireNonNull(value);
-        checkArgument(isValidAvailability(value), MESSAGE_CONSTRAINTS);
+        checkArgument(isValidAvailability(value), "Invalid availability value.");
         return Arrays.stream(Availability.values())
                 .filter(status -> status.inputValue.equalsIgnoreCase(value))
                 .findFirst()

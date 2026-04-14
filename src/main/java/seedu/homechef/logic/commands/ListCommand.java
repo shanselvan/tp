@@ -3,10 +3,13 @@ package seedu.homechef.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.homechef.model.Model.PREDICATE_SHOW_ALL_ORDERS;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import seedu.homechef.commons.util.ToStringBuilder;
+import seedu.homechef.logic.Messages;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.order.CompletionStatus;
 import seedu.homechef.model.order.Date;
@@ -24,17 +27,18 @@ public class ListCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Lists orders, optionally filtered.\n"
             + "Format: " + COMMAND_WORD
-            + " [d/DATE] [c/CUSTOMER] [f/FOOD] [p/PHONE] [cs/COMPLETION STATUS] [ps/PAYMENT STATUS]\n"
+            + " [d/DATE] [c/CUSTOMER] [f/FOOD] [p/PHONE] [cs/COMPLETION_STATUS] [ps/PAYMENT_STATUS]\n"
             + "DATE must be in the format dd-MM-yyyy.\n"
-            + "cs/COMPLETION STATUS: pending | in progress | completed\n"
-            + "ps/PAYMENT STATUS: paid | unpaid\n"
+            + "cs/COMPLETION_STATUS: pending | in progress | completed\n"
+            + "ps/PAYMENT_STATUS: paid | unpaid\n"
             + "Example: " + COMMAND_WORD + "\n"
             + "Example: " + COMMAND_WORD + " d/18-10-2026\n"
-            + "Example: " + COMMAND_WORD + " cs/inprogress\n"
+            + "Example: " + COMMAND_WORD + " cs/in progress\n"
             + "Example: " + COMMAND_WORD + " ps/unpaid\n"
             + "Example: " + COMMAND_WORD + " d/16-04-2003 c/alice f/cake p/1234 cs/completed ps/paid";
 
     private final ListFilterDescriptor descriptor;
+
     /**
      * Creates a ListCommand that lists all orders without filtering.
      */
@@ -74,21 +78,21 @@ public class ListCommand extends Command {
         }
 
         if (descriptor.getCustomerQuery().isPresent()) {
-            String query = descriptor.getCustomerQuery().get().toLowerCase();
+            String query = descriptor.getCustomerQuery().get().toLowerCase(Locale.ROOT);
             predicate = predicate.and(order ->
-                    order.getCustomer().toString().toLowerCase().contains(query));
+                    order.getCustomer().toString().toLowerCase(Locale.ROOT).contains(query));
         }
 
         if (descriptor.getFoodQuery().isPresent()) {
-            String query = descriptor.getFoodQuery().get().toLowerCase();
+            String query = descriptor.getFoodQuery().get().toLowerCase(Locale.ROOT);
             predicate = predicate.and(order ->
-                    order.getFood().toString().toLowerCase().contains(query));
+                    order.getFood().toString().toLowerCase(Locale.ROOT).contains(query));
         }
 
         if (descriptor.getPhoneQuery().isPresent()) {
-            String query = descriptor.getPhoneQuery().get().toLowerCase();
+            String query = descriptor.getPhoneQuery().get().toLowerCase(Locale.ROOT);
             predicate = predicate.and(order ->
-                    order.getPhone().toString().toLowerCase().contains(query));
+                    order.getPhone().toString().toLowerCase(Locale.ROOT).contains(query));
         }
 
         if (descriptor.getCompletionStatus().isPresent()) {
@@ -102,6 +106,9 @@ public class ListCommand extends Command {
         }
 
         model.updateFilteredOrderList(predicate);
+        if (!descriptor.equals(new ListFilterDescriptor())) {
+            return new CommandResult(Messages.getOrdersListedOverviewMessage(model.getFilteredOrderList().size()));
+        }
         return new CommandResult(MESSAGE_SUCCESS);
     }
 
@@ -196,6 +203,18 @@ public class ListCommand extends Command {
                     && Objects.equals(phoneQuery, otherDescriptor.phoneQuery)
                     && Objects.equals(completionStatus, otherDescriptor.completionStatus)
                     && Objects.equals(paymentStatus, otherDescriptor.paymentStatus);
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this)
+                    .add("date", date)
+                    .add("customerQuery", customerQuery)
+                    .add("foodQuery", foodQuery)
+                    .add("phoneQuery", phoneQuery)
+                    .add("completionStatus", completionStatus)
+                    .add("paymentStatus", paymentStatus)
+                    .toString();
         }
     }
 }

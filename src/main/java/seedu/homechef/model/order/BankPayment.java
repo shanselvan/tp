@@ -36,16 +36,25 @@ public final class BankPayment implements PaymentInfo {
         return VALID_REFERENCE.matcher(test).matches();
     }
 
+    /**
+     * Returns the bank transfer reference.
+     */
     @Override
     public String getReference() {
         return reference;
     }
 
+    /**
+     * Returns a human-readable string representation of this payment.
+     */
     @Override
     public String toString() {
         return "Bank: " + reference;
     }
 
+    /**
+     * Returns true if the other object is a {@code BankPayment} with the same reference.
+     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -58,6 +67,9 @@ public final class BankPayment implements PaymentInfo {
         return reference.equals(otherPayment.reference);
     }
 
+    /**
+     * Returns the hash code for this bank payment.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(BankPayment.class, reference);

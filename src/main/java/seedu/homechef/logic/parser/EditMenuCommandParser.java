@@ -1,6 +1,5 @@
 package seedu.homechef.logic.parser;
 
-import static seedu.homechef.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_AVAILABILITY;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_FOOD;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_PRICE;
@@ -28,8 +27,7 @@ public class EditMenuCommandParser implements Parser<EditMenuCommand> {
         try {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
         } catch (ParseException pe) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    EditMenuCommand.MESSAGE_USAGE), pe);
+            throw ParserUtil.handleIndexParseException(pe, EditMenuCommand.MESSAGE_USAGE);
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_FOOD, PREFIX_PRICE, PREFIX_AVAILABILITY);

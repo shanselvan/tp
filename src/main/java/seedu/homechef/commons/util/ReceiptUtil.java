@@ -3,6 +3,7 @@ package seedu.homechef.commons.util;
 import static java.util.Objects.requireNonNull;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.stream.Collectors;
@@ -26,8 +27,26 @@ public class ReceiptUtil {
         requireNonNull(order);
 
         Path baseDirectory = homeChefFilePath.toAbsolutePath().getParent();
+        Path receiptsDirectory = baseDirectory.resolve(RECEIPTS_DIRECTORY_NAME);
         String fileName = buildReceiptFileName(order);
-        return baseDirectory.resolve(RECEIPTS_DIRECTORY_NAME).resolve(fileName);
+        return buildUniqueReceiptPath(receiptsDirectory, fileName);
+    }
+
+    private static Path buildUniqueReceiptPath(Path receiptsDirectory, String fileName) {
+        Path candidate = receiptsDirectory.resolve(fileName);
+        if (!Files.exists(candidate)) {
+            return candidate;
+        }
+
+        String baseName = fileName.substring(0, fileName.length() - ".txt".length());
+        int suffix = 1;
+        while (true) {
+            Path suffixedCandidate = receiptsDirectory.resolve(baseName + "_" + suffix + ".txt");
+            if (!Files.exists(suffixedCandidate)) {
+                return suffixedCandidate;
+            }
+            suffix++;
+        }
     }
 
     /**

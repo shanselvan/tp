@@ -34,6 +34,9 @@ public class DietTag {
         return test.matches(VALIDATION_REGEX);
     }
 
+    /**
+     * Returns true if the other object is a {@code DietTag} with the same tag name.
+     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -49,6 +52,9 @@ public class DietTag {
         return tagName.equals(otherDietTag.tagName);
     }
 
+    /**
+     * Returns the hash code for this diet tag.
+     */
     @Override
     public int hashCode() {
         return tagName.hashCode();

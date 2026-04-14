@@ -21,7 +21,7 @@ import seedu.homechef.model.order.Order;
 
 /**
  * Represents the in-memory model of the HomeChef data.
- * List sorts orders in the order of completion status, date, customer name and food name.
+ * List sorts orders by fulfillment date, then customer name, then food name.
  */
 public class ModelManager implements Model {
 

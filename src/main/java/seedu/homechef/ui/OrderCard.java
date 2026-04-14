@@ -97,7 +97,7 @@ public class OrderCard extends UiPart<Region> {
     private FlowPane dietTags;
 
     /**
-     * Creates a {@code OrderCode} with the given {@code Order} and index to display.
+     * Creates a {@code OrderCard} with the given {@code Order} and index to display.
      */
     public OrderCard(Order order, int displayedIndex) {
         super(FXML);

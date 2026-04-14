@@ -21,21 +21,29 @@ class JsonSerializableMenuBook {
 
     public static final String MESSAGE_DUPLICATE_MENU_ITEM =
             "Menu items list contains duplicate menu item(s).";
+    public static final String MESSAGE_MISSING_MENU_ITEMS_LIST = "Missing required field: menuItems";
+    public static final String MESSAGE_INVALID_MENU_ITEM_ELEMENT =
+            "Menu items list contains invalid menu item entries.";
 
     private final List<JsonAdaptedMenuItem> menuItems = new ArrayList<>();
+    private final boolean isMenuItemsFieldMissing;
 
     /**
      * Constructs a {@code JsonSerializableMenuBook} with the given menu items.
      */
     @JsonCreator
     public JsonSerializableMenuBook(@JsonProperty("menuItems") List<JsonAdaptedMenuItem> menuItems) {
-        this.menuItems.addAll(menuItems);
+        this.isMenuItemsFieldMissing = menuItems == null;
+        if (menuItems != null) {
+            this.menuItems.addAll(menuItems);
+        }
     }
 
     /**
      * Converts a given {@code ReadOnlyMenuBook} into this class for Jackson use.
      */
     public JsonSerializableMenuBook(ReadOnlyMenuBook source) {
+        isMenuItemsFieldMissing = false;
         menuItems.addAll(source.getMenuItemList().stream()
                 .map(JsonAdaptedMenuItem::new)
                 .collect(Collectors.toList()));
@@ -47,8 +55,14 @@ class JsonSerializableMenuBook {
      * @throws IllegalValueException if there were any data constraints violated.
      */
     public MenuBook toModelType() throws IllegalValueException {
+        if (isMenuItemsFieldMissing) {
+            throw new IllegalValueException(MESSAGE_MISSING_MENU_ITEMS_LIST);
+        }
         MenuBook menuBook = new MenuBook();
         for (JsonAdaptedMenuItem jsonAdaptedMenuItem : menuItems) {
+            if (jsonAdaptedMenuItem == null) {
+                throw new IllegalValueException(MESSAGE_INVALID_MENU_ITEM_ELEMENT);
+            }
             MenuItem menuItem = jsonAdaptedMenuItem.toModelType();
             if (menuBook.hasMenuItem(menuItem)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_MENU_ITEM);

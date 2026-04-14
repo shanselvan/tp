@@ -149,6 +149,28 @@ public class JsonAdaptedOrderTest {
     }
 
     @Test
+    public void toModelType_nullTagElement_throwsIllegalValueException() {
+        List<JsonAdaptedTag> invalidTags = new ArrayList<>(VALID_TAGS);
+        invalidTags.add(null);
+        JsonAdaptedOrder order =
+                new JsonAdaptedOrder(VALID_FOOD, VALID_CUSTOMER, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_DATE,
+                        VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, invalidTags,
+                        null, null, null);
+        assertThrows(IllegalValueException.class, order::toModelType);
+    }
+
+    @Test
+    public void toModelType_nullTagName_throwsIllegalValueException() {
+        List<JsonAdaptedTag> invalidTags = new ArrayList<>(VALID_TAGS);
+        invalidTags.add(new JsonAdaptedTag((String) null));
+        JsonAdaptedOrder order =
+                new JsonAdaptedOrder(VALID_FOOD, VALID_CUSTOMER, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_DATE,
+                        VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, invalidTags,
+                        null, null, null);
+        assertThrows(IllegalValueException.class, order::toModelType);
+    }
+
+    @Test
     public void toModelType_invalidDish_throwsIllegalValueException() {
         JsonAdaptedOrder order = new JsonAdaptedOrder(INVALID_FOOD, VALID_CUSTOMER, VALID_PHONE,
                 VALID_EMAIL, VALID_ADDRESS, VALID_DATE, VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS,
@@ -281,6 +303,15 @@ public class JsonAdaptedOrderTest {
                 VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, VALID_TAGS,
                 "BANK", null, null);
         assertThrows(IllegalValueException.class, BankPayment.MESSAGE_CONSTRAINTS, order::toModelType);
+    }
+
+    @Test
+    public void toModelType_cashWithDetails_throwsIllegalValueException() {
+        JsonAdaptedOrder order = new JsonAdaptedOrder(
+                VALID_FOOD, VALID_CUSTOMER, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_DATE,
+                VALID_PRICE, VALID_COMPLETION_STATUS, VALID_PAYMENT_STATUS, VALID_TAGS,
+                "CASH", "unexpected", null);
+        assertThrows(IllegalValueException.class, "Cash payment must not contain payment details.", order::toModelType);
     }
 
     @Test

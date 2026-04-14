@@ -1,0 +1,18 @@
+{
+  "orders": [
+    {
+      "food": "Birthday Cake",
+      "customer": "Alice Pauline",
+      "phone": "94351253",
+      "email": "alice@example.com",
+      "address": "123, Jurong West Ave 6, #08-111",
+      "date": "26-03-2026",
+      "price": "20.00",
+      "completionStatus": "In Progress",
+      "paymentStatus": "Paid",
+      "tags": [null],
+      "quantity": "1"
+    }
+  ]
+}
+

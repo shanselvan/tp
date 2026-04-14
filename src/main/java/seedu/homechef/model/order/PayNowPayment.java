@@ -26,16 +26,25 @@ public final class PayNowPayment implements PaymentInfo {
         this.reference = reference;
     }
 
+    /**
+     * Returns the PayNow phone number or handle.
+     */
     @Override
     public String getReference() {
         return reference;
     }
 
+    /**
+     * Returns a human-readable string representation of this payment.
+     */
     @Override
     public String toString() {
         return "PayNow: " + this.reference;
     }
 
+    /**
+     * Returns true if the other object is a {@code PayNowPayment} with the same reference.
+     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -48,6 +57,9 @@ public final class PayNowPayment implements PaymentInfo {
         return reference.equals(otherPayment.reference);
     }
 
+    /**
+     * Returns the hash code for this PayNow payment.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(PayNowPayment.class, reference);

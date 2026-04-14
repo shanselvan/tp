@@ -3,6 +3,7 @@ package seedu.homechef.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.homechef.logic.Messages.MESSAGE_DUPLICATE_MENU_ITEM;
 import static seedu.homechef.testutil.Assert.assertThrows;
 
 import java.nio.file.Path;
@@ -100,7 +101,7 @@ public class EditMenuCommandTest {
 
         // EP: edited identity clashes with an existing menu item
         assertThrows(CommandException.class,
-                EditMenuCommand.MESSAGE_DUPLICATE_MENU_ITEM, () -> editCommand.execute(modelStub));
+                MESSAGE_DUPLICATE_MENU_ITEM, () -> editCommand.execute(modelStub));
     }
 
     @Test

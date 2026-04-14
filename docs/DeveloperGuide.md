@@ -2,15 +2,22 @@
 layout: page
 title: Developer Guide
 ---
+
+HomeChef Helper is a CLI-first desktop application for home-based food business owners to manage orders, menu items,
+payments, and receipts.
+This guide is written for developers and contributors who want to understand, extend, or maintain the project.
+It assumes familiarity with Java 17, Gradle, JavaFX, and basic object-oriented programming concepts.
+
 * Table of Contents
-{:toc}
+  {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Acknowledgements**
 
 * This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
-* Libraries used: [JavaFX](https://openjfx.io/), [Jackson](https://github.com/FasterXML/jackson), [JUnit5](https://github.com/junit-team/junit5)
+* Libraries
+  used: [JavaFX](https://openjfx.io/), [Jackson](https://github.com/FasterXML/jackson), [JUnit5](https://github.com/junit-team/junit5)
 * No additional external libraries are used in this project.
 
 --------------------------------------------------------------------------------------------------------------------
@@ -25,7 +32,9 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 <div markdown="span" class="alert alert-primary">
 
-:bulb: **Tip:** The `.puml` files used to create diagrams are in this document `docs/diagrams` folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
+:bulb: **Tip:** The `.puml` files used to create diagrams are in this document `docs/diagrams` folder. Refer to the [
+_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create
+and edit diagrams.
 </div>
 
 ### Architecture
@@ -38,7 +47,11 @@ Given below is a quick overview of main components and how they interact with ea
 
 **Main components of the architecture**
 
-**`Main`** (consisting of classes [`Main`](https://github.com/AY2526S2-CS2103T-T13-4/tp/blob/master/src/main/java/seedu/homechef/Main.java) and [`MainApp`](https://github.com/AY2526S2-CS2103T-T13-4/tp/blob/master/src/main/java/seedu/homechef/MainApp.java)) is in charge of the app launch and shut down.
+**`Main`** (consisting of classes [
+`Main`](https://github.com/AY2526S2-CS2103T-T13-4/tp/blob/master/src/main/java/seedu/homechef/Main.java) and [
+`MainApp`](https://github.com/AY2526S2-CS2103T-T13-4/tp/blob/master/src/main/java/seedu/homechef/MainApp.java)) is in
+charge of the app launch and shut down.
+
 * At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 * At shut down, it shuts down the other components and invokes cleanup methods where necessary.
 
@@ -51,18 +64,27 @@ The bulk of the app's work is done by the following four components:
 
 [**`Commons`**](#common-classes) represents a collection of classes used by multiple other components.
 
+The **`User`** is represented as a red person symbol, who only interacts with the app through inputs to the **`UI`**.
+
+The **`File`** is represented as a green document symbol, which is created by and written to by the **`Storage`**.
+
 **How the architecture components interact with each other**
 
-The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
+The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues
+the command `delete 1`.
 
 <img src="images/ArchitectureSequenceDiagram.png" width="574" />
 
 Each of the four main components (also shown in the diagram above),
 
 * defines its *API* in an `interface` with the same name as the Component.
-* implements its functionality using a concrete `{Component Name}Manager` class (which follows the corresponding API `interface` mentioned in the previous point).
+* implements its functionality using a concrete `{Component Name}Manager` class (which follows the corresponding API
+  `interface` mentioned in the previous point).
 
-For example, the `Logic` component defines its API in the `Logic.java` interface and implements its functionality using the `LogicManager.java` class which follows the `Logic` interface. Other components interact with a given component through its interface rather than the concrete class (reason: to prevent outside component's being coupled to the implementation of a component), as illustrated in the (partial) class diagram below.
+For example, the `Logic` component defines its API in the `Logic.java` interface and implements its functionality using
+the `LogicManager.java` class which follows the `Logic` interface. Other components interact with a given component
+through its interface rather than the concrete class (reason: to prevent outside component's being coupled to the
+implementation of a component), as illustrated in the (partial) class diagram below.
 
 <img src="images/ComponentManagers.png" width="300" />
 
@@ -70,13 +92,20 @@ The sections below give more details of each component.
 
 ### UI component
 
-The **API** of this component is specified in [`Ui.java`](https://github.com/AY2526S2-CS2103T-T13-4/tp/blob/master/src/main/java/seedu/homechef/ui/Ui.java)
+The **API** of this component is specified in [
+`Ui.java`](https://github.com/AY2526S2-CS2103T-T13-4/tp/blob/master/src/main/java/seedu/homechef/ui/Ui.java)
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `OrderListPanel`, etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `OrderListPanel`, etc. All
+these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between
+classes that represent parts of the visible GUI.
 
-The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2526S2-CS2103T-T13-4/tp/blob/master/src/main/java/seedu/homechef/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2526S2-CS2103T-T13-4/tp/blob/master/src/main/resources/view/MainWindow.fxml)
+The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that
+are in the `src/main/resources/view` folder. For example, the layout of the [
+`MainWindow`](https://github.com/AY2526S2-CS2103T-T13-4/tp/blob/master/src/main/java/seedu/homechef/ui/MainWindow.java)
+is specified in [
+`MainWindow.fxml`](https://github.com/AY2526S2-CS2103T-T13-4/tp/blob/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
@@ -87,25 +116,33 @@ The `UI` component,
 
 ### Logic component
 
-**API** : [`Logic.java`](https://github.com/AY2526S2-CS2103T-T13-4/tp/blob/master/src/main/java/seedu/homechef/logic/Logic.java)
+**API** : [
+`Logic.java`](https://github.com/AY2526S2-CS2103T-T13-4/tp/blob/master/src/main/java/seedu/homechef/logic/Logic.java)
 
 Here's a (partial) class diagram of the `Logic` component:
 
 <img src="images/LogicClassDiagram.png" width="550"/>
 
-The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1")` API call as an example.
+The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1")` API
+call as an example.
 
 ![Interactions Inside the Logic Component for the `delete 1` Command](images/DeleteSequenceDiagram.png)
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
 </div>
 
+For the `receipt` command flow, see [`ReceiptSequenceDiagram.puml`](diagrams/ReceiptSequenceDiagram.puml) in
+`docs/diagrams`.
+
 How the `Logic` component works:
 
-1. When `Logic` is called upon to execute a command, it is passed to an `HomeChefParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
-1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which is executed by the `LogicManager`.
+1. When `Logic` is called upon to execute a command, it is passed to an `HomeChefParser` object which in turn creates a
+   parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
+1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which
+   is executed by the `LogicManager`.
 1. The command can communicate with the `Model` when it is executed (e.g. to delete a order).<br>
-   Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
+   Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take
+   several interactions (between the command object and the `Model`) to achieve.
 1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
 
 Here are the other classes in `Logic` (omitted from the class diagram above) that are used for parsing a user command:
@@ -113,39 +150,54 @@ Here are the other classes in `Logic` (omitted from the class diagram above) tha
 <img src="images/ParserClasses.png" width="600"/>
 
 How the parsing works:
-* When called upon to parse a user command, the `HomeChefParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `HomeChefParser` returns back as a `Command` object.
-* All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
+
+* When called upon to parse a user command, the `HomeChefParser` class creates an `XYZCommandParser` (`XYZ` is a
+  placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse
+  the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `HomeChefParser` returns back as a
+  `Command` object.
+* All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser`
+  interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
-**API** : [`Model.java`](https://github.com/AY2526S2-CS2103T-T13-4/tp/blob/master/src/main/java/seedu/homechef/model/Model.java)
 
-<img src="images/ModelClassDiagram.png" width="450" />
+**API** : [
+`Model.java`](https://github.com/AY2526S2-CS2103T-T13-4/tp/blob/master/src/main/java/seedu/homechef/model/Model.java)
+
+<img src="images/ModelClassDiagram.png" width="750" />
 
 
 The `Model` component,
 
 * stores the order list data i.e., all `Order` objects (which are contained in a `UniqueOrderList` object).
-* stores the currently 'selected' `Order` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Order>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list changes.
-* stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
-* does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
+* stores the currently 'selected' `Order` objects (e.g., results of a search query) as a separate _filtered_ list which
+  is exposed to outsiders as an unmodifiable `ObservableList<Order>` that can be 'observed' e.g. the UI can be bound to
+  this list so that the UI automatically updates when the data in the list changes.
+* stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a
+  `ReadOnlyUserPref` objects.
+* does not depend on any of the other three components (as the `Model` represents data entities of the domain, they
+  should make sense on their own without depending on other components)
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `DietTag` list in the `HomeChef`, which `Order` references. This allows `HomeChef` to only require one `DietTag` object per unique tag, instead of each `Order` needing its own `DietTag` objects.<br>
 
-<img src="images/BetterModelClassDiagram.png" width="450" />
+<img src="images/BetterModelClassDiagram.png" width="750" />
 
 </div>
 
-
 ### Storage component
 
-**API** : [`Storage.java`](https://github.com/AY2526S2-CS2103T-T13-4/tp/blob/master/src/main/java/seedu/homechef/storage/Storage.java)
+**API** : [
+`Storage.java`](https://github.com/AY2526S2-CS2103T-T13-4/tp/blob/master/src/main/java/seedu/homechef/storage/Storage.java)
 
 <img src="images/StorageClassDiagram.png" width="550" />
 
 The `Storage` component,
-* can save order data, menu book data and user preference data in JSON format, and read them back into corresponding objects.
-* inherits from `HomeChefStorage`, `MenuBookStorage` and `UserPrefStorage`, which means it can be treated as any one (if only the functionality of one is needed).
-* depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
+
+* can save order data, menu book data and user preference data in JSON format, and read them back into corresponding
+  objects.
+* inherits from `HomeChefStorage`, `MenuBookStorage` and `UserPrefStorage`, which means it can be treated as any one (if
+  only the functionality of one is needed).
+* depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects
+  that belong to the `Model`)
 
 ### Common classes
 
@@ -159,35 +211,67 @@ This section describes some noteworthy details on how certain features are imple
 
 ### Add and Edit commands: Interactions between Order List and Menu
 
-The app has both an order list and a menu. When adding or editing an order, the app will thus refer to the current menu for information regarding the order.
-1. The app checks if the input food name in the order matches that of a food in the current menu.
-2. The app automatically calculates the total price of an order using the `quantity` field in the given order and the `price` field of matching food item in the menu.
+The app has both an order list and a menu. When adding or editing an order, the app will thus refer to the current menu
+for information regarding the order.
+
+1. The app checks if the input food name in the order matches that of a food item in the current menu.
+2. The app automatically calculates the total price of an order using the `quantity` field in the given order and the
+   `price` field of matching food item in the menu.
 
 #### Menu item resolution
 
 Food lookup is handled by `MenuBook#resolveMenuItem(String foodName)` and follows a three-tier strategy:
 
-1. **Tier 0 — Index lookup:** If `foodName` parses as a positive integer within the current menu size, the item at that 1-based position is returned immediately. This allows users to type `f/1` instead of a full food name.
+1. **Tier 0 — Index lookup:** If `foodName` parses as a positive integer within the current menu size, the item at that
+   1-based position is returned immediately. This allows users to type `f/1` instead of a full food name.
 2. **Tier 1 — Exact match:** Case-insensitive exact name comparison across all menu items.
-3. **Tier 2 — Substring match:** If exactly one menu item's name contains `foodName` as a substring, that item is returned. Multiple matches produce an `AmbiguousMenuItemException`; zero matches produce a `MenuItemNotFoundException`.
+3. **Tier 2 — Substring match:** If exactly one menu item's name contains `foodName` as a substring, that item is
+   returned. Multiple matches produce an `AmbiguousMenuItemException`; zero matches produce a
+   `MenuItemNotFoundException`.
 
-Tier 0 takes unconditional priority. A menu item whose name is a pure integer (e.g. `"3"`) cannot be targeted by name if the menu has enough items for that integer to be a valid index.
+Tier 0 takes unconditional priority. A menu item whose name is a pure integer (e.g. `"3"`) cannot be targeted by name if
+the menu has enough items for that integer to be a valid index.
 
 ### Automatic date formatting
 
-The app automatically formats the date field of the orders, colouring the text red when overdue, orange when urgent and white when normal.
+The app automatically formats the date field of the orders, colouring the text red when overdue, orange when urgent and
+white when normal.
+
 1. When `OrderListPanel` is initialised, it has the filtered `OrderList` information provided by `logic`.
 2. The `OrderListPanel` uses the given filtered `OrderList` information to create `OrderCard`s.
 3. `OrderCard` is initialised using the `Order` information in the filtered `OrderList`.
-4. `OrderCard` uses the `model` `Date`'s method `getUrgency` to obtain a String representation of the order's date's urgency.
-5. Upon calling `getUrgency`, the `Date` field compares the current date with its own date and the specified `URGENCY_PERIOD`. `URGENCY_PERIOD` is a constant of 3 days for the current iteration of HomeChef-Helper.
-   1. If its own date is before the current date, it returns `"Overdue"`.
-   2. If its own date is after the current date, but within the `URGENCY_PERIOD` of days past the current date, it returns `"Urgent"`.
-   3. If its own date is after the `URGENCY_PERIOD` of days past the current date, it returns `"Normal"`.
+4. `OrderCard` uses the `model` `Date`'s method `getUrgency` to obtain a String representation of the order's date's
+   urgency.
+5. Upon calling `getUrgency`, the `Date` field compares the current date with its own date and the specified
+   `URGENT_PERIOD_DAYS`. `URGENT_PERIOD_DAYS` is a constant of 3 days for the current iteration of HomeChef Helper.
+    1. If its own date is before the current date, it returns `"Overdue"`.
+    2. If its own date is after the current date, but within the `URGENT_PERIOD_DAYS` of days past the current date, it
+       returns `"Urgent"`.
+    3. If its own date is after the `URGENT_PERIOD_DAYS` of days past the current date, it returns `"Normal"`.
 6. The `OrderCard` then colours the display text of the `Date` depending on the String it obtains.
-   1. The text is red if it obtains `"Overdue"`.
-   2. The text is orange if it obtains `"Urgent"`.
-   3. The text is white if it obtains `"Normal"`.
+    1. The text is red if it obtains `"Overdue"`.
+    2. The text is orange if it obtains `"Urgent"`.
+    3. The text is white if it obtains `"Normal"`.
+
+### Receipt generation flow
+
+The `receipt` command generates a plain-text receipt file for a selected order.
+
+1. `HomeChefParser` routes `receipt INDEX` (or `rec INDEX`) to `ReceiptCommandParser`.
+2. `ReceiptCommandParser` parses `INDEX` and creates a `ReceiptCommand`.
+3. `ReceiptCommand` validates:
+    1. `INDEX` is within the currently displayed order list.
+    2. The order payment status is `Paid`.
+4. On success, `ReceiptUtil`:
+    1. Builds an output path under `[data directory]/receipts`.
+
+    * If a same-named receipt already exists, it appends a numeric suffix (`_1`, `_2`, ...)
+      to avoid overwriting existing receipts.
+
+    2. Writes formatted receipt content to the output file.
+5. The command returns a `CommandResult` containing the generated receipt path.
+
+The full interaction sequence is documented in [`ReceiptSequenceDiagram.puml`](diagrams/ReceiptSequenceDiagram.puml).
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -208,6 +292,7 @@ The app automatically formats the date field of the orders, colouring the text r
 **Target user profile**:
 
 Home-based online F&B business owners who
+
 * has a need to manage significant number of custom orders
 * take custom orders through chat and social media platforms
 * need a simple, centralized way to track orders, scheduling, delivery, and payment status.
@@ -216,10 +301,10 @@ Home-based online F&B business owners who
 **Value proposition**:
 This app helps home-based and online F&B sellers keep customer and order details in one organised place.
 
-It tracks repeat orders, feedback, payment, and delivery status so sellers do not lose messages or mix up orders across chats, improving reliability and customer satisfaction.
+It tracks repeat orders, feedback, payment, and delivery status so sellers do not lose messages or mix up orders across
+chats, improving reliability and customer satisfaction.
 
 It highlights potential scheduling issues to help sellers manage deliveries.
-
 
 ### User stories
 
@@ -250,11 +335,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`      | user               | export data to a spreadsheet                         | back up data or use it for other purposes                                     |
 | `*`      | user               | set limits on orders for a selected day              | avoid accepting too many orders and becoming burnt out                        |
 
-*{More to be added}*
+The user stories above capture the current scope of the application and can be expanded in future iterations as new
+features are added.
 
 ### Use cases
 
-(For all use cases below, the **System** is the `HomeChef Helper` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `HomeChef Helper` and the **Actor** is the `user`, unless specified
+otherwise)
 
 **Use case: UC01 - Delete an order**
 
@@ -425,7 +512,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     * 3a1. System shows an error message.
 
-        Use case resumes at step 2.
+      Use case resumes at step 2.
 
 * 3b. The given menu item details are invalid.
 
@@ -501,22 +588,28 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 1.
 
-*{More to be added}*
+The use cases above describe the main workflows currently supported by the system.
 
 ### Non-Functional Requirements
 
-1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 orders without a noticeable sluggishness in performance for typical usage.
-    More specifically, the system shall respond to user actions within 2 seconds for 95% of requests under normal operating conditions.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-4.  All data should be stored locally and persisted automatically, so that customer and order information remains available after restarting the application.
-5.  The application should not require an internet connection for normal operation.
-6.  The system should respond to any user command within 2 seconds under normal operating conditions.
-7.  The total size of the application (JAR file) should not exceed 100MB to ensure easy distribution and download.
-8.  The data file format should be human-readable (e.g. JSON) so that data can be manually inspected or recovered if necessary.
-9.  The application should be usable by a new user with no prior training, allowing them to complete core tasks within 10 minutes of first launch using only the built-in help command.
+1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
+2. Should be able to hold up to 1000 orders without a noticeable sluggishness in performance for typical usage.
+   More specifically, the system shall respond to user actions within 2 seconds for 95% of requests under normal
+   operating conditions.
+3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be
+   able to accomplish most of the tasks faster using commands than using the mouse.
+4. All data should be stored locally and persisted automatically, so that customer and order information remains
+   available after restarting the application.
+5. The application should not require an internet connection for normal operation.
+6. The system should respond to any user command within 2 seconds under normal operating conditions.
+7. The total size of the application (JAR file) should not exceed 100MB to ensure easy distribution and download.
+8. The data file format should be human-readable (e.g. JSON) so that data can be manually inspected or recovered if
+   necessary.
+9. The application should be usable by a new user with no prior training, allowing them to complete core tasks within 10
+   minutes of first launch using only the built-in help command.
 
-*{More to be added}*
+The requirements listed here reflect the current expectations for the application and are intended to guide future
+development and testing.
 
 ### Glossary
 
@@ -526,10 +619,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Dietary Restrictions**: Constraints on ingredients and preparation for an order.
 * **Shortcut**: An alternative, faster way to execute a command using fewer characters.
 * **Payment Status**: Whether an order has been paid for. Possible states are: Paid, Unpaid.
-* **Completion Status**: Whether an order has been finished and delivered. Possible states are: Pending, In Progress, Completed.
+* **Completion Status**: Whether an order has been finished and delivered. Possible states are: Pending, In Progress,
+  Completed.
 * **Menu**: A set of food items which a Customer can select and make a purchase from.
 * **Menu Item**: An entry in the menu that represents a food item that a Customer can purchase.
-
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -546,16 +639,18 @@ testers are expected to do more *exploratory* testing.
 
 1. Initial launch
 
-   1. Download the jar file and copy into an empty folder
+    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
-      1. If this doesn't work, use your OS's command terminal, navigate to the folder containing `homechef.jar` using `cd` and execute `java -jar homechef.jar` in the terminal.
+    1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be
+       optimum.
+        1. If this doesn't work, use your OS's command terminal, navigate to the folder containing `homechef.jar` using
+           `cd` and execute `java -jar homechef.jar` in the terminal.
 
 1. Saving window preferences
 
-   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-   1. Re-launch the app by double-clicking the jar file.<br>
+    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
 1. Closing the app
@@ -564,13 +659,16 @@ testers are expected to do more *exploratory* testing.
 
     1. Test case: Type `exit` into the command bar.<br> Expected: App closes with minimal delay.
 
-    1. Test case: Type `exit 1`, `exit x`, `...` into the command bar, where x is any combination of alphanumeric characters.<br>
+    1. Test case: Type `exit 1`, `exit x`, `...` into the command bar, where x is any combination of alphanumeric
+       characters.<br>
        Expected: App closes with minimal delay. No error details should be shown.
 
-    1. Test case: Type `command exit`, `x exit`, `...` into the command bar, where x is any combination of alphanumeric characters that **do not match** an existing command.<br>
+    1. Test case: Type `command exit`, `x exit`, `...` into the command bar, where x is any combination of alphanumeric
+       characters that **do not match** an existing command.<br>
        Expected: App remains open. Unknown command error message is shown.
 
-    1. Test case: Type `add exit`, `delete exit`, `x exit`, `...` into the command bar, where x is any combination of alphanumeric characters that **matches** an existing command.<br>
+    1. Test case: Type `add exit`, `delete exit`, `x exit`, `...` into the command bar, where x is any combination of
+       alphanumeric characters that **matches** an existing command.<br>
        Expected: App remains open. Invalid command format error message is shown.
 
     1. Test case: Click the close icon on the top right of the window.<br> Expected: App closes with minimal delay.
@@ -579,23 +677,26 @@ testers are expected to do more *exploratory* testing.
 
 1. Deleting an order while all orders are being shown
 
-   1. Prerequisites: List all orders using the `list` command. Multiple orders in the list.
+    1. Prerequisites: List all orders using the `list` command. Multiple orders in the list.
 
-   1. Test case: `delete 1`<br>
-      Expected: First order is deleted from the list. Details of the deleted order shown in the status message.
+    1. Test case: `delete 1`<br>
+       Expected: First order is deleted from the list. Details of the deleted order shown in the status message.
 
-   1. Test case: `delete 0`<br>
-      Expected: No order is deleted. Error details shown in the status message.
+    1. Test case: `delete 0`<br>
+       Expected: No order is deleted. Error details shown in the status message.
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+       Expected: Similar to previous.
 
 1. Deleting an order from an order list filtered by food name
 
-    1. Prerequisites: Have multiple orders with a common character or word in the food name such as "cake". List all orders using the `list f/FOOD` command. `FOOD` refers to the common food name the orders have.
+    1. Prerequisites: Have multiple orders with a common character or word in the food name such as "cake". List all
+       orders using the `list f/FOOD` command. `FOOD` refers to the common food name the orders have.
 
     1. Test case: `delete 1`<br>
-       Expected: First order is deleted from the filtered list. Details of the deleted order shown in the status message. Switching back to the original unfiltered list using `list` should also show that the order of the same information is deleted, though it may not be of the same index as in the filtered list.
+       Expected: First order is deleted from the filtered list. Details of the deleted order shown in the status
+       message. Switching back to the original unfiltered list using `list` should also show that the order of the same
+       information is deleted, though it may not be of the same index as in the filtered list.
 
     1. Test case: `delete 0`<br>
        Expected: No order is deleted. Error details shown in the status message.
@@ -612,58 +713,84 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `delete-menu 1`<br>
        Expected: First menu item is deleted from the menu. Details of the deleted menu item shown in the status message.
 
-    1. Test case: `delete-menu 1` where at least one existing order references that food and is not completed or not paid<br>
+    1. Test case: `delete-menu 1` where at least one existing order references that food and is not completed or not
+       paid<br>
        Expected: Menu item is still deleted. Existing orders remain unchanged.
 
     1. Test case: `delete-menu 0`<br>
        Expected: No menu item is deleted. Error details shown in the status message.
 
-    1. Other incorrect delete commands to try: `delete-menu`, `delete-menu x`, `...` (where x is larger than the menu size)<br>
+    1. Other incorrect delete commands to try: `delete-menu`, `delete-menu x`, `...` (where x is larger than the menu
+       size)<br>
        Expected: Similar to previous.
-
 
 ### Saving and loading data
 
 1. Dealing with corrupted data files
 
-   1. Prerequisites: In the `data` folder, have a `homechef.json` file or `menu.json` file. Have at least 1 entry in the `homechef.json` file or the `menu.json` file.
+    1. Prerequisites: In the `data` folder, have a `homechef.json` file or `menu.json` file. Have at least 1 entry in
+       the `homechef.json` file or the `menu.json` file.
 
-   1. Test case: Open the respective `homechef.json` file or `menu.json` file and modify an existing order or menu item such that any of their mandatory fields contain an `empty string`, meaning a pair of inverted commas with no characters in between as such: `""`. Start up HomeChef-Helper.<br>
-      Expected: The respective order list or menu will appear blank in the UI when HomeChef-Helper is started up again, with a warning message shown in the result display. The corrupted `.json` files are not overwritten on `exit` or window close — they remain on disk in their corrupted state. The files will be overwritten with clean (empty) data only after a data-modifying command (e.g. `add`, `delete`, `edit`) is executed.
+    1. Test case: Open the respective `homechef.json` file or `menu.json` file and modify an existing order or menu item
+       such that any of their mandatory fields contain an `empty string`, meaning a pair of inverted commas with no
+       characters in between as such: `""`. Start up HomeChef Helper.<br>
+       Expected: The respective order list or menu will appear blank in the UI when HomeChef Helper is started up again,
+       with a warning message shown in the result display. The corrupted `.json` files are not overwritten on `exit` or
+       window close — they remain on disk in their corrupted state. The files will be overwritten with clean (empty)
+       data only after a data-modifying command (e.g. `add`, `delete`, `edit`) is executed.
 
-   1. Test case: Modify an existing order or menu item such that any of their mandatory fields contain a `blank string`, a pair of inverted commas with whitespace in between: `" "`. Start up HomeChef-Helper.<br>
-      Expected: Similar to previous.
+    1. Test case: Modify an existing order or menu item such that any of their mandatory fields contain a
+       `blank string`, a pair of inverted commas with whitespace in between: `" "`. Start up HomeChef Helper.<br>
+       Expected: Similar to previous.
 
-   1. Other corruptions to try: Deleting an entire mandatory field of an entry in one of the `.json` files, modifying an existing order or menu item such that any of their fields contain a character that is not accepted by the model validators (e.g. `#` in customer names, `#` in food names, malformed emails, etc.).<br>
-      Expected: Similar to previous.
+    1. Other corruptions to try: Deleting an entire mandatory field of an entry in one of the `.json` files, deleting
+       the top-level `orders` field from `homechef.json` or `menuItems` field from `menu.json`, inserting `null`
+       elements into arrays (e.g. `"tags": [null]`), modifying an existing order or menu item such that any of their
+       fields contain a character that is not accepted by the model
+       validators (e.g. `#` in customer names, `#` in food names, malformed emails, etc.).<br>
+       Expected: Similar to previous.
 
 1. Dealing with missing data files
 
     1. Prerequisites: Have an existing `homechef.json` file or `menu.json` file in the `data` folder.
 
-    1. Test case: Open the `data` folder and delete the files inside. Start up HomeChef-Helper.<br>
-       Expected: The initial sample order list and menu will appear in the UI when HomeChef-Helper is started up again. The `homechef.json` and `menu.json` files will not be re-created by `exit` or window close — they will be created in the `data` folder (with the sample entries) only after a data-modifying command (e.g. `add`, `delete`, `edit`) is executed.
+    1. Test case: Open the `data` folder and delete the files inside. Start up HomeChef Helper.<br>
+       Expected: The initial sample order list and menu will appear in the UI when HomeChef Helper is started up again.
+       The `homechef.json` and `menu.json` files will not be re-created by `exit` or window close — they will be created
+       in the `data` folder (with the sample entries) only after a data-modifying command (e.g. `add`, `delete`, `edit`)
+       is executed.
 
-    1. Test case: Open the `data` folder, cut and paste the contained files elsewhere in the computer. Start up HomeChef-Helper.<br>
+    1. Test case: Open the `data` folder, cut and paste the contained files elsewhere in the computer. Start up
+       HomeChef Helper.<br>
        Expected: Similar to previous.
 
-    1. Other missing file cases to try: Moving the files to the parent folder of the `data` folder, moving the files to another folder outside the `data` folder but in the same parent folder, moving the files to a folder located **inside** the `data` folder.<br>
+    1. Other missing file cases to try: Moving the files to the parent folder of the `data` folder, moving the files to
+       another folder outside the `data` folder but in the same parent folder, moving the files to a folder located *
+       *inside** the `data` folder.<br>
        Expected: Similar to previous.
 
 1. Restoring/transferring data files
 
-   1. Prerequisites: Have a valid uncorrupted `homechef.json` file or `menu.json` file containing at least 1 entry. This file should be located outside of the directory the HomeChef-Helper files are located in. We shall refer to these files as the external files.
+    1. Prerequisites: Have a valid uncorrupted `homechef.json` file or `menu.json` file containing at least 1 entry.
+       This file should be located outside of the directory the HomeChef Helper files are located in. We shall refer to
+       these files as the external files.
 
-   1. Test case: With existing entries in the current save file(s), copy and paste the external files into the `data` folder, replacing the existing `homechef.json` or `menu.json` files. The replaced files should be named the same exactly. Start up HomeChef-Helper.<br>
-      Expected: The respective order list or menu will show the orders and/or menu items of external files. No errors should occur, even if the orders' food name and the menu items are mismatched.
+    1. Test case: With existing entries in the current save file(s), copy and paste the external files into the `data`
+       folder, replacing the existing `homechef.json` or `menu.json` files. The replaced files should be named the same
+       exactly. Start up HomeChef Helper.<br>
+       Expected: The respective order list or menu will show the orders and/or menu items of external files. No errors
+       should occur, even if the orders' food name and the menu items are mismatched.
 
-   1. Test case: Test with other forms of existing data files, such as a blank order list and menu file, and an empty `data` folder with no data files.<br>
-      Expected: Similar to previous.
+    1. Test case: Test with other forms of existing data files, such as a blank order list and menu file, and an empty
+       `data` folder with no data files.<br>
+       Expected: Similar to previous.
 
-   1. Test case: With existing entries in the current save file(s), copy and paste the external files into the `data` folder. The external files should be named the same differently from the already existing `homechef.json` and `menu.json` files. Start up HomeChef-Helper.<br>
-      Expected: The respective order list or menu will show the orders and/or menu items of the existing files, not the external files. No errors should occur, and modifying the order list and menu through commands like `add` and `delete` will only affect the existing files and not the imported external files.
-
-1. _{ more test cases …​ }_
+    1. Test case: With existing entries in the current save file(s), copy and paste the external files into the `data`
+       folder. The external files should be named the same differently from the already existing `homechef.json` and
+       `menu.json` files. Start up HomeChef Helper.<br>
+       Expected: The respective order list or menu will show the orders and/or menu items of the existing files, not the
+       external files. No errors should occur, and modifying the order list and menu through commands like `add` and
+       `delete` will only affect the existing files and not the imported external files.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -672,8 +799,16 @@ testers are expected to do more *exploratory* testing.
 1. **Manual editing of order price**: Allows users to match updated food items in the menu if needed.
 2. **Additional filtering of the order list**: Use other filters, like price, payment info, email, etc.
 3. **Filtering of the menu**: Can filter the menu according to food name, price and availability.
-4. **Other ways to sort the order list**: Sort the list in other ways such as by date descending order (where the furthest date is positioned first), name alphabetical order, name reverse alphabetical order, etc.
-5. **Add a confirmation step**: Commands that perform massive changes like `clear` can be problematic. A warning or an `undo` command to undo the previous command, to prevent accidental deletion of data.
-6. **Implement bulk operations for commands**: Commands like `complete` or `paid` currently have to be executed multiple times for multiple orders. Having a way to execute all of these commands at once with multiple `INDEX` inputs can help to speed up workflows.
-7. **Add warnings for commands that cause conflicts between the order list and the menu**: Currently, a number of commands like `delete-menu` and `edit-menu` may cause the order list and menu to have different food names or pricing.
-   This can cause confusion to users as they may assume that the commands affecting the menu will automatically update the order list, so a reminder that these commands will make the lists out of sync can reduce ambiguity on what the commands will change.
+4. **Other ways to sort the order list**: Sort the list in other ways such as by date descending order (where the
+   furthest date is positioned first), name alphabetical order, name reverse alphabetical order, etc.
+5. **Add a confirmation step**: Commands that perform massive changes like `clear` can be problematic. A warning or an
+   `undo` command to undo the previous command, to prevent accidental deletion of data.
+6. **Implement bulk operations for commands**: Commands like `complete` or `paid` currently have to be executed multiple
+   times for multiple orders. Having a way to execute all of these commands at once with multiple `INDEX` inputs can
+   help to speed up workflows.
+7. **Add warnings for commands that cause conflicts between the order list and the menu**: Currently, a number of
+   commands like `delete-menu` and `edit-menu` may cause the order list and menu to have different food names or
+   pricing.
+   This can cause confusion to users as they may assume that the commands affecting the menu will automatically update
+   the order list, so a reminder that these commands will make the lists out of sync can reduce ambiguity on what the
+   commands will change.

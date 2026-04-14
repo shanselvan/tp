@@ -44,6 +44,20 @@ public class Price {
     }
 
     /**
+     * Returns a new {@code Price} whose value is this price divided by {@code qty},
+     * rounded to 2 decimal places using HALF_UP.
+     *
+     * @param qty the number of items.
+     * @return a {@code Price} representing the unit cost.
+     */
+    public Price divide(Quantity qty) {
+        requireNonNull(qty);
+        int divisor = Integer.parseInt(qty.toString());
+        BigDecimal result = new BigDecimal(value).divide(BigDecimal.valueOf(divisor), 2, RoundingMode.HALF_UP);
+        return new Price(result.toPlainString());
+    }
+
+    /**
      * Returns a new {@code Price} whose value is this price multiplied by {@code qty}.
      *
      * @param qty the number of items.

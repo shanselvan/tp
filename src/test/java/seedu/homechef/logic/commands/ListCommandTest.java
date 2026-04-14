@@ -2,6 +2,7 @@ package seedu.homechef.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.homechef.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.homechef.logic.commands.CommandTestUtil.showOrderAtIndex;
@@ -9,10 +10,12 @@ import static seedu.homechef.testutil.TypicalIndexes.INDEX_FIRST_ORDER;
 import static seedu.homechef.testutil.TypicalOrders.getTypicalHomeChef;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import seedu.homechef.logic.Messages;
 import seedu.homechef.model.Model;
 import seedu.homechef.model.ModelManager;
 import seedu.homechef.model.UserPrefs;
@@ -54,7 +57,8 @@ public class ListCommandTest {
         Date target = new Date("26-03-2026");
 
         expectedModel.updateFilteredOrderList(order -> order.getDate().equals(target));
-        assertCommandSuccess(new ListCommand(target), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ListCommand(target), model,
+                getFilteredFeedback(expectedModel.getFilteredOrderList().size()), expectedModel);
 
         List<Order> shown = model.getFilteredOrderList();
         // EP: date-only filter
@@ -71,10 +75,11 @@ public class ListCommandTest {
 
         expectedModel.updateFilteredOrderList(order ->
                 order.getDate().equals(target)
-                        && order.getFood().toString().toLowerCase().contains("cake"));
+                        && order.getFood().toString().toLowerCase(Locale.ROOT).contains("cake"));
 
         // EP: multiple filters combined with logical AND
-        assertCommandSuccess(new ListCommand(d), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ListCommand(d), model,
+                getFilteredFeedback(expectedModel.getFilteredOrderList().size()), expectedModel);
     }
 
     @Test
@@ -83,12 +88,13 @@ public class ListCommandTest {
         d.setCustomerQuery("alice");
 
         expectedModel.updateFilteredOrderList(order ->
-                order.getCustomer().toString().toLowerCase().contains("alice"));
+                order.getCustomer().toString().toLowerCase(Locale.ROOT).contains("alice"));
 
-        assertCommandSuccess(new ListCommand(d), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ListCommand(d), model,
+                getFilteredFeedback(expectedModel.getFilteredOrderList().size()), expectedModel);
         // EP: customer substring filter is case-insensitive
         assertTrue(model.getFilteredOrderList().stream()
-                .allMatch(order -> order.getCustomer().toString().toLowerCase().contains("alice")));
+                .allMatch(order -> order.getCustomer().toString().toLowerCase(Locale.ROOT).contains("alice")));
     }
 
     @Test
@@ -97,12 +103,13 @@ public class ListCommandTest {
         d.setFoodQuery("cake");
 
         expectedModel.updateFilteredOrderList(order ->
-                order.getFood().toString().toLowerCase().contains("cake"));
+                order.getFood().toString().toLowerCase(Locale.ROOT).contains("cake"));
 
-        assertCommandSuccess(new ListCommand(d), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ListCommand(d), model,
+                getFilteredFeedback(expectedModel.getFilteredOrderList().size()), expectedModel);
         // EP: food substring filter is case-insensitive
         assertTrue(model.getFilteredOrderList().stream()
-                .allMatch(order -> order.getFood().toString().toLowerCase().contains("cake")));
+                .allMatch(order -> order.getFood().toString().toLowerCase(Locale.ROOT).contains("cake")));
     }
 
     @Test
@@ -111,9 +118,10 @@ public class ListCommandTest {
         d.setPhoneQuery("9435");
 
         expectedModel.updateFilteredOrderList(order ->
-                order.getPhone().toString().toLowerCase().contains("9435"));
+                order.getPhone().toString().toLowerCase(Locale.ROOT).contains("9435"));
 
-        assertCommandSuccess(new ListCommand(d), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ListCommand(d), model,
+                getFilteredFeedback(expectedModel.getFilteredOrderList().size()), expectedModel);
         // EP: phone substring filter
         assertTrue(model.getFilteredOrderList().stream()
                 .allMatch(order -> order.getPhone().toString().contains("9435")));
@@ -128,7 +136,8 @@ public class ListCommandTest {
                 order.getCompletionStatus() == CompletionStatus.COMPLETED);
 
         // EP: completion-status-only filter
-        assertCommandSuccess(new ListCommand(d), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ListCommand(d), model,
+                getFilteredFeedback(expectedModel.getFilteredOrderList().size()), expectedModel);
     }
 
     @Test
@@ -140,7 +149,8 @@ public class ListCommandTest {
                 order.getPaymentStatus() == PaymentStatus.PAID);
 
         // EP: payment-status-only filter
-        assertCommandSuccess(new ListCommand(d), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ListCommand(d), model,
+                getFilteredFeedback(expectedModel.getFilteredOrderList().size()), expectedModel);
     }
 
     @Test
@@ -157,7 +167,12 @@ public class ListCommandTest {
                         && order.getPaymentStatus().equals(unpaid));
 
         // EP: status filters combined without text/date filters
-        assertCommandSuccess(new ListCommand(d), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ListCommand(d), model,
+                getFilteredFeedback(expectedModel.getFilteredOrderList().size()), expectedModel);
+    }
+
+    private String getFilteredFeedback(int count) {
+        return Messages.getOrdersListedOverviewMessage(count);
     }
 
 
@@ -181,11 +196,11 @@ public class ListCommandTest {
         // EP: same descriptor values -> returns true
         assertEquals(new ListCommand(desc1), new ListCommand(desc1Copy));
         // EP: different descriptor values -> returns false
-        org.junit.jupiter.api.Assertions.assertNotEquals(new ListCommand(desc1), new ListCommand(desc2));
+        assertNotEquals(new ListCommand(desc1), new ListCommand(desc2));
         // EP: null -> returns false
-        org.junit.jupiter.api.Assertions.assertNotEquals(new ListCommand(desc1), null);
+        assertNotEquals(new ListCommand(desc1), null);
         // EP: different types -> returns false
-        org.junit.jupiter.api.Assertions.assertNotEquals(new ListCommand(desc1), 1);
+        assertNotEquals(new ListCommand(desc1), 1);
     }
 
     @Test

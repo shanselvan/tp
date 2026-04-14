@@ -12,10 +12,14 @@ import seedu.homechef.model.order.Order;
  */
 public class Messages {
 
-    public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
+    public static final String MESSAGE_UNKNOWN_COMMAND =
+            "Unknown command. Type 'help' to open the User Guide, or refer to it for the full list of valid commands.";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
-    public static final String MESSAGE_INVALID_ORDER_DISPLAYED_INDEX = "The order index provided is invalid";
-    public static final String MESSAGE_INVALID_MENU_ITEM_DISPLAYED_INDEX = "The menu item index provided is invalid";
+    public static final String MESSAGE_INVALID_ORDER_DISPLAYED_INDEX =
+            "The order index is out of range. Use a number between 1 and the total number of orders shown.";
+    public static final String MESSAGE_INVALID_MENU_ITEM_DISPLAYED_INDEX =
+            "The menu item index is out of range. Use a number between 1 and the total number of menu items shown.";
+    public static final String MESSAGE_ORDERS_LISTED_OVERVIEW_SINGULAR = "%1$d order listed!";
     public static final String MESSAGE_ORDERS_LISTED_OVERVIEW = "%1$d orders listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
             "Multiple values specified for the following single-valued field(s): ";
@@ -25,6 +29,8 @@ public class Messages {
             "'%s' is currently unavailable. Check the menu panel on the right for available items.";
     public static final String MESSAGE_MENU_ITEM_AMBIGUOUS =
             "'%s' matches multiple menu items: %s. Please use the exact menu item name.";
+    public static final String MESSAGE_DUPLICATE_ORDER = "This order already exists in HomeChef.";
+    public static final String MESSAGE_DUPLICATE_MENU_ITEM = "A menu item with this name already exists.";
 
     /**
      * Returns an error message indicating the duplicate prefixes.
@@ -59,6 +65,14 @@ public class Messages {
                 .append("; Tags: ");
         order.getTags().forEach(builder::append);
         return builder.toString();
+    }
+
+    /**
+     * Returns a grammatically correct overview message for listed orders.
+     */
+    public static String getOrdersListedOverviewMessage(int count) {
+        String template = (count == 1) ? MESSAGE_ORDERS_LISTED_OVERVIEW_SINGULAR : MESSAGE_ORDERS_LISTED_OVERVIEW;
+        return String.format(template, count);
     }
 
 }

@@ -40,10 +40,17 @@ public class MarkCompleteCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_COMPLETE_ORDER_SUCCESS = "Marked order as complete: %1$s";
-    public static final String MESSAGE_ALREADY_COMPLETE = "Order is already marked as complete.";
+    public static final String MESSAGE_ALREADY_COMPLETE =
+            "Order is already marked as complete. "
+            + "Use 'inprogress INDEX' or 'pending INDEX' to change the completion status.";
 
     private final Index targetIndex;
 
+    /**
+     * Creates a {@code MarkCompleteCommand} to mark the order at the given {@code targetIndex} as complete.
+     *
+     * @param targetIndex Index of the order in the filtered order list.
+     */
     public MarkCompleteCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }

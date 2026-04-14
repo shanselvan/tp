@@ -39,7 +39,7 @@ LogicManager --> Storage
 Storage --[hidden] Model
 Command .[hidden]up.> Storage
 Command .right.> Model
-note right of XYZCommand: XYZCommand = AddCommand, \nListCommand, etc
+note right of XYZCommand: XYZCommand = AddCommand, \nListCommand, ReceiptCommand, etc
 
 Logic ..> CommandResult
 LogicManager .down.> CommandResult

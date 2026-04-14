@@ -3,6 +3,7 @@ package seedu.homechef.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.homechef.logic.Messages.MESSAGE_DUPLICATE_ORDER;
 import static seedu.homechef.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.homechef.logic.commands.CommandTestUtil.DESC_BOB;
 import static seedu.homechef.logic.commands.CommandTestUtil.VALID_CUSTOMER_BOB;
@@ -17,6 +18,7 @@ import static seedu.homechef.testutil.TypicalIndexes.INDEX_SECOND_ORDER;
 import static seedu.homechef.testutil.TypicalOrders.getTypicalHomeChef;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
@@ -135,7 +137,7 @@ public class EditCommandTest {
         EditOrderDescriptor descriptor = new EditOrderDescriptorBuilder(firstOrder).build();
         EditCommand editCommand = new EditCommand(INDEX_SECOND_ORDER, descriptor);
 
-        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_ORDER);
+        assertCommandFailure(editCommand, model, MESSAGE_DUPLICATE_ORDER);
     }
 
     @Test
@@ -147,7 +149,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_ORDER,
                 new EditOrderDescriptorBuilder(orderInList).build());
 
-        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_ORDER);
+        assertCommandFailure(editCommand, model, MESSAGE_DUPLICATE_ORDER);
     }
 
     @Test
@@ -284,7 +286,7 @@ public class EditCommandTest {
                 orderWithPayNow.getPhone(), orderWithPayNow.getEmail(), orderWithPayNow.getAddress(),
                 orderWithPayNow.getDate(), orderWithPayNow.getCompletionStatus(), orderWithPayNow.getPaymentStatus(),
                 orderWithPayNow.getTags(), orderWithPayNow.getQuantity(), orderWithPayNow.getPrice(),
-                java.util.Optional.empty());
+                Optional.empty());
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_ORDER_SUCCESS, Messages.format(expectedOrder));
         Model expectedModel = new ModelManager(
                 new HomeChef(model.getHomeChef()), TypicalMenuItems.getTypicalMenuBook(), new UserPrefs());

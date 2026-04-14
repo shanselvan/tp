@@ -1,6 +1,7 @@
 package seedu.homechef.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.homechef.logic.Messages.MESSAGE_DUPLICATE_ORDER;
 import static seedu.homechef.logic.Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.homechef.logic.parser.CliSyntax.PREFIX_BANK_PAYMENT;
@@ -31,6 +32,7 @@ import seedu.homechef.model.Model;
 import seedu.homechef.model.common.Food;
 import seedu.homechef.model.common.Price;
 import seedu.homechef.model.menu.MenuItem;
+import seedu.homechef.model.menu.ReadOnlyMenuBook;
 import seedu.homechef.model.order.Address;
 import seedu.homechef.model.order.CompletionStatus;
 import seedu.homechef.model.order.Customer;
@@ -61,7 +63,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_DATE + "DATE] "
             + "[" + PREFIX_QUANTITY + "QUANTITY] "
-            + "[" + PREFIX_TAG + "TAG]..."
+            + "[" + PREFIX_TAG + "TAG]... "
             + "[" + PREFIX_BANK_PAYMENT + "BANK_DETAILS] "
             + "[" + PREFIX_PAYNOW_PAYMENT + "PAYNOW_CONTACT] "
             + "[" + PREFIX_CASH_PAYMENT + "YES_OR_NO] "
@@ -70,8 +72,9 @@ public class EditCommand extends Command {
             + PREFIX_EMAIL + "johndoe@example.com";
 
     public static final String MESSAGE_EDIT_ORDER_SUCCESS = "Edited order: %1$s";
-    public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_ORDER = "This order already exists in the HomeChef.";
+    public static final String MESSAGE_NOT_EDITED =
+            "At least one field to edit must be provided "
+            + "(e.g. f/, c/, p/, e/, a/, d/, q/, t/, bank/, paynow/, or cash/).";
     public static final String MESSAGE_PAST_DATE_WARNING = AddCommand.MESSAGE_PAST_DATE_WARNING;
 
     private final Index index;
@@ -101,17 +104,11 @@ public class EditCommand extends Command {
         Order orderToEdit = lastShownList.get(index.getZeroBased());
         Order editedOrder = createEditedOrder(orderToEdit, descriptor);
 
-        if (descriptor.getFood().isPresent() || descriptor.getQuantity().isPresent()) {
-            String targetFoodName = descriptor.getFood().orElse(orderToEdit.getFood()).toString();
-            MenuItem matchingItem = resolveAvailableMenuItem(model.getMenuBook(), targetFoodName);
-            String canonicalName = matchingItem.getFood().toString();
-            Quantity newQuantity = editedOrder.getQuantity();
-            Price totalPrice = new Price(matchingItem.getPrice().toString()).multiply(newQuantity);
-            editedOrder = new Order(new Food(canonicalName), editedOrder.getCustomer(),
-                    editedOrder.getPhone(), editedOrder.getEmail(), editedOrder.getAddress(),
-                    editedOrder.getDate(), editedOrder.getCompletionStatus(),
-                    editedOrder.getPaymentStatus(), editedOrder.getTags(),
-                    newQuantity, totalPrice, editedOrder.getPaymentInfo());
+        if (descriptor.getFood().isPresent()) {
+            editedOrder = applyFoodChange(editedOrder, descriptor.getFood().get().toString(),
+                    model.getMenuBook());
+        } else if (descriptor.getQuantity().isPresent()) {
+            editedOrder = applyQuantityChange(editedOrder, orderToEdit);
         }
 
         if (!orderToEdit.isSameOrder(editedOrder) && model.hasOrder(editedOrder)) {
@@ -150,6 +147,33 @@ public class EditCommand extends Command {
         return new Order(updatedFood, updatedCustomer, updatedPhone, updatedEmail, updatedAddress, updatedDate,
                 updatedCompletionStatus, updatedPaymentStatus, updatedDietTags,
                 updatedQuantity, updatedPrice, updatedPaymentInfo);
+    }
+
+    /**
+     * Returns a copy of {@code base} with food and price updated from the matching menu item.
+     * The canonical food name is taken from the menu item, and price is recalculated as
+     * unit price × quantity.
+     */
+    private Order applyFoodChange(Order base, String foodName, ReadOnlyMenuBook menuBook)
+            throws CommandException {
+        MenuItem matchingItem = resolveAvailableMenuItem(menuBook, foodName);
+        Quantity quantity = base.getQuantity();
+        Price totalPrice = matchingItem.getPrice().multiply(quantity);
+        return new Order(matchingItem.getFood(), base.getCustomer(), base.getPhone(), base.getEmail(),
+                base.getAddress(), base.getDate(), base.getCompletionStatus(),
+                base.getPaymentStatus(), base.getTags(), quantity, totalPrice, base.getPaymentInfo());
+    }
+
+    /**
+     * Returns a copy of {@code base} with price recalculated from the stored unit price of
+     * {@code original} and the new quantity in {@code base}. Does not touch the menu.
+     */
+    private static Order applyQuantityChange(Order base, Order original) {
+        Quantity newQuantity = base.getQuantity();
+        Price newTotal = original.getPrice().divide(original.getQuantity()).multiply(newQuantity);
+        return new Order(base.getFood(), base.getCustomer(), base.getPhone(), base.getEmail(),
+                base.getAddress(), base.getDate(), base.getCompletionStatus(),
+                base.getPaymentStatus(), base.getTags(), newQuantity, newTotal, base.getPaymentInfo());
     }
 
     @Override

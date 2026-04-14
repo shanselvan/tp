@@ -40,10 +40,17 @@ public class MarkInProgressCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_IN_PROGRESS_ORDER_SUCCESS = "Marked order as in progress: %1$s";
-    public static final String MESSAGE_ALREADY_IN_PROGRESS = "Order is already marked as in progress.";
+    public static final String MESSAGE_ALREADY_IN_PROGRESS =
+            "Order is already marked as in progress. "
+            + "Use 'complete INDEX' or 'pending INDEX' to change the completion status.";
 
     private final Index targetIndex;
 
+    /**
+     * Creates a {@code MarkInProgressCommand} to mark the order at the given {@code targetIndex} as in progress.
+     *
+     * @param targetIndex Index of the order in the filtered order list.
+     */
     public MarkInProgressCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }

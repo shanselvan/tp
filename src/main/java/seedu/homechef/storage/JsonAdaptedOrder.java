@@ -3,6 +3,7 @@ package seedu.homechef.storage;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
@@ -35,6 +36,10 @@ class JsonAdaptedOrder {
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Order's %s field is missing!";
     private static final String MESSAGE_INVALID_PAYMENT_METHOD =
             "Unsupported payment method. Expected one of: CASH, PAYNOW, BANK.";
+    private static final String MESSAGE_INVALID_CASH_PAYMENT_DETAILS =
+            "Cash payment must not contain payment details.";
+    private static final String MESSAGE_INVALID_TAG_ELEMENT =
+            "Order's tags field contains invalid tag entries.";
     private static final String METHOD_CASH = "CASH";
     private static final String METHOD_PAYNOW = "PAYNOW";
     private static final String METHOD_BANK = "BANK";
@@ -135,6 +140,9 @@ class JsonAdaptedOrder {
     public Order toModelType() throws IllegalValueException {
         final Set<DietTag> modelDietTags = new HashSet<>();
         for (JsonAdaptedTag tag : tags) {
+            if (tag == null) {
+                throw new IllegalValueException(MESSAGE_INVALID_TAG_ELEMENT);
+            }
             modelDietTags.add(tag.toModelType());
         }
 
@@ -239,9 +247,12 @@ class JsonAdaptedOrder {
     }
 
     private static PaymentInfo parsePaymentInfo(String method, String details) {
-        String normalizedMethod = method.trim().toUpperCase();
+        String normalizedMethod = method.trim().toUpperCase(Locale.ROOT);
         switch (normalizedMethod) {
         case METHOD_CASH:
+            if (details != null && !details.isBlank()) {
+                throw new IllegalArgumentException(MESSAGE_INVALID_CASH_PAYMENT_DETAILS);
+            }
             return new CashPayment();
         case METHOD_PAYNOW:
             if (details == null || details.isBlank()) {
