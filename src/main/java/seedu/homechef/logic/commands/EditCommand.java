@@ -63,7 +63,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_DATE + "DATE] "
             + "[" + PREFIX_QUANTITY + "QUANTITY] "
-            + "[" + PREFIX_TAG + "TAG]..."
+            + "[" + PREFIX_TAG + "TAG]... "
             + "[" + PREFIX_BANK_PAYMENT + "BANK_DETAILS] "
             + "[" + PREFIX_PAYNOW_PAYMENT + "PAYNOW_CONTACT] "
             + "[" + PREFIX_CASH_PAYMENT + "YES_OR_NO] "

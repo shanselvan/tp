@@ -61,6 +61,11 @@ public class JsonHomeChefStorageTest {
     }
 
     @Test
+    public void readHomeChef_missingOrdersListHomeChef_throwDataLoadingException() {
+        assertThrows(DataLoadingException.class, () -> readHomeChef("missingOrdersListHomeChef.json"));
+    }
+
+    @Test
     public void readAndSaveHomeChef_allInOrder_success() throws Exception {
         Path filePath = testFolder.resolve("TempHomeChef.json");
         HomeChef original = getTypicalHomeChef();

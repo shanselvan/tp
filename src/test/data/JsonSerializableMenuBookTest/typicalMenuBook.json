@@ -1,0 +1,16 @@
+{
+  "menuItems": [
+    {
+      "name": "Birthday Cake",
+      "price": "20.00",
+      "availability": "Yes"
+    },
+    {
+      "name": "Sourdough Bread",
+      "price": "9.80",
+      "availability": "Yes"
+    }
+  ]
+}
+
+

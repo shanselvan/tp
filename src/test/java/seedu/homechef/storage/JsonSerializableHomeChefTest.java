@@ -19,6 +19,7 @@ public class JsonSerializableHomeChefTest {
     private static final Path TYPICAL_ORDERS_FILE = TEST_DATA_FOLDER.resolve("typicalOrdersHomeChef.json");
     private static final Path INVALID_ORDER_FILE = TEST_DATA_FOLDER.resolve("invalidOrderHomeChef.json");
     private static final Path DUPLICATE_ORDER_FILE = TEST_DATA_FOLDER.resolve("duplicateOrderHomeChef.json");
+    private static final Path MISSING_ORDERS_LIST_FILE = TEST_DATA_FOLDER.resolve("missingOrdersListHomeChef.json");
 
     @Test
     public void toModelType_typicalOrdersFile_success() throws Exception {
@@ -41,6 +42,14 @@ public class JsonSerializableHomeChefTest {
         JsonSerializableHomeChef dataFromFile = JsonUtil.readJsonFile(DUPLICATE_ORDER_FILE,
                 JsonSerializableHomeChef.class).get();
         assertThrows(IllegalValueException.class, JsonSerializableHomeChef.MESSAGE_DUPLICATE_ORDER,
+                dataFromFile::toModelType);
+    }
+
+    @Test
+    public void toModelType_missingOrdersList_throwsIllegalValueException() throws Exception {
+        JsonSerializableHomeChef dataFromFile = JsonUtil.readJsonFile(MISSING_ORDERS_LIST_FILE,
+                JsonSerializableHomeChef.class).get();
+        assertThrows(IllegalValueException.class, JsonSerializableHomeChef.MESSAGE_MISSING_ORDERS_LIST,
                 dataFromFile::toModelType);
     }
 

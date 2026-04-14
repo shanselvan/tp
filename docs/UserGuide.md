@@ -116,14 +116,15 @@ With a simple typing interface and a clear order list and food menu, this app is
 * Prefixes without `...` are single-valued and must not be repeated in the same command.<br>
   e.g. `q/2 q/3` is invalid.
 
-* Parameters can be in any order.<br>
+* For prefixed parameters, inputs can be in any order.<br>
   e.g. if the command specifies `f/FOOD p/PHONE`, `p/PHONE f/FOOD` is also acceptable.
+  For commands that require an `INDEX` (e.g. `edit`, `delete`, `paid`), put `INDEX` immediately after the command word.
 
 * Character rules differ by field. For example, `c/NAME` and `f/FOOD` accept letters/digits (including international
   characters) and selected punctuation; details are listed under each command.
 * For `c/NAME` and `f/FOOD`, the first character must be a letter or digit.
 
-* `COMPLETION STATUS` is meant to be a marker for you to know that you have completed an order, not a "finalised state" which confirms that the order information is fixed. Thus, it does not affect the ability to modify any of the orders.
+* `COMPLETION_STATUS` is meant to be a marker for you to know that you have completed an order, not a "finalised state" which confirms that the order information is fixed. Thus, it does not affect the ability to modify any of the orders.
 
 * Extra parameters for commands that do not take in parameters (such as `help`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
@@ -212,7 +213,7 @@ Shows a list of all orders in the order list when no parameters are given,
 Otherwise, shows a filtered list of orders that match the keywords given as parameters.
 This can be useful for finding orders specific to a certain customer, a certain address or even of a certain food name.
 
-Format: `list [d/DATE] [c/CUSTOMER] [f/FOOD] [p/PHONE] [cs/COMPLETION STATUS] [ps/PAYMENT STATUS]`
+Format: `list [d/DATE] [c/CUSTOMER] [f/FOOD] [p/PHONE] [cs/COMPLETION_STATUS] [ps/PAYMENT_STATUS]`
 
 <div markdown="1" class="alert alert-info">:information_source:
 **Notes about the list command:**<br>
@@ -566,6 +567,7 @@ downloaded.
 | **Mark Pending**     | `pending INDEX` <br> e.g., `pending 3`                                                                                                                                                                                                                                |
 | **Mark Paid**        | `paid INDEX` <br> e.g., `paid 1`                                                                                                                                                                                                                                      | 
 | **Mark Unpaid**      | `unpaid INDEX` <br> e.g., `unpaid 1`                                                                                                                                                                                                                                  |
+| **Receipt**          | `receipt INDEX` (alias: `rec INDEX`) <br> e.g., `receipt 1`, `rec 2`                                                                                                                                                                                                 |
 | **Edit**             | `edit INDEX [f/FOOD] [c/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [d/DATE] [q/QUANTITY] [t/TAG]... [bank/BANK_DETAILS] [paynow/PAYNOW_CONTACT] [cash/YES_OR_NO]`<br> e.g.,`edit 2 c/James Lee e/jameslee@example.com q/2 cash/no`                                  |
 | **Delete**           | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                                                                                                   |
 | **Clear**            | `clear`                                                                                                                                                                                                                                                               |
