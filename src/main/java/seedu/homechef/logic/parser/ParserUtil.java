@@ -67,12 +67,12 @@ public class ParserUtil {
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
         String trimmedIndex = normalizeWhitespace(oneBasedIndex);
+
         if (!StringUtil.isNonZeroUnsignedInteger(trimmedIndex)) {
-            if (trimmedIndex.matches("[1-9][0-9]*")) {
-                throw new ParseException(MESSAGE_INDEX_TOO_LARGE);
-            }
+            checkNotOverflowIndex(trimmedIndex);
             throw new ParseException(MESSAGE_INVALID_INDEX);
         }
+
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
     }
 
@@ -368,6 +368,12 @@ public class ParserUtil {
             return Availability.fromString(trimmed);
         } catch (IllegalArgumentException e) {
             throw new ParseException(MESSAGE_INVALID_AVAILABILITY);
+        }
+    }
+
+    private static void checkNotOverflowIndex(String s) throws ParseException {
+        if (s.matches("[1-9][0-9]*")) {
+            throw new ParseException(MESSAGE_INDEX_TOO_LARGE);
         }
     }
 }
